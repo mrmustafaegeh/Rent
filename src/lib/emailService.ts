@@ -34,7 +34,8 @@ export const sendBookingConfirmationEmail = async (email: string, bookingDetails
     <h1>Booking Confirmed!</h1>
     <p>Your booking for the <strong>${bookingDetails.vehicleName}</strong> has been received.</p>
     <p>Dates: ${new Date(bookingDetails.startDate).toDateString()} - ${new Date(bookingDetails.endDate).toDateString()}</p>
-    <p>Total: $${bookingDetails.totalPrice}</p>
+    <p>Pickup: ${bookingDetails.pickupLocation}<br/>Dropoff: ${bookingDetails.dropoffLocation}</p>
+    <p>Total: €${bookingDetails.totalPrice}</p>
     <p>Status: ${bookingDetails.status}</p>
     <br/>
     <p>You can view your booking details in your dashboard.</p>

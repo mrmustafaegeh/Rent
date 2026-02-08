@@ -25,6 +25,7 @@ export default function EditVehiclePage() {
       priceDaily: '',
       priceWeekly: '',
       priceMonthly: '',
+      location: '',
       images: [] as string[]
   });
 
@@ -48,6 +49,7 @@ export default function EditVehiclePage() {
             priceDaily: v.pricing?.daily || '',
             priceWeekly: v.pricing?.weekly || '',
             priceMonthly: v.pricing?.monthly || '',
+            location: v.location || '',
             images: v.images ? v.images.map((img: any) => img.url) : []
         });
 
@@ -86,6 +88,7 @@ export default function EditVehiclePage() {
                   weekly: formData.priceWeekly ? Number(formData.priceWeekly) : undefined,
                   monthly: formData.priceMonthly ? Number(formData.priceMonthly) : undefined
               },
+              location: formData.location,
               images: formData.images.map((url, index) => ({
                  url,
                  isPrimary: index === 0 
@@ -143,7 +146,7 @@ export default function EditVehiclePage() {
                  <Input label="Seats" name="seats" type="number" value={formData.seats} onChange={handleChange} required />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+             <div className="grid grid-cols-2 gap-4">
                  <div className="space-y-2">
                      <label className="text-sm font-medium text-[var(--text-secondary)]">Transmission</label>
                      <select name="transmission" value={formData.transmission} onChange={handleChange} className="w-full h-11 px-4 bg-[var(--surface)] border border-[var(--border)] rounded-lg text-white">
@@ -160,6 +163,10 @@ export default function EditVehiclePage() {
                          <option>Hybrid</option>
                      </select>
                  </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                 <Input label="Location" name="location" value={formData.location} onChange={handleChange} placeholder="e.g. Dubai, Abu Dhabi" />
             </div>
 
             

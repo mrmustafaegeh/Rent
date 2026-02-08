@@ -14,9 +14,9 @@ export async function POST(request: Request) {
     const body = await request.json();
     
     // Validate required fields
-    const { customerEmail, vehicleId, startDate, endDate } = body;
+    const { customerEmail, vehicleId, startDate, endDate, pickupLocation, dropoffLocation } = body;
     
-    if (!customerEmail || !vehicleId || !startDate || !endDate) {
+    if (!customerEmail || !vehicleId || !startDate || !endDate || !pickupLocation || !dropoffLocation) {
         return NextResponse.json({ error: 'Missing required booking information' }, { status: 400 });
     }
     
@@ -42,13 +42,14 @@ export async function POST(request: Request) {
          return NextResponse.json({ error: 'User not registered. Please sign up first.' }, { status: 400 });
     }
 
-// ... existing POST export ...
     const booking = await Booking.create({
         customer: user._id,
         vehicle: vehicleId,
         company: vehicle.company,
         startDate,
         endDate,
+        pickupLocation,
+        dropoffLocation,
         totalPrice,
         status: 'pending'
     });
@@ -59,6 +60,8 @@ export async function POST(request: Request) {
         vehicleName: `${vehicle.brand} ${vehicle.vehicleModel}`,
         startDate,
         endDate,
+        pickupLocation,
+        dropoffLocation,
         totalPrice,
         status: booking.status
     }).catch(console.error);

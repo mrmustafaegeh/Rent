@@ -126,7 +126,7 @@ export default function UsersPage() {
                   <td className="px-6 py-4">
                     <Button
                       size="sm"
-                      variant={u.isActive ? 'outline' : 'primary'}
+                      variant={u.isActive ? 'outline' : 'default'}
                       onClick={() => toggleUserStatus(u._id, u.isActive)}
                     >
                       {u.isActive ? 'Deactivate' : 'Activate'}

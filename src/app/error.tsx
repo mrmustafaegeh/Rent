@@ -32,7 +32,7 @@ export default function Error({
         <div className="flex gap-4 justify-center">
             <Button 
                 onClick={() => reset()}
-                variant="primary"
+                variant="default"
             >
                 Try again
             </Button>

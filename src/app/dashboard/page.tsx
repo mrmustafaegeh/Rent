@@ -58,33 +58,33 @@ export default function DashboardOverview() {
         <div className="space-y-8">
             <div className="flex justify-between items-end">
                 <div>
-                    <h1 className="text-3xl font-bold text-white mb-2">Dashboard</h1>
-                    <p className="text-[var(--text-secondary)]">Welcome back, {user?.name}</p>
+                    <h1 className="text-3xl font-bold text-foreground mb-2">Dashboard</h1>
+                    <p className="text-muted-foreground">Welcome back, {user?.name}</p>
                 </div>
             </div>
 
             {/* Stats Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-[var(--surface-light)] p-6 rounded-xl border border-[var(--border)]">
-                    <p className="text-sm text-[var(--text-muted)] mb-1">Total Bookings</p>
-                    <p className="text-3xl font-bold text-white">{stats.totalBookings}</p>
+                <div className="bg-card p-6 rounded-xl border border-border">
+                    <p className="text-sm text-muted-foreground mb-1">Total Bookings</p>
+                    <p className="text-3xl font-bold text-foreground">{stats.totalBookings}</p>
                 </div>
                 {user?.role === 'admin' && (
-                    <div className="bg-[var(--surface-light)] p-6 rounded-xl border border-[var(--border)]">
-                        <p className="text-sm text-[var(--text-muted)] mb-1">Active Vehicles</p>
-                        <p className="text-3xl font-bold text-white">{stats.activeVehicles}</p>
+                    <div className="bg-card p-6 rounded-xl border border-border">
+                        <p className="text-sm text-muted-foreground mb-1">Active Vehicles</p>
+                        <p className="text-3xl font-bold text-foreground">{stats.activeVehicles}</p>
                     </div>
                 )}
-                <div className="bg-[var(--surface-light)] p-6 rounded-xl border border-[var(--border)]">
-                    <p className="text-sm text-[var(--text-muted)] mb-1">{user?.role === 'admin' ? 'Total Revenue' : 'Total Spent'}</p>
-                    <p className="text-3xl font-bold text-[var(--primary)]">${stats.totalRevenue.toLocaleString()}</p>
+                <div className="bg-card p-6 rounded-xl border border-border">
+                    <p className="text-sm text-muted-foreground mb-1">{user?.role === 'admin' ? 'Total Revenue' : 'Total Spent'}</p>
+                    <p className="text-3xl font-bold text-primary">${stats.totalRevenue.toLocaleString()}</p>
                 </div>
             </div>
 
             {/* Recent Activity */}
-            <div className="bg-[var(--surface-light)] rounded-xl border border-[var(--border)] p-6">
-                <h3 className="text-xl font-bold text-white mb-4">Recent Activity</h3>
-                <div className="text-center py-10 text-[var(--text-muted)]">
+            <div className="bg-card rounded-xl border border-border p-6">
+                <h3 className="text-xl font-bold text-foreground mb-4">Recent Activity</h3>
+                <div className="text-center py-10 text-muted-foreground">
                     {stats.totalBookings > 0 
                         ? 'Check "My Bookings" for details.' 
                         : 'No recent activity found.'}

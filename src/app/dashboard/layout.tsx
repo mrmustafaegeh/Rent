@@ -30,7 +30,7 @@ export default function DashboardLayout({
     if (!isAuthenticated) return null;
 
     return (
-        <div className="flex min-h-screen bg-[var(--background)]">
+        <div className="flex min-h-screen bg-background">
             <Sidebar />
             <main className="flex-1 overflow-y-auto h-screen">
                 <div className="container mx-auto p-8">

@@ -21,10 +21,10 @@ export const Sidebar = () => {
     const allowedLinks = links.filter(link => user && link.roles.includes(user.role));
 
     return (
-        <aside className="w-64 bg-[var(--surface)] border-r border-[var(--border)] min-h-screen flex flex-col">
-            <div className="h-20 flex items-center px-6 border-b border-[var(--border)]">
+        <aside className="w-64 bg-card border-r border-border min-h-screen flex flex-col">
+            <div className="h-20 flex items-center px-6 border-b border-border">
                 <Link href="/" className="font-bold text-xl tracking-tighter">
-                    RENTAL<span className="text-[var(--primary)]">X</span>
+                    RENTAL<span className="text-primary">X</span>
                 </Link>
             </div>
 
@@ -37,8 +37,8 @@ export const Sidebar = () => {
                             href={link.href}
                             className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
                                 isActive 
-                                ? 'bg-[var(--primary)] text-white' 
-                                : 'text-[var(--text-secondary)] hover:bg-[var(--surface-light)] hover:text-white'
+                                ? 'bg-primary text-primary-foreground' 
+                                : 'text-muted-foreground hover:bg-muted hover:text-foreground'
                             }`}
                         >
                             {link.name}
@@ -47,14 +47,14 @@ export const Sidebar = () => {
                 })}
             </nav>
 
-            <div className="p-4 border-t border-[var(--border)]">
+            <div className="p-4 border-t border-border">
                 <div className="flex items-center gap-3 mb-4 px-2">
-                    <div className="w-8 h-8 rounded-full bg-[var(--surface-light)] flex items-center justify-center text-xs font-bold text-[var(--primary)]">
+                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
                         {user?.name?.charAt(0)}
                     </div>
                     <div className="flex-1 overflow-hidden">
-                        <p className="text-sm font-medium text-white truncate">{user?.name}</p>
-                        <p className="text-xs text-[var(--text-muted)] truncate capitalize">{user?.role}</p>
+                        <p className="text-sm font-medium text-foreground truncate">{user?.name}</p>
+                        <p className="text-xs text-muted-foreground truncate capitalize">{user?.role}</p>
                     </div>
                 </div>
                 <button 

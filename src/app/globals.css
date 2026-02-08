@@ -1,29 +1,89 @@
 @import "tailwindcss";
+@config "../../tailwind.config.js";
 
-:root {
-  --background: #050505;
-  --foreground: #ffffff;
-  --primary: #3b82f6;
-  --primary-hover: #2563eb;
-  --secondary: #27272a;
-  --accent: #f59e0b;
-  --muted: #a1a1aa;
-  --border: #3f3f46;
-  --surface: #18181b;
-  --surface-light: #27272a;
-  --surface-lighter: #3f3f46;
-  --text-secondary: #a1a1aa;
-  --text-muted: #52525b;
-  
-  --font-geist-sans: "Geist", sans-serif;
-  --font-geist-mono: "Geist Mono", monospace;
-  
-  --container-width: 1200px;
-  --header-height: 80px;
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    /* Primary: #FF6B35 */
+    --primary: 16 100% 60%;
+    --primary-foreground: 210 40% 98%;
+
+    /* Secondary: #2D3748 */
+    --secondary: 218 23% 23%;
+    --secondary-foreground: 210 40% 98%;
+
+    /* Muted: Gray */
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    /* Accent: #4299E1 */
+    --accent: 207 73% 57%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    /* Destructive/Error: #F56565 */
+    --destructive: 0 87% 68%;
+    --destructive-foreground: 210 40% 98%;
+
+    /* Warning: #F6AD55 */
+    --warning: 33 90% 65%;
+
+    /* Success: #48BB78 */
+    --success: 146 50% 51%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+    
+    --font-geist-sans: "Geist", sans-serif;
+    --font-geist-mono: "Geist Mono", monospace;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 16 100% 60%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 218 23% 23%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: var(--font-geist-sans);
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }

@@ -11,6 +11,8 @@ export interface IBooking extends Document {
     status: 'pending' | 'confirmed' | 'in_progress' | 'completed' | 'cancelled';
     paymentStatus: 'pending' | 'paid' | 'refunded' | 'failed';
     paymentMethod?: string;
+    pickupLocation: string;
+    dropoffLocation: string;
     notes?: {
         text: string;
         addedBy: mongoose.Types.ObjectId;
@@ -61,6 +63,14 @@ const bookingSchema = new mongoose.Schema<IBooking>({
         type: String,
         enum: ['pending', 'paid', 'refunded', 'failed'],
         default: 'pending'
+    },
+    pickupLocation: {
+        type: String,
+        required: true
+    },
+    dropoffLocation: {
+        type: String,
+        required: true
     },
     paymentMethod: String,
     notes: [{

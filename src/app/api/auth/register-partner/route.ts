@@ -56,6 +56,10 @@ export async function POST(req: Request) {
     user.companyId = company._id;
     await user.save();
 
+    // 7. Notify Admin
+    // In a real app, this would be an actual email call
+    console.log(`[EMAIL to ADMIN] New Partner Registration: ${companyName} by ${firstName} ${lastName} (${email}). Needs approval.`);
+
     // 7. Return success
     return NextResponse.json({ 
         success: true, 

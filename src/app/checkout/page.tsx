@@ -64,6 +64,8 @@ function CheckoutContent() {
     const vehicleId = searchParams.get('vehicleId');
     const startDate = searchParams.get('startDate');
     const endDate = searchParams.get('endDate');
+    const pickupLocation = searchParams.get('pickupLocation') || 'Ercan Airport';
+    const dropoffLocation = searchParams.get('dropoffLocation') || 'Ercan Airport';
 
     const [vehicle, setVehicle] = useState<any>(null);
     const [clientSecret, setClientSecret] = useState('');
@@ -120,7 +122,9 @@ function CheckoutContent() {
                     vehicleId,
                     customerEmail: user?.email,
                     startDate,
-                    endDate
+                    endDate,
+                    pickupLocation,
+                    dropoffLocation
                 })
             });
 
@@ -161,7 +165,7 @@ function CheckoutContent() {
                             <div className="flex gap-4 mb-4">
                                 <div className="w-24 h-16 bg-[var(--surface-lighter)] rounded overflow-hidden relative">
                                     <OptimizedImage 
-                                        src={vehicle.images?.[0]?.url} 
+                                        src={vehicle.images?.[0]?.url || '/images/car-placeholder.jpg'} 
                                         alt={vehicle.brand} 
                                         fill
                                         className="object-cover w-full h-full"
@@ -176,11 +180,17 @@ function CheckoutContent() {
                             <div className="space-y-2 text-sm text-[var(--text-secondary)] mb-4">
                                 <div className="flex justify-between">
                                     <span>Pick-up</span>
-                                    <span className="text-white">{startDate}</span>
+                                    <span className="text-white text-right">
+                                        {startDate}<br/>
+                                        <span className="text-xs text-[var(--text-muted)] capitalize">{pickupLocation}</span>
+                                    </span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span>Drop-off</span>
-                                    <span className="text-white">{endDate}</span>
+                                    <span className="text-white text-right">
+                                        {endDate}<br/>
+                                        <span className="text-xs text-[var(--text-muted)] capitalize">{dropoffLocation}</span>
+                                    </span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span>Total Days</span>

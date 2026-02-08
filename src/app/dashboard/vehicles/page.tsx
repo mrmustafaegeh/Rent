@@ -47,7 +47,7 @@ export default function AdminVehiclesPage() {
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold text-white">Manage Fleet</h1>
         <Link href="/dashboard/vehicles/new">
-          <Button variant="primary">Add New Vehicle</Button>
+          <Button variant="default">Add New Vehicle</Button>
         </Link>
       </div>
 
@@ -94,9 +94,12 @@ export default function AdminVehiclesPage() {
                 <td className="p-4">
                   <div className="flex gap-2">
                     <Link href={`/dashboard/vehicles/${vehicle._id}/edit`}>
-                      <Button variant="ghost" size="sm" className="h-8 px-2">Edit</Button>
+                      <Button variant="ghost" size="sm" className="h-8 px-2 hover:text-primary hover:bg-primary/10">Edit</Button>
                     </Link>
-                    <Button variant="ghost" size="sm" className="h-8 px-2 text-red-500 hover:text-red-400">Delete</Button>
+                    <Link href={`/dashboard/vehicles/${vehicle._id}/schedule`}>
+                        <Button variant="ghost" size="sm" className="h-8 px-2 hover:text-blue-500 hover:bg-blue-500/10">Schedule</Button>
+                    </Link>
+                    <Button variant="ghost" size="sm" className="h-8 px-2 text-red-500 hover:text-red-600 hover:bg-red-500/10">Delete</Button>
                   </div>
                 </td>
               </tr>

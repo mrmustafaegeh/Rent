@@ -1,34 +1,43 @@
-import React, { InputHTMLAttributes } from 'react';
+import * as React from "react"
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  label?: string;
-  error?: string;
+import { cn } from "@/lib/utils"
+
+import { Label } from "@/components/ui/Label"
+
+export interface InputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
+    label?: string
+    error?: string
 }
 
-export const Input: React.FC<InputProps> = ({
-  label,
-  error,
-  className = '',
-  id,
-  ...props
-}) => {
-  return (
-    <div className="w-full space-y-2">
-      {label && (
-        <label htmlFor={id} className="block text-sm font-medium text-[var(--text-secondary)]">
-          {label}
-        </label>
-      )}
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ className, type, label, error, ...props }, ref) => {
+    const input = (
       <input
-        id={id}
-        className={`w-full h-11 px-4 bg-[var(--surface)] border border-[var(--border)] rounded-lg text-white placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--primary)] focus:ring-1 focus:ring-[var(--primary)] transition-colors ${
-          error ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : ''
-        } ${className}`}
+        type={type}
+        className={cn(
+          "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+          error ? "border-red-500" : "",
+          className
+        )}
+        ref={ref}
         {...props}
       />
-      {error && (
-        <p className="text-sm text-red-500 mt-1">{error}</p>
-      )}
-    </div>
-  );
-};
+    )
+
+    if (label || error) {
+      return (
+        <div className="space-y-2 w-full">
+          {label && <Label htmlFor={props.id} className={error ? "text-red-500" : ""}>{label}</Label>}
+          {input}
+          {error && <p className="text-sm font-medium text-red-500">{error}</p>}
+        </div>
+      )
+    }
+
+    return input
+  }
+)
+Input.displayName = "Input"
+
+export { Input }

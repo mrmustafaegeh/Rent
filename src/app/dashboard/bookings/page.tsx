@@ -18,6 +18,8 @@ interface Booking {
     endDate: string;
     totalPrice: number;
     status: string;
+    pickupLocation: string;
+    dropoffLocation: string;
 }
 
 export default function MyBookingsPage() {
@@ -78,6 +80,10 @@ export default function MyBookingsPage() {
                                 <h3 className="font-bold text-lg">{booking.vehicle?.brand} {booking.vehicle?.vehicleModel}</h3>
                                 <p className="text-sm text-[var(--text-secondary)]">
                                     {new Date(booking.startDate).toLocaleDateString()} - {new Date(booking.endDate).toLocaleDateString()}
+                                </p>
+                                <p className="text-xs text-[var(--text-muted)] mt-1 flex flex-col md:flex-row gap-2">
+                                    <span className="flex items-center gap-1"><span className="text-primary">•</span> Pickup: {booking.pickupLocation}</span>
+                                    <span className="flex items-center gap-1"><span className="text-destructive">•</span> Dropoff: {booking.dropoffLocation}</span>
                                 </p>
                                 <p className="text-xs font-mono text-[var(--text-muted)] mt-1">{booking.bookingNumber}</p>
                             </div>
