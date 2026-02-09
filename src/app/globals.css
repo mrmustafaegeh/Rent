@@ -3,49 +3,52 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 216 60% 10%; /* Midnight Navy */
+    --foreground: 0 0% 100%; /* Pure White */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 217 33% 17%; /* Charcoal */
+    --card-foreground: 0 0% 100%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 216 60% 10%;
+    --popover-foreground: 210 40% 98%;
 
-    /* Primary: #FF6B35 */
-    --primary: 16 100% 60%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary: Electric Blue */
+    --primary: 190 100% 50%;
+    --primary-foreground: 216 60% 10%;
 
-    /* Secondary: #2D3748 */
-    --secondary: 218 23% 23%;
-    --secondary-foreground: 210 40% 98%;
+    /* Secondary: Cyprus Gold */
+    --secondary: 46 65% 52%;
+    --secondary-foreground: 216 60% 10%;
 
-    /* Muted: Gray */
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Accent: Sunset Orange */
+    --accent: 16 100% 60%;
+    --accent-foreground: 0 0% 100%;
 
-    /* Accent: #4299E1 */
-    --accent: 207 73% 57%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Muted: Soft Gray (for dark mode context mostly charcoal) */
+    --muted: 217 33% 25%;
+    --muted-foreground: 215 20% 65%;
 
-    /* Destructive/Error: #F56565 */
-    --destructive: 0 87% 68%;
-    --destructive-foreground: 210 40% 98%;
+    /* Destructive: Error Red */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    /* Warning: #F6AD55 */
-    --warning: 33 90% 65%;
+    --warning: 38 92% 50%; /* Warning Amber */
+    --success: 160 84% 39%; /* Success Green */
 
-    /* Success: #48BB78 */
-    --success: 146 50% 51%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 217 33% 25%;
+    --input: 217 33% 25%;
+    --ring: 46 65% 52%; /* Gold for focus rings */
 
     --radius: 0.5rem;
     
-    --font-geist-sans: "Geist", sans-serif;
-    --font-geist-mono: "Geist Mono", monospace;
+    /* Custom Design Tokens */
+    --color-navy: 216 60% 10%;
+    --color-gold: 46 65% 52%;
+    --color-blue: 190 100% 50%;
+    --color-orange: 16 100% 60%;
+    --color-white: 0 0% 100%;
+    --color-gray: 210 20% 98%;
+    --color-charcoal: 217 33% 17%;
   }
 
   .dark {

@@ -1,94 +1,113 @@
-import { Metadata } from 'next';
-import Link from 'next/link';
-import OptimizedImage from '@/components/ui/OptimizedImage';
-
-export const metadata: Metadata = {
-  title: 'About RENTALX | Premium Car Rental Dubai',
-  description: 'RentalX is Dubai\'s premier luxury car rental marketplace. Learn about our mission, vision, and commitment to excellence.',
-};
+import { Header } from "@/components/Header"
+import { Footer } from "@/components/Footer"
+import OptimizedImage from "@/components/ui/OptimizedImage"
+import { Users, Target, Shield, Award } from "lucide-react"
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-[var(--background)] pb-20 pt-24 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto space-y-16">
-        {/* Mission / Vision */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-           <div className="space-y-6">
-              <h1 className="text-4xl md:text-5xl font-bold text-white">
-                 Driving Excellence
-                 <span className="block text-[var(--primary)]">Since 2024</span>
-              </h1>
-              <p className="text-[var(--text-secondary)] text-lg leading-relaxed">
-                 RENTALX was founded with a singular mission: to provide the most seamless, transparent, and premium car rental experience in the UAE. We recognized the complexity and lack of trust in the traditional market and built a platform that puts the customer first.
-              </p>
-              <div className="flex gap-4">
-                 <Link href="/fleet" className="px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-gray-100 transition-colors">
-                    Explore Fleet
-                 </Link>
-                 <Link href="/contact" className="px-6 py-3 border border-[var(--border)] text-white hover:border-[var(--primary)] transition-colors rounded-lg">
-                    Contact Us
-                 </Link>
-              </div>
-           </div>
-           <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-2xl skew-y-3 hover:skew-y-0 transition-transform duration-500">
-               <OptimizedImage 
-                 src="https://images.unsplash.com/photo-1562911791-c7a97b729ec5?q=80&w=2137&auto=format&fit=crop" 
-                 alt="Luxury Car Fleet" 
-                 fill
-                 className="object-cover w-full h-full"
-                 priority
-               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-              <div className="absolute bottom-6 left-6">
-                 <h3 className="text-2xl font-bold text-white">Premium Quality</h3>
-                 <p className="text-white/80">Every vehicle inspected before rental</p>
-              </div>
-           </div>
-        </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 py-12 border-y border-[var(--border)]">
-           {[
-              { label: 'Vehicles in Fleet', value: '150+' },
-              { label: 'Happy Customers', value: '5,000+' },
-              { label: 'Years Experience', value: '10+' },
-              { label: 'Emirates Covered', value: '7' }
-           ].map((stat, i) => (
-              <div key={i} className="text-center group hover:scale-105 transition-transform duration-300">
-                 <h4 className="text-4xl lg:text-5xl font-bold text-[var(--primary)] mb-2" style={{ textShadow: '0 0 20px rgba(255,255,255,0.2)' }}>{stat.value}</h4>
-                 <p className="text-[var(--text-secondary)] uppercase tracking-wider text-sm">{stat.label}</p>
-              </div>
-           ))}
-        </div>
-
-        {/* Why Choose Us */}
-        <div className="text-center space-y-12">
-            <h2 className="text-3xl font-bold text-white">Why Choose RENTALX?</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-               <div className="p-8 bg-[var(--surface-light)] rounded-xl border border-[var(--border)]">
-                  <div className="w-12 h-12 bg-blue-500/20 text-blue-400 rounded-lg flex items-center justify-center mb-6">
-                     <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-3">Verified Listings</h3>
-                  <p className="text-[var(--text-secondary)]">Every car on our platform is verified for quality, insurance, and proper documentation.</p>
-               </div>
-               <div className="p-8 bg-[var(--surface-light)] rounded-xl border border-[var(--border)]">
-                  <div className="w-12 h-12 bg-green-500/20 text-green-400 rounded-lg flex items-center justify-center mb-6">
-                     <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-3">Transparent Pricing</h3>
-                  <p className="text-[var(--text-secondary)]">What you see is what you pay. No hidden administration fees or surprise charges at pickup.</p>
-               </div>
-               <div className="p-8 bg-[var(--surface-light)] rounded-xl border border-[var(--border)]">
-                  <div className="w-12 h-12 bg-purple-500/20 text-purple-400 rounded-lg flex items-center justify-center mb-6">
-                     <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-3">24/7 Support</h3>
-                  <p className="text-[var(--text-secondary)]">Our dedicated support team is available around the clock to assist you with any questions.</p>
-               </div>
+    <div className="flex flex-col min-h-screen bg-[var(--background)]">
+      <Header />
+      
+      <main className="flex-1">
+        {/* Hero Section */}
+        <section className="relative py-20 overflow-hidden bg-navy">
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+             <div className="absolute inset-0 bg-navy">
+                 <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-electric/10 rounded-full blur-[100px] -mr-32 -mt-32 pointer-events-none" />
+                 <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gold/5 rounded-full blur-[100px] -ml-24 -mb-24 pointer-events-none" />
             </div>
-        </div>
-      </div>
+
+            <div className="container mx-auto px-4 relative z-10 text-center max-w-4xl space-y-6">
+                <span className="text-gold font-bold uppercase tracking-widest text-xs mb-4 block">Our Story</span>
+                <h1 className="text-4xl md:text-6xl font-heading font-black text-white leading-tight">
+                    Redefining Luxury <br/> Mobility in <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold to-yellow-500">North Cyprus</span>
+                </h1>
+                <p className="text-gray-300 text-lg md:text-xl font-body font-light leading-relaxed max-w-2xl mx-auto">
+                    Mediterranean Drive was born from a passion for exceptional automobiles and a desire to elevate the car rental experience to a concierge-level service.
+                </p>
+            </div>
+        </section>
+
+        {/* Vision & Values */}
+        <section className="py-24 bg-white">
+             <div className="container mx-auto px-4">
+                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-24">
+                     <div className="order-2 lg:order-1 relative rounded-3xl overflow-hidden shadow-2xl shadow-gray-200 aspect-[4/3]">
+                         <OptimizedImage 
+                             src="/images/about-hero.jpg" 
+                             alt="Luxury Fleet" 
+                             fill 
+                             className="object-cover"
+                         />
+                         <div className="absolute inset-0 bg-gradient-to-t from-navy/80 to-transparent flex items-end p-8">
+                             <div className="text-white">
+                                 <p className="font-heading font-bold text-2xl mb-1">Kyrenia HQ</p>
+                                 <p className="text-gray-300 text-sm">Where our journey began in 2024</p>
+                             </div>
+                         </div>
+                     </div>
+                     <div className="order-1 lg:order-2 space-y-8">
+                         <h2 className="text-3xl md:text-4xl font-heading font-black text-navy">Driven by Excellence</h2>
+                         <p className="text-gray-500 text-lg leading-relaxed font-body">
+                             We don't just rent cars; we curate journeys. Recognizing a gap in the market for reliable, premium, and transparent vehicle rentals, we established a fleet that speaks for itself. From the moment you land to the moment you depart, we ensure every mile is a memory.
+                         </p>
+                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                             <div className="flex gap-4">
+                                 <div className="w-12 h-12 rounded-xl bg-navy/5 flex items-center justify-center text-navy shrink-0">
+                                     <Target className="w-6 h-6" />
+                                 </div>
+                                 <div>
+                                     <h3 className="font-bold text-navy text-lg">Our Mission</h3>
+                                     <p className="text-sm text-gray-500 leading-relaxed">To provide the most seamless and prestigious car rental experience in the Mediterranean.</p>
+                                 </div>
+                             </div>
+                             <div className="flex gap-4">
+                                 <div className="w-12 h-12 rounded-xl bg-navy/5 flex items-center justify-center text-navy shrink-0">
+                                     <Award className="w-6 h-6" />
+                                 </div>
+                                 <div>
+                                     <h3 className="font-bold text-navy text-lg">Our Promise</h3>
+                                     <p className="text-sm text-gray-500 leading-relaxed">No hidden fees, guaranteed model booking, and 24/7 concierge support.</p>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+
+                 <div className="grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-gray-100 pt-12">
+                     {[
+                         { label: 'Premium Vehicles', value: '50+' },
+                         { label: 'Happy Clients', value: '2k+' },
+                         { label: 'Years Experience', value: '10+' },
+                         { label: 'Support', value: '24/7' }
+                     ].map((stat, i) => (
+                         <div key={i} className="text-center group">
+                             <h4 className="text-4xl md:text-5xl font-heading font-black text-navy mb-2 group-hover:scale-110 transition-transform">{stat.value}</h4>
+                             <p className="text-gray-400 text-xs font-bold uppercase tracking-widest">{stat.label}</p>
+                         </div>
+                     ))}
+                 </div>
+             </div>
+        </section>
+
+        {/* Team / Culture */}
+        <section className="py-24 bg-gray-50 relative overflow-hidden">
+             {/* Decorative Elements */}
+             <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-white rounded-full blur-[80px] -mr-32 -mt-32 pointer-events-none" />
+             
+             <div className="container mx-auto px-4 relative z-10 text-center max-w-3xl space-y-6">
+                 <div className="w-16 h-16 rounded-full bg-white shadow-lg mx-auto flex items-center justify-center text-gold mb-6">
+                     <Users className="w-8 h-8" />
+                 </div>
+                 <h2 className="text-3xl md:text-4xl font-heading font-black text-navy">Meet the Team</h2>
+                 <p className="text-gray-500 text-lg leading-relaxed font-body">
+                     Behind every smooth wheel turn is a dedicated team of automotive enthusiasts, logistics experts, and customer service professionals working tirelessly to ensure your satisfaction.
+                 </p>
+             </div>
+        </section>
+
+      </main>
+      <Footer />
     </div>
-  );
+  )
 }

@@ -9,48 +9,51 @@ import {
 
 const faqs = [
     {
-        question: "How do I rent a car through RENTALX?",
-        answer: "Browse our extensive fleet, choose your perfect car, select dates, and book instantly. You can pick up at Ercan, Nicosia, Kyrenia, or have it delivered."
+        question: "What documents do I need to rent a car in North Cyprus?",
+        answer: "You will need a valid driver's license held for at least 2 years and a valid passport or ID card. International Driving Permits (IDP) are not typically required for tourists with licenses in English."
     },
     {
-        question: "Is RENTALX free to use?",
-        answer: "Yes, our platform is free for users. You pay the rental provider directly or through our secure payment gateway with no hidden booking fees from us."
+        question: "Is insurance included in the rental price?",
+        answer: "Yes, basic Third Party Insurance is mandatory and included. Collision Damage Waiver (CDW) is often available as an optional extra for peace of mind."
     },
     {
-        question: "What is the minimum age to rent a car in North Cyprus?",
-        answer: "Typically 21-25 years depending on the vehicle category. Luxury cars may require 25+."
+        question: "Can I drive the rental car to South Cyprus?",
+        answer: "Most North Cyprus rental cars cannot be driven to the South due to insurance limitations. Cross-border policies vary, so please check with the specific provider beforehand."
     },
     {
-        question: "Do I need a credit card?",
-        answer: "Most providers require a credit card for the security deposit, but some accept cash deposits. Filter by 'No Credit Card Required' to find suitable options."
+        question: "Do you offer airport delivery at Ercan Airport?",
+        answer: "Absolutely! Most of our providers offer free or low-cost delivery to Ercan Airport (ECN). You can pick up your car immediately upon arrival."
     },
     {
-        question: "Can I drive to South Cyprus?",
-        answer: "Generally, rental cars from the North cannot be taken to the South due to insurance restrictions. Please check with the provider."
+        question: "Are there any hidden fees?",
+        answer: "We pride ourselves on transparency. The price you see includes all mandatory taxes and fees. Any optional extras (child seats, additional drivers) are clearly listed."
     }
 ];
 
 export function FAQ() {
     return (
-        <section className="py-20 bg-muted/20">
+        <section className="py-24 bg-white">
             <div className="container mx-auto px-4 max-w-4xl">
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl font-bold mb-4">Frequently Asked Questions</h2>
-                    <p className="text-muted-foreground">Find answers to common questions about car rental in North Cyprus.</p>
+                <div className="text-center mb-16 space-y-4">
+                    <span className="text-electric font-bold tracking-[0.2em] text-xs uppercase">GOT QUESTIONS?</span>
+                    <h2 className="text-4xl md:text-5xl font-heading font-bold text-navy">Frequently Asked Questions</h2>
+                    <p className="text-gray-500 text-lg font-body">Everything you need to know about renting a car with us.</p>
                 </div>
 
-                <Accordion type="single" collapsible className="w-full">
-                    {faqs.map((faq, index) => (
-                        <AccordionItem key={index} value={`item-${index}`}>
-                            <AccordionTrigger className="text-left font-medium text-lg hover:no-underline hover:text-primary transition-colors">
-                                {faq.question}
-                            </AccordionTrigger>
-                            <AccordionContent className="text-muted-foreground leading-relaxed">
-                                {faq.answer}
-                            </AccordionContent>
-                        </AccordionItem>
-                    ))}
-                </Accordion>
+                <div className="bg-gray-50 rounded-3xl p-8 md:p-12 border border-gray-100 shadow-sm">
+                    <Accordion type="single" collapsible className="w-full space-y-4">
+                        {faqs.map((faq, index) => (
+                            <AccordionItem key={index} value={`item-${index}`} className="border border-gray-200 rounded-xl bg-white px-2 data-[state=open]:border-gold/50 data-[state=open]:shadow-md transition-all duration-300">
+                                <AccordionTrigger className="px-6 py-4 text-left font-heading font-bold text-lg text-navy hover:text-electric hover:no-underline transition-colors [&[data-state=open]]:text-electric">
+                                    {faq.question}
+                                </AccordionTrigger>
+                                <AccordionContent className="px-6 pb-6 text-gray-500 font-body leading-relaxed text-base border-t border-gray-50 pt-4">
+                                    {faq.answer}
+                                </AccordionContent>
+                            </AccordionItem>
+                        ))}
+                    </Accordion>
+                </div>
             </div>
         </section>
     );

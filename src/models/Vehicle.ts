@@ -1,7 +1,8 @@
 import mongoose, { Document, Model, Schema } from 'mongoose';
 
 export interface IVehicle extends Document {
-    company: mongoose.Types.ObjectId;
+    company?: mongoose.Types.ObjectId;
+    owner?: mongoose.Types.ObjectId;
     brand: string;
     vehicleModel: string;
     year: number;
@@ -33,6 +34,11 @@ export interface IVehicle extends Document {
         daily: number;
         monthly: number;
     };
+    type: 'rent' | 'sale';
+    salePrice?: number;
+    mileage?: number;
+    condition?: string;
+    status: 'pending' | 'approved' | 'rejected';
     createdAt: Date;
 }
 
@@ -40,7 +46,12 @@ const vehicleSchema = new mongoose.Schema<IVehicle>({
     company: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Company',
-        required: true
+        required: false
+    },
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: false
     },
     brand: {
         type: String,
@@ -107,7 +118,7 @@ const vehicleSchema = new mongoose.Schema<IVehicle>({
         },
     },
     pricing: {
-        daily: { type: Number, required: true },
+        daily: { type: Number },
         weekly: Number,
         monthly: Number
     },
@@ -127,6 +138,19 @@ const vehicleSchema = new mongoose.Schema<IVehicle>({
     quantity: {
         type: Number,
         default: 1
+    },
+    type: {
+        type: String,
+        enum: ['rent', 'sale'],
+        default: 'rent'
+    },
+    salePrice: Number,
+    mileage: Number,
+    condition: String,
+    status: {
+        type: String,
+        enum: ['pending', 'approved', 'rejected'],
+        default: 'pending'
     },
     createdAt: {
         type: Date,

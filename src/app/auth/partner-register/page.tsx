@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import { Car, Building2, User } from 'lucide-react';
 
 export default function PartnerRegisterPage() {
     const router = useRouter();
@@ -21,10 +22,10 @@ export default function PartnerRegisterPage() {
         companyPhone: '',
         companyEmail: ''
     });
-
     const [error, setError] = useState('');
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        // @ts-ignore
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
@@ -44,18 +45,18 @@ export default function PartnerRegisterPage() {
                     password: formData.password,
                     phone: formData.userPhone,
                     companyName: formData.companyName,
-                    companyDescription: formData.companyDescription,
-                    companyAddress: formData.companyAddress,
-                    companyPhone: formData.companyPhone,
-                    companyEmail: formData.companyEmail,
+                    description: formData.companyDescription,
+                    address: formData.companyAddress,
+                    contactPhone: formData.companyPhone,
+                    contactEmail: formData.companyEmail,
                 })
             });
 
             const data = await res.json();
+            
             if (res.ok) {
                 // Success
-                alert('Account request submitted successfully! Our team will review your application.');
-                router.push('/auth/login');
+                router.push('/auth/login?registered=partner');
             } else {
                 setError(data.error || 'Registration failed');
             }
@@ -67,68 +68,133 @@ export default function PartnerRegisterPage() {
     };
 
     return (
-        <div className="min-h-screen bg-[var(--background)] flex items-center justify-center p-4">
-            <div className="max-w-3xl w-full bg-[var(--surface-light)] border border-[var(--border)] rounded-2xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--primary)]/10 blur-[100px] rounded-full pointer-events-none" />
-                
-                <div className="relative z-10">
-                    <div className="text-center mb-10">
-                        <Link href="/" className="inline-block mb-4">
-                            <span className="text-2xl font-bold tracking-tighter">RENTAL<span className="text-[var(--primary)]">X</span></span>
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+             {/* Background Decoration */}
+             <div className="absolute inset-0 pointer-events-none">
+                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gold/10 rounded-full blur-[100px] opacity-60" />
+                <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-navy/5 rounded-full blur-[100px] opacity-60" />
+            </div>
+
+            <div className="max-w-4xl w-full bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row relative z-10 border border-gray-100">
+                {/* Left Side: Info Panel */}
+                <div className="md:w-5/12 bg-navy p-10 text-white flex flex-col justify-between relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-navy to-black opacity-50" />
+                    <div className="absolute inset-0 bg-[url('/images/pattern-grid.png')] opacity-10" />
+                    
+                    <div className="relative z-10">
+                        <Link href="/" className="inline-flex items-center gap-2 mb-10 group">
+                             <span className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-white border border-white/10 group-hover:bg-gold group-hover:text-navy transition-all">
+                                <Car className="w-4 h-4" />
+                            </span>
+                            <span className="font-heading font-black text-xl tracking-tight">
+                                RENTAL<span className="text-gold">X</span>
+                            </span>
                         </Link>
-                        <h1 className="text-3xl font-bold mb-2">Become a Partner</h1>
-                        <p className="text-[var(--text-secondary)]">Join the exclusive fleet network and list your premium vehicles.</p>
+                        
+                        <h2 className="text-3xl font-heading font-black leading-tight mb-4">
+                            Grow Your Fleet Business
+                        </h2>
+                        <p className="text-gray-400 text-sm leading-relaxed mb-8">
+                            Join Mediterranean Drive's exclusive partner network. List your premium vehicles, manage bookings effortlessly, and reach high-value customers.
+                        </p>
+                        
+                        <div className="space-y-4">
+                            <div className="flex items-center gap-4">
+                                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gold border border-white/5">
+                                    <Building2 className="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <h4 className="font-bold text-sm">Company Profile</h4>
+                                    <p className="text-xs text-gray-400">Showcase your brand</p>
+                                </div>
+                            </div>
+                             <div className="flex items-center gap-4">
+                                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gold border border-white/5">
+                                    <Car className="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <h4 className="font-bold text-sm">Fleet Management</h4>
+                                    <p className="text-xs text-gray-400">Easy vehicle listing tools</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div className="relative z-10 mt-10 text-xs text-gray-500 font-medium">
+                        © 2024 Mediterranean Drive.
+                    </div>
+                </div>
+
+                {/* Right Side: Form */}
+                <div className="md:w-7/12 p-10 bg-white">
+                    <div className="flex justify-end mb-6">
+                        <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Partner Application</span>
                     </div>
 
                     {error && (
-                        <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 text-red-500 rounded-lg text-sm text-center">
+                        <div className="mb-6 p-4 bg-red-50 text-red-500 border border-red-100 rounded-xl text-sm font-medium flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-red-500 inline-block" />
                             {error}
                         </div>
                     )}
 
-                    <form onSubmit={handleSubmit} className="space-y-8">
-                        {/* Section 1: User Account */}
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        {/* Personal Details */}
                         <div>
-                            <h3 className="text-xl font-semibold mb-4 pb-2 border-b border-[var(--border)]">Account Details</h3>
-                            <div className="grid md:grid-cols-2 gap-4">
-                                <Input label="First Name" name="firstName" placeholder="John" value={formData.firstName} onChange={handleChange} required />
-                                <Input label="Last Name" name="lastName" placeholder="Doe" value={formData.lastName} onChange={handleChange} required />
-                                <Input label="Email" name="userEmail" type="email" placeholder="john@example.com" value={formData.userEmail} onChange={handleChange} required />
-                                <Input label="Password" name="password" type="password" placeholder="••••••••" value={formData.password} onChange={handleChange} required />
-                                <Input label="Phone" name="userPhone" placeholder="+971..." value={formData.userPhone} onChange={handleChange} required />
-                            </div>
+                             <h3 className="text-sm font-black text-navy uppercase tracking-widest mb-4 flex items-center gap-2">
+                                <User className="w-4 h-4 text-gold" /> Personal Info
+                             </h3>
+                             <div className="grid md:grid-cols-2 gap-4">
+                                <Input label="First Name" name="firstName" placeholder="John" value={formData.firstName} onChange={handleChange} required className="bg-gray-50 text-black placeholder:text-gray-400 focus:bg-white h-12 rounded-xl" />
+                                <Input label="Last Name" name="lastName" placeholder="Doe" value={formData.lastName} onChange={handleChange} required className="bg-gray-50 text-black placeholder:text-gray-400 focus:bg-white h-12 rounded-xl" />
+                             </div>
+                             <div className="grid md:grid-cols-2 gap-4 mt-4">
+                                <Input label="Email" name="userEmail" type="email" placeholder="john@example.com" value={formData.userEmail} onChange={handleChange} required className="bg-gray-50 text-black placeholder:text-gray-400 focus:bg-white h-12 rounded-xl" />
+                                <Input label="Phone" name="userPhone" placeholder="+90 533..." value={formData.userPhone} onChange={handleChange} required className="bg-gray-50 text-black placeholder:text-gray-400 focus:bg-white h-12 rounded-xl" />
+                             </div>
+                             <div className="mt-4">
+                                 <Input label="Password" name="password" type="password" placeholder="Min. 8 characters" value={formData.password} onChange={handleChange} required className="bg-gray-50 text-black placeholder:text-gray-400 focus:bg-white h-12 rounded-xl" />
+                             </div>
                         </div>
 
-                        {/* Section 2: Company Info */}
-                        <div>
-                            <h3 className="text-xl font-semibold mb-4 pb-2 border-b border-[var(--border)]">Company Information</h3>
-                            <div className="grid md:grid-cols-2 gap-4">
-                                <Input label="Company Name" name="companyName" placeholder="Prestige Rentals LLC" value={formData.companyName} onChange={handleChange} required />
-                                <Input label="Company Email" name="companyEmail" type="email" placeholder="contact@prestige.com" value={formData.companyEmail} onChange={handleChange} required />
-                                <Input label="Company Phone" name="companyPhone" placeholder="+971..." value={formData.companyPhone} onChange={handleChange} required />
-                                <Input label="Headquarters City" name="companyAddress" placeholder="Dubai" value={formData.companyAddress} onChange={handleChange} required />
-                                <div className="md:col-span-2 space-y-2">
-                                    <label className="text-sm font-medium text-[var(--text-secondary)]">Description</label>
+                        <div className="h-px bg-gray-100" />
+
+                        {/* Company Details */}
+                         <div>
+                             <h3 className="text-sm font-black text-navy uppercase tracking-widest mb-4 flex items-center gap-2">
+                                <Building2 className="w-4 h-4 text-gold" /> Company Info
+                             </h3>
+                             
+                             <div className="space-y-4">
+                                 <Input label="Company Name" name="companyName" placeholder="Prestige Rentals Ltd." value={formData.companyName} onChange={handleChange} required className="bg-gray-50 text-black placeholder:text-gray-400 focus:bg-white h-12 rounded-xl" />
+                                 <div className="grid md:grid-cols-2 gap-4">
+                                     <Input label="Company Email" name="companyEmail" type="email" placeholder="info@prestige.com" value={formData.companyEmail} onChange={handleChange} required className="bg-gray-50 text-black placeholder:text-gray-400 focus:bg-white h-12 rounded-xl" />
+                                     <Input label="Company Phone" name="companyPhone" placeholder="+90 392..." value={formData.companyPhone} onChange={handleChange} required className="bg-gray-50 text-black placeholder:text-gray-400 focus:bg-white h-12 rounded-xl" />
+                                 </div>
+                                 <Input label="Headquarters City" name="companyAddress" placeholder="Kyrenia, North Cyprus" value={formData.companyAddress} onChange={handleChange} required className="bg-gray-50 text-black placeholder:text-gray-400 focus:bg-white h-12 rounded-xl" />
+                                 
+                                 <div className="space-y-2">
+                                    <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Business Description</label>
                                     <textarea 
                                         name="companyDescription"
-                                        placeholder="Tell us about your fleet..."
-                                        className="w-full min-h-[100px] px-4 py-3 bg-[var(--surface)] border border-[var(--border)] rounded-lg text-white placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-1 focus:ring-[var(--primary)] transition-all resize-y"
+                                        placeholder="Briefly describe your fleet and services..."
+                                        className="w-full min-h-[100px] px-4 py-3 bg-gray-50 border border-transparent rounded-xl text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-navy/5 focus:bg-white transition-all text-sm font-medium resize-none"
                                         value={formData.companyDescription}
                                         onChange={handleChange}
                                     />
                                 </div>
-                            </div>
+                             </div>
                         </div>
 
-                        <div className="pt-4">
-                            <Button className="w-full text-lg h-12" isLoading={isLoading}>Submit Application</Button>
-                        </div>
+                        <Button className="w-full h-14 text-lg font-bold bg-navy text-gold hover:bg-navy/90 rounded-xl shadow-lg shadow-navy/20 mt-4" isLoading={isLoading}>
+                            Submit Application
+                        </Button>
                     </form>
 
-                    <p className="mt-8 text-center text-sm text-[var(--text-secondary)]">
-                        Already have a partner account?{' '}
-                        <Link href="/auth/login" className="text-[var(--primary)] hover:underline font-medium">
-                            Log in here
+                    <p className="mt-8 text-center text-sm font-medium text-gray-500">
+                        Already a partner?{' '}
+                        <Link href="/auth/login" className="text-navy hover:text-gold transition-colors font-bold">
+                            Login Dashboard
                         </Link>
                     </p>
                 </div>

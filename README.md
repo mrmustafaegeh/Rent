@@ -123,7 +123,7 @@ FREE cloud database, no installation needed!
 
 6. **Update Environment Variables** in `.env.local`:
    ```env
-   MONGODB_URI=mongodb+srv://rentaladmin:RentalPass123@cluster0.xxxxx.mongodb.net/car-rental?retryWrites=true&w=majority
+   
    ```
 
 ## 📁 Project Structure

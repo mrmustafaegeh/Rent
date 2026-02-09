@@ -2,6 +2,8 @@ const nextConfig: import('next').NextConfig = {
   reactStrictMode: true,
 
   images: {
+    // Disable optimization in dev to avoid timeouts
+    unoptimized: true,
     // Modern, secure way (recommended)
     remotePatterns: [
       {

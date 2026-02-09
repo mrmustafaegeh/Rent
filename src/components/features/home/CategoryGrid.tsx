@@ -2,41 +2,83 @@
 
 import Link from "next/link"
 import { motion } from "framer-motion"
-import { Car, Gem, Zap, Shield, Wallet, Star, Calendar, User } from "lucide-react"
+import { Car, Gem, Zap, Shield, Calendar, User, Rocket, Wallet } from "lucide-react"
 
 const categories = [
-    { name: "Rent Luxury", icon: Gem, count: "120+ Cars", slug: "luxury", color: "bg-purple-100 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400" },
-    { name: "Rent Sports", icon: Star, count: "35+ Cars", slug: "sports", color: "bg-red-100 text-red-600 dark:bg-red-900/20 dark:text-red-400" },
-    { name: "Rent SUV", icon: Shield, count: "180+ Cars", slug: "suv", color: "bg-blue-100 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400" },
-    { name: "Rent Monthly", icon: Calendar, count: "250+ Cars", slug: "monthly", color: "bg-green-100 text-green-600 dark:bg-green-900/20 dark:text-green-400" },
-    { name: "Cheap Rent", icon: Wallet, count: "95+ Cars", slug: "economy", color: "bg-yellow-100 text-yellow-600 dark:bg-yellow-900/20 dark:text-yellow-400" },
-    { name: "Rent Electric", icon: Zap, count: "15+ Cars", slug: "electric", color: "bg-teal-100 text-teal-600 dark:bg-teal-900/20 dark:text-teal-400" },
-    { name: "Convertible", icon: Car, count: "40+ Cars", slug: "convertible", color: "bg-orange-100 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400" },
-    { name: "With Driver", icon: User, count: "Chauffeur", slug: "chauffeur", color: "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300" },
+    { name: "Economy", icon: Wallet, count: "95+ vehicles", price: "€30/day", slug: "economy", gradient: "from-blue-500 to-cyan-400" },
+    { name: "Luxury", icon: Gem, count: "120+ vehicles", price: "€80/day", slug: "luxury", gradient: "from-purple-500 to-indigo-500" },
+    { name: "SUVs", icon: Shield, count: "180+ vehicles", price: "€50/day", slug: "suv", gradient: "from-slate-500 to-slate-700" },
+    { name: "Sports", icon: Rocket, count: "35+ vehicles", price: "€200/day", slug: "sports", gradient: "from-red-500 to-orange-500" },
+    { name: "Electric", icon: Zap, count: "25+ vehicles", price: "€45/day", slug: "electric", gradient: "from-green-400 to-emerald-600" },
+    { name: "Monthly", icon: Calendar, count: "250+ vehicles", price: "€600/month", slug: "monthly", gradient: "from-blue-600 to-blue-800" },
+    { name: "Chauffeur", icon: User, count: "Pro Drivers", price: "€100/day", slug: "chauffeur", gradient: "from-gray-800 to-black" },
+    { name: "Supercars", icon: Car, count: "15+ vehicles", price: "€400/day", slug: "supercar", gradient: "from-gold to-yellow-600" },
 ]
+
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+}
+
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0 }
+}
 
 export function CategoryGrid() {
   return (
-    <section className="py-16 container mx-auto px-4">
-       <div className="text-center mb-10">
-           <h2 className="text-3xl font-bold mb-2">Browse Car Rentals in North Cyprus</h2>
-           <p className="text-muted-foreground">Choose from our extensive fleet of premium and budget vehicles</p>
-       </div>
-       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {categories.map((cat, index) => (
-             <Link key={cat.slug} href={`/cars?category=${cat.slug}`}>
-                 <motion.div 
-                    whileHover={{ y: -5, scale: 1.02 }}
-                    className="flex flex-col items-center justify-center p-6 bg-card border rounded-xl shadow-sm hover:shadow-md transition-all cursor-pointer h-full group"
-                 >
-                     <div className={`p-4 rounded-full mb-4 ${cat.color} group-hover:scale-110 transition-transform`}>
-                        <cat.icon className="w-8 h-8" />
-                     </div>
-                     <h3 className="font-semibold text-lg">{cat.name}</h3>
-                     <span className="text-sm text-muted-foreground">{cat.count}</span>
-                 </motion.div>
-             </Link>
-          ))}
+    <section className="py-24 bg-[#F8FAFC]">
+       <div className="container mx-auto px-4">
+           <div className="text-center mb-16 space-y-4">
+               <span className="text-gold font-bold tracking-[0.2em] text-xs uppercase">EXPLORE OUR FLEET</span>
+               <h2 className="text-4xl md:text-5xl font-heading font-bold text-navy">Browse by Category</h2>
+               <p className="text-gray-500 text-lg max-w-2xl mx-auto font-body">From budget-friendly to ultra-luxury, find your perfect ride for the Cyprus roads.</p>
+           </div>
+           
+           <motion.div 
+             variants={container}
+             initial="hidden"
+             whileInView="show"
+             viewport={{ once: true }}
+             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+           >
+              {categories.map((cat) => (
+                 <Link key={cat.slug} href={`/cars?category=${cat.slug}`} className="block h-full">
+                     <motion.div 
+                        variants={item}
+                        whileHover={{ y: -8 }}
+                        className="bg-white border-2 border-transparent hover:border-gold rounded-2xl p-6 shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] transition-all duration-300 h-full flex flex-col group cursor-pointer"
+                     >
+                         <div className={`h-40 rounded-xl bg-gradient-to-br ${cat.gradient} mb-6 flex items-center justify-center group-hover:scale-[1.02] transition-transform duration-500`}>
+                            <cat.icon className="w-16 h-16 text-white drop-shadow-lg group-hover:rotate-12 transition-transform duration-300" />
+                         </div>
+                         
+                         <div className="space-y-1">
+                             <h3 className="font-heading font-bold text-2xl text-navy group-hover:text-electric transition-colors">{cat.name}</h3>
+                             <p className="text-gray-400 font-medium text-sm">{cat.count}</p>
+                         </div>
+                         
+                         <div className="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between">
+                             <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Starting from</span>
+                             <span className="text-electric font-bold text-lg group-hover:text-gold transition-colors">{cat.price}</span>
+                         </div>
+                     </motion.div>
+                 </Link>
+              ))}
+           </motion.div>
+           
+           <div className="mt-16 text-center">
+               <Link href="/cars">
+                   <button className="px-8 py-4 bg-transparent border-2 border-electric text-electric font-bold rounded-lg hover:bg-electric hover:text-white transition-all duration-300 transform hover:scale-105">
+                       View All Categories →
+                   </button>
+               </Link>
+           </div>
        </div>
     </section>
   )

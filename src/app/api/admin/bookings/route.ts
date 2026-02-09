@@ -40,8 +40,12 @@ export async function GET(request: Request) {
     }
 
     // specific logic for company owner to only see their company bookings
-    if (adminUser.role === 'company_owner' && adminUser.companyId) {
-        query.company = adminUser.companyId;
+    if (adminUser.role === 'company_owner') {
+         const vehicleQuery: any = { $or: [{ owner: adminUser._id }] };
+         if (adminUser.companyId) vehicleQuery.$or.push({ company: adminUser.companyId });
+         const vehicles = await Vehicle.find(vehicleQuery).select('_id');
+         // Use existing query object
+         query.vehicle = { $in: vehicles.map((v: any) => v._id) };
     }
 
     try {
@@ -53,6 +57,40 @@ export async function GET(request: Request) {
         return NextResponse.json({ success: true, data: bookings });
     } catch (error) {
         return NextResponse.json({ success: false, error: 'Failed to fetch bookings' }, { status: 500 });
+    }
+}
+
+export async function PATCH(request: Request) {
+    const adminUser = await authorizeAdmin();
+    if (!adminUser) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    try {
+        const body = await request.json();
+        const { id, status } = body;
+
+        const booking = await Booking.findById(id).populate('vehicle');
+        if (!booking) {
+            return NextResponse.json({ error: 'Booking not found' }, { status: 404 });
+        }
+
+        if (adminUser.role === 'company_owner') {
+             const vehicle = booking.vehicle as any;
+             const isOwner = vehicle.owner && vehicle.owner.toString() === adminUser._id.toString();
+             const isCompany = adminUser.companyId && vehicle.company && vehicle.company.toString() === adminUser.companyId.toString();
+             
+             if (!isOwner && !isCompany) {
+                 return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+             }
+        }
+
+        booking.status = status;
+        await booking.save();
+        
+        return NextResponse.json({ success: true, booking });
+    } catch (error) {
+        return NextResponse.json({ success: false, error: 'Failed to update booking' }, { status: 500 });
     }
 }
 

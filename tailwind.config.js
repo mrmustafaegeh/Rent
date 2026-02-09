@@ -18,6 +18,15 @@ module.exports = {
     },
     extend: {
       colors: {
+        navy: "hsl(var(--color-navy))",
+        gold: "hsl(var(--color-gold))",
+        electric: "hsl(var(--color-blue))",
+        orange: "hsl(var(--color-orange))",
+        charcoal: "hsl(var(--color-charcoal))",
+        gray: {
+           DEFAULT: "hsl(var(--color-gray))",
+           100: "#F3F4F6",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -73,7 +82,13 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
-    },
+      },
+      fontFamily: {
+        heading: ["var(--font-heading)", "sans-serif"],
+        body: ["var(--font-body)", "sans-serif"],
+        accent: ["var(--font-accent)", "sans-serif"],
+        mono: ["var(--font-mono)", "monospace"],
+      },
   },
   plugins: [require("tailwindcss-animate")],
 }

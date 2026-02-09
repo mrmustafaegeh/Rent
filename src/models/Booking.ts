@@ -56,12 +56,12 @@ const bookingSchema = new mongoose.Schema<IBooking>({
     },
     status: {
         type: String,
-        enum: ['pending', 'confirmed', 'in_progress', 'completed', 'cancelled'],
+        enum: ['pending', 'confirmed', 'in_progress', 'completed', 'cancelled', 'pending_payment'],
         default: 'pending'
     },
     paymentStatus: {
         type: String,
-        enum: ['pending', 'paid', 'refunded', 'failed'],
+        enum: ['pending', 'paid', 'refunded', 'failed', 'pay_at_pickup'],
         default: 'pending'
     },
     pickupLocation: {

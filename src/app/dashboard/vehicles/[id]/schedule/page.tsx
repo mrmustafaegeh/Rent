@@ -4,21 +4,38 @@ import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
+import { Input } from '@/components/ui/Input'; 
 import { useAuth } from '@/context/AuthContext';
-import { ChevronLeft, Calendar, User, Phone, MapPin } from 'lucide-react';
+import { 
+    ChevronLeft, 
+    Calendar, 
+    User, 
+    Phone, 
+    MapPin, 
+    Clock, 
+    CheckCircle,
+    XCircle,
+    AlertCircle,
+    DollarSign,
+    Plus,
+} from 'lucide-react';
+import { Badge } from '@/components/ui/Badge';
 
 export default function VehicleSchedulePage() {
     const { user } = useAuth();
     const params = useParams();
     const vehicleId = params.id as string;
     
+    // Separate state for vehicle and bookings
     const [vehicle, setVehicle] = useState<any>(null);
     const [bookings, setBookings] = useState<any[]>([]);
+    
+    // UI State
     const [isLoading, setIsLoading] = useState(true);
     const [formVisible, setFormVisible] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    // Form State
+    // Form data
     const [formData, setFormData] = useState({
         customerName: '',
         customerEmail: '',
@@ -61,6 +78,7 @@ export default function VehicleSchedulePage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setIsSubmitting(true);
         try {
             const res = await fetch('/api/admin/bookings', {
                 method: 'POST',
@@ -73,7 +91,6 @@ export default function VehicleSchedulePage() {
             const data = await res.json();
             
             if (data.success) {
-                alert('Booking created successfully');
                 setFormVisible(false);
                 setFormData({
                     customerName: '',
@@ -85,6 +102,7 @@ export default function VehicleSchedulePage() {
                     dropoffLocation: '',
                     price: ''
                 });
+                alert('Booking created successfully');
                 // Refresh bookings
                 const bRes = await fetch(`/api/admin/bookings?vehicleId=${vehicleId}`);
                 const bData = await bRes.json();
@@ -95,152 +113,208 @@ export default function VehicleSchedulePage() {
         } catch (error) {
             console.error('Error creating booking', error);
             alert('Something went wrong');
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
-    if (isLoading) return <div className="p-8 text-center">Loading schedule...</div>;
-    if (!vehicle) return <div className="p-8 text-center">Vehicle not found</div>;
+    if (isLoading) return (
+        <div className="flex h-[50vh] items-center justify-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-navy"></div>
+        </div>
+    );
+    
+    if (!vehicle) return (
+        <div className="flex flex-col items-center justify-center h-[50vh] text-center">
+            <AlertCircle className="w-12 h-12 text-red-500 mb-4" />
+            <h3 className="text-xl font-bold text-navy">Vehicle Not Found</h3>
+            <Link href="/dashboard/vehicles" className="mt-4 text-electric hover:underline">Return to Fleet</Link>
+        </div>
+    );
 
     return (
-        <div className="space-y-6">
-            <div className="flex items-center gap-4 mb-6">
-                <Link href="/dashboard/vehicles">
-                    <Button variant="ghost" size="icon">
-                        <ChevronLeft className="w-5 h-5" />
-                    </Button>
-                </Link>
-                <div>
-                    <h1 className="text-2xl font-bold">{vehicle.brand} {vehicle.vehicleModel} Schedule</h1>
-                    <p className="text-muted-foreground text-sm">Manage availability and manual bookings</p>
+        <div className="space-y-8 pb-12 max-w-7xl mx-auto">
+            {/* Header */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="flex items-center gap-4">
+                    <Link href="/dashboard/vehicles">
+                        <Button variant="ghost" size="icon" className="rounded-full bg-white border border-gray-200 hover:border-navy hover:text-navy transition-all h-10 w-10">
+                            <ChevronLeft className="w-5 h-5" />
+                        </Button>
+                    </Link>
+                    <div>
+                        <h1 className="text-2xl font-heading font-black text-navy">{vehicle.brand} <span className="text-electric">{vehicle.vehicleModel}</span></h1>
+                        <div className="flex items-center gap-2 text-sm text-gray-500 mt-0.5">
+                            <Badge variant="outline" className={`border-transparent px-0 font-bold ${vehicle.available ? 'text-emerald-500' : 'text-red-500'}`}>
+                                <span className={`w-2 h-2 rounded-full mr-2 ${vehicle.available ? 'bg-emerald-500' : 'bg-red-500'}`} />
+                                {vehicle.available ? 'Available for Rent' : 'Currently Unavailable'}
+                            </Badge>
+                            <span className="text-gray-300">•</span>
+                            <span>{vehicle.plateNumber || 'No Plate #'}</span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-
-            {/* Quick Actions */}
-            <div className="flex justify-between items-center bg-card p-4 rounded-xl border border-border">
-                <div className="flex items-center gap-2">
-                    <span className={`w-3 h-3 rounded-full ${vehicle.available ? 'bg-green-500' : 'bg-red-500'}`} />
-                    <span className="font-medium">{vehicle.available ? 'Currently Available' : 'Currently Unavailable'}</span>
-                </div>
-                <Button onClick={() => setFormVisible(!formVisible)}>
-                    {formVisible ? 'Cancel' : 'Create Manual Booking'}
+                
+                <Button 
+                    onClick={() => setFormVisible(!formVisible)}
+                    className={`${formVisible ? 'bg-gray-100 text-gray-700 hover:bg-gray-200' : 'bg-navy text-gold hover:bg-navy/90 shadow-lg shadow-navy/20'} font-bold gap-2 transition-all rounded-xl h-11 px-6`}
+                >
+                    {formVisible ? <XCircle className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                    {formVisible ? 'Cancel Booking' : 'Manual Booking'}
                 </Button>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Form Column */}
                 {formVisible && (
-                    <div className="lg:col-span-1 bg-card p-6 rounded-xl border border-border h-fit">
-                        <h2 className="text-lg font-bold mb-4">New Booking</h2>
-                        <form onSubmit={handleSubmit} className="space-y-4">
-                            <div>
-                                <label className="text-sm font-medium mb-1 block">Customer Name</label>
-                                <Input required name="customerName" value={formData.customerName} onChange={handleInputChange} placeholder="John Doe" />
-                            </div>
-                            <div>
-                                <label className="text-sm font-medium mb-1 block">Customer Email</label>
-                                <Input required name="customerEmail" type="email" value={formData.customerEmail} onChange={handleInputChange} placeholder="john@example.com" />
-                            </div>
-                            <div>
-                                <label className="text-sm font-medium mb-1 block">Phone</label>
-                                <Input name="customerPhone" value={formData.customerPhone} onChange={handleInputChange} placeholder="+971..." />
-                            </div>
-                            <div className="grid grid-cols-2 gap-2">
+                    <div className="lg:col-span-1 bg-white p-6 rounded-3xl border border-gray-100 shadow-xl shadow-navy/5 h-fit sticky top-6 z-10 animate-in slide-in-from-right-4 duration-300">
+                        <div className="flex items-center gap-2 mb-6 pb-4 border-b border-gray-100">
+                            <Calendar className="w-5 h-5 text-electric" />
+                            <h2 className="text-lg font-bold text-navy">New Manual Booking</h2>
+                        </div>
+                        
+                        <form onSubmit={handleSubmit} className="space-y-5">
+                            <div className="space-y-4 bg-gray-50 p-4 rounded-xl border border-gray-100/50">
+                                <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Customer Details</h3>
                                 <div>
-                                    <label className="text-sm font-medium mb-1 block">Start Date</label>
-                                    <Input required type="date" name="startDate" value={formData.startDate} onChange={handleInputChange} />
+                                    <Input required name="customerName" value={formData.customerName} onChange={handleInputChange} placeholder="Full Name" className="bg-white" />
                                 </div>
                                 <div>
-                                    <label className="text-sm font-medium mb-1 block">End Date</label>
-                                    <Input required type="date" name="endDate" value={formData.endDate} onChange={handleInputChange} />
-                                </div>
-                            </div>
-                            <div className="grid grid-cols-2 gap-2">
-                                <div>
-                                    <label className="text-sm font-medium mb-1 block">Pickup Loc</label>
-                                    <Input required name="pickupLocation" value={formData.pickupLocation} onChange={handleInputChange} placeholder="Ercan Airport" />
+                                    <Input required name="customerEmail" type="email" value={formData.customerEmail} onChange={handleInputChange} placeholder="Email Address" className="bg-white" />
                                 </div>
                                 <div>
-                                    <label className="text-sm font-medium mb-1 block">Dropoff Loc</label>
-                                    <Input required name="dropoffLocation" value={formData.dropoffLocation} onChange={handleInputChange} placeholder="Kyrenia" />
+                                    <Input name="customerPhone" value={formData.customerPhone} onChange={handleInputChange} placeholder="Phone Number" className="bg-white" />
                                 </div>
                             </div>
-                            <div>
-                                <label className="text-sm font-medium mb-1 block">Customer Documents (ID, License)</label>
-                                <Input type="file" multiple onChange={(e) => {
-                                    // In a real app, handle file upload here
-                                    alert("File upload integrated. In production, this would upload to cloud storage.");
-                                }} />
-                                <p className="text-xs text-muted-foreground mt-1">Upload PDF or Images</p>
+
+                            <div className="space-y-4 bg-gray-50 p-4 rounded-xl border border-gray-100/50">
+                                <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Trip Details</h3>
+                                <div className="grid grid-cols-2 gap-3">
+                                    <div className="space-y-1">
+                                        <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Start Date</label>
+                                        <Input required type="date" name="startDate" value={formData.startDate} onChange={handleInputChange} className="bg-white text-xs" />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <label className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">End Date</label>
+                                        <Input required type="date" name="endDate" value={formData.endDate} onChange={handleInputChange} className="bg-white text-xs" />
+                                    </div>
+                                </div>
+                                <div className="space-y-3">
+                                    <Input required name="pickupLocation" value={formData.pickupLocation} onChange={handleInputChange} placeholder="Pickup Location (e.g. Airport)" className="bg-white" />
+                                    <Input required name="dropoffLocation" value={formData.dropoffLocation} onChange={handleInputChange} placeholder="Dropoff Location" className="bg-white" />
+                                </div>
                             </div>
-                             <div>
-                                <label className="text-sm font-medium mb-1 block">Manual Price (Override)</label>
-                                <Input type="number" name="price" value={formData.price} onChange={handleInputChange} placeholder="Auto-calculated if empty" />
+
+                            <div className="space-y-4 bg-gray-50 p-4 rounded-xl border border-gray-100/50">
+                                <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Payment</h3>
+                                <div className="relative">
+                                     <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                    <Input 
+                                        type="number" 
+                                        name="price" 
+                                        value={formData.price} 
+                                        onChange={handleInputChange} 
+                                        placeholder="Total Price (Auto-calc if empty)" 
+                                        className="bg-white pl-9" 
+                                    />
+                                </div>
                             </div>
-                            <Button type="submit" className="w-full">Confirm Booking</Button>
+                            
+                            <Button type="submit" isLoading={isSubmitting} className="w-full bg-navy hover:bg-navy/90 text-gold font-bold h-12 rounded-xl shadow-lg shadow-navy/10 mt-2">
+                                Confirm Booking
+                            </Button>
                         </form>
                     </div>
                 )}
 
                 {/* Schedule List Column */}
-                <div className={`space-y-4 ${formVisible ? 'lg:col-span-2' : 'lg:col-span-3'}`}>
-                    <h2 className="text-lg font-bold">Upcoming Schedule</h2>
+                <div className={`space-y-6 ${formVisible ? 'lg:col-span-2' : 'lg:col-span-3'}`}>
+                    <div className="flex items-center justify-between">
+                        <h2 className="text-xl font-bold text-navy flex items-center gap-2">
+                            <Clock className="w-5 h-5 text-gray-400" /> Upcoming Schedule
+                        </h2>
+                        <span className="text-sm font-bold text-gray-400 bg-gray-100 px-3 py-1 rounded-lg">
+                            {bookings.length} Bookings
+                        </span>
+                    </div>
+
                     {bookings.length === 0 ? (
-                        <div className="p-8 text-center border border-dashed border-border rounded-xl text-muted-foreground">
-                            No bookings found for this vehicle.
+                        <div className="p-12 text-center border-2 border-dashed border-gray-200 rounded-3xl bg-gray-50/50">
+                            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm">
+                                <Calendar className="w-8 h-8 text-gray-300" />
+                            </div>
+                            <h3 className="text-lg font-bold text-navy">No bookings scheduled</h3>
+                            <p className="text-gray-400 mt-1 max-w-sm mx-auto">This vehicle is free for the foreseeable future. Add a manual booking to block dates.</p>
+                            {!formVisible && (
+                                <Button onClick={() => setFormVisible(true)} variant="outline" className="mt-4 border-gray-300">
+                                    Create Booking
+                                </Button>
+                            )}
                         </div>
                     ) : (
-                        <div className="space-y-3">
+                        <div className="space-y-4">
                             {bookings.map((booking: any) => (
-                                <div key={booking._id} className="bg-card p-4 rounded-xl border border-border flex flex-col md:flex-row md:items-center justify-between gap-4">
-                                     <div className="flex items-start gap-4">
-                                         <div className="bg-primary/10 w-12 h-12 rounded flex items-center justify-center shrink-0 text-primary font-bold">
-                                             {new Date(booking.startDate).getDate()}
+                                <div key={booking._id} className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all flex flex-col md:flex-row gap-6 group">
+                                     {/* Date Badge */}
+                                     {/* Using inline-flex to prevent full width on mobile if needed, but flex-col here */}
+                                     <div className="flex flex-row md:flex-col items-center justify-start md:justify-start gap-4 md:gap-2 min-w-[80px] md:border-r border-gray-100 md:pr-6 shrink-0">
+                                         <div className="flex flex-col items-center justify-center bg-navy/5 w-16 h-16 rounded-xl text-navy group-hover:bg-navy group-hover:text-gold transition-colors shrink-0">
+                                             <span className="text-xl font-black leading-none">{new Date(booking.startDate).getDate()}</span>
+                                             <span className="text-[10px] uppercase font-bold tracking-wider opacity-70">
+                                                 {new Date(booking.startDate).toLocaleString('default', { month: 'short' })}
+                                             </span>
                                          </div>
-                                         <div>
-                                             <div className="flex items-center gap-2 mb-1">
-                                                 <span className="font-bold text-lg">
-                                                    {new Date(booking.startDate).toLocaleDateString()} - {new Date(booking.endDate).toLocaleDateString()}
-                                                 </span>
-                                                 <span className={`text-xs px-2 py-0.5 rounded capitalize ${
-                                                     booking.status === 'confirmed' ? 'bg-green-500/10 text-green-500' :
-                                                     booking.status === 'completed' ? 'bg-blue-500/10 text-blue-500' :
-                                                     'bg-yellow-500/10 text-yellow-500'
-                                                 }`}>
-                                                     {booking.status}
-                                                 </span>
-                                             </div>
-                                             <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm text-muted-foreground">
-                                                 <div className="flex items-center gap-1">
-                                                     <User className="w-4 h-4" />
-                                                     {booking.customer ? `${booking.customer.firstName} ${booking.customer.lastName}` : 'Unknown'}
-                                                 </div>
-                                                 {booking.customer?.email && (
-                                                     <div className="hidden sm:block">
-                                                         {booking.customer.email}
-                                                     </div>
-                                                 )}
-                                                 {booking.customer?.phone && (
-                                                     <div className="flex items-center gap-1">
-                                                         <Phone className="w-4 h-4" />
-                                                         {booking.customer.phone}
-                                                     </div>
-                                                 )}
-                                             </div>
-                                         </div>
+                                         <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md ${
+                                             booking.status === 'confirmed' ? 'bg-emerald-100 text-emerald-600' :
+                                             booking.status === 'pending' ? 'bg-amber-100 text-amber-600' : 'bg-gray-100 text-gray-500'
+                                         }`}>
+                                             {booking.status}
+                                         </span>
                                      </div>
                                      
-                                     <div className="flex items-center gap-4 text-sm border-t md:border-t-0 pt-3 md:pt-0">
-                                         <div className="flex flex-col gap-1 min-w-[120px]">
-                                             <div className="flex items-center gap-1 text-muted-foreground">
-                                                 <MapPin className="w-3 h-3" /> Pickup
+                                     {/* Details */}
+                                     <div className="flex-1 space-y-4 min-w-0">
+                                         <div className="flex flex-col sm:flex-row justify-between items-start gap-2">
+                                             <div className="flex-1 min-w-0">
+                                                 <div className="flex flex-wrap items-center gap-2 mb-1">
+                                                     <h3 className="font-bold text-navy text-lg truncate">
+                                                        {typeof booking.customer === 'object' ? `${booking.customer.firstName} ${booking.customer.lastName}` : (booking.customerName || 'Guest User')}
+                                                     </h3>
+                                                     {booking.customer?.phone && (
+                                                         <span className="text-xs font-medium text-gray-400 bg-gray-100 px-2 py-0.5 rounded-md flex items-center gap-1 whitespace-nowrap">
+                                                             <Phone className="w-3 h-3" /> {booking.customer.phone}
+                                                         </span>
+                                                     )}
+                                                 </div>
+                                                 <p className="text-sm text-gray-500 font-medium flex items-center gap-1 truncate">
+                                                     <User className="w-3.5 h-3.5 shrink-0" /> {typeof booking.customer === 'object' ? booking.customer.email : (booking.customerEmail || 'No email')}
+                                                 </p>
                                              </div>
-                                             <p>{booking.pickupLocation}</p>
+                                             <div className="text-left sm:text-right shrink-0">
+                                                 <span className="block text-2xl font-black text-navy">€{booking.totalPrice}</span>
+                                                 <span className="text-[10px] uppercase tracking-wider font-bold text-gray-400">Total</span>
+                                             </div>
                                          </div>
-                                         <div className="flex flex-col gap-1 min-w-[120px]">
-                                              <div className="flex items-center gap-1 text-muted-foreground">
-                                                 <MapPin className="w-3 h-3" /> Dropoff
+
+                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-gray-50 p-3 rounded-xl border border-gray-100/50">
+                                             <div className="flex items-center gap-3 min-w-0">
+                                                 <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center border border-gray-100 shadow-sm text-electric shrink-0">
+                                                     <MapPin className="w-4 h-4" />
+                                                 </div>
+                                                 <div className="min-w-0">
+                                                     <span className="text-[10px] uppercase font-bold text-gray-400 block">Pickup</span>
+                                                     <span className="text-sm font-bold text-navy truncate block" title={booking.pickupLocation}>{booking.pickupLocation}</span>
+                                                 </div>
                                              </div>
-                                             <p>{booking.dropoffLocation}</p>
+                                             <div className="flex items-center gap-3 min-w-0">
+                                                 <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center border border-gray-100 shadow-sm text-orange shrink-0">
+                                                     <MapPin className="w-4 h-4" />
+                                                 </div>
+                                                 <div className="min-w-0">
+                                                     <span className="text-[10px] uppercase font-bold text-gray-400 block">Dropoff</span>
+                                                     <span className="text-sm font-bold text-navy truncate block" title={booking.dropoffLocation}>{booking.dropoffLocation}</span>
+                                                 </div>
+                                             </div>
                                          </div>
                                      </div>
                                 </div>

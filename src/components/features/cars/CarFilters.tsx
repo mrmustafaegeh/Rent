@@ -63,20 +63,20 @@ export function CarFilters() {
     }
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-8 bg-white p-8 rounded-3xl border border-gray-100 shadow-sm">
             <div className="flex items-center justify-between">
-                <h3 className="font-semibold text-lg">Filters</h3>
-                <Button variant="ghost" size="sm" onClick={clearFilters} className="h-8 px-2 text-destructive hover:text-destructive">
+                <h3 className="font-heading font-bold text-xl text-navy">Filters</h3>
+                <Button variant="ghost" size="sm" onClick={clearFilters} className="h-8 px-2 text-red-500 hover:text-red-600 hover:bg-red-50">
                     <FilterX className="mr-2 h-4 w-4" />
                     Reset
                 </Button>
             </div>
             
-            <Separator />
+            <Separator className="bg-gray-100" />
             
             {/* Price Range */}
             <div className="space-y-4">
-                <h4 className="font-medium text-sm">Price Range (Daily)</h4>
+                <h4 className="font-bold text-sm text-navy uppercase tracking-wider">Price Range / Day</h4>
                 <div className="pt-2">
                     <Slider 
                         defaultValue={[0, 2000]} 
@@ -88,33 +88,34 @@ export function CarFilters() {
                         className="my-4"
                     />
                     <div className="flex items-center justify-between gap-4">
-                         <div className="flex items-center border rounded px-2 py-1 bg-background">
-                             <span className="text-xs mr-1">€</span>
-                             <span className="text-sm font-medium">{priceRange[0]}</span>
+                         <div className="flex items-center border border-gray-200 rounded-xl px-4 py-2 bg-gray-50">
+                             <span className="text-xs mr-1 text-gray-500">€</span>
+                             <span className="text-sm font-bold text-navy">{priceRange[0]}</span>
                          </div>
-                         <span className="text-muted-foreground">-</span>
-                         <div className="flex items-center border rounded px-2 py-1 bg-background">
-                             <span className="text-xs mr-1">€</span>
-                             <span className="text-sm font-medium">{priceRange[1]}</span>
+                         <span className="text-gray-300">-</span>
+                         <div className="flex items-center border border-gray-200 rounded-xl px-4 py-2 bg-gray-50">
+                             <span className="text-xs mr-1 text-gray-500">€</span>
+                             <span className="text-sm font-bold text-navy">{priceRange[1]}</span>
                          </div>
                     </div>
                 </div>
             </div>
             
-            <Separator />
+            <Separator className="bg-gray-100" />
             
             {/* Categories */}
-            <div className="space-y-3">
-                <h4 className="font-medium text-sm">Category</h4>
-                <div className="space-y-2">
+            <div className="space-y-4">
+                <h4 className="font-bold text-sm text-navy uppercase tracking-wider">Category</h4>
+                <div className="space-y-3">
                     {CATEGORIES.map((cat) => (
-                        <div key={cat} className="flex items-center space-x-2">
+                        <div key={cat} className="flex items-center space-x-3 group">
                             <Checkbox 
                                 id={`cat-${cat}`} 
                                 checked={isChecked('category', cat)}
                                 onCheckedChange={(checked) => handleFilterChange('category', cat, checked as boolean)}
+                                className="border-gray-300 data-[state=checked]:bg-gold data-[state=checked]:border-gold"
                             />
-                            <Label htmlFor={`cat-${cat}`} className="cursor-pointer">
+                            <Label htmlFor={`cat-${cat}`} className="cursor-pointer text-gray-600 group-hover:text-navy transition-colors">
                                 {cat}
                             </Label>
                         </div>
@@ -122,20 +123,21 @@ export function CarFilters() {
                 </div>
             </div>
 
-             <Separator />
+             <Separator className="bg-gray-100" />
             
             {/* Transmission */}
-            <div className="space-y-3">
-                <h4 className="font-medium text-sm">Transmission</h4>
-                <div className="space-y-2">
+            <div className="space-y-4">
+                <h4 className="font-bold text-sm text-navy uppercase tracking-wider">Transmission</h4>
+                <div className="space-y-3">
                     {TRANSMISSIONS.map((trans) => (
-                        <div key={trans} className="flex items-center space-x-2">
+                        <div key={trans} className="flex items-center space-x-3 group">
                             <Checkbox 
                                 id={`trans-${trans}`} 
                                 checked={isChecked('transmission', trans)}
                                 onCheckedChange={(checked) => handleFilterChange('transmission', trans, checked as boolean)}
+                                className="border-gray-300 data-[state=checked]:bg-gold data-[state=checked]:border-gold"
                             />
-                            <Label htmlFor={`trans-${trans}`} className="cursor-pointer">
+                            <Label htmlFor={`trans-${trans}`} className="cursor-pointer text-gray-600 group-hover:text-navy transition-colors">
                                 {trans}
                             </Label>
                         </div>
@@ -143,20 +145,21 @@ export function CarFilters() {
                 </div>
             </div>
             
-            <Separator />
+            <Separator className="bg-gray-100" />
 
              {/* Brands */}
-            <div className="space-y-3">
-                <h4 className="font-medium text-sm">Brands</h4>
-                <div className="space-y-2">
+            <div className="space-y-4">
+                <h4 className="font-bold text-sm text-navy uppercase tracking-wider">Brands</h4>
+                <div className="space-y-3">
                      {BRANDS.map((brand) => (
-                        <div key={brand} className="flex items-center space-x-2">
+                        <div key={brand} className="flex items-center space-x-3 group">
                             <Checkbox 
                                 id={`brand-${brand}`} 
                                 checked={isChecked('brand', brand)}
                                 onCheckedChange={(checked) => handleFilterChange('brand', brand, checked as boolean)}
+                                className="border-gray-300 data-[state=checked]:bg-gold data-[state=checked]:border-gold"
                             />
-                            <Label htmlFor={`brand-${brand}`} className="cursor-pointer">
+                            <Label htmlFor={`brand-${brand}`} className="cursor-pointer text-gray-600 group-hover:text-navy transition-colors">
                                 {brand}
                             </Label>
                         </div>
