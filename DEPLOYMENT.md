@@ -23,7 +23,7 @@ Ensure you have the following variables ready for the Vercel dashboard:
 NODE_ENV=production
 
 # Database
-MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/rental
+MONGODB_URI
 
 # Authentication
 JWT_SECRET=your_long_secure_secret
