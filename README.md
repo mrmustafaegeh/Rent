@@ -100,8 +100,8 @@ npm run dev
 # Open browser: http://localhost:3000/api/seed
 
 # 6. Login as admin
-# Email: admin@rental.com
-# Password: password123
+# Email: admin@****.com
+# Password: ******
 ```
 That's it! Visit http://localhost:3000 🎉
 
@@ -123,7 +123,7 @@ FREE cloud database, no installation needed!
 
 6. **Update Environment Variables** in `.env.local`:
    ```env
-   MONGODB_URI=mongodb+srv://rentaladmin:RentalPass123@cluster0.xxxxx.mongodb.net/car-rental?retryWrites=true&w=majority
+  
    ```
 
 ## 📁 Project Structure
