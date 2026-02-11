@@ -45,19 +45,26 @@ export default async function BuyPage({
       <main className="flex-1">
         
         {/* Hero Header */}
-        <section className="bg-white pt-32 pb-20 px-4 text-center relative overflow-hidden border-b border-gray-100">
-             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-navy/5 rounded-full blur-[100px] pointer-events-none" />
-             <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gold/5 rounded-full blur-[100px] pointer-events-none" />
+        {/* Hero Header */}
+        <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden py-24">
+             {/* Background */}
+             <div className="absolute inset-0">
+                <div 
+                    className="absolute inset-0 bg-[url('/images/buy-hero-bg.png')] bg-cover bg-center bg-no-repeat"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-navy/90 to-navy/70 mix-blend-multiply" />
+                <div className="absolute inset-0 bg-gradient-to-t from-gray-50 via-transparent to-transparent" />
+             </div>
              
-             <div className="relative z-10 max-w-4xl mx-auto space-y-6">
-                <span className="text-gold font-bold uppercase tracking-widest text-xs mb-2 block animate-in fade-in slide-in-from-bottom-2">
-                    Marketplace
+             <div className="relative z-10 max-w-4xl mx-auto space-y-6 text-center px-4">
+                <span className="inline-block px-4 py-1.5 rounded-full border border-white/20 bg-white/10 text-gold text-xs font-bold tracking-[0.2em] uppercase backdrop-blur-md animate-in fade-in slide-in-from-bottom-2">
+                    Premium Marketplace
                 </span>
-                <h1 className="text-4xl md:text-6xl font-heading font-black text-navy leading-tight animate-in fade-in slide-in-from-bottom-4">
-                    Own The <span className="text-transparent bg-clip-text bg-gradient-to-r from-navy to-blue-600">Exceptional</span>
+                <h1 className="text-4xl md:text-6xl font-heading font-black text-white leading-tight animate-in fade-in slide-in-from-bottom-4 shadow-sm">
+                    Own The <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold to-amber-500">Exceptional</span>
                 </h1>
-                <p className="text-gray-500 text-lg md:text-xl font-body leading-relaxed max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-6 font-medium">
-                    Discover a curated selection of premium vehicles. Verified quality, transparent pricing.
+                <p className="text-gray-200 text-lg md:text-xl font-body leading-relaxed max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-6 font-medium drop-shadow-md">
+                    Discover a curated selection of premium vehicles. Verified quality, transparent pricing, and exclusive ownership benefits.
                 </p>
              </div>
         </section>

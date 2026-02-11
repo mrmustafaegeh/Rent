@@ -58,10 +58,12 @@ export default function VehicleSchedulePage() {
                 setVehicle(vData);
 
                 // Fetch Bookings
-                const bRes = await fetch(`/api/admin/bookings?vehicleId=${vehicleId}`);
-                const bData = await bRes.json();
-                if (bData.success) {
-                    setBookings(bData.data);
+                if (user) {
+                    const bRes = await fetch(`/api/admin/bookings?vehicleId=${vehicleId}`);
+                    const bData = await bRes.json();
+                    if (bData.success) {
+                        setBookings(bData.data);
+                    }
                 }
             } catch (error) {
                 console.error('Error fetching data', error);
@@ -70,7 +72,7 @@ export default function VehicleSchedulePage() {
             }
         };
         fetchData();
-    }, [vehicleId]);
+    }, [vehicleId, user]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -82,7 +84,9 @@ export default function VehicleSchedulePage() {
         try {
             const res = await fetch('/api/admin/bookings', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify({
                     ...formData,
                     vehicleId
@@ -256,7 +260,6 @@ export default function VehicleSchedulePage() {
                             {bookings.map((booking: any) => (
                                 <div key={booking._id} className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all flex flex-col md:flex-row gap-6 group">
                                      {/* Date Badge */}
-                                     {/* Using inline-flex to prevent full width on mobile if needed, but flex-col here */}
                                      <div className="flex flex-row md:flex-col items-center justify-start md:justify-start gap-4 md:gap-2 min-w-[80px] md:border-r border-gray-100 md:pr-6 shrink-0">
                                          <div className="flex flex-col items-center justify-center bg-navy/5 w-16 h-16 rounded-xl text-navy group-hover:bg-navy group-hover:text-gold transition-colors shrink-0">
                                              <span className="text-xl font-black leading-none">{new Date(booking.startDate).getDate()}</span>

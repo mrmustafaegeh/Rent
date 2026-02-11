@@ -45,13 +45,24 @@ export const authOptions: NextAuthOptions = {
             }
         },
         async jwt({ token, user, account }) {
-            if (user && user.email) {
+            try {
                 await dbConnect();
-                const dbUser = await User.findOne({ email: user.email as string });
-                if (dbUser) {
-                    token.id = dbUser._id.toString();
-                    token.role = dbUser.role;
+                if (user && user.email) {
+                    // Initial sign in
+                    const dbUser = await User.findOne({ email: user.email as string });
+                    if (dbUser) {
+                        token.id = dbUser._id.toString();
+                        token.role = dbUser.role;
+                    }
+                } else if (token.email) {
+                    // Subsequent requests - refresh role from DB
+                    const dbUser = await User.findOne({ email: token.email });
+                    if (dbUser) {
+                        token.role = dbUser.role;
+                    }
                 }
+            } catch (error) {
+                console.error("Error in JWT callback:", error);
             }
             return token;
         },

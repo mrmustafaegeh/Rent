@@ -8,6 +8,8 @@ import { AffordableCars } from "@/components/features/home/AffordableCars";
 import { WhyChooseUs } from "@/components/features/home/WhyChooseUs";
 import { LocationGrid } from "@/components/features/home/LocationGrid";
 import { BrandGrid } from "@/components/features/home/BrandGrid";
+
+import { SellingCarSection } from "@/components/features/home/SellingCarSection";
 import { FAQ } from "@/components/features/home/FAQ";
 import { Button } from "@/components/ui/Button";
 import { ArrowRight } from "lucide-react";
@@ -19,7 +21,10 @@ async function getVehicles() {
   await dbConnect();
   
   // Fetch luxury (expanded categories)
-  const luxuryVehicles = await Vehicle.find({ category: { $in: ['Luxury', 'Sports', 'Supersport', 'Convertible'] } })
+  const luxuryVehicles = await Vehicle.find({ 
+    category: { $in: ['Luxury', 'Sports', 'Supersport', 'Convertible'] },
+    type: 'rent' // Explicitly fetch rental cars for luxury showcase
+  })
     .sort({ 'pricing.daily': -1 })
     .limit(8)
     .lean();
@@ -29,20 +34,31 @@ async function getVehicles() {
       $or: [
           { category: 'Economy' },
           { 'pricing.daily': { $lt: 60 } }
-      ]
+      ],
+      type: 'rent' // Explicitly fetch rental cars
   })
     .sort({ 'pricing.daily': 1 })
+    .limit(4)
+    .lean();
+
+  // Fetch cars for sale - NEW
+  const saleVehicles = await Vehicle.find({
+      type: 'sale',
+      status: 'approved'
+  })
+    .sort({ 'createdAt': -1 })
     .limit(4)
     .lean();
 
   return {
     luxury: JSON.parse(JSON.stringify(luxuryVehicles)),
     affordable: JSON.parse(JSON.stringify(affordableVehicles)),
+    forSale: JSON.parse(JSON.stringify(saleVehicles))
   };
 }
 
 export default async function Home() {
-  const { luxury, affordable } = await getVehicles();
+  const { luxury, affordable, forSale } = await getVehicles();
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
@@ -54,6 +70,9 @@ export default async function Home() {
         <CategoryGrid />
         
         <LuxuryShowcase vehicles={luxury} />
+
+        {/* Selling Car Section - NEW */}
+        <SellingCarSection vehicles={forSale} />
         
         <HowItWorks />
 

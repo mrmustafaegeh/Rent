@@ -13,8 +13,8 @@ export interface VehicleCardProps {
         brand: string;
         vehicleModel: string; // mapped from name
         year: number;
-        pricing: {
-            daily: number;
+    pricing?: {
+            daily?: number;
             weekly?: number;
             monthly?: number;
         };
@@ -36,11 +36,17 @@ export interface VehicleCardProps {
         location?: string;
         isFeatured?: boolean;
         category?: string;
+        type?: 'rent' | 'sale';
+        salePrice?: number;
     }
 }
 
 export function VehicleCard({ vehicle }: VehicleCardProps) {
     const primaryImage = vehicle.images?.find(img => img.isPrimary)?.url || vehicle.images?.[0]?.url || '/images/placeholder-car.jpg';
+    
+    const isSale = vehicle.type === 'sale' || !!vehicle.salePrice;
+    const price = isSale ? vehicle.salePrice : vehicle.pricing?.daily;
+    const priceDisplay = price ? `€${price.toLocaleString()}` : 'Price on Request';
     
     return (
         <div className="group relative flex flex-col bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] transition-all duration-300 h-full hover:-translate-y-1">
@@ -101,13 +107,13 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
                 
                 <div className="mt-auto pt-4 border-t border-gray-100 flex items-end justify-between">
                     <div>
-                        <span className="text-xs text-gray-400 font-bold uppercase tracking-wider block mb-1">Daily Rate</span>
+                        <span className="text-xs text-gray-400 font-bold uppercase tracking-wider block mb-1">{isSale ? 'Sale Price' : 'Daily Rate'}</span>
                         <div className="flex items-baseline gap-1">
-                            <span className="text-2xl font-bold text-electric">€{vehicle.pricing.daily}</span>
-                            <span className="text-sm text-gray-400">/day</span>
+                            <span className="text-2xl font-bold text-electric">{priceDisplay}</span>
+                            {!isSale && price && <span className="text-sm text-gray-400">/day</span>}
                         </div>
                     </div>
-                    {vehicle.pricing.weekly && (
+                    {!isSale && vehicle.pricing?.weekly && (
                          <div className="text-right">
                              <span className="text-xs text-gray-400 font-bold uppercase tracking-wider block mb-1">Weekly</span>
                              <span className="text-sm font-bold text-navy">€{Math.round(vehicle.pricing.weekly)}</span>

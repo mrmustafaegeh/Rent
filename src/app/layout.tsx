@@ -72,6 +72,8 @@ export const metadata: Metadata = {
 import { AuthProvider } from "@/context/AuthContext";
 import { NextAuthProvider } from "@/components/NextAuthProvider";
 
+import { Toaster } from "react-hot-toast";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -84,6 +86,7 @@ export default function RootLayout({
       >
         <NextAuthProvider>
           <AuthProvider>
+            <Toaster position="bottom-right" />
             {children}
           </AuthProvider>
         </NextAuthProvider>

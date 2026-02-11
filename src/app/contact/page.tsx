@@ -1,11 +1,51 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-import { Mail, Phone, MapPin, MessageSquare, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 
 export default function ContactPage() {
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    content: ''
+  });
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      if (res.ok) {
+        toast.success('Message sent! We will get back to you soon.');
+        setFormData({ firstName: '', lastName: '', email: '', phone: '', content: '' });
+      } else {
+        toast.error('Failed to send message.');
+      }
+    } catch (error) {
+      toast.error('Something went wrong.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-[var(--background)]">
       <Header />
@@ -91,28 +131,65 @@ export default function ContactPage() {
 
                     {/* Contact Form */}
                     <div className="lg:w-7/12 p-10 md:p-14 bg-white">
-                        <form className="space-y-6">
+                        <form className="space-y-6" onSubmit={handleSubmit}>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <Input label="First Name" placeholder="John" className="bg-gray-50 border-transparent focus:bg-white focus:border-gray-200" />
-                                <Input label="Last Name" placeholder="Doe" className="bg-gray-50 border-transparent focus:bg-white focus:border-gray-200" />
+                                <Input 
+                                    label="First Name" 
+                                    name="firstName"
+                                    value={formData.firstName}
+                                    onChange={handleChange}
+                                    placeholder="John" 
+                                    className="bg-gray-50 border-transparent focus:bg-white focus:border-gray-200" 
+                                    required
+                                />
+                                <Input 
+                                    label="Last Name" 
+                                    name="lastName"
+                                    value={formData.lastName}
+                                    onChange={handleChange}
+                                    placeholder="Doe" 
+                                    className="bg-gray-50 border-transparent focus:bg-white focus:border-gray-200" 
+                                    required
+                                />
                             </div>
                             
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <Input label="Email Address" type="email" placeholder="john@example.com" className="bg-gray-50 border-transparent focus:bg-white focus:border-gray-200" />
-                                <Input label="Phone Number" type="tel" placeholder="+1 (555) 000-0000" className="bg-gray-50 border-transparent focus:bg-white focus:border-gray-200" />
+                                <Input 
+                                    label="Email Address" 
+                                    type="email" 
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    placeholder="john@example.com" 
+                                    className="bg-gray-50 border-transparent focus:bg-white focus:border-gray-200" 
+                                    required
+                                />
+                                <Input 
+                                    label="Phone Number" 
+                                    type="tel" 
+                                    name="phone"
+                                    value={formData.phone}
+                                    onChange={handleChange}
+                                    placeholder="+1 (555) 000-0000" 
+                                    className="bg-gray-50 border-transparent focus:bg-white focus:border-gray-200" 
+                                />
                             </div>
 
                             <div className="space-y-2">
                                 <label className="text-sm font-bold text-gray-700 ml-1">Message</label>
                                 <textarea 
+                                    name="content"
+                                    value={formData.content}
+                                    onChange={handleChange}
                                     className="w-full min-h-[150px] p-4 rounded-xl bg-gray-50 border border-transparent focus:bg-white focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-navy/5 transition-all text-black font-medium resize-none"
                                     placeholder="How can we help you?"
+                                    required
                                 ></textarea>
                             </div>
 
                             <div className="pt-4 flex justify-end">
-                                <Button className="h-14 px-8 bg-navy text-gold hover:bg-navy/90 font-bold rounded-xl shadow-lg shadow-navy/20 flex items-center gap-2">
-                                    <Send className="w-4 h-4" /> Send Message
+                                <Button disabled={loading} className="h-14 px-8 bg-navy text-gold hover:bg-navy/90 font-bold rounded-xl shadow-lg shadow-navy/20 flex items-center gap-2">
+                                    <Send className="w-4 h-4" /> {loading ? 'Sending...' : 'Send Message'}
                                 </Button>
                             </div>
                         </form>

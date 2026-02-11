@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-import ImageUpload from '@/components/ui/ImageUpload';
+import AvatarUpload from '@/components/ui/AvatarUpload';
 import { User, Lock, Trash2, Mail, Phone, MapPin, Bell, Shield, Save } from 'lucide-react';
 import { Separator } from '@/components/ui/Separator';
 
@@ -183,14 +183,13 @@ export default function SettingsPage() {
             <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm text-center">
                  <div className="mb-6">
                     <label className="block text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">Profile Photo</label>
-                    <div className="flex justify-center">
-                        <div className="w-40 h-40">
-                             <ImageUpload 
-                                value={formData.image ? [formData.image] : []}
-                                onChange={(urls) => setFormData(prev => ({ ...prev, image: urls[0] || '' }))}
-                                multiple={false}
-                             />
-                        </div>
+                     <div className="flex justify-center -mt-6 mb-4">
+                        <AvatarUpload 
+                            value={formData.image}
+                            onChange={(url) => setFormData(prev => ({ ...prev, image: url }))}
+                            firstName={formData.firstName}
+                            lastName={formData.lastName}
+                        />
                     </div>
                  </div>
                  <div className="text-center">

@@ -14,7 +14,10 @@ import {
     Car,
     Fuel,
     Settings,
-    MoreHorizontal
+    MoreHorizontal,
+    Power,
+    Ban,
+    AlertCircle
 } from 'lucide-react';
 import { Input } from '@/components/ui/Input';
 import { Badge } from '@/components/ui/Badge';
@@ -34,36 +37,76 @@ interface Vehicle {
 }
 
 export default function AdminVehiclesPage() {
-  const { user } = useAuth();
+  const { user, isLoading: authLoading } = useAuth();
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [dataLoading, setDataLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterCategory, setFilterCategory] = useState('all');
 
+  const isLoading = authLoading || dataLoading;
+
   useEffect(() => {
-    const fetchVehicles = async () => {
-      try {
-        const url = user?.role === 'admin' ? '/api/vehicles?limit=100' : '/api/vehicles?my=true&limit=100';
-        const res = await fetch(url);
-        const data = await res.json();
-        if (data.success) {
-          setVehicles(data.vehicles || []);
+    if (!authLoading && !user) {
+      setDataLoading(false);
+      return;
+    }
+
+    if (user && !authLoading) {
+      const fetchVehicles = async () => {
+        setDataLoading(true);
+        try {
+          // Fetch rental vehicles
+          const url = user?.role === 'admin' 
+            ? '/api/vehicles?limit=100&type=rent' 
+            : '/api/vehicles?my=true&limit=100&type=rent';
+            
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error('Failed to fetch vehicles');
+          }
+          const data = await response.json();
+          if (data.success) {
+            setVehicles(data.vehicles || []);
+          }
+        } catch (error) {
+          console.error('Error fetching vehicles:', error);
+        } finally {
+          setDataLoading(false);
         }
-      } catch (error) {
-        console.error('Failed to fetch vehicles', error);
-      } finally {
-        setIsLoading(false);
+      };
+      fetchVehicles();
+    }
+  }, [user, authLoading]);
+
+  const toggleAvailability = async (vehicleId: string, currentStatus: boolean) => {
+      // Optimistic update
+      const oldVehicles = [...vehicles];
+      setVehicles(vehicles.map(v => v._id === vehicleId ? { ...v, available: !currentStatus } : v));
+
+      try {
+          const res = await fetch(`/api/vehicles/${vehicleId}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ available: !currentStatus })
+          });
+          const data = await res.json();
+          if (data.error) {
+              // Revert if error
+              setVehicles(oldVehicles);
+              alert("Failed to update status");
+          }
+      } catch(e) {
+          console.error("Failed to update status", e);
+          setVehicles(oldVehicles);
       }
-    };
-    if (user) fetchVehicles();
-  }, [user]);
+  };
 
   const filteredVehicles = vehicles.filter(vehicle => {
-      const matchesSearch = 
-        vehicle.brand.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      const matchesSearch =
+        vehicle.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
         vehicle.vehicleModel.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesCategory = filterCategory === 'all' || vehicle.category.toLowerCase() === filterCategory.toLowerCase();
-      
+
       return matchesSearch && matchesCategory;
   });
 
@@ -147,7 +190,14 @@ export default function AdminVehiclesPage() {
                     </tr>
                 ) : (
                     filteredVehicles.map((vehicle) => (
-                    <tr key={vehicle._id} className="hover:bg-blue-50/20 transition-all group">
+                    <tr 
+                        key={vehicle._id} 
+                        className={`transition-all group border-b border-gray-50 last:border-0 relative ${
+                            !vehicle.available 
+                            ? 'bg-red-50/10 grayscale opacity-80' 
+                            : 'hover:bg-blue-50/20'
+                        }`}
+                    >
                         <td className="p-6">
                             <div className="flex items-center gap-5">
                                 <div className="w-20 h-14 bg-gray-100 rounded-xl overflow-hidden relative shrink-0 border border-gray-100 shadow-inner">
@@ -157,6 +207,11 @@ export default function AdminVehiclesPage() {
                                         fill 
                                         className="object-cover"
                                     />
+                                    {!vehicle.available && (
+                                        <div className="absolute inset-0 bg-navy/20 backdrop-blur-[1px] flex items-center justify-center">
+                                            <Ban className="w-6 h-6 text-white drop-shadow-md" />
+                                        </div>
+                                    )}
                                 </div>
                                 <div>
                                     <div className="font-black text-navy text-base tracking-tight">{vehicle.brand} <span className="text-electric font-bold">{vehicle.vehicleModel}</span></div>
@@ -180,7 +235,7 @@ export default function AdminVehiclesPage() {
                         </td>
                         <td className="p-6">
                             <div className="flex flex-col">
-                                <span className="font-black text-navy text-lg leading-none">€{vehicle.pricing.daily}</span>
+                                <span className="font-black text-navy text-lg leading-none">€{vehicle.pricing?.daily || 0}</span>
                                 <span className="text-[10px] text-gray-400 uppercase font-bold tracking-wider mt-1">per day</span>
                             </div>
                         </td>
@@ -191,11 +246,25 @@ export default function AdminVehiclesPage() {
                                 : 'bg-red-50 text-red-700 hover:bg-red-100 border-red-200'
                             }`}>
                                 <span className={`w-1.5 h-1.5 rounded-full mr-2 ${vehicle.available ? 'bg-emerald-500' : 'bg-red-500'}`}></span>
-                                {vehicle.available ? 'Available' : 'Rented'}
+                                {vehicle.available ? 'Available' : 'Unavailable'}
                             </Badge>
                         </td>
                         <td className="p-6 text-right">
                             <div className="flex justify-end gap-2 opacity-100 transition-opacity">
+                                <Button 
+                                    onClick={() => toggleAvailability(vehicle._id, vehicle.available)}
+                                    size="icon" 
+                                    variant="outline" 
+                                    className={`h-9 w-9 border-0 rounded-xl transition-colors shadow-sm ${
+                                        vehicle.available 
+                                        ? 'bg-red-50 text-red-500 hover:bg-red-100 hover:text-red-600' 
+                                        : 'bg-emerald-50 text-emerald-500 hover:bg-emerald-100 hover:text-emerald-600'
+                                    }`}
+                                    title={vehicle.available ? "Mark Unavailable (Maintenance/Broken)" : "Mark Available"}
+                                >
+                                    <Power className="w-4 h-4" />
+                                </Button>
+
                                 <Link href={`/dashboard/vehicles/${vehicle._id}/schedule`}>
                                     <Button size="icon" variant="outline" className="h-9 w-9 text-blue-600 bg-blue-50 border-blue-100 hover:bg-blue-100 hover:border-blue-200 rounded-xl transition-colors" title="View Schedule">
                                         <Calendar className="w-4 h-4" />

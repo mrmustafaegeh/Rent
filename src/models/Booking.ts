@@ -4,12 +4,12 @@ export interface IBooking extends Document {
     bookingNumber: string;
     customer: mongoose.Types.ObjectId;
     vehicle: mongoose.Types.ObjectId;
-    company: mongoose.Types.ObjectId;
+    company?: mongoose.Types.ObjectId;
     startDate: Date;
     endDate: Date;
     totalPrice: number;
-    status: 'pending' | 'confirmed' | 'in_progress' | 'completed' | 'cancelled';
-    paymentStatus: 'pending' | 'paid' | 'refunded' | 'failed';
+    status: 'pending' | 'confirmed' | 'in_progress' | 'completed' | 'cancelled' | 'pending_payment';
+    paymentStatus: 'pending' | 'paid' | 'refunded' | 'failed' | 'pay_at_pickup';
     paymentMethod?: string;
     pickupLocation: string;
     dropoffLocation: string;
@@ -40,7 +40,7 @@ const bookingSchema = new mongoose.Schema<IBooking>({
     company: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Company',
-        required: true
+        required: false
     },
     startDate: {
         type: Date,

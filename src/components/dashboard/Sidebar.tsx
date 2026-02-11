@@ -15,7 +15,9 @@ import {
     ClipboardList,
     UserCircle,
     BadgePlus,
-    CheckCircle
+    CheckCircle,
+    MessageSquare,
+    Building2
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
@@ -37,13 +39,25 @@ export default function Sidebar() {
             roles: ['admin', 'company_owner'] 
         },
         { 
+            name: 'Confirmations', 
+            href: '/dashboard/confirmations', 
+            icon: CheckCircle,
+            roles: ['admin', 'company_owner'] 
+        },
+        { 
             name: 'Fleet Management', 
             href: '/dashboard/vehicles', 
             icon: Car,
             roles: ['admin', 'company_owner'] 
         },
         { 
-            name: 'Approvals', 
+            name: 'Partner Requests', 
+            href: '/dashboard/admin/partners/request', 
+            icon: Building2,
+            roles: ['admin'] 
+        },
+        { 
+            name: 'Vehicle Approvals', 
             href: '/dashboard/admin/approvals', 
             icon: CheckCircle,
             roles: ['admin'] 
@@ -58,6 +72,12 @@ export default function Sidebar() {
             name: 'User Management', 
             href: '/dashboard/users', 
             icon: Users,
+            roles: ['admin'] 
+        },
+        { 
+            name: 'Messages', 
+            href: '/dashboard/admin/messages', 
+            icon: MessageSquare,
             roles: ['admin'] 
         },
         { 

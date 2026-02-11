@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import Link from "next/link"
+import { BrandIcon } from "./BrandIcon"
 
 const brands = [
   "Mercedes-Benz", "BMW", "Audi", "Land Rover", 
@@ -27,14 +28,8 @@ export function BrandGrid() {
                 whileHover={{ y: -5 }}
                 className="group flex flex-col items-center justify-center p-8 bg-white border border-transparent hover:border-gray-100 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 h-40"
               >
-                 <div className="relative w-16 h-16 mb-4 flex items-center justify-center">
-                    {/* Using Clearbit Logo API - specific tweaks for some brands */}
-                    <img 
-                       src={`https://logo.clearbit.com/${brand.toLowerCase().replace(/\s+/g, '').replace('mercedes-benz', 'mercedes-benz')}.com?size=200`} 
-                       alt={brand} 
-                       className="object-contain w-full h-full filter grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
-                       style={{ mixBlendMode: 'multiply' }}
-                    />
+                 <div className="mb-4 transform scale-125 transition-transform duration-300 group-hover:scale-135">
+                    <BrandIcon brand={brand} className="w-12 h-12" />
                  </div>
                  <span className="font-heading font-bold text-navy text-sm opacity-50 group-hover:opacity-100 transition-opacity">{brand}</span>
               </motion.div>

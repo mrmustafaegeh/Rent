@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/Badge"
 import dbConnect from "@/lib/mongodb"
 import Vehicle from "@/models/Vehicle"
 import { notFound } from "next/navigation"
-import { Check, Star, ShieldCheck, ArrowLeft, Info, HelpCircle } from "lucide-react"
+import { Check, Star, ShieldCheck, ArrowLeft, Info, HelpCircle, Mail, MessageCircle, Phone } from "lucide-react"
 import { RecommendedCars } from "@/components/features/vehicle/RecommendedCars"
 import Link from "next/link"
 import { Button } from "@/components/ui/Button"
@@ -150,11 +150,53 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
                          {/* Conditions */}
                          <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm">
                              <div className="flex items-center gap-2 mb-6">
-                                <h2 className="text-xl font-heading font-bold text-navy">Rental Conditions</h2>
+                                <h2 className="text-xl font-heading font-bold text-navy">{vehicle.type === 'sale' ? 'Vehicle Condition' : 'Rental Conditions'}</h2>
                                 <Info className="w-4 h-4 text-gray-400" />
                              </div>
                              
-                             <div className="grid gap-6 md:grid-cols-2">
+                             {vehicle.type === 'sale' ? (
+                                 <div className="grid gap-6 md:grid-cols-2">
+                                     <div className="flex gap-4 p-4 rounded-2xl bg-gray-50/50 hover:bg-gray-50 transition-colors">
+                                         <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0">
+                                            <ShieldCheck className="w-5 h-5 text-blue-600" />
+                                         </div>
+                                         <div>
+                                             <h4 className="font-bold text-navy">Certified Pre-Owned</h4>
+                                             <p className="text-sm text-gray-500 mt-1">Multi-point inspection passed with flying colors.</p>
+                                         </div>
+                                     </div>
+                                     <div className="flex gap-4 p-4 rounded-2xl bg-gray-50/50 hover:bg-gray-50 transition-colors">
+                                         <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center flex-shrink-0">
+                                            <Check className="w-5 h-5 text-green-600" />
+                                         </div>
+                                         <div>
+                                             <h4 className="font-bold text-navy">No Accident History</h4>
+                                             <p className="text-sm text-gray-500 mt-1">Clean breakdown and accident record guaranteed.</p>
+                                         </div>
+                                     </div>
+                                      <div className="flex gap-4 p-4 rounded-2xl bg-gray-50/50 hover:bg-gray-50 transition-colors">
+                                         <div className="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center flex-shrink-0">
+                                            <HelpCircle className="w-5 h-5 text-amber-600" />
+                                         </div>
+                                         <div>
+                                             <h4 className="font-bold text-navy">Full Service History</h4>
+                                             <p className="text-sm text-gray-500 mt-1">Maintained exclusively at authorized dealerships.</p>
+                                         </div>
+                                     </div>
+                                      <div className="flex gap-4 p-4 rounded-2xl bg-gray-50/50 hover:bg-gray-50 transition-colors">
+                                         <div className="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center flex-shrink-0">
+                                            <ArrowLeft className="w-5 h-5 text-purple-600 rotate-45" />
+                                         </div>
+                                         <div>
+                                             <h4 className="font-bold text-navy">Mileage</h4>
+                                             <p className="text-sm text-gray-500 mt-1">
+                                                 {vehicle.mileage ? `${vehicle.mileage.toLocaleString()} km` : 'Low Mileage'}
+                                             </p>
+                                         </div>
+                                     </div>
+                                 </div>
+                             ) : (
+                                 <div className="grid gap-6 md:grid-cols-2">
                                  <div className="flex gap-4 p-4 rounded-2xl bg-gray-50/50 hover:bg-gray-50 transition-colors">
                                      <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0">
                                         <ShieldCheck className="w-5 h-5 text-blue-600" />
@@ -192,12 +234,54 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
                                      </div>
                                  </div>
                              </div>
+                             ) }
                          </div>
                      </div>
                      
-                     {/* Right Column: Booking Widget */}
+                     {/* Right Column: Booking Widget or Purchase Info */}
                      <div className="lg:col-span-1 relative z-10">
-                         <BookingWidget pricing={vehicle.pricing} vehicleId={vehicle._id} />
+                         {vehicle.type === 'sale' ? (
+                             <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-xl space-y-6 sticky top-24">
+                                 <div>
+                                     <span className="text-gray-400 font-bold uppercase tracking-wider text-xs">Sale Price</span>
+                                     <div className="text-4xl font-black text-navy mt-1">
+                                         {vehicle.salePrice ? `€${vehicle.salePrice.toLocaleString()}` : 'Price on Request'}
+                                     </div>
+                                     <p className="text-sm text-gray-500 mt-2">
+                                         Includes all taxes and transfer fees.
+                                     </p>
+                                 </div>
+
+                                 <Separator />
+
+                                 <div className="space-y-4">
+                                     <a href={`https://wa.me/+971501234567?text=Hi, I am interested in buying the ${vehicle.brand} ${vehicle.model}`} target="_blank" rel="noopener noreferrer">
+                                         <Button className="w-full h-14 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl shadow-lg shadow-green-600/20 text-lg">
+                                             <MessageCircle className="mr-2 w-5 h-5" /> WhatsApp Inquiry
+                                         </Button>
+                                     </a>
+                                     <Button variant="outline" className="w-full h-14 border-navy text-navy hover:bg-navy hover:text-white font-bold rounded-xl text-lg">
+                                         <Phone className="mr-2 w-5 h-5" /> Call Sales Team
+                                     </Button>
+                                     <Button variant="ghost" className="w-full h-12 text-gray-500 hover:text-navy font-bold">
+                                         <Mail className="mr-2 w-4 h-4" /> Email Us
+                                     </Button>
+                                 </div>
+
+                                 <div className="bg-gray-50 p-4 rounded-xl text-xs text-gray-500 space-y-2">
+                                     <div className="flex items-start gap-2">
+                                         <ShieldCheck className="w-4 h-4 text-green-600 shrink-0" />
+                                         <span>150-Point Inspection Completed</span>
+                                     </div>
+                                     <div className="flex items-start gap-2">
+                                         <Check className="w-4 h-4 text-green-600 shrink-0" />
+                                         <span>Clean Title Guarantee</span>
+                                     </div>
+                                 </div>
+                             </div>
+                         ) : (
+                             <BookingWidget pricing={vehicle.pricing} vehicleId={vehicle._id} />
+                         )}
                          
                          <div className="mt-8 bg-navy p-8 rounded-3xl text-center shadow-lg relative overflow-hidden">
                              <div className="absolute top-0 right-0 w-32 h-32 bg-gold/10 rounded-full blur-3xl -mr-16 -mt-16" />

@@ -17,7 +17,7 @@ export const metadata = {
 async function getVehicles(searchParams: { [key: string]: string | string[] | undefined }) {
     await dbConnect()
 
-    const query: any = { available: true }
+    const query: any = { available: true, type: { $ne: 'sale' } }
 
     // Category Filter
     if (searchParams.category) {
