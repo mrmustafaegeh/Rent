@@ -15,6 +15,9 @@ export interface VehicleFilterParams {
   sort?: string;
   page?: number;
   limit?: number;
+  type?: 'rent' | 'sale';
+  status?: string;
+  owner?: string;
 }
 
 export interface VehicleResult {
@@ -42,12 +45,34 @@ export async function getVehicles(params: VehicleFilterParams): Promise<VehicleR
     featured,
     sort = 'newest',
     page = 1,
-    limit = 12
+    limit = 12,
+    type = 'rent',
+    status,
+    owner
   } = params;
 
   const skip = (page - 1) * limit;
   const query: any = {};
     
+  query.type = type;
+
+  if (owner) query.owner = owner;
+
+  if (type === 'sale') {
+      // For sale listings, show approved by default unless status specified OR owner (dashboard) is viewing
+      if (status) query.status = status;
+      else if (!owner && !params.brand && !params.category) query.status = 'approved'; 
+      // Actually, keep simple: public view (no owner) defaults to approved.
+      else if (!owner) query.status = 'approved';
+  } else {
+      if (status) query.status = status;
+      // For rentals, if public view (no owner), force available=true?
+      // "make the costumer to see all the avaliable cars"
+      // Maybe the user implies they want to filter out unavailable ones?
+      // Or maybe existing logic is somehow hiding them?
+      // Current logic: shows everything.
+  }
+
   // Filters
   if (category) query.category = category;
   if (featured) query.featured = true;
@@ -57,10 +82,11 @@ export async function getVehicles(params: VehicleFilterParams): Promise<VehicleR
   if (seats) query.seats = { $gte: seats };
   
   // Price Range
+  const priceField = type === 'sale' ? 'salePrice' : 'pricing.daily';
   if (minPrice || maxPrice) {
-    query['pricing.daily'] = {};
-    if (minPrice) query['pricing.daily'].$gte = minPrice;
-    if (maxPrice) query['pricing.daily'].$lte = maxPrice;
+    query[priceField] = {};
+    if (minPrice) query[priceField].$gte = minPrice;
+    if (maxPrice) query[priceField].$lte = maxPrice;
   }
 
   // Search (Brand or Model)
@@ -76,10 +102,10 @@ export async function getVehicles(params: VehicleFilterParams): Promise<VehicleR
   let sortOption: any = {};
   switch (sort) {
     case 'price_asc':
-      sortOption['pricing.daily'] = 1;
+      sortOption[priceField] = 1;
       break;
     case 'price_desc':
-      sortOption['pricing.daily'] = -1;
+      sortOption[priceField] = -1;
       break;
     case 'newest':
     default:
@@ -98,7 +124,7 @@ export async function getVehicles(params: VehicleFilterParams): Promise<VehicleR
       total,
       page,
       pages: Math.ceil(total / limit),
-      limit
+      limit: limit || 12
     }
   };
 }

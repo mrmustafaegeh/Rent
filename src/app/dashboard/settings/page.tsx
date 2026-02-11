@@ -4,12 +4,14 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-import ImageUpload from '@/components/ui/ImageUpload';
+import AvatarUpload from '@/components/ui/AvatarUpload';
+import { User, Lock, Trash2, Mail, Phone, MapPin, Bell, Shield, Save } from 'lucide-react';
+import { Separator } from '@/components/ui/Separator';
 
 export default function SettingsPage() {
-  const { user, login } = useAuth(); // login used to update context if needed, but better to fetch fresh data
+  const { user } = useAuth(); 
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
   
   // Profile Form State
   const [formData, setFormData] = useState({
@@ -80,7 +82,7 @@ export default function SettingsPage() {
   const handleProfileUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setMessage('');
+    setMessage(null);
 
     try {
       const payload = {
@@ -108,13 +110,12 @@ export default function SettingsPage() {
       });
 
       if (res.ok) {
-        setMessage('Profile updated successfully!');
-        // Optionally trigger a re-fetch or context update here
+        setMessage({ type: 'success', text: 'Profile updated successfully!' });
       } else {
-        setMessage('Failed to update profile');
+        setMessage({ type: 'error', text: 'Failed to update profile' });
       }
     } catch (error) {
-      setMessage('Error updating profile');
+      setMessage({ type: 'error', text: 'Error updating profile' });
     } finally {
       setLoading(false);
     }
@@ -124,18 +125,16 @@ export default function SettingsPage() {
     e.preventDefault();
     
     if (passwordData.newPassword !== passwordData.confirmPassword) {
-      setMessage('Passwords do not match');
+      setMessage({ type: 'error', text: 'Passwords do not match' });
       return;
     }
 
     setLoading(true);
-    setMessage('');
+    setMessage(null);
 
     try {
-      // Note: You need an endpoint for this. Assuming /api/users/change-password exists based on previous code
-      // If not, we need to create it.
       const res = await fetch('/api/users/change-password', {
-        method: 'POST', // Or PUT /api/auth/update-password
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           currentPassword: passwordData.currentPassword,
@@ -144,206 +143,270 @@ export default function SettingsPage() {
       });
 
       if (res.ok) {
-        setMessage('Password changed successfully!');
+        setMessage({ type: 'success', text: 'Password changed successfully!' });
         setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
       } else {
-        setMessage('Failed to change password');
+        setMessage({ type: 'error', text: 'Failed to change password' });
       }
     } catch (error) {
-      setMessage('Error changing password');
+      setMessage({ type: 'error', text: 'Error changing password' });
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-4xl">
-      <h1 className="text-3xl font-bold mb-8 text-white">Account Settings</h1>
+    <div className="max-w-5xl mx-auto space-y-8 pb-12">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+           <h1 className="text-3xl font-heading font-black text-navy">Account Settings</h1>
+           <p className="text-gray-500 mt-1">Manage your personal information and security preferences.</p>
+        </div>
+      </div>
 
       {message && (
-        <div className={`mb-6 p-4 rounded-lg flex items-center gap-2 ${
-          message.toLowerCase().includes('success') 
-            ? 'bg-green-500/10 text-green-400 border border-green-500/20' 
-            : 'bg-red-500/10 text-red-400 border border-red-500/20'
+        <div className={`p-4 rounded-xl flex items-center gap-3 border ${
+          message.type === 'success' 
+            ? 'bg-emerald-50 text-emerald-700 border-emerald-200' 
+            : 'bg-red-50 text-red-700 border-red-200'
         }`}>
-          <span>{message}</span>
+          {message.type === 'success' ? <Shield className="w-5 h-5" /> : <Lock className="w-5 h-5" />}
+          <span className="font-medium">{message.text}</span>
         </div>
       )}
 
       {/* Profile Settings */}
-      <div className="bg-[var(--surface-light)] rounded-xl border border-[var(--border)] p-8 mb-8">
-        <h2 className="text-xl font-bold mb-6 text-white flex items-center gap-2">
-            <svg className="w-5 h-5 text-[var(--primary)]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-            Personal Information
-        </h2>
-        <form onSubmit={handleProfileUpdate} className="space-y-6">
-          <div className="grid md:grid-cols-2 gap-6">
-            <Input
-              label="First Name"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleChange}
-              required
-            />
-            <Input
-              label="Last Name"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-              required
-            />
-          </div>
+      <form onSubmit={handleProfileUpdate} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        {/* Left Col: Avatar & Basic Info */}
+        <div className="lg:col-span-1 space-y-6">
+            <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm text-center">
+                 <div className="mb-6">
+                    <label className="block text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">Profile Photo</label>
+                     <div className="flex justify-center -mt-6 mb-4">
+                        <AvatarUpload 
+                            value={formData.image}
+                            onChange={(url) => setFormData(prev => ({ ...prev, image: url }))}
+                            firstName={formData.firstName}
+                            lastName={formData.lastName}
+                        />
+                    </div>
+                 </div>
+                 <div className="text-center">
+                     <h2 className="text-xl font-bold text-navy">{formData.firstName} {formData.lastName}</h2>
+                     <p className="text-gray-400 text-sm break-all">{formData.email}</p>
+                 </div>
+            </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
-             <Input
-                label="Email"
-                name="email"
-                type="email"
-                value={formData.email}
-                disabled
-                className="opacity-50 cursor-not-allowed"
-            />
-            <Input
-                label="Phone Number"
-                name="phone"
-                type="tel"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="+1 (555) 000-0000"
-            />
-          </div>
-          
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-[var(--text-secondary)]">Profile Image</label>
-            <ImageUpload 
-              value={formData.image ? [formData.image] : []}
-              onChange={(urls) => setFormData(prev => ({ ...prev, image: urls[0] || '' }))}
-              multiple={false}
-            />
-          </div>
+             <div className="bg-navy rounded-3xl p-6 border border-navy shadow-lg shadow-navy/20 text-white">
+                <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
+                    <Shield className="w-5 h-5 text-gold" /> Data Privacy
+                </h3>
+                <p className="text-gray-300 text-sm mb-4 leading-relaxed">
+                    Your data is stored securely. We do not share your personal information with third parties without your consent.
+                </p>
+                <div className="space-y-3">
+                    <label className="flex items-center gap-3 cursor-pointer group p-2 rounded-lg hover:bg-white/5 transition-colors">
+                        <input 
+                            type="checkbox" 
+                            name="newsletter"
+                            checked={formData.newsletter}
+                            onChange={handleChange}
+                            className="w-5 h-5 rounded border-white/30 bg-white/10 text-gold focus:ring-gold"
+                        />
+                        <span className="text-gray-200 text-sm font-medium">Subscribe to newsletter</span>
+                    </label>
+                    <label className="flex items-center gap-3 cursor-pointer group p-2 rounded-lg hover:bg-white/5 transition-colors">
+                        <input 
+                            type="checkbox" 
+                            name="smsNotifications"
+                            checked={formData.smsNotifications}
+                            onChange={handleChange}
+                            className="w-5 h-5 rounded border-white/30 bg-white/10 text-gold focus:ring-gold"
+                        />
+                        <span className="text-gray-200 text-sm font-medium">Enable SMS notifications</span>
+                    </label>
+                </div>
+            </div>
+        </div>
 
-          <h3 className="text-lg font-semibold text-white mt-8 mb-4 border-b border-[var(--border)] pb-2">Address</h3>
-          <Input
-            label="Street Address"
-            name="street"
-            value={formData.street}
-            onChange={handleChange}
-            placeholder="123 Main St"
-          />
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <Input
-                label="City"
-                name="city"
-                value={formData.city}
-                onChange={handleChange}
-            />
-            <Input
-                label="State"
-                name="state"
-                value={formData.state}
-                onChange={handleChange}
-            />
-            <Input
-                label="Zip Code"
-                name="zipCode"
-                value={formData.zipCode}
-                onChange={handleChange}
-            />
-            <Input
-                label="Country"
-                name="country"
-                value={formData.country}
-                onChange={handleChange}
-            />
-          </div>
+        {/* Right Col: Detailed Form */}
+        <div className="lg:col-span-2 space-y-8">
+            <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm">
+                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+                    <div className="w-10 h-10 rounded-full bg-navy/5 flex items-center justify-center text-navy">
+                        <User className="w-5 h-5" />
+                    </div>
+                    <h2 className="text-xl font-bold text-navy">Personal Details</h2>
+                </div>
+                
+                <div className="grid md:grid-cols-2 gap-6 mb-6">
+                    <Input
+                        label="First Name"
+                        name="firstName"
+                        value={formData.firstName}
+                        onChange={handleChange}
+                        required
+                        className="bg-gray-50"
+                    />
+                    <Input
+                        label="Last Name"
+                        name="lastName"
+                        value={formData.lastName}
+                        onChange={handleChange}
+                        required
+                         className="bg-gray-50"
+                    />
+                </div>
+                <div className="grid md:grid-cols-2 gap-6">
+                     <div className="relative">
+                        <Mail className="absolute left-3 top-[34px] w-4 h-4 text-gray-400 z-10" />
+                        <Input
+                            label="Email Address"
+                            name="email"
+                            type="email"
+                            value={formData.email}
+                            disabled
+                            className="bg-gray-100 opacity-70 cursor-not-allowed pl-9"
+                        />
+                    </div>
+                    <div className="relative">
+                        <Phone className="absolute left-3 top-[34px] w-4 h-4 text-gray-400 z-10" />
+                         <Input
+                            label="Phone Number"
+                            name="phone"
+                            type="tel"
+                            value={formData.phone}
+                            onChange={handleChange}
+                            placeholder="+1 (555) 000-0000"
+                            className="bg-gray-50 pl-9"
+                        />
+                    </div>
+                </div>
+            </div>
 
-          <h3 className="text-lg font-semibold text-white mt-8 mb-4 border-b border-[var(--border)] pb-2">Preferences</h3>
-          <div className="space-y-3">
-            <label className="flex items-center gap-3 cursor-pointer group">
-                <input 
-                    type="checkbox" 
-                    name="newsletter"
-                    checked={formData.newsletter}
-                    onChange={handleChange}
-                    className="w-5 h-5 rounded border-gray-600 bg-[var(--surface)] text-[var(--primary)] focus:ring-[var(--primary)]"
+            <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm">
+                 <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+                    <div className="w-10 h-10 rounded-full bg-navy/5 flex items-center justify-center text-navy">
+                        <MapPin className="w-5 h-5" />
+                    </div>
+                    <h2 className="text-xl font-bold text-navy">Address Information</h2>
+                </div>
+                <div className="space-y-6">
+                    <Input
+                        label="Street Address"
+                        name="street"
+                        value={formData.street}
+                        onChange={handleChange}
+                        placeholder="123 Main St"
+                         className="bg-gray-50"
+                    />
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                        <Input
+                             label="City"
+                             name="city"
+                             value={formData.city}
+                             onChange={handleChange}
+                              className="bg-gray-50"
+                        />
+                        <Input
+                             label="State"
+                             name="state"
+                             value={formData.state}
+                             onChange={handleChange}
+                              className="bg-gray-50"
+                        />
+                        <Input
+                             label="Zip Code"
+                             name="zipCode"
+                             value={formData.zipCode}
+                             onChange={handleChange}
+                              className="bg-gray-50"
+                        />
+                        <Input
+                             label="Country"
+                             name="country"
+                             value={formData.country}
+                             onChange={handleChange}
+                              className="bg-gray-50"
+                        />
+                    </div>
+                </div>
+                
+                <div className="mt-8 flex justify-end">
+                     <Button type="submit" isLoading={loading} className="bg-navy text-gold hover:bg-navy/90 font-bold px-8 h-12 rounded-xl shadow-lg shadow-navy/20">
+                        <Save className="w-4 h-4 mr-2" /> Save Changes
+                     </Button>
+                </div>
+            </div>
+        </div>
+      </form>
+
+      {/* Security Section */}
+      <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm">
+        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+            <div className="w-10 h-10 rounded-full bg-navy/5 flex items-center justify-center text-navy">
+                <Lock className="w-5 h-5" />
+            </div>
+            <h2 className="text-xl font-bold text-navy">Security Settings</h2>
+        </div>
+
+        <form onSubmit={handlePasswordChange} className="max-w-2xl">
+           <div className="space-y-6">
+               <Input
+                    label="Current Password"
+                    name="currentPassword"
+                    type="password"
+                    value={passwordData.currentPassword}
+                    onChange={handlePasswordChangeInput}
+                    required
+                     className="bg-gray-50"
                 />
-                <span className="text-[var(--text-secondary)] group-hover:text-white transition-colors">Subscribe to newsletter</span>
-            </label>
-            <label className="flex items-center gap-3 cursor-pointer group">
-                <input 
-                    type="checkbox" 
-                    name="smsNotifications"
-                    checked={formData.smsNotifications}
-                    onChange={handleChange}
-                    className="w-5 h-5 rounded border-gray-600 bg-[var(--surface)] text-[var(--primary)] focus:ring-[var(--primary)]"
-                />
-                <span className="text-[var(--text-secondary)] group-hover:text-white transition-colors">Enable SMS notifications</span>
-            </label>
-          </div>
 
-          <div className="pt-4 flex justify-end">
-             <Button type="submit" isLoading={loading}>
-                Save Changes
-             </Button>
-          </div>
-        </form>
-      </div>
-
-      {/* Password Change */}
-      <div className="bg-[var(--surface-light)] rounded-xl border border-[var(--border)] p-8 mb-8">
-        <h2 className="text-xl font-bold mb-6 text-white flex items-center gap-2">
-            <svg className="w-5 h-5 text-[var(--primary)]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
-            Security
-        </h2>
-        <form onSubmit={handlePasswordChange} className="space-y-6">
-          <Input
-            label="Current Password"
-            name="currentPassword"
-            type="password"
-            value={passwordData.currentPassword}
-            onChange={handlePasswordChangeInput}
-            required
-          />
-
-          <div className="grid md:grid-cols-2 gap-6">
-            <Input
-                label="New Password"
-                name="newPassword"
-                type="password"
-                value={passwordData.newPassword}
-                onChange={handlePasswordChangeInput}
-                required
-                minLength={6}
-            />
-            <Input
-                label="Confirm New Password"
-                name="confirmPassword"
-                type="password"
-                value={passwordData.confirmPassword}
-                onChange={handlePasswordChangeInput}
-                required
-                minLength={6}
-            />
-          </div>
-
-          <div className="pt-4 flex justify-end">
-            <Button type="submit" isLoading={loading} variant="outline">
-                Update Password
-            </Button>
-          </div>
+                <div className="grid md:grid-cols-2 gap-6">
+                    <Input
+                        label="New Password"
+                        name="newPassword"
+                        type="password"
+                        value={passwordData.newPassword}
+                        onChange={handlePasswordChangeInput}
+                        required
+                        minLength={6}
+                         className="bg-gray-50"
+                    />
+                    <Input
+                        label="Confirm New Password"
+                        name="confirmPassword"
+                        type="password"
+                        value={passwordData.confirmPassword}
+                        onChange={handlePasswordChangeInput}
+                        required
+                        minLength={6}
+                         className="bg-gray-50"
+                    />
+                </div>
+                
+                <div className="pt-2">
+                    <Button type="submit" isLoading={loading} variant="outline" className="border-gray-200 hover:border-navy text-navy font-bold h-11 px-6 rounded-xl">
+                        Update Password
+                    </Button>
+                </div>
+           </div>
         </form>
       </div>
 
       {/* Danger Zone */}
-      <div className="bg-red-500/5 rounded-xl border border-red-500/20 p-8 mt-8">
-        <h2 className="text-xl font-bold text-red-400 mb-4 flex items-center gap-2">
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-            Danger Zone
-        </h2>
-        <p className="text-[var(--text-secondary)] mb-6 text-sm">
-          Once you delete your account, there is no going back. This will permanently delete your profile and remove your data from our servers.
+      <div className="bg-red-50 rounded-3xl p-8 border border-red-100">
+        <div className="flex items-center gap-3 mb-4">
+             <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-red-500">
+                <Trash2 className="w-5 h-5" />
+            </div>
+            <h2 className="text-xl font-bold text-red-700">Danger Zone</h2>
+        </div>
+        <p className="text-red-600/70 mb-6 text-sm max-w-2xl font-medium">
+          Once you delete your account, there is no going back. This will permanently delete your profile, booking history, and remove your data from our servers.
         </p>
-        <Button variant="outline" className="border-red-500/50 text-red-400 hover:bg-red-500/10 hover:border-red-500">
+        <Button variant="outline" className="bg-white border-red-200 text-red-500 hover:bg-red-500 hover:text-white hover:border-red-500 font-bold h-11 px-6 rounded-xl transition-all shadow-sm">
           Delete Account
         </Button>
       </div>

@@ -1,154 +1,115 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import Link from "next/link";
+import { HeroSection } from "@/components/features/home/HeroSection";
+import { CategoryGrid } from "@/components/features/home/CategoryGrid";
+import { LuxuryShowcase } from "@/components/features/home/LuxuryShowcase";
+import { HowItWorks } from "@/components/features/home/HowItWorks";
+import { AffordableCars } from "@/components/features/home/AffordableCars";
+import { WhyChooseUs } from "@/components/features/home/WhyChooseUs";
+import { LocationGrid } from "@/components/features/home/LocationGrid";
+import { BrandGrid } from "@/components/features/home/BrandGrid";
+
+import { SellingCarSection } from "@/components/features/home/SellingCarSection";
+import { FAQ } from "@/components/features/home/FAQ";
 import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
-import VehicleCard from "@/components/VehicleCard";
-import CarsInAction from "@/components/home/CarsInAction";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import dbConnect from "@/lib/mongodb";
 import Vehicle from "@/models/Vehicle";
 
-export const metadata = {
-  title: 'RENTALX | Premium Luxury Car Rental',
-  description: 'Drive the extraordinary. Rent the latest luxury and sports cars in Dubai with RENTALX.',
-};
-
-async function getFeaturedVehicles() {
+async function getVehicles() {
   await dbConnect();
-  // Fetch top 3 newest vehicles
-  const vehicles = await Vehicle.find({ available: true })
-    .sort({ createdAt: -1 })
-    .limit(3)
+  
+  // Fetch luxury (expanded categories)
+  const luxuryVehicles = await Vehicle.find({ 
+    category: { $in: ['Luxury', 'Sports', 'Supersport', 'Convertible'] },
+    type: 'rent' // Explicitly fetch rental cars for luxury showcase
+  })
+    .sort({ 'pricing.daily': -1 })
+    .limit(8)
     .lean();
-    
-  return JSON.parse(JSON.stringify(vehicles));
+
+  // Fetch affordable
+  const affordableVehicles = await Vehicle.find({ 
+      $or: [
+          { category: 'Economy' },
+          { 'pricing.daily': { $lt: 60 } }
+      ],
+      type: 'rent' // Explicitly fetch rental cars
+  })
+    .sort({ 'pricing.daily': 1 })
+    .limit(4)
+    .lean();
+
+  // Fetch cars for sale - NEW
+  const saleVehicles = await Vehicle.find({
+      type: 'sale',
+      status: 'approved'
+  })
+    .sort({ 'createdAt': -1 })
+    .limit(4)
+    .lean();
+
+  return {
+    luxury: JSON.parse(JSON.stringify(luxuryVehicles)),
+    affordable: JSON.parse(JSON.stringify(affordableVehicles)),
+    forSale: JSON.parse(JSON.stringify(saleVehicles))
+  };
 }
 
 export default async function Home() {
-  const vehicles = await getFeaturedVehicles();
+  const { luxury, affordable, forSale } = await getVehicles();
 
   return (
-    <div className="flex flex-col min-h-screen bg-[var(--background)] selection:bg-[var(--primary)] selection:text-white">
+    <div className="flex flex-col min-h-screen bg-white">
       <Header />
       
-      <main>
-        {/* Hero Section */}
-        <section className="relative pt-32 pb-32 text-center overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-b from-[var(--background)] via-[var(--background)] to-[var(--surface)] z-0 pointer-events-none" />
-          
-          <div className="container relative z-10 px-4 mx-auto">
-            <div className="inline-block mb-4 px-4 py-1.5 rounded-full border border-[var(--border)] bg-[var(--surface-light)]/50 backdrop-blur-sm">
-                <span className="text-xs font-semibold tracking-wider uppercase text-[var(--accent)]">Premium Car Rental</span>
+      <main className="flex-1 w-full overflow-hidden">
+        <HeroSection />
+        
+        <CategoryGrid />
+        
+        <LuxuryShowcase vehicles={luxury} />
+
+        {/* Selling Car Section - NEW */}
+        <SellingCarSection vehicles={forSale} />
+        
+        <HowItWorks />
+
+        <AffordableCars vehicles={affordable} />
+
+        <WhyChooseUs />
+
+        <LocationGrid />
+
+        <BrandGrid />
+
+        <FAQ />
+
+        {/* Final CTA Section */}
+        <section className="py-24 bg-navy relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-electric/20 to-gold/20 opacity-30" />
+            <div className="container mx-auto px-4 relative z-10 text-center space-y-8">
+                <h2 className="text-4xl md:text-6xl font-heading font-black text-white leading-tight">
+                    Ready to Start Your Journey?
+                </h2>
+                <p className="text-xl text-gray-300 max-w-2xl mx-auto font-body">
+                    Book your perfect car today and experience North Cyprus like never before.
+                </p>
+                <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
+                    <Link href="/cars">
+                        <Button className="h-16 px-10 text-xl font-bold bg-gold text-navy hover:bg-white hover:text-navy rounded-full shadow-[0_0_30px_rgba(255,215,0,0.3)] hover:shadow-[0_0_50px_rgba(255,215,0,0.5)] transition-all transform hover:-translate-y-1">
+                            Browse All Cars <ArrowRight className="ml-2 w-6 h-6" />
+                        </Button>
+                    </Link>
+                    <Link href="/contact">
+                        <Button variant="outline" className="h-16 px-10 text-xl font-bold border-white/20 text-white hover:bg-white/10 hover:border-white rounded-full transition-all">
+                            Talk to an Expert
+                        </Button>
+                    </Link>
+                </div>
             </div>
-            
-            <h1 className="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight leading-tight">
-              Drive the <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--primary)] to-[var(--accent)]">Extraordinary</span>
-            </h1>
-            
-            <p className="text-[var(--text-secondary)] text-lg md:text-xl mb-10 max-w-2xl mx-auto">
-              Choose from our exclusive fleet of premium vehicles. Luxury, performance, and comfort at your fingertips.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row justify-center gap-4 mb-16">
-               <Link href="/fleet">
-                  <Button size="lg" className="w-full sm:w-auto min-w-[160px]">Browse Fleet</Button>
-               </Link>
-               <Link href="/how-it-works">
-                  <Button variant="outline" size="lg" className="w-full sm:w-auto min-w-[160px]">How It Works</Button>
-               </Link>
-            </div>
-            
-            {/* Search Widget */}
-            <div className="max-w-4xl mx-auto bg-[var(--surface-light)]/30 backdrop-blur-md border border-[var(--border)] rounded-2xl p-6 shadow-2xl">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                 <div className="text-left">
-                   <label className="text-xs text-[var(--text-muted)] font-semibold uppercase mb-2 block">Pick-up Location</label>
-                   <Input placeholder="City or Airport" className="bg-[var(--background)]/50 border-0 focus:ring-1" />
-                 </div>
-                 <div className="text-left">
-                   <label className="text-xs text-[var(--text-muted)] font-semibold uppercase mb-2 block">Pick-up Date</label>
-                   <Input type="date" className="bg-[var(--background)]/50 border-0 focus:ring-1" />
-                 </div>
-                 <div className="text-left">
-                   <label className="text-xs text-[var(--text-muted)] font-semibold uppercase mb-2 block">Drop-off Date</label>
-                   <Input type="date" className="bg-[var(--background)]/50 border-0 focus:ring-1" />
-                 </div>
-                 <div className="flex items-end">
-                   <Button className="w-full h-11">Find Vehicle</Button>
-                 </div>
-              </div>
-            </div>
-          </div>
         </section>
-
-        {/* Featured Flow */}
-        <section className="py-20 bg-[var(--surface)]">
-          <div className="container mx-auto px-4">
-             <div className="flex justify-between items-end mb-10">
-               <div>
-                  <h2 className="text-3xl font-bold mb-2">Featured Vehicles</h2>
-                  <p className="text-[var(--text-secondary)]">Handpicked for your ultimate driving experience</p>
-               </div>
-               <Link href="/fleet" className="hidden sm:block text-[var(--primary)] hover:text-white transition-colors font-medium">
-                  View All Collection &rarr;
-               </Link>
-             </div>
-             
-             {vehicles.length === 0 ? (
-                <div className="text-center py-12 text-[var(--text-muted)]">
-                   No featured vehicles available at the moment.
-                </div>
-             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  {vehicles.map((vehicle: any) => (
-                    <VehicleCard 
-                      key={vehicle._id}
-                      vehicle={vehicle}
-                    />
-                  ))}
-                </div>
-             )}
-             
-             <div className="mt-8 text-center sm:hidden">
-                <Link href="/fleet" className="text-[var(--primary)] font-medium">
-                  View All Collection &rarr;
-                </Link>
-             </div>
-          </div>
-        </section>
-
-        {/* Cars in Action */}
-        <CarsInAction vehicles={vehicles} />
-
-        {/* Value Props & CTA */}
-         <section className="py-20 relative overflow-hidden">
-             <div className="absolute top-0 right-0 w-1/3 h-full bg-[var(--primary)]/5 blur-[100px] rounded-full pointer-events-none" />
-             <div className="container mx-auto px-4 relative z-10">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                    <div className="p-6">
-                        <div className="w-16 h-16 bg-[var(--surface-light)] rounded-2xl flex items-center justify-center mx-auto mb-6 text-[var(--accent)] text-2xl">
-                           ★
-                        </div>
-                        <h3 className="text-xl font-bold mb-3">Premium Only</h3>
-                        <p className="text-[var(--text-secondary)]">We exclusively stock the latest models from top luxury manufacturers.</p>
-                    </div>
-                    <div className="p-6">
-                         <div className="w-16 h-16 bg-[var(--surface-light)] rounded-2xl flex items-center justify-center mx-auto mb-6 text-[var(--accent)] text-2xl">
-                           ⚡
-                        </div>
-                        <h3 className="text-xl font-bold mb-3">Instant Booking</h3>
-                        <p className="text-[var(--text-secondary)]">Real-time availability and instant confirmation for all bookings.</p>
-                    </div>
-                    <div className="p-6">
-                         <div className="w-16 h-16 bg-[var(--surface-light)] rounded-2xl flex items-center justify-center mx-auto mb-6 text-[var(--accent)] text-2xl">
-                           🛡
-                        </div>
-                        <h3 className="text-xl font-bold mb-3">24/7 Support</h3>
-                        <p className="text-[var(--text-secondary)]">Our concierge team is available around the clock to assist you.</p>
-                    </div>
-                </div>
-             </div>
-         </section>
       </main>
 
       <Footer />

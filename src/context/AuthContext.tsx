@@ -4,10 +4,26 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 interface User {
-  id: string;
-  name: string;
+  _id: string;
+  id?: string;
+  firstName: string;
+  lastName: string;
   email: string;
   role: string;
+  phone?: string;
+  image?: string;
+  address?: {
+    street?: string;
+    city?: string;
+    state?: string;
+    zipCode?: string;
+    country?: string;
+  };
+  preferences?: {
+    newsletter: boolean;
+    smsNotifications: boolean;
+  };
+  companyId?: string;
 }
 
 interface AuthContextType {

@@ -100,8 +100,8 @@ npm run dev
 # Open browser: http://localhost:3000/api/seed
 
 # 6. Login as admin
-# Email: admin@****.com
-# Password: ******
+# Email: admin@rental.com
+# Password: password123
 ```
 That's it! Visit http://localhost:3000 🎉
 
@@ -123,7 +123,7 @@ FREE cloud database, no installation needed!
 
 6. **Update Environment Variables** in `.env.local`:
    ```env
-  
+   
    ```
 
 ## 📁 Project Structure

@@ -26,8 +26,8 @@ interface VehicleCardProps {
     transmission?: string;
     fuelType?: string;
     seats?: number;
-    pricing: {
-      daily: number;
+    pricing?: { // pricing is now optional
+      daily?: number;
       monthly?: number;
     };
     mileageLimits?: {
@@ -50,6 +50,8 @@ interface VehicleCardProps {
       insurance: boolean;
       minRentalDays: number;
     };
+    type?: 'rent' | 'sale';
+    salePrice?: number;
   };
 }
 
@@ -67,8 +69,15 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
 
   // WhatsApp & Phone
   const phoneNumber = vehicle.company?.phone || '+971501234567';
+  
+  // Determine price and label
+  const isSale = vehicle.type === 'sale' || !!vehicle.salePrice;
+  const price = isSale ? vehicle.salePrice : vehicle.pricing?.daily;
+  const priceLabel = isSale ? '' : '/ day';
+  const priceDisplay = price ? `AED ${price.toLocaleString()}` : 'Price on Request';
+
   const whatsappMessage = encodeURIComponent(
-    `Hi! I'm interested in renting the ${vehicle.brand} ${vehicle.vehicleModel} ${vehicle.year} (AED ${vehicle.pricing.daily}/day)\n\nVehicle Link: ${process.env.NEXT_PUBLIC_APP_URL}/vehicles/${vehicle._id}`
+    `Hi! I'm interested in ${isSale ? 'buying' : 'renting'} the ${vehicle.brand} ${vehicle.vehicleModel} ${vehicle.year} (${priceDisplay}${priceLabel})\n\nVehicle Link: ${process.env.NEXT_PUBLIC_APP_URL}/vehicles/${vehicle._id}`
   );
   const whatsappUrl = `https://wa.me/${phoneNumber.replace(/[^0-9]/g, '')}?text=${whatsappMessage}`;
 
@@ -195,14 +204,14 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
 
         {/* Info Badges */}
         <div className="flex flex-wrap gap-2 text-xs">
-          {vehicle.specs?.minRentalDays === 1 && (
+          {vehicle.specs?.minRentalDays === 1 && !isSale && (
             <div className="flex items-center gap-1 text-green-400">
               <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
               <span>1 day rental available</span>
             </div>
           )}
           
-          {vehicle.specs?.insurance && (
+          {vehicle.specs?.insurance && !isSale && (
             <div className="flex items-center gap-1 text-[var(--text-muted)]">
               <Shield className="w-3.5 h-3.5" />
               <span>Insurance included</span>
@@ -219,22 +228,30 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
 
         {/* Pricing Section */}
         <div className="pt-3 border-t border-[var(--border)] space-y-2">
-          {/* Daily Rate */}
+          {/* Daily/Sale Rate */}
           <div className="flex items-baseline justify-between">
             <div className="flex items-baseline gap-2">
               <span className="text-2xl font-bold text-white">
-                AED {vehicle.pricing.daily.toLocaleString()}
+                {priceDisplay}
               </span>
-              <span className="text-sm text-[var(--text-secondary)]">/ day</span>
+              {!isSale && price && <span className="text-sm text-[var(--text-secondary)]">/ day</span>}
             </div>
-            <div className="flex items-center gap-1 text-xs text-[var(--text-muted)]">
-              <Gauge className="w-3.5 h-3.5" />
-              <span>{dailyMileage} km</span>
-            </div>
+            {!isSale && (
+              <div className="flex items-center gap-1 text-xs text-[var(--text-muted)]">
+                <Gauge className="w-3.5 h-3.5" />
+                <span>{dailyMileage} km</span>
+              </div>
+            )}
+            {isSale && vehicle.mileage && (
+              <div className="flex items-center gap-1 text-xs text-[var(--text-muted)]">
+                <Gauge className="w-3.5 h-3.5" />
+                <span>{vehicle.mileage.toLocaleString()} km</span>
+              </div>
+            )}
           </div>
 
-          {/* Monthly Rate */}
-          {vehicle.pricing.monthly && (
+          {/* Monthly Rate (Rent only) */}
+          {!isSale && vehicle.pricing?.monthly && (
             <div className="flex items-baseline justify-between">
               <div className="flex items-baseline gap-2">
                 <span className="text-lg font-semibold text-[var(--text-secondary)]">

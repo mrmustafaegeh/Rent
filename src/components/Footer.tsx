@@ -1,51 +1,115 @@
-import Link from "next/link";
-import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
+import Link from 'next/link';
+import { Button } from '@/components/ui/Button';
+import { Facebook, Instagram, Twitter, Linkedin, MapPin, Phone, Mail } from 'lucide-react';
 
 export function Footer() {
   return (
-    <footer className="border-t border-[var(--border)] bg-[var(--surface-light)] py-20">
-      <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-12">
-        <div className="space-y-4">
-          <Link href="/" className="text-2xl font-bold tracking-tighter block">
-            RENTAL<span className="text-[var(--primary)]">X</span>
-          </Link>
-          <p className="text-[var(--text-secondary)] text-sm leading-relaxed max-w-xs">
-            Premium car rental service for those who demand excellence. Experience the road like never before.
+    <footer className="bg-navy text-white pt-24 pb-12 overflow-hidden relative">
+      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 mb-16">
+          {/* Brand Column */}
+          <div className="lg:col-span-4 space-y-6">
+            <Link href="/" className="inline-block">
+                <span className="font-heading font-black text-2xl tracking-tighter text-white">
+                    MEDITERRANEAN <span className="text-gold">DRIVE</span>
+                </span>
+            </Link>
+            <p className="text-gray-400 font-body leading-relaxed max-w-sm">
+              The premier luxury and economy car rental marketplace in North Cyprus. Experience the freedom of the Mediterranean roads with our curated fleet.
+            </p>
+            <div className="flex flex-col gap-4 text-gray-400 text-sm">
+                <div className="flex items-center gap-3">
+                    <MapPin className="w-4 h-4 text-electric" />
+                    <span>Kyrenia, North Cyprus</span>
+                </div>
+                <div className="flex items-center gap-3">
+                    <Phone className="w-4 h-4 text-electric" />
+                    <span>+90 533 000 00 00</span>
+                </div>
+                <div className="flex items-center gap-3">
+                    <Mail className="w-4 h-4 text-electric" />
+                    <span>hello@mediterraneandrive.com</span>
+                </div>
+            </div>
+          </div>
+          
+          {/* Quick Links */}
+          <div className="lg:col-span-2 space-y-6">
+            <h3 className="font-heading font-bold text-lg text-white">Company</h3>
+            <ul className="space-y-3 text-sm text-gray-400">
+              <li><Link href="/about" className="hover:text-gold transition-colors block py-1">About Us</Link></li>
+              <li><Link href="/how-it-works" className="hover:text-gold transition-colors block py-1">How it Works</Link></li>
+              <li><Link href="/careers" className="hover:text-gold transition-colors block py-1">Careers</Link></li>
+              <li><Link href="/blog" className="hover:text-gold transition-colors block py-1">Travel Blog</Link></li>
+              <li><Link href="/contact" className="hover:text-gold transition-colors block py-1">Contact Us</Link></li>
+            </ul>
+          </div>
+          
+          {/* Fleet */}
+          <div className="lg:col-span-2 space-y-6">
+            <h3 className="font-heading font-bold text-lg text-white">Fleet</h3>
+            <ul className="space-y-3 text-sm text-gray-400">
+              <li><Link href="/cars?category=luxury" className="hover:text-gold transition-colors block py-1">Luxury Cars</Link></li>
+              <li><Link href="/cars?category=suv" className="hover:text-gold transition-colors block py-1">SUVs & 4x4</Link></li>
+              <li><Link href="/cars?category=economy" className="hover:text-gold transition-colors block py-1">Economy</Link></li>
+              <li><Link href="/cars?category=sports" className="hover:text-gold transition-colors block py-1">Sports Cars</Link></li>
+              <li><Link href="/cars?category=electric" className="hover:text-gold transition-colors block py-1">Electric</Link></li>
+            </ul>
+          </div>
+
+          {/* Support */}
+          <div className="lg:col-span-2 space-y-6">
+            <h3 className="font-heading font-bold text-lg text-white">Support</h3>
+            <ul className="space-y-3 text-sm text-gray-400">
+              <li><Link href="/faq" className="hover:text-gold transition-colors block py-1">Help Center</Link></li>
+              <li><Link href="/terms" className="hover:text-gold transition-colors block py-1">Terms of Service</Link></li>
+              <li><Link href="/privacy" className="hover:text-gold transition-colors block py-1">Privacy Policy</Link></li>
+              <li><Link href="/insurance" className="hover:text-gold transition-colors block py-1">Insurance Info</Link></li>
+              <li><Link href="/sitemap" className="hover:text-gold transition-colors block py-1">Sitemap</Link></li>
+            </ul>
+          </div>
+
+          {/* Newsletter / App */}
+          <div className="lg:col-span-2 space-y-6">
+            <h3 className="font-heading font-bold text-lg text-white">Get the App</h3>
+            <p className="text-sm text-gray-400">Exclusive deals available only on our mobile app.</p>
+            <div className="flex flex-col gap-3 w-full">
+               <button className="flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-3 transition-colors group text-left w-full">
+                 <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-gold group-hover:text-navy transition-colors shrink-0">
+                    <span className="font-bold text-xs"></span>
+                 </div>
+                 <div>
+                    <div className="text-[10px] text-gray-400 uppercase tracking-wider">Download on the</div>
+                    <div className="font-bold text-sm">App Store</div>
+                 </div>
+               </button>
+               <button className="flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl p-3 transition-colors group text-left w-full">
+                 <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-gold group-hover:text-navy transition-colors shrink-0">
+                    <span className="font-bold text-xs">▶</span>
+                 </div>
+                 <div>
+                    <div className="text-[10px] text-gray-400 uppercase tracking-wider">Get it on</div>
+                    <div className="font-bold text-sm">Google Play</div>
+                 </div>
+               </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
+          <p className="text-sm text-gray-500">
+            © {new Date().getFullYear()} Mediterranean Drive. All rights reserved.
           </p>
-        </div>
-        
-        <div>
-          <h4 className="font-bold mb-6 text-white">Company</h4>
-          <div className="flex flex-col gap-3 text-sm text-[var(--text-secondary)]">
-            <Link href="/about" className="hover:text-white transition-colors">About Us</Link>
-            <Link href="/careers" className="hover:text-white transition-colors">Careers</Link>
-            <Link href="/blog" className="hover:text-white transition-colors">Blog</Link>
-            <Link href="/press" className="hover:text-white transition-colors">Press</Link>
+          
+          <div className="flex gap-6">
+            <Link href="#" className="text-gray-400 hover:text-gold transition-colors transform hover:-translate-y-1"><Facebook className="h-5 w-5" /></Link>
+            <Link href="#" className="text-gray-400 hover:text-gold transition-colors transform hover:-translate-y-1"><Instagram className="h-5 w-5" /></Link>
+            <Link href="#" className="text-gray-400 hover:text-gold transition-colors transform hover:-translate-y-1"><Twitter className="h-5 w-5" /></Link>
+            <Link href="#" className="text-gray-400 hover:text-gold transition-colors transform hover:-translate-y-1"><Linkedin className="h-5 w-5" /></Link>
           </div>
         </div>
-
-        <div>
-          <h4 className="font-bold mb-6 text-white">Support</h4>
-          <div className="flex flex-col gap-3 text-sm text-[var(--text-secondary)]">
-            <Link href="/help" className="hover:text-white transition-colors">Help Center</Link>
-            <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
-            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <Link href="/contact" className="hover:text-white transition-colors">Contact Us</Link>
-          </div>
-        </div>
-
-        <div className="space-y-4">
-           <h4 className="font-bold mb-2 text-white">Newsletter</h4>
-           <p className="text-[var(--text-secondary)] text-sm">Join our newsletter for exclusive offers.</p>
-           <div className="flex gap-2">
-             <Input placeholder="Enter your email" className="h-10 text-sm" />
-             <Button size="sm" className="h-10 px-4">Join</Button>
-           </div>
-        </div>
-      </div>
-      <div className="container mx-auto px-4 text-center text-[var(--text-muted)] text-sm mt-16 pt-8 border-t border-[var(--border)]">
-        &copy; {new Date().getFullYear()} RENTALX. All rights reserved.
       </div>
     </footer>
   );
