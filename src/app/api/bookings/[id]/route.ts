@@ -6,10 +6,11 @@ import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 import { sendBookingConfirmationEmail } from '@/lib/emailService';
 
-export async function PATCH(request: Request, { params }: { params: { id: string } }) {
+export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
     try {
         await dbConnect();
         const { status } = await request.json();
+        const { id } = await params;
         
         const cookieStore = await cookies();
         const token = cookieStore.get('token')?.value;
@@ -26,7 +27,7 @@ export async function PATCH(request: Request, { params }: { params: { id: string
         }
 
         const booking = await Booking.findByIdAndUpdate(
-            params.id, 
+            id, 
             { status }, 
             { new: true }
         ).populate('vehicle').populate('customer');
@@ -57,10 +58,11 @@ export async function PATCH(request: Request, { params }: { params: { id: string
     }
 }
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
     try {
         await dbConnect();
-        const booking = await Booking.findById(params.id)
+        const { id } = await params;
+        const booking = await Booking.findById(id)
             .populate('vehicle')
             .populate('customer', 'firstName lastName email phone');
             

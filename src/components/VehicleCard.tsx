@@ -52,6 +52,7 @@ interface VehicleCardProps {
     };
     type?: 'rent' | 'sale';
     salePrice?: number;
+    mileage?: number; // For sale vehicles
   };
 }
 
