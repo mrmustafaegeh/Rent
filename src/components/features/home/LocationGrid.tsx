@@ -69,35 +69,35 @@ export function LocationGrid() {
                             transition={{ delay: index * 0.1 }}
                             className={`group relative rounded-3xl overflow-hidden shadow-lg cursor-pointer ${loc.colSpan || ''}`}
                         >
-                            <Image 
-                                src={loc.image}
-                                alt={loc.name}
-                                fill
-                                className="object-cover transition-transform duration-700 group-hover:scale-110"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/20 to-transparent group-hover:opacity-90 transition-opacity duration-300" />
-                            
-                            {loc.badge && (
-                                <div className="absolute top-4 right-4 bg-gold text-navy text-xs font-bold px-3 py-1 rounded-full shadow-lg">
-                                    {loc.badge}
-                                </div>
-                            )}
+                            <Link href={`/cars?location=${loc.slug}`} className="block h-full w-full relative">
+                                <Image 
+                                    src={loc.image}
+                                    alt={loc.name}
+                                    fill
+                                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/20 to-transparent group-hover:opacity-90 transition-opacity duration-300" />
+                                
+                                {loc.badge && (
+                                    <div className="absolute top-4 right-4 bg-gold text-navy text-xs font-bold px-3 py-1 rounded-full shadow-lg z-10">
+                                        {loc.badge}
+                                    </div>
+                                )}
 
-                            <div className="absolute bottom-0 left-0 w-full p-8 text-white transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                                <div className="flex items-center gap-2 mb-2 bg-white/20 backdrop-blur-sm w-fit px-3 py-1 rounded-full border border-white/10">
-                                    <MapPin className="w-3 h-3 text-gold" />
-                                    <span className="text-xs font-bold uppercase tracking-wide">{loc.description}</span>
-                                </div>
-                                <h3 className="text-3xl font-heading font-bold mb-2 group-hover:text-gold transition-colors">{loc.name}</h3>
-                                <div className="flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
-                                    <span className="text-white/80 font-medium">{loc.count} Available</span>
-                                    <Link href={`/locations/${loc.slug}`}>
-                                        <Button size="sm" className="bg-white text-navy hover:bg-gold hover:text-navy font-bold rounded-full">
+                                <div className="absolute bottom-0 left-0 w-full p-8 text-white transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                                    <div className="flex items-center gap-2 mb-2 bg-white/20 backdrop-blur-sm w-fit px-3 py-1 rounded-full border border-white/10">
+                                        <MapPin className="w-3 h-3 text-gold" />
+                                        <span className="text-xs font-bold uppercase tracking-wide">{loc.description}</span>
+                                    </div>
+                                    <h3 className="text-3xl font-heading font-bold mb-2 group-hover:text-gold transition-colors">{loc.name}</h3>
+                                    <div className="flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                                        <span className="text-white/80 font-medium">{loc.count} Available</span>
+                                        <Button size="sm" className="bg-white text-navy hover:bg-gold hover:text-navy font-bold rounded-full pointer-events-none">
                                             View Cars
                                         </Button>
-                                    </Link>
+                                    </div>
                                 </div>
-                            </div>
+                            </Link>
                         </motion.div>
                     ))}
                 </div>

@@ -1,5 +1,5 @@
 import { getVehicles } from '@/lib/vehicleService';
-import ApprovalsList from '../../../../components/dashboard/ApprovalsList';
+import ApprovalsList from '@/components/dashboard/ApprovalsList';
 
 export default async function ApprovalsPage() {
     // Fetch pending sale vehicles

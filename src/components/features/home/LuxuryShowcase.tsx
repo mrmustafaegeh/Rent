@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from "react"
-import Link from "next/link"
+import { Link } from "@/navigation"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { Phone, Heart, Fuel, Gauge, ArrowRight, ArrowLeft, MessageCircle } from "lucide-react"
@@ -32,10 +32,14 @@ interface LuxuryShowcaseProps {
     vehicles: any[]; // Using any to be safe with incoming data structure, will cast in component
 }
 
+import { useTranslations } from 'next-intl';
+
 export function LuxuryShowcase({ vehicles }: LuxuryShowcaseProps) {
     const scrollRef = React.useRef<HTMLDivElement>(null);
     const [canScrollLeft, setCanScrollLeft] = React.useState(false);
     const [canScrollRight, setCanScrollRight] = React.useState(true);
+    const t = useTranslations('LuxuryShowcase');
+    const tCommon = useTranslations('Common');
 
     const checkScroll = () => {
         if (scrollRef.current) {
@@ -83,9 +87,9 @@ export function LuxuryShowcase({ vehicles }: LuxuryShowcaseProps) {
             <div className="container mx-auto px-4 relative z-10">
                  <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
                      <div className="space-y-4">
-                         <span className="text-gold font-bold tracking-[0.2em] text-xs uppercase block">PREMIUM COLLECTION</span>
-                         <h2 className="text-4xl md:text-5xl font-heading font-bold text-white">Premium & Sports Cars</h2>
-                         <p className="text-gray-400 text-lg max-w-2xl font-body">Experience ultimate luxury with our handpicked collection of supercars and executive vehicles.</p>
+                         <span className="text-gold font-bold tracking-[0.2em] text-xs uppercase block">{t('tagline')}</span>
+                         <h2 className="text-4xl md:text-5xl font-heading font-bold text-white">{t('title')}</h2>
+                         <p className="text-gray-400 text-lg max-w-2xl font-body">{t('description')}</p>
                      </div>
                      
                      <div className="flex items-center gap-4">
@@ -111,7 +115,7 @@ export function LuxuryShowcase({ vehicles }: LuxuryShowcaseProps) {
                          </div>
                          <Link href="/cars?category=luxury">
                              <Button className="hidden md:flex bg-gold text-navy hover:bg-white hover:text-navy font-bold px-6 h-12 rounded-full transition-all">
-                                 View All Luxury Cars
+                                 {t('viewAll')}
                              </Button>
                          </Link>
                      </div>
@@ -158,12 +162,12 @@ export function LuxuryShowcase({ vehicles }: LuxuryShowcaseProps) {
                                      {/* Pricing Grid */}
                                      <div className="grid grid-cols-2 gap-4">
                                          <div className="bg-white/5 rounded-xl p-3 text-center border border-white/5">
-                                             <span className="block text-gold font-bold text-xl">€{vehicle.pricing?.daily || 'POA'}</span>
-                                             <span className="text-gray-400 text-xs uppercase tracking-wider">Per Day</span>
+                                             <span className="block text-gold font-bold text-xl">€{vehicle.pricing?.daily || t('poa')}</span>
+                                             <span className="text-gray-400 text-xs uppercase tracking-wider">{t('perDay')}</span>
                                          </div>
                                          <div className="bg-white/5 rounded-xl p-3 text-center border border-white/5">
-                                             <span className="block text-white font-bold text-xl">€{vehicle.pricing?.monthly || 'POA'}</span>
-                                             <span className="text-gray-400 text-xs uppercase tracking-wider">Per Month</span>
+                                             <span className="block text-white font-bold text-xl">€{vehicle.pricing?.monthly || t('poa')}</span>
+                                             <span className="text-gray-400 text-xs uppercase tracking-wider">{t('perMonth')}</span>
                                          </div>
                                      </div>
 
@@ -171,7 +175,7 @@ export function LuxuryShowcase({ vehicles }: LuxuryShowcaseProps) {
                                      <div className="flex justify-between items-center text-gray-400 text-sm px-2">
                                          <div className="flex items-center gap-2">
                                              <Gauge className="w-4 h-4 text-electric" />
-                                             <span>250 km/day</span>
+                                             <span>250 km/{t('dayAbbr')}</span>
                                          </div>
                                          <div className="flex items-center gap-2">
                                              <Fuel className="w-4 h-4 text-electric" />
@@ -182,10 +186,10 @@ export function LuxuryShowcase({ vehicles }: LuxuryShowcaseProps) {
                                      {/* Actions */}
                                      <div className="flex gap-3 pt-2">
                                          <Button variant="outline" className="flex-1 border-electric text-electric hover:bg-electric hover:text-white bg-transparent h-12 font-bold">
-                                             <Phone className="w-4 h-4 mr-2" /> Call
+                                             <Phone className="w-4 h-4 mr-2" /> {t('call')}
                                          </Button>
                                          <Button className="flex-1 bg-green-600 hover:bg-green-700 text-white border-none h-12 font-bold">
-                                             <MessageCircle className="w-4 h-4 mr-2" /> WhatsApp
+                                             <MessageCircle className="w-4 h-4 mr-2" /> {t('whatsapp')}
                                          </Button>
                                      </div>
                                  </div>

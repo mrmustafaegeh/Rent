@@ -158,6 +158,14 @@ const vehicleSchema = new mongoose.Schema<IVehicle>({
     }
 });
 
+// Indexing for search optimization
+vehicleSchema.index({ brand: 1, vehicleModel: 1 });
+vehicleSchema.index({ category: 1 });
+vehicleSchema.index({ 'pricing.daily': 1 });
+vehicleSchema.index({ featured: 1 });
+vehicleSchema.index({ location: 1 });
+vehicleSchema.index({ status: 1 });
+
 const Vehicle: Model<IVehicle> = mongoose.models.Vehicle || mongoose.model<IVehicle>('Vehicle', vehicleSchema);
 
 export default Vehicle;

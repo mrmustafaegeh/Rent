@@ -7,7 +7,8 @@ export async function GET() {
     await dbConnect();
     const users = await User.find({}).select('-password').sort({ createdAt: -1 });
     return NextResponse.json({ success: true, data: users });
-  } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'An error occurred';
+    return NextResponse.json({ success: false, error: message }, { status: 500 });
   }
 }

@@ -8,21 +8,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Static routes
   const routes = [
     '',
-    '/fleet',
+    '/cars',
     '/locations',
     '/how-it-works',
     '/about',
-    '/login',
-    '/register',
+    '/auth/login',
+    '/auth/register',
   ].map((route) => ({
-    url: `${baseUrl}${route}`,
+    url: `${baseUrl}/en${route}`,
     lastModified: new Date(),
     changeFrequency: 'daily' as const,
     priority: route === '' ? 1 : 0.8,
   }));
 
   // Dynamic vehicle routes
-  let vehicles: any[] = [];
+  let vehicles: Array<{ _id: { toString(): string }; updatedAt?: Date }> = [];
   try {
     await dbConnect();
     vehicles = await Vehicle.find({ available: true }).select('_id updatedAt').exec();
@@ -31,7 +31,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   const vehicleRoutes = vehicles.map((vehicle) => ({
-    url: `${baseUrl}/vehicles/${vehicle._id}`,
+    url: `${baseUrl}/en/cars/${vehicle._id}`,
     lastModified: vehicle.updatedAt || new Date(),
     changeFrequency: 'weekly' as const,
     priority: 0.7,

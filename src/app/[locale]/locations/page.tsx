@@ -162,13 +162,19 @@ export default async function LocationsPage() {
                                     </div>
                                 </div>
 
-                                <div className="pt-6 mt-auto">
+                                <div className="pt-6 mt-auto space-y-3">
+                                    <Link href={`/cars?location=${location.city.toLowerCase()}`} className="block">
+                                        <Button className="w-full bg-electric text-white hover:bg-navy hover:text-white font-bold h-12 rounded-xl shadow-lg shadow-electric/20 hover:shadow-xl transition-all group/btn">
+                                            View Available Cars <ArrowRight className="ml-2 w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                                        </Button>
+                                    </Link>
+
                                     <Link 
                                         href={`https://maps.google.com/?q=${encodeURIComponent(location.address + ', ' + location.city)}`}
                                         target="_blank"
                                         className="block"
                                     >
-                                        <Button className="w-full bg-navy text-white hover:bg-electric hover:text-white font-bold h-12 rounded-xl group-hover:shadow-lg group-hover:shadow-electric/20 transition-all">
+                                        <Button variant="outline" className="w-full border-gray-200 text-gray-500 hover:text-navy hover:border-navy font-bold h-12 rounded-xl transition-all">
                                             <Navigation className="w-4 h-4 mr-2" /> Get Directions
                                         </Button>
                                     </Link>

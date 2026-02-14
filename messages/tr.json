@@ -1,0 +1,95 @@
+{
+  "HomePage": {
+    "title": "Premium Lüks Araç Kiralama",
+    "subtitle": "Premium filomuzla sürüş heyecanını yaşayın.",
+    "rentBtn": "Araç Kirala",
+    "listCarBtn": "Aracınızı Listeyelin"
+  },
+  "Navigation": {
+    "rent": "Kirala",
+    "buy": "Satın Al",
+    "chauffeur": "Şoförlü",
+    "locations": "Konumlar",
+    "about": "Hakkımızda",
+    "dashboard": "Panel",
+    "logout": "Çıkış Yap",
+    "login": "Giriş Yap"
+  },
+  "Common": {
+    "loading": "Yükleniyor...",
+    "error": "Hata"
+  },
+  "Metadata": {
+    "title": "RENTALX | Premium Lüks Araç Kiralama",
+    "brand": "RENTALX",
+    "description": "Lüks, spor ve SUV araçlardan oluşan seçkin filomuzla sürüş keyfini yaşayın. Porsche, Mercedes, Range Rover ve daha fazlasını kiralayın.",
+    "keywords": "lüks araç kiralama,premium araç kiralama,spor araç kiralama,suv kiralama,egzotik araç kiralama,RENTALX"
+  },
+  "HeroSection": {
+    "title": "Kıbrıs'ı Keşfedin",
+    "subtitleHighlight": "Direksiyon Başında",
+    "description": "Kuzey Kıbrıs'ın her yerine teslimat ile premium araç kiralama deneyimini yaşayın.",
+    "pickupLocation": "Teslim Alış Yeri",
+    "selectLocation": "Konum Seçin",
+    "pickupDate": "Alış Tarihi",
+    "returnDate": "İade Tarihi",
+    "findCar": "Araç Bul",
+    "trust1": "Ücretsiz İptal",
+    "trust2": "Anında Onay",
+    "trust3": "7/24 Destek",
+    "scroll": "Kaydır"
+  },
+  "Footer": {
+    "about": "Kuzey Kıbrıs'ın önde gelen lüks ve ekonomik araç kiralama pazarı. Özenle seçilmiş filomuzla Akdeniz yollarının özgürlüğünü yaşayın.",
+    "company": "Şirket",
+    "fleet": "Filo",
+    "support": "Destek",
+    "getApp": "Uygulamayı İndir",
+    "appDesc": "Sadece mobil uygulamamızda geçerli özel fırsatlar.",
+    "downloadApple": "İndirin",
+    "downloadGoogle": "'den alın",
+    "rights": "Mediterranean Drive. Tüm hakları saklıdır.",
+    "links": {
+      "about": "Hakkımızda",
+      "howItWorks": "Nasıl Çalışır",
+      "careers": "Kariyer",
+      "blog": "Seyahat Blogu",
+      "contact": "İletişim",
+      "luxury": "Lüks Araçlar",
+      "suv": "SUV & 4x4",
+      "economy": "Ekonomik",
+      "sports": "Spor Araçlar",
+      "electric": "Elektrikli",
+      "help": "Yardım Merkezi",
+      "terms": "Hizmet Şartları",
+      "privacy": "Gizlilik Politikası",
+      "insurance": "Sigorta Bilgisi",
+      "sitemap": "Site Haritası"
+    }
+  },
+  "VehicleCard": {
+    "day": "gün",
+    "month": "ay",
+    "priceOnRequest": "Fiyat Sorunuz",
+    "loginRequired": "İstek listesini kullanmak için lütfen giriş yapın",
+    "featured": "Öne Çıkan",
+    "oneDayRental": "1 günlük kiralama mevcut",
+    "insuranceIncluded": "Sigorta dahil",
+    "whatsapp": "WhatsApp",
+    "shareFacebook": "Facebook'ta Paylaş",
+    "copyLink": "Bağlantıyı Kopyala",
+    "linkCopied": "Bağlantı kopyalandı"
+  },
+  "LuxuryShowcase": {
+    "tagline": "PREMIUM KOLEKSİYON",
+    "title": "Premium ve Spor Araçlar",
+    "description": "Özenle seçilmiş süper otomobil ve makam aracı koleksiyonumuzla üst düzey lüksü yaşayın.",
+    "viewAll": "Tüm Lüks Araçları Gör",
+    "poa": "Fiyat Sorunuz",
+    "perDay": "Günlük",
+    "perMonth": "Aylık",
+    "dayAbbr": "gün",
+    "call": "Ara",
+    "whatsapp": "WhatsApp"
+  }
+}

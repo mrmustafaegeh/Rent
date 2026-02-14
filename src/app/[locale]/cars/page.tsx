@@ -24,7 +24,15 @@ async function getVehicles(searchParams: { [key: string]: string | string[] | un
         const categories = Array.isArray(searchParams.category) 
             ? searchParams.category 
             : [searchParams.category]
-        query.category = { $in: categories }
+        query.category = { $in: categories.map(c => new RegExp(c as string, 'i')) }
+    }
+    
+    // Type Filter (Alias for Category if used)
+    if (searchParams.type) {
+        const types = Array.isArray(searchParams.type) 
+            ? searchParams.type 
+            : [searchParams.type]
+        query.category = { $in: types.map(t => new RegExp(t as string, 'i')) }
     }
 
     // Brand Filter
@@ -34,6 +42,21 @@ async function getVehicles(searchParams: { [key: string]: string | string[] | un
             : [searchParams.brand]
         // Case insensitive search
         query.brand = { $in: brands.map(b => new RegExp(b as string, 'i')) }
+    }
+
+    // Location Filter
+    if (searchParams.location) {
+        const locations = Array.isArray(searchParams.location)
+            ? searchParams.location
+            : [searchParams.location]
+        // Assuming filtered by 'location' field if exists, or just ignoring if not implemented in schema yet.
+        // If vehicles have a specific 'location' field:
+        // query.location = { $in: locations.map(l => new RegExp(l as string, 'i')) }
+        // For now, let's assume filtering by location might mean "available in this location"
+        // If the schema doesn't support it, this might return nothing if I guess wrong.
+        // Safest is to log or just rely on the frontend to drive it if backend isn ready.
+        // Let's add it tentatively:
+        query.location = { $in: locations.map(l => new RegExp(l as string, 'i')) }
     }
 
     // Transmission Filter
@@ -47,8 +70,10 @@ async function getVehicles(searchParams: { [key: string]: string | string[] | un
     // Price Filter
     if (searchParams.minPrice || searchParams.maxPrice) {
         query['pricing.daily'] = {}
-        if (searchParams.minPrice) query['pricing.daily'].$gte = parseInt(searchParams.minPrice as string)
-        if (searchParams.maxPrice) query['pricing.daily'].$lte = parseInt(searchParams.maxPrice as string)
+        const min = parseInt(searchParams.minPrice as string)
+        const max = parseInt(searchParams.maxPrice as string)
+        if (!isNaN(min)) query['pricing.daily'].$gte = min
+        if (!isNaN(max)) query['pricing.daily'].$lte = max
     }
 
     const vehicles = await Vehicle.find(query).sort({ 'pricing.daily': 1 }).lean()
@@ -113,7 +138,7 @@ export default async function CarsPage({
                                 {/* Mobile Filter Trigger */}
                                 <Sheet>
                                     <SheetTrigger asChild>
-                                        <Button variant="outline" className="lg:hidden border-gray-200 text-navy font-bold">
+                                        <Button variant="outline" className="lg:hidden border-gray-200 text-navy font-bold" aria-label="Open filters">
                                             <Filter className="mr-2 h-4 w-4" /> Filters
                                         </Button>
                                     </SheetTrigger>

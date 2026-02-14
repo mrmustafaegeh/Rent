@@ -41,9 +41,9 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json({ success: true, data: review }, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Create Review Error:', error);
-    if (error.code === 11000) {
+    if (typeof error === 'object' && error !== null && 'code' in error && (error as { code: number }).code === 11000) {
         return NextResponse.json({ success: false, error: 'You have already reviewed this vehicle' }, { status: 400 });
     }
     return NextResponse.json({ success: false, error: 'Failed to create review' }, { status: 500 });

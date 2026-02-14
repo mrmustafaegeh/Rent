@@ -1,55 +1,41 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import Image, { ImageProps } from 'next/image';
+import { useState } from 'react';
 
 interface OptimizedImageProps extends ImageProps {
-  fallbackSrc?: string;
+  containerClassName?: string;
 }
 
-const OptimizedImage = ({ 
+export function OptimizedImage({ 
   src, 
   alt, 
-  fallbackSrc = 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&q=80', // Default car placeholder
+  priority = false,
   className,
+  containerClassName,
   ...props 
-}: OptimizedImageProps) => {
-  // validatedSrc check
-  const isValidSrc = (s: ImageProps['src'] | undefined): boolean => {
-    if (!s) return false;
-    if (typeof s === 'string') {
-        return s.startsWith('/') || s.startsWith('http');
-    }
-    return true; // Assume StaticImport object is valid
-  };
-
-  const validSrc = isValidSrc(src) ? src! : fallbackSrc;
-
-  const [imgSrc, setImgSrc] = useState(validSrc);
+}: OptimizedImageProps) {
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    setImgSrc(isValidSrc(src) ? src! : fallbackSrc);
-    setIsLoading(true);
-  }, [src, fallbackSrc]);
-
+  const { fill } = props;
+  
   return (
-    <div className={`relative overflow-hidden ${className}`}>
+    <div className={`relative overflow-hidden ${fill ? 'h-full w-full' : ''} ${containerClassName || ''}`}>
       <Image
-        {...props}
-        src={imgSrc}
+        src={src}
         alt={alt}
-        className={`duration-700 ease-in-out ${props.fill ? 'object-cover' : ''} ${
-          isLoading ? 'scale-110 blur-2xl grayscale' : 'scale-100 blur-0 grayscale-0'
-        }`}
+        priority={priority}
+        quality={85}
         onLoad={() => setIsLoading(false)}
-        onError={() => {
-          setImgSrc(fallbackSrc);
-          setIsLoading(false);
-        }}
+        className={`
+          duration-700 ease-in-out
+          ${isLoading ? 'scale-110 blur-2xl grayscale' : 'scale-100 blur-0 grayscale-0'}
+          ${className || ''}
+        `}
+        {...props}
       />
     </div>
   );
-};
+}
 
 export default OptimizedImage;

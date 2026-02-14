@@ -1,0 +1,96 @@
+{
+  "HomePage": {
+    "title": "Premium Luxury Car Rental",
+    "subtitle": "Experience the thrill of the drive with our premium fleet.",
+    "rentBtn": "Rent Cars",
+    "listCarBtn": "List Your Car"
+  },
+  "Navigation": {
+    "rent": "Rent Cars",
+    "buy": "Buy Cars", 
+    "chauffeur": "Chauffeur",
+    "locations": "Locations",
+    "about": "About",
+    "dashboard": "Dashboard",
+    "logout": "Sign Out",
+    "login": "Sign In",
+    "changeLanguage": "Change Language"
+  },
+  "Common": {
+    "loading": "Loading...",
+    "error": "Error"
+  },
+  "Metadata": {
+    "title": "RENTALX | Premium Luxury Car Rental",
+    "brand": "RENTALX",
+    "description": "Experience the thrill of the drive with our premium fleet of luxury, sports, and SUV vehicles. Rent Porsche, Mercedes, Range Rover and more.",
+    "keywords": "luxury car rental,premium car rental,sports car rental,SUV rental,exotic car rental,RENTALX"
+  },
+  "HeroSection": {
+    "title": "Discover Cyprus",
+    "subtitleHighlight": "Behind the Wheel",
+    "description": "Experience premium car rental with delivery to any location in North Cyprus.",
+    "pickupLocation": "Pick Up Location",
+    "selectLocation": "Select Location",
+    "pickupDate": "Pickup Date",
+    "returnDate": "Return Date",
+    "findCar": "Find Your Car",
+    "trust1": "Free Cancellation",
+    "trust2": "Instant Confirmation",
+    "trust3": "24/7 Support",
+    "scroll": "Scroll"
+  },
+  "Footer": {
+    "about": "The premier luxury and economy car rental marketplace in North Cyprus. Experience the freedom of the Mediterranean roads with our curated fleet.",
+    "company": "Company",
+    "fleet": "Fleet",
+    "support": "Support",
+    "getApp": "Get the App",
+    "appDesc": "Exclusive deals available only on our mobile app.",
+    "downloadApple": "Download on the",
+    "downloadGoogle": "Get it on",
+    "rights": "Mediterranean Drive. All rights reserved.",
+    "links": {
+      "about": "About Us",
+      "howItWorks": "How it Works",
+      "careers": "Careers",
+      "blog": "Travel Blog",
+      "contact": "Contact Us",
+      "luxury": "Luxury Cars",
+      "suv": "SUVs & 4x4",
+      "economy": "Economy",
+      "sports": "Sports Cars",
+      "electric": "Electric",
+      "help": "Help Center",
+      "terms": "Terms of Service",
+      "privacy": "Privacy Policy",
+      "insurance": "Insurance Info",
+      "sitemap": "Sitemap"
+    }
+  },
+  "VehicleCard": {
+    "day": "day",
+    "month": "month",
+    "priceOnRequest": "Price on Request",
+    "loginRequired": "Please login to use wishlist",
+    "featured": "Featured",
+    "oneDayRental": "1 day rental available",
+    "insuranceIncluded": "Insurance included",
+    "whatsapp": "WhatsApp",
+    "shareFacebook": "Share on Facebook",
+    "copyLink": "Copy Link",
+    "linkCopied": "Link copied"
+  },
+  "LuxuryShowcase": {
+    "tagline": "PREMIUM COLLECTION",
+    "title": "Premium & Sports Cars",
+    "description": "Experience ultimate luxury with our handpicked collection of supercars and executive vehicles.",
+    "viewAll": "View All Luxury Cars",
+    "poa": "POA",
+    "perDay": "Per Day",
+    "perMonth": "Per Month",
+    "dayAbbr": "day",
+    "call": "Call",
+    "whatsapp": "WhatsApp"
+  }
+}

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from "next/link"
-import Image from "next/image"
+import { OptimizedImage } from "@/components/ui/OptimizedImage"
 
 const categories = [
     { 
@@ -93,13 +93,14 @@ export function CategoryGrid() {
              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
            >
               {categories.map((cat) => (
-                 <Link key={cat.slug} href={`/cars?category=${cat.slug}`} className="block h-full group">
+                 <Link key={cat.slug} href={`/cars?type=${cat.slug}`} className="block h-full group">
                      <article 
                         className="relative h-[320px] rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 group"
                      >
                          {/* Background Image */}
                          <div className="absolute inset-0">
-                             <Image 
+                             <OptimizedImage 
+                                containerClassName="h-full w-full"
                                 src={cat.image} 
                                 alt={cat.alt}
                                 fill
@@ -123,7 +124,7 @@ export function CategoryGrid() {
                                  <span className="text-xs font-bold text-white/90 uppercase tracking-wider">From</span>
                                  <span className="text-[#06B6D4] font-black text-2xl bg-white/10 px-3 py-1 rounded-lg backdrop-blur-md shadow-lg border border-white/10">
                                      {cat.price}
-                                     <span className="text-xs font-bold text-white/70 ml-1">{cat.period}</span>
+                <span className="text-xs font-bold text-white/70 ms-1">{cat.period}</span>
                                  </span>
                              </div>
                          </div>

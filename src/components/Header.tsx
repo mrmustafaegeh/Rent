@@ -1,8 +1,7 @@
 'use client';
 
 import * as React from "react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { Link, usePathname } from "@/navigation"
 import { useAuth } from "@/context/AuthContext"
 import { Button } from "@/components/ui/Button"
 import { 
@@ -15,26 +14,37 @@ import {
   ChevronDown
 } from "lucide-react"
 
+import { useTranslations } from 'next-intl';
+import { LanguageSwitcher } from "./LanguageSwitcher";
+
 export function Header() {
   const { user, isAuthenticated, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const pathname = usePathname();
   const [scrolled, setScrolled] = React.useState(false);
+  const t = useTranslations('Navigation');
 
   React.useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 20);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const navLinks = [
-    { name: "Rent Cars", href: "/cars" },
-    { name: "Buy Cars", href: "/buy" },
-    { name: "Chauffeur", href: "/chauffeur" },
-    { name: "Locations", href: "/locations" },
-    { name: "About", href: "/about" },
+    { name: t('rent'), href: "/cars" },
+    { name: t('buy'), href: "/buy" },
+    { name: t('chauffeur'), href: "/chauffeur" },
+    { name: t('locations'), href: "/locations" },
+    { name: t('about'), href: "/about" },
   ];
 
   const isActive = (path: string) => pathname === path;
@@ -62,15 +72,15 @@ export function Header() {
         <nav className="hidden lg:flex items-center gap-8">
           {navLinks.map((link) => (
             <Link 
-              key={link.name}
+              key={link.href}
               href={link.href} 
               className={`relative font-heading font-medium text-[15px] transition-colors hover:text-electric group ${
                 isActive(link.href) ? "text-gold" : "text-white/80"
               }`}
             >
               {link.name}
-              <span className={`absolute -bottom-1 left-0 w-0 h-[2px] bg-electric transition-all duration-300 group-hover:w-full ${
-                  isActive(link.href) ? "w-full bg-gold" : ""
+              <span className={`absolute -bottom-1 left-0 h-[2px] bg-electric transition-all duration-300 group-hover:w-full ${
+                  isActive(link.href) ? "w-full bg-gold" : "w-0"
               }`} />
             </Link>
           ))}
@@ -80,11 +90,12 @@ export function Header() {
         <div className="hidden lg:flex items-center gap-4">
              {/* Language & Currency (Mock) */}
              <div className="flex items-center gap-3 text-white/70 text-sm border-r border-white/10 pr-4 mr-2">
-                <button className="flex items-center gap-1 hover:text-white transition-colors">
-                    <Globe className="h-4 w-4" />
-                    <span>EN</span>
-                </button>
-                <button className="flex items-center gap-1 hover:text-white transition-colors">
+                <LanguageSwitcher />
+
+                <button 
+                  className="flex items-center gap-1 hover:text-white transition-colors"
+                  aria-label="Change currency"
+                >
                     <DollarSign className="h-4 w-4" />
                     <span>EUR</span>
                 </button>
@@ -94,7 +105,7 @@ export function Header() {
                <div className="flex items-center gap-3">
                  <Link href="/dashboard">
                    <Button variant="ghost" className="text-white hover:text-electric hover:bg-white/5">
-                     Dashboard
+                     {t('dashboard')}
                    </Button>
                  </Link>
                  <Button 
@@ -102,13 +113,13 @@ export function Header() {
                     onClick={logout} 
                     className="text-white/70 hover:text-destructive hover:bg-destructive/10"
                  >
-                    Sign Out
+                    {t('logout')}
                  </Button>
                </div>
              ) : (
                 <Link href="/auth/login">
                   <Button variant="ghost" className="text-white hover:text-electric hover:bg-white/5 border border-white/20 hover:border-electric transition-all">
-                    Sign In
+                    {t('login')}
                   </Button>
                 </Link>
              )}
@@ -126,6 +137,9 @@ export function Header() {
           size="icon" 
           className="lg:hidden text-white hover:bg-white/10"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={mobileMenuOpen}
+          aria-controls="mobile-menu"
         >
           {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </Button>
@@ -133,7 +147,13 @@ export function Header() {
       
        {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 top-[70px] bg-navy/95 backdrop-blur-xl z-[900] p-6 animate-in slide-in-from-right-10 duration-300">
+        <div 
+          id="mobile-menu"
+          className="lg:hidden fixed inset-0 top-[70px] bg-navy/95 backdrop-blur-xl z-[900] p-6 animate-in slide-in-from-right-10 duration-300"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Mobile navigation"
+        >
             <nav className="flex flex-col gap-6 mt-8">
                  {navLinks.map((link) => (
                     <Link 

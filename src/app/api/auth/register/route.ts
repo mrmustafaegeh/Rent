@@ -4,9 +4,15 @@ import User from '@/models/User';
 import jwt from 'jsonwebtoken';
 import { serialize } from 'cookie';
 import { sendWelcomeEmail } from '@/lib/emailService';
+import { rateLimit, getIp } from '@/lib/rateLimit';
 
 export async function POST(request: Request) {
   try {
+    const ip = getIp(request);
+    if (rateLimit(ip, 3, 60000 * 60)) { // 3 registrations per hour per IP to prevent spam
+      return NextResponse.json({ success: false, error: 'Too many registration attempts, please try again later.' }, { status: 429 });
+    }
+
     await dbConnect();
     const { firstName, lastName, email, password, phone, role } = await request.json();
 

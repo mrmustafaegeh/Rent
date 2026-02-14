@@ -3,9 +3,15 @@ import dbConnect from '@/lib/mongodb';
 import User from '@/models/User';
 import jwt from 'jsonwebtoken';
 import { serialize } from 'cookie';
+import { rateLimit, getIp } from '@/lib/rateLimit';
 
 export async function POST(request: Request) {
   try {
+    const ip = getIp(request);
+    if (rateLimit(ip, 5, 60000)) { // 5 requests per minute
+      return NextResponse.json({ success: false, error: 'Too many requests, please try again later.' }, { status: 429 });
+    }
+
     await dbConnect();
     const { email, password } = await request.json();
 

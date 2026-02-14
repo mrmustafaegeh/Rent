@@ -44,8 +44,9 @@ export async function GET(req: NextRequest) {
         }
 
         return NextResponse.json({ success: true, data: wishlist });
-    } catch (error: any) {
-        return NextResponse.json({ success: false, message: error.message }, { status: 500 });
+    } catch (error) {
+        const message = error instanceof Error ? error.message : 'An error occurred';
+        return NextResponse.json({ success: false, message }, { status: 500 });
     }
 }
 
@@ -95,8 +96,9 @@ export async function POST(req: NextRequest) {
         }
 
         return NextResponse.json({ success: true, data: wishlist });
-    } catch (error: any) {
-        return NextResponse.json({ success: false, message: error.message }, { status: 500 });
+    } catch (error) {
+        const message = error instanceof Error ? error.message : 'An error occurred';
+        return NextResponse.json({ success: false, message }, { status: 500 });
     }
 }
 
@@ -139,11 +141,15 @@ export async function DELETE(req: NextRequest) {
             return NextResponse.json({ success: false, message: 'Wishlist not found' }, { status: 404 });
         }
 
-        wishlist.vehicles = wishlist.vehicles.filter((id: any) => id.toString() !== vehicleId);
-        await wishlist.save();
+        // Filter out the vehicle
+        if (wishlist.vehicles) {
+             wishlist.vehicles = wishlist.vehicles.filter((id: { toString: () => string }) => id.toString() !== vehicleId);
+             await wishlist.save();
+        }
 
         return NextResponse.json({ success: true, data: wishlist });
-    } catch (error: any) {
-        return NextResponse.json({ success: false, message: error.message }, { status: 500 });
+    } catch (error) {
+        const message = error instanceof Error ? error.message : 'An error occurred';
+        return NextResponse.json({ success: false, message }, { status: 500 });
     }
 }

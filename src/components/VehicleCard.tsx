@@ -1,7 +1,7 @@
 'use client';
 
-import Image from 'next/image';
-import Link from 'next/link';
+import { OptimizedImage } from '@/components/ui/OptimizedImage';
+import { Link } from '@/navigation';
 import { 
   Heart, 
   MessageCircle, 
@@ -15,6 +15,7 @@ import {
   Gauge,
 } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface VehicleCardProps {
   vehicle: {
@@ -61,6 +62,8 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
   const [showShare, setShowShare] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [isTogglingFavorite, setIsTogglingFavorite] = useState(false);
+  const t = useTranslations('VehicleCard');
+  // const tCommon = useTranslations('Common');
 
   // Get primary image or fallback
   const primaryImage = 
@@ -74,11 +77,11 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
   // Determine price and label
   const isSale = vehicle.type === 'sale' || !!vehicle.salePrice;
   const price = isSale ? vehicle.salePrice : vehicle.pricing?.daily;
-  const priceLabel = isSale ? '' : '/ day';
-  const priceDisplay = price ? `AED ${price.toLocaleString()}` : 'Price on Request';
+  const priceLabel = isSale ? '' : ` / ${t('day')}`;
+  const priceDisplay = price ? `AED ${price.toLocaleString()}` : t('priceOnRequest');
 
   const whatsappMessage = encodeURIComponent(
-    `Hi! I'm interested in ${isSale ? 'buying' : 'renting'} the ${vehicle.brand} ${vehicle.vehicleModel} ${vehicle.year} (${priceDisplay}${priceLabel})\n\nVehicle Link: ${process.env.NEXT_PUBLIC_APP_URL}/vehicles/${vehicle._id}`
+    `Hi! I'm interested in ${isSale ? 'buying' : 'renting'} the ${vehicle.brand} ${vehicle.vehicleModel} ${vehicle.year} (${priceDisplay}${priceLabel})\n\nVehicle Link: ${process.env.NEXT_PUBLIC_APP_URL}/cars/${vehicle._id}`
   );
   const whatsappUrl = `https://wa.me/${phoneNumber.replace(/[^0-9]/g, '')}?text=${whatsappMessage}`;
 
@@ -106,7 +109,7 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
           setIsFavorite(false);
         } else {
           const data = await response.json();
-          alert(data.message || 'Please login to use wishlist');
+          alert(data.message || t('loginRequired'));
         }
       } else {
         // Add to wishlist
@@ -120,12 +123,12 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
           setIsFavorite(true);
         } else {
           const data = await response.json();
-          alert(data.message || 'Please login to use wishlist');
+          alert(data.message || t('loginRequired'));
         }
       }
     } catch (error) {
       console.error('Wishlist error:', error);
-      alert('Please login to use wishlist');
+      alert(t('loginRequired'));
     } finally {
       setIsTogglingFavorite(false);
     }
@@ -134,8 +137,8 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
   return (
     <div className="group relative bg-[var(--surface-light)] rounded-xl overflow-hidden border border-[var(--border)] hover:border-[var(--primary)] transition-all duration-300 hover:-translate-y-1">
       {/* Image Section */}
-      <Link href={`/vehicles/${vehicle._id}`} className="block relative aspect-[16/10] overflow-hidden bg-[var(--surface-lighter)]">
-        <Image
+      <Link href={`/cars/${vehicle._id}`} className="block relative aspect-[16/10] overflow-hidden bg-[var(--surface-lighter)]">
+        <OptimizedImage
           src={imageError ? '/images/car-placeholder.jpg' : primaryImage}
           alt={`${vehicle.brand} ${vehicle.vehicleModel}`}
           fill
@@ -146,9 +149,9 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
 
         {/* Featured Badge */}
         {vehicle.isFeatured && (
-          <div className="absolute top-3 left-3 px-3 py-1.5 bg-purple-600 text-white text-xs font-bold rounded-md flex items-center gap-1">
+          <div className="absolute top-3 start-3 px-3 py-1.5 bg-purple-600 text-white text-xs font-bold rounded-md flex items-center gap-1">
             <Star className="w-3 h-3 fill-white" />
-            Featured
+            {t('featured')}
           </div>
         )}
 
@@ -156,7 +159,8 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
         <button
           onClick={toggleWishlist}
           disabled={isTogglingFavorite}
-          className="absolute top-3 right-3 w-9 h-9 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-black/70 transition-colors disabled:opacity-50"
+          aria-label={isFavorite ? t('removeFromWishlist') : t('addToWishlist')}
+          className="absolute top-3 end-3 w-9 h-9 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-black/70 transition-colors disabled:opacity-50"
         >
           <Heart
             className={`w-5 h-5 ${
@@ -167,8 +171,8 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
 
         {/* Company Logo Badge */}
         {vehicle.company?.logo && (
-          <div className="absolute bottom-3 left-3 w-12 h-12 bg-white rounded-lg shadow-md overflow-hidden p-1">
-            <Image
+          <div className="absolute bottom-3 start-3 w-12 h-12 bg-white rounded-lg shadow-md overflow-hidden p-1">
+            <OptimizedImage
               src={vehicle.company.logo}
               alt={vehicle.company.name}
               fill
@@ -181,7 +185,7 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
       {/* Content Section */}
       <div className="p-4 space-y-3">
         {/* Vehicle Title */}
-        <Link href={`/vehicles/${vehicle._id}`}>
+        <Link href={`/cars/${vehicle._id}`}>
           <h3 className="text-lg font-bold text-white hover:text-[var(--primary)] transition-colors line-clamp-1">
             {vehicle.brand} {vehicle.vehicleModel} {vehicle.year}
           </h3>
@@ -208,14 +212,14 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
           {vehicle.specs?.minRentalDays === 1 && !isSale && (
             <div className="flex items-center gap-1 text-green-400">
               <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
-              <span>1 day rental available</span>
+              <span>{t('oneDayRental')}</span>
             </div>
           )}
           
           {vehicle.specs?.insurance && !isSale && (
             <div className="flex items-center gap-1 text-[var(--text-muted)]">
               <Shield className="w-3.5 h-3.5" />
-              <span>Insurance included</span>
+              <span>{t('insuranceIncluded')}</span>
             </div>
           )}
           
@@ -235,7 +239,7 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
               <span className="text-2xl font-bold text-white">
                 {priceDisplay}
               </span>
-              {!isSale && price && <span className="text-sm text-[var(--text-secondary)]">/ day</span>}
+              {!isSale && price && <span className="text-sm text-[var(--text-secondary)]">/ {t('day')}</span>}
             </div>
             {!isSale && (
               <div className="flex items-center gap-1 text-xs text-[var(--text-muted)]">
@@ -258,7 +262,7 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
                 <span className="text-lg font-semibold text-[var(--text-secondary)]">
                   AED {vehicle.pricing.monthly.toLocaleString()}
                 </span>
-                <span className="text-xs text-[var(--text-muted)]">/ month</span>
+                <span className="text-xs text-[var(--text-muted)]">/ {t('month')}</span>
               </div>
               <div className="flex items-center gap-1 text-xs text-[var(--text-muted)]">
                 <Gauge className="w-3.5 h-3.5" />
@@ -276,6 +280,7 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
+            aria-label={`Chat with us on WhatsApp about ${vehicle.brand} ${vehicle.vehicleModel}`}
             className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors text-sm font-semibold"
           >
             <MessageCircle className="w-4 h-4" />
@@ -286,6 +291,7 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
           <a
             href={`tel:${phoneNumber}`}
             onClick={(e) => e.stopPropagation()}
+            aria-label={`Call us about ${vehicle.brand} ${vehicle.vehicleModel}`}
             className="flex items-center justify-center px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
           >
             <Phone className="w-4 h-4" />
@@ -298,6 +304,7 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
                 e.stopPropagation();
                 setShowShare(!showShare);
               }}
+              aria-label="Share this vehicle"
               className="flex items-center justify-center px-4 py-2.5 bg-[var(--surface)] hover:bg-[var(--surface-lighter)] text-[var(--text-primary)] border border-[var(--border)] rounded-lg transition-colors"
             >
               <Share2 className="w-4 h-4" />
@@ -310,13 +317,13 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
                   className="fixed inset-0 z-10"
                   onClick={() => setShowShare(false)}
                 />
-                <div className="absolute right-0 bottom-full mb-2 w-48 bg-[var(--surface)] rounded-lg shadow-xl border border-[var(--border)] z-20 overflow-hidden">
+                <div className="absolute end-0 bottom-full mb-2 w-48 bg-[var(--surface)] rounded-lg shadow-xl border border-[var(--border)] z-20 overflow-hidden">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       window.open(
                         `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                          `${process.env.NEXT_PUBLIC_APP_URL}/vehicles/${vehicle._id}`
+                          `${process.env.NEXT_PUBLIC_APP_URL}/cars/${vehicle._id}`
                         )}`,
                         '_blank'
                       );
@@ -333,7 +340,7 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
                     onClick={(e) => {
                       e.stopPropagation();
                       navigator.clipboard.writeText(
-                        `${process.env.NEXT_PUBLIC_APP_URL}/vehicles/${vehicle._id}`
+                        `${process.env.NEXT_PUBLIC_APP_URL}/cars/${vehicle._id}`
                       );
                       alert('Link copied to clipboard!');
                       setShowShare(false);

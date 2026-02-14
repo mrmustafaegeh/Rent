@@ -56,7 +56,7 @@ export function SellingCarSection({ vehicles }: SellingCarSectionProps) {
                         <item.icon className="w-5 h-5 text-gold" />
                     </div>
                     <div>
-                        <h4 className="font-bold text-white text-sm mb-1">{item.title}</h4>
+                        <h3 className="font-bold text-white text-sm mb-1">{item.title}</h3>
                         <p className="text-gray-400 text-xs">{item.desc}</p>
                     </div>
                 </div>

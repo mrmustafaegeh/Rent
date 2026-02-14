@@ -116,7 +116,8 @@ export async function POST(request: Request) {
 
     const vehicle = await Vehicle.create(body);
     return NextResponse.json({ success: true, data: vehicle }, { status: 201 });
-  } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message || 'Failed to create vehicle' }, { status: 500 });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to create vehicle';
+    return NextResponse.json({ success: false, error: message }, { status: 500 });
   }
 }

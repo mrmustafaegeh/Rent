@@ -16,6 +16,7 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import dbConnect from "@/lib/mongodb";
 import Vehicle from "@/models/Vehicle";
+import { getTranslations } from 'next-intl/server';
 
 async function getVehicles() {
   await dbConnect();
@@ -59,6 +60,7 @@ async function getVehicles() {
 
 export default async function Home() {
   const { luxury, affordable, forSale } = await getVehicles();
+  const t = await getTranslations('HomePage');
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
@@ -91,20 +93,20 @@ export default async function Home() {
             <div className="absolute inset-0 bg-gradient-to-r from-electric/20 to-gold/20 opacity-30" />
             <div className="container mx-auto px-4 relative z-10 text-center space-y-8">
                 <h2 className="text-4xl md:text-6xl font-heading font-black text-white leading-tight">
-                    Ready to Start Your Journey?
+                    {t('title')}
                 </h2>
                 <p className="text-xl text-gray-300 max-w-2xl mx-auto font-body">
-                    Book your perfect car today and experience North Cyprus like never before.
+                    {t('subtitle')}
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
                     <Link href="/cars">
                         <Button className="h-16 px-10 text-xl font-bold bg-gold text-navy hover:bg-white hover:text-navy rounded-full shadow-[0_0_30px_rgba(255,215,0,0.3)] hover:shadow-[0_0_50px_rgba(255,215,0,0.5)] transition-all transform hover:-translate-y-1">
-                            Browse All Cars <ArrowRight className="ml-2 w-6 h-6" />
+                            {t('rentBtn')} <ArrowRight className="ml-2 w-6 h-6" />
                         </Button>
                     </Link>
                     <Link href="/contact">
                         <Button variant="outline" className="h-16 px-10 text-xl font-bold border-white/20 text-white hover:bg-white/10 hover:border-white rounded-full transition-all">
-                            Talk to an Expert
+                             Talk to an Expert
                         </Button>
                     </Link>
                 </div>

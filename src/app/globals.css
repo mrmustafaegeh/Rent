@@ -90,3 +90,26 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Custom Input Styles */
+input[type="date"],
+input[type="datetime-local"] {
+  position: relative;
+  text-transform: uppercase;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: auto;
+  height: auto;
+  color: transparent;
+  background: transparent;
+  cursor: pointer;
+  z-index: 10;
+}
+

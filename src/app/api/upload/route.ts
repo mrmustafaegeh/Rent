@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { v2 as cloudinary } from 'cloudinary';
+import { v2 as cloudinary, UploadApiResponse } from 'cloudinary';
 
 // Configure Cloudinary
 cloudinary.config({
@@ -21,15 +21,15 @@ export async function POST(req: Request) {
     const buffer = Buffer.from(arrayBuffer);
 
     // Upload to Cloudinary via stream
-    const result = await new Promise<any>((resolve, reject) => {
+    const result = await new Promise<UploadApiResponse>((resolve, reject) => {
       cloudinary.uploader.upload_stream(
         {
           folder: 'rental-cars', // Optional: organize uploads in a folder
           resource_type: 'auto',
         },
-        (error, result) => {
+        (error: any, result: UploadApiResponse | undefined) => {
           if (error) reject(error);
-          else resolve(result);
+          else resolve(result!);
         }
       ).end(buffer);
     });
@@ -40,20 +40,22 @@ export async function POST(req: Request) {
       public_id: result.public_id // Useful for future deletions/edits
     });
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('Cloudinary upload error:', error);
     
     // Check for specific configuration errors
-    if (error.message && error.message.includes('Invalid cloud_name')) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    
+    if (errorMessage.includes('Invalid cloud_name')) {
       return NextResponse.json({ 
         error: 'Configuration Error: Invalid Cloudinary Cloud Name. Please check your .env.local file.', 
-        details: error.message 
+        details: errorMessage 
       }, { status: 500 });
     }
 
     return NextResponse.json({ 
       error: 'Upload failed', 
-      details: error.message 
+      details: errorMessage 
     }, { status: 500 });
   }
 }
