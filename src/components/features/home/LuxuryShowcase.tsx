@@ -171,21 +171,21 @@ export function LuxuryShowcase({ vehicles }: LuxuryShowcaseProps) {
                                          </div>
                                      </div>
 
-                                     {/* Specs */}
+                                      {/* Specs */}
                                      <div className="flex justify-between items-center text-gray-400 text-sm px-2">
                                          <div className="flex items-center gap-2">
-                                             <Gauge className="w-4 h-4 text-electric" />
+                                             <Gauge className="w-4 h-4 text-gold" />
                                              <span>250 km/{t('dayAbbr')}</span>
                                          </div>
                                          <div className="flex items-center gap-2">
-                                             <Fuel className="w-4 h-4 text-electric" />
+                                             <Fuel className="w-4 h-4 text-gold" />
                                              <span>{vehicle.specs?.fuel || 'Petrol'}</span>
                                          </div>
                                      </div>
 
                                      {/* Actions */}
                                      <div className="flex gap-3 pt-2">
-                                         <Button variant="outline" className="flex-1 border-electric text-electric hover:bg-electric hover:text-white bg-transparent h-12 font-bold">
+                                         <Button variant="outline" className="flex-1 border-gold text-gold hover:bg-gold hover:text-navy bg-transparent h-12 font-bold">
                                              <Phone className="w-4 h-4 mr-2" /> {t('call')}
                                          </Button>
                                          <Button className="flex-1 bg-green-600 hover:bg-green-700 text-white border-none h-12 font-bold">

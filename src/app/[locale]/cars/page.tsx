@@ -20,7 +20,7 @@ async function getVehicles(searchParams: { [key: string]: string | string[] | un
     const query: any = { available: true, type: { $ne: 'sale' } }
 
     // Category Filter
-    if (searchParams.category) {
+    if (searchParams.category && searchParams.category !== 'all') {
         const categories = Array.isArray(searchParams.category) 
             ? searchParams.category 
             : [searchParams.category]
@@ -28,7 +28,7 @@ async function getVehicles(searchParams: { [key: string]: string | string[] | un
     }
     
     // Type Filter (Alias for Category if used)
-    if (searchParams.type) {
+    if (searchParams.type && searchParams.type !== 'all') {
         const types = Array.isArray(searchParams.type) 
             ? searchParams.type 
             : [searchParams.type]
@@ -36,26 +36,21 @@ async function getVehicles(searchParams: { [key: string]: string | string[] | un
     }
 
     // Brand Filter
-    if (searchParams.brand) {
+    if (searchParams.brand && searchParams.brand !== 'all') {
         const brands = Array.isArray(searchParams.brand)
             ? searchParams.brand
             : [searchParams.brand]
-        // Case insensitive search
         query.brand = { $in: brands.map(b => new RegExp(b as string, 'i')) }
     }
 
     // Location Filter
-    if (searchParams.location) {
+    if (searchParams.location && searchParams.location !== 'all') {
         const locations = Array.isArray(searchParams.location)
             ? searchParams.location
             : [searchParams.location]
-        // Assuming filtered by 'location' field if exists, or just ignoring if not implemented in schema yet.
-        // If vehicles have a specific 'location' field:
-        // query.location = { $in: locations.map(l => new RegExp(l as string, 'i')) }
-        // For now, let's assume filtering by location might mean "available in this location"
-        // If the schema doesn't support it, this might return nothing if I guess wrong.
-        // Safest is to log or just rely on the frontend to drive it if backend isn ready.
-        // Let's add it tentatively:
+        
+        // Handle city names and slugs mapping if needed, 
+        // but regex usually handles "Kyrenia" vs "kyrenia"
         query.location = { $in: locations.map(l => new RegExp(l as string, 'i')) }
     }
 

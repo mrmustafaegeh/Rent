@@ -90,7 +90,7 @@ const vehicleSchema = new mongoose.Schema<IVehicle>({
     },
     location: {
         type: String,
-        default: 'Al Jaddaf',
+        default: 'Kyrenia',
     },
     specs: {
         origin: {

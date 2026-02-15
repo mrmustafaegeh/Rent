@@ -112,7 +112,10 @@ async function seed() {
                 images: [{ url: 'https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=2070&auto=format&fit=crop', isPrimary: true }],
                 company: company._id,
                 available: true,
-                isApproved: true
+                isApproved: true,
+                location: 'kyrenia',
+                type: 'rent',
+                status: 'approved'
             },
             {
                 brand: 'Mercedes-Benz',
@@ -126,7 +129,10 @@ async function seed() {
                 images: [{ url: 'https://images.unsplash.com/photo-1622354779261-7589b257523f?q=80&w=2621&auto=format&fit=crop', isPrimary: true }],
                 company: company._id,
                 available: true,
-                isApproved: true
+                isApproved: true,
+                location: 'nicosia',
+                type: 'rent',
+                status: 'approved'
             },
             {
                 brand: 'Range Rover',
@@ -140,7 +146,10 @@ async function seed() {
                 images: [{ url: 'https://images.unsplash.com/photo-1606219665804-98ae8b50f771?q=80&w=2069&auto=format&fit=crop', isPrimary: true }],
                 company: company._id,
                 available: true,
-                isApproved: true
+                isApproved: true,
+                location: 'famagusta',
+                type: 'rent',
+                status: 'approved'
             }
         ];
 
