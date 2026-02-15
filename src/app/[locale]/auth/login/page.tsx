@@ -60,12 +60,12 @@ export default function LoginPage() {
       </div>
 
       {/* Glass Card */}
-      <div className="relative z-10 w-full max-w-md p-8 md:p-10 bg-black/30 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl animate-in fade-in zoom-in-95 duration-500">
+      <div className="relative z-10 w-full max-w-md p-6 sm:p-8 md:p-10 bg-black/30 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl animate-in fade-in zoom-in-95 duration-500 mx-4 sm:mx-0">
         
         {/* Header */}
         <div className="text-center mb-8 space-y-2">
-            <h1 className="text-4xl font-heading font-black text-white tracking-tight">Welcome Back</h1>
-            <p className="text-gray-300 font-medium">Enter your details to access your account</p>
+            <h1 className="text-3xl md:text-4xl font-heading font-black text-white tracking-tight">Welcome Back</h1>
+            <p className="text-gray-400 sm:text-gray-300 text-sm sm:text-base font-medium">Enter your details to access your account</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">

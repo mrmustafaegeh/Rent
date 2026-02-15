@@ -20,25 +20,25 @@ export function SellingCarSection({ vehicles }: SellingCarSectionProps) {
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gold/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
           <div className="max-w-2xl">
             <span className="inline-block px-4 py-1.5 rounded-full border border-gold/30 bg-gold/10 text-gold text-xs font-bold tracking-[0.2em] uppercase backdrop-blur-md mb-6">
               Exclusive Marketplace
             </span>
-            <h2 className="text-4xl md:text-5xl font-heading font-black leading-tight mb-4">
-              Own a Masterpiece of <br />
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-black leading-tight mb-4 uppercase tracking-tight">
+              Own a Masterpiece <br className="hidden sm:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold to-amber-500">
                 Engineering
               </span>
             </h2>
-            <p className="text-gray-400 text-lg leading-relaxed">
+            <p className="text-gray-400 text-base md:text-lg leading-relaxed">
               Discover our curated collection of verified premium vehicles available for immediate purchase. 
               Each car undergoes a rigorous 150-point inspection to ensure pristine condition.
             </p>
           </div>
-
-          <Link href="/buy">
-            <Button className="h-12 px-8 bg-white text-navy hover:bg-gold hover:text-navy font-bold rounded-full transition-all flex items-center gap-2">
+ 
+          <Link href="/buy" className="w-full md:w-auto">
+            <Button className="w-full md:w-auto h-12 px-8 bg-white text-navy hover:bg-gold hover:text-navy font-bold rounded-full transition-all flex items-center justify-center gap-2">
               View All Listings <ArrowRight className="w-4 h-4" />
             </Button>
           </Link>

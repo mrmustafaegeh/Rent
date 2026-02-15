@@ -40,7 +40,7 @@ export function Testimonials() {
                 <div className="flex flex-col md:flex-row justify-between items-center mb-20 gap-8">
                     <div className="text-center md:text-left space-y-4">
                         <span className="text-gold font-black tracking-[0.4em] text-[10px] uppercase block">VOICE OF EXCELLENCE</span>
-                        <h2 className="text-4xl md:text-6xl font-heading font-black text-navy tracking-tight leading-none">Loved by Travelers <br className="hidden md:block" /> Across the Globe</h2>
+                        <h2 className="text-3xl sm:text-5xl md:text-6xl font-heading font-black text-navy tracking-tight leading-[1.1]">Loved by Travelers <br className="hidden md:block" /> Across the Globe</h2>
                     </div>
                     
                     <div className="flex flex-col items-center md:items-end gap-3">
@@ -62,7 +62,7 @@ export function Testimonials() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: index * 0.1, duration: 0.6 }}
-                            className="group bg-white p-10 rounded-[3rem] shadow-2xl shadow-navy/5 border border-black/5 hover:border-gold/30 hover:-translate-y-2 transition-all duration-500 relative"
+                            className="group bg-white p-6 sm:p-10 rounded-3xl md:rounded-[3rem] shadow-2xl shadow-navy/5 border border-black/5 hover:border-gold/30 hover:-translate-y-2 transition-all duration-500 relative"
                         >
                             <Quote className="w-16 h-16 text-gold/10 absolute top-8 right-8 group-hover:text-gold/20 transition-colors" />
                             

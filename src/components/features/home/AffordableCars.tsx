@@ -17,14 +17,14 @@ export function AffordableCars({ vehicles }: AffordableCarsProps) {
     return (
         <section className="py-24 bg-white">
             <div className="container mx-auto px-4">
-                 <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
                      <div className="space-y-4">
                          <span className="text-electric font-bold tracking-[0.2em] text-xs uppercase block">BEST VALUE</span>
-                         <h2 className="text-4xl md:text-5xl font-heading font-bold text-navy">Affordable Rentals</h2>
-                         <p className="text-gray-500 text-lg max-w-2xl font-body">Quality cars at unbeatable prices, starting from €30/day. No hidden fees.</p>
+                         <h2 className="text-3xl md:text-5xl font-heading font-bold text-navy">Affordable Rentals</h2>
+                         <p className="text-gray-500 text-base md:text-lg max-w-2xl font-body">Quality cars at unbeatable prices, starting from €30/day. No hidden fees.</p>
                      </div>
-                     <Link href="/cars?category=economy">
-                         <Button variant="outline" className="border-navy text-navy hover:bg-navy hover:text-white font-bold px-6 h-12 rounded-lg transition-all">
+                     <Link href="/cars?category=economy" className="w-full md:w-auto">
+                         <Button variant="outline" className="w-full md:w-auto border-navy text-navy hover:bg-navy hover:text-white font-bold px-6 h-12 rounded-xl transition-all">
                              View All Budget Cars
                          </Button>
                      </Link>
@@ -53,7 +53,7 @@ export function AffordableCars({ vehicles }: AffordableCarsProps) {
                                 </button>
                                 
                                 <Image 
-                                    src={vehicle.images?.[0]?.url || '/images/placeholder-car.jpg'} 
+                                    src={vehicle.images?.[0]?.url || '/images/car-placeholder.jpg'} 
                                     alt={`${vehicle.make} ${vehicle.model}`}
                                     fill
                                     className="object-cover group-hover:scale-105 transition-transform duration-500"

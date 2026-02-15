@@ -98,8 +98,8 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
                                          <span className="text-gray-400 font-normal ml-1">(24 reviews)</span>
                                      </div>
                                  </div>
-                                 <h1 className="text-4xl md:text-5xl font-heading font-black text-navy">{vehicle.brand} {vehicle.model}</h1>
-                                 <p className="text-gray-500 font-medium flex items-center gap-2">
+                                 <h1 className="text-2xl sm:text-4xl md:text-5xl font-heading font-black text-navy leading-tight">{vehicle.brand} {vehicle.model}</h1>
+                                 <p className="text-gray-500 text-sm sm:text-base font-medium flex items-center gap-2">
                                      {vehicle.year} Model • {vehicle.specs?.transmission || 'Automatic'} • {vehicle.specs?.fuelType || 'Petrol'}
                                  </p>
                              </div>

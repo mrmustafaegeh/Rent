@@ -202,7 +202,7 @@ export default function AdminVehiclesPage() {
                             <div className="flex items-center gap-5">
                                 <div className="w-20 h-14 bg-gray-100 rounded-xl overflow-hidden relative shrink-0 border border-gray-100 shadow-inner">
                                     <OptimizedImage 
-                                        src={vehicle.images?.[0]?.url || '/images/placeholder-car.jpg'} 
+                                        src={vehicle.images?.[0]?.url || '/images/car-placeholder.jpg'} 
                                         alt={`${vehicle.brand} ${vehicle.vehicleModel}`}
                                         fill 
                                         className="object-cover"

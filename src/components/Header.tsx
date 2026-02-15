@@ -16,6 +16,7 @@ import {
 
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { motion } from "framer-motion";
 
 export function Header() {
   const { user, isAuthenticated, logout } = useAuth();
@@ -39,6 +40,14 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  React.useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [mobileMenuOpen]);
+
   const navLinks = [
     { name: t('rent'), href: "/cars" },
     { name: t('buy'), href: "/buy" },
@@ -57,7 +66,7 @@ export function Header() {
           : "bg-[#0A1628]/85 backdrop-blur-[10px] border-white/5 py-4"
       }`}
     >
-      <div className="container flex h-full items-center justify-between mx-auto px-4">
+      <div className="container relative z-[1001] flex h-full items-center justify-between mx-auto px-4">
          {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
           <div className="relative flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-tr from-navy to-electric group-hover:rotate-180 transition-transform duration-700">
@@ -149,40 +158,66 @@ export function Header() {
       {mobileMenuOpen && (
         <div 
           id="mobile-menu"
-          className="lg:hidden fixed inset-0 top-[70px] bg-navy/95 backdrop-blur-xl z-[900] p-6 animate-in slide-in-from-right-10 duration-300"
+          className="lg:hidden fixed inset-0 top-0 h-screen w-screen bg-navy/98 backdrop-blur-2xl z-[900] p-6 pt-24 animate-in fade-in slide-in-from-right-20 duration-500"
           role="dialog"
           aria-modal="true"
           aria-label="Mobile navigation"
         >
-            <nav className="flex flex-col gap-6 mt-8">
-                 {navLinks.map((link) => (
-                    <Link 
+            <nav className="flex flex-col gap-6 mt-4">
+                 {navLinks.map((link, idx) => (
+                    <motion.div
                         key={link.name}
-                        href={link.href} 
-                        className="font-heading font-semibold text-2xl text-white hover:text-gold transition-colors flex justify-between items-center group" 
-                        onClick={() => setMobileMenuOpen(false)}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: idx * 0.1 }}
                     >
-                        {link.name}
-                        <span className="text-white/20 group-hover:text-gold transition-colors">→</span>
-                    </Link>
+                        <Link 
+                            href={link.href} 
+                            className="font-heading font-black text-3xl text-white hover:text-gold transition-colors flex justify-between items-center group active:scale-95 duration-200" 
+                            onClick={() => setMobileMenuOpen(false)}
+                        >
+                            {link.name}
+                            <span className="text-gold opacity-50 font-light">→</span>
+                        </Link>
+                    </motion.div>
                  ))}
                  
-                 <div className="h-px bg-white/10 my-4" />
-
+                 <div className="h-px bg-white/10 my-6" />
+ 
                  {isAuthenticated ? (
-                    <>
-                    <Link href="/dashboard" className="font-heading font-medium text-xl text-white" onClick={() => setMobileMenuOpen(false)}>Dashboard</Link>
-                    <button onClick={() => {logout(); setMobileMenuOpen(false)}} className="font-heading font-medium text-xl text-left text-destructive">Sign Out</button>
-                    </>
+                    <motion.div 
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.5 }}
+                        className="flex flex-col gap-6"
+                    >
+                        <Link href="/dashboard" className="font-heading font-bold text-2xl text-white flex items-center gap-3" onClick={() => setMobileMenuOpen(false)}>
+                            <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center">
+                                <User className="w-5 h-5 text-gold" />
+                            </div>
+                            {t('dashboard')}
+                        </Link>
+                        <button onClick={() => {logout(); setMobileMenuOpen(false)}} className="font-heading font-bold text-2xl text-left text-red-500 flex items-center gap-3">
+                             <div className="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center">
+                                <X className="w-5 h-5" />
+                            </div>
+                            {t('logout')}
+                        </button>
+                    </motion.div>
                  ) : (
-                    <div className="flex flex-col gap-4">
+                    <motion.div 
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.5 }}
+                        className="flex flex-col gap-4"
+                    >
                         <Link href="/auth/login" onClick={() => setMobileMenuOpen(false)}>
-                            <Button className="w-full h-12 text-lg border-white/20 text-white" variant="outline">Sign In</Button>
+                            <Button className="w-full h-14 text-lg font-bold border-white/20 text-white rounded-2xl" variant="outline">{t('login')}</Button>
                         </Link>
                         <Link href="/list-your-car" onClick={() => setMobileMenuOpen(false)}>
-                            <Button className="w-full h-12 text-lg bg-gold text-navy font-bold">List Your Car</Button>
+                            <Button className="w-full h-14 text-lg bg-gold text-navy font-black rounded-2xl shadow-xl shadow-gold/10">List Your Car</Button>
                          </Link>
-                    </div>
+                    </motion.div>
                  )}
             </nav>
         </div>

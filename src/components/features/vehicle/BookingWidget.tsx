@@ -74,7 +74,7 @@ export function BookingWidget({ pricing, vehicleId }: BookingWidgetProps) {
   }
 
   return (
-    <div className="bg-white rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgba(0,0,0,0.08)] p-8 space-y-8 sticky top-24 overflow-hidden">
+    <div className="bg-white rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgba(0,0,0,0.08)] p-6 md:p-8 space-y-6 md:space-y-8 sticky top-24 overflow-hidden">
       <div className="flex justify-between items-end border-b border-gray-100 pb-6">
         <div>
             <span className="text-gray-400 text-xs font-bold uppercase tracking-wider block mb-1">Daily Rate</span>

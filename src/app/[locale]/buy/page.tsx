@@ -5,6 +5,9 @@ import SalesResultSection from '@/components/buy/SalesResultSection';
 import { Metadata } from 'next';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
+import { Button } from '@/components/ui/Button';
+import { Filter } from 'lucide-react';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/Sheet';
 
 export const metadata: Metadata = {
   title: 'Buy Premium Cars | Luxury Marketplace - RENTALX',
@@ -60,10 +63,10 @@ export default async function BuyPage({
                 <span className="inline-block px-4 py-1.5 rounded-full border border-white/20 bg-white/10 text-gold text-xs font-bold tracking-[0.2em] uppercase backdrop-blur-md animate-in fade-in slide-in-from-bottom-2">
                     Premium Marketplace
                 </span>
-                <h1 className="text-4xl md:text-6xl font-heading font-black text-white leading-tight animate-in fade-in slide-in-from-bottom-4 shadow-sm">
+                <h1 className="text-3xl sm:text-4xl md:text-6xl font-heading font-black text-white leading-tight animate-in fade-in slide-in-from-bottom-4 shadow-sm">
                     Own The <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold to-amber-500">Exceptional</span>
                 </h1>
-                <p className="text-gray-200 text-lg md:text-xl font-body leading-relaxed max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-6 font-medium drop-shadow-md">
+                <p className="text-gray-200 text-base sm:text-lg md:text-xl font-body leading-relaxed max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-6 font-medium drop-shadow-md">
                     Discover a curated selection of premium vehicles. Verified quality, transparent pricing, and exclusive ownership benefits.
                 </p>
              </div>
@@ -71,8 +74,27 @@ export default async function BuyPage({
 
         <div className="container mx-auto px-4 py-12">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            {/* Sidebar */}
-            <div className="lg:col-span-1">
+            {/* Mobile Filter Button */}
+            <div className="lg:hidden mb-6 flex items-center justify-between bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+                <span className="font-heading font-bold text-navy">Refine Search</span>
+                <Sheet>
+                    <SheetTrigger asChild>
+                        <Button variant="outline" className="border-navy text-navy font-bold">
+                            <Filter className="mr-2 h-4 w-4" /> Filters
+                        </Button>
+                    </SheetTrigger>
+                    <SheetContent side="left" className="w-[300px] sm:w-[400px] overflow-y-auto bg-gray-50 p-6">
+                        <div className="py-4">
+                            <Suspense fallback={<div className="h-64 bg-white rounded-3xl animate-pulse"/>}>
+                                <SalesFilterSidebar />
+                            </Suspense>
+                        </div>
+                    </SheetContent>
+                </Sheet>
+            </div>
+
+            {/* Sidebar (Desktop) */}
+            <div className="hidden lg:block lg:col-span-1">
               <Suspense fallback={<div className="h-64 bg-gray-100 rounded-3xl animate-pulse"/>}>
                  <div className="sticky top-24">
                     <SalesFilterSidebar />

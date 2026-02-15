@@ -56,10 +56,10 @@ export default function ContactPage() {
             <div className="absolute inset-0 bg-[url('/images/pattern-grid.png')] opacity-10" />
             <div className="container mx-auto px-4 relative z-10 text-center">
                 <span className="text-gold font-bold uppercase tracking-widest text-xs mb-4 block">Here to Help</span>
-                <h1 className="text-4xl md:text-6xl font-heading font-black text-white mb-6">
+                <h1 className="text-3xl sm:text-5xl md:text-6xl font-heading font-black text-white mb-6">
                     Get in <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold to-yellow-500">Touch</span>
                 </h1>
-                <p className="text-gray-300 text-lg max-w-2xl mx-auto font-body font-light">
+                <p className="text-gray-300 text-base md:text-lg max-w-2xl mx-auto font-body font-light">
                     Have a question about our fleet or services? Our concierge team is available 24/7 to assist you.
                 </p>
             </div>
@@ -130,7 +130,7 @@ export default function ContactPage() {
                     </div>
 
                     {/* Contact Form */}
-                    <div className="lg:w-7/12 p-10 md:p-14 bg-white">
+                    <div className="lg:w-7/12 p-6 sm:p-10 md:p-14 bg-white">
                         <form className="space-y-6" onSubmit={handleSubmit}>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <Input 

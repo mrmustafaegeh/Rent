@@ -16,7 +16,7 @@ export function ImageGallery({ images, title }: ImageGalleryProps) {
   const [selectedIndex, setSelectedIndex] = React.useState(0)
   
   // Use placeholder if no images
-  const displayImages = images.length > 0 ? images : ["/images/placeholder-car.jpg"]
+  const displayImages = images.length > 0 ? images : ["/images/car-placeholder.jpg"]
 
   const nextImage = () => {
     setSelectedIndex((prev) => (prev + 1) % displayImages.length)
@@ -54,18 +54,18 @@ export function ImageGallery({ images, title }: ImageGalleryProps) {
                 <Button 
                     variant="ghost" 
                     size="icon" 
-                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-md hover:bg-white text-white hover:text-navy rounded-full h-10 w-10 opacity-0 group-hover:opacity-100 transition-all duration-300"
+                    className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-md hover:bg-white text-white hover:text-navy rounded-full h-8 w-8 md:h-10 md:w-10 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-300"
                     onClick={prevImage}
                 >
-                    <ChevronLeft className="w-6 h-6" />
+                    <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
                 </Button>
                 <Button 
                     variant="ghost" 
                     size="icon" 
-                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-md hover:bg-white text-white hover:text-navy rounded-full h-10 w-10 opacity-0 group-hover:opacity-100 transition-all duration-300"
+                    className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-md hover:bg-white text-white hover:text-navy rounded-full h-8 w-8 md:h-10 md:w-10 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-300"
                     onClick={nextImage}
                 >
-                    <ChevronRight className="w-6 h-6" />
+                    <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
                 </Button>
             </>
         )}

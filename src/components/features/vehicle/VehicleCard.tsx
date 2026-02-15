@@ -42,7 +42,7 @@ export interface VehicleCardProps {
 }
 
 export function VehicleCard({ vehicle }: VehicleCardProps) {
-    const primaryImage = vehicle.images?.find(img => img.isPrimary)?.url || vehicle.images?.[0]?.url || '/images/placeholder-car.jpg';
+    const primaryImage = vehicle.images?.find(img => img.isPrimary)?.url || vehicle.images?.[0]?.url || '/images/car-placeholder.jpg';
     
     const isSale = vehicle.type === 'sale' || !!vehicle.salePrice;
     const price = isSale ? vehicle.salePrice : vehicle.pricing?.daily;

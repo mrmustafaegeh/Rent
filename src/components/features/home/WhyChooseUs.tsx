@@ -34,10 +34,10 @@ export function WhyChooseUs() {
             </div>
 
             <div className="container mx-auto px-4 relative z-10">
-                <div className="text-center mb-24 space-y-4">
+                <div className="text-center mb-16 md:mb-24 space-y-4">
                     <span className="text-gold font-black tracking-[0.4em] text-[10px] uppercase block">BEYOND EXPECTATIONS</span>
-                    <h2 className="text-5xl md:text-7xl font-heading font-black text-white leading-tight">The Pinnacle of <br className="hidden md:block" /> Mediterranean Motion</h2>
-                    <p className="text-gray-400 text-xl max-w-3xl mx-auto font-body font-light">
+                    <h2 className="text-3xl sm:text-5xl md:text-7xl font-heading font-black text-white leading-tight">The Pinnacle of <br className="hidden md:block" /> Mediterranean Motion</h2>
+                    <p className="text-gray-400 text-base md:text-xl max-w-3xl mx-auto font-body font-light">
                         Redefining the standard of car rental in North Cyprus through an unmatched fleet and world-class service.
                     </p>
                 </div>

@@ -191,7 +191,8 @@ export default async function LocationsPage() {
              <div className="container mx-auto px-4 text-center">
                  <div className="relative rounded-3xl overflow-hidden shadow-2xl h-[500px] border border-gray-200 bg-gray-200 group">
                       {/* Placeholder Map Image/Gradient */}
-                      <div className="absolute inset-0 bg-[url('/images/map-pattern.png')] opacity-20 bg-repeat bg-contain" />
+                      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+                           style={{ backgroundImage: 'radial-gradient(#0A1628 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
                       <div className="absolute inset-0 bg-gradient-to-br from-navy/5 to-navy/20" />
                       
                       <div className="absolute inset-0 flex flex-col items-center justify-center space-y-6 p-6">

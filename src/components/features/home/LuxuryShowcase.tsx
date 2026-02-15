@@ -85,36 +85,36 @@ export function LuxuryShowcase({ vehicles }: LuxuryShowcaseProps) {
             <div className="absolute inset-0 bg-gradient-to-b from-navy via-transparent to-navy pointer-events-none" />
 
             <div className="container mx-auto px-4 relative z-10">
-                 <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-12 gap-6">
                      <div className="space-y-4">
                          <span className="text-gold font-bold tracking-[0.2em] text-xs uppercase block">{t('tagline')}</span>
                          <h2 className="text-4xl md:text-5xl font-heading font-bold text-white">{t('title')}</h2>
                          <p className="text-gray-400 text-lg max-w-2xl font-body">{t('description')}</p>
                      </div>
                      
-                     <div className="flex items-center gap-4">
+                     <div className="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end">
                          <div className="flex gap-2">
                              <Button 
                                 variant="outline" 
                                 size="icon" 
                                 onClick={() => scroll('left')}
                                 disabled={!canScrollLeft}
-                                className="rounded-full w-12 h-12 border-white/10 bg-white/5 hover:bg-gold hover:border-gold hover:text-navy text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                                className="rounded-full w-10 h-10 md:w-12 md:h-12 border-white/10 bg-white/5 hover:bg-gold hover:border-gold hover:text-navy text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                              >
-                                 <ArrowLeft className="w-5 h-5" />
+                                 <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
                              </Button>
                              <Button 
                                 variant="outline" 
                                 size="icon" 
                                 onClick={() => scroll('right')}
                                 disabled={!canScrollRight}
-                                className="rounded-full w-12 h-12 border-white/10 bg-white/5 hover:bg-gold hover:border-gold hover:text-navy text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                                className="rounded-full w-10 h-10 md:w-12 md:h-12 border-white/10 bg-white/5 hover:bg-gold hover:border-gold hover:text-navy text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                              >
-                                 <ArrowRight className="w-5 h-5" />
+                                 <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
                              </Button>
                          </div>
-                         <Link href="/cars?category=luxury">
-                             <Button className="hidden md:flex bg-gold text-navy hover:bg-white hover:text-navy font-bold px-6 h-12 rounded-full transition-all">
+                         <Link href="/cars?category=luxury" className="shrink-0">
+                             <Button className="bg-gold text-navy hover:bg-white hover:text-navy font-bold px-5 h-11 md:px-6 md:h-12 rounded-full transition-all text-sm md:text-base">
                                  {t('viewAll')}
                              </Button>
                          </Link>
@@ -141,7 +141,7 @@ export function LuxuryShowcase({ vehicles }: LuxuryShowcaseProps) {
                                  {/* Image Area */}
                                  <div className="relative aspect-[3/2] w-full overflow-hidden">
                                      <Image 
-                                        src={vehicle.images?.[0]?.url || '/images/placeholder-car.jpg'} 
+                                        src={vehicle.images?.[0]?.url || '/images/car-placeholder.jpg'} 
                                         alt={`${vehicle.make} ${vehicle.model}`}
                                         fill
                                         className="object-cover group-hover:scale-110 transition-transform duration-700"

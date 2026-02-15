@@ -59,9 +59,9 @@ export default function HowItWorksPage() {
       
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative pt-32 pb-20 overflow-hidden">
+        <section className="relative pt-32 pb-16 md:pb-20 overflow-hidden">
              <div className="container mx-auto px-4 text-center">
-                 <h1 className="text-4xl md:text-6xl font-bold mb-6">How It Works</h1>
+                 <h1 className="text-3xl sm:text-4xl md:text-6xl font-heading font-black text-navy mb-6">How It Works</h1>
                  <p className="text-xl text-[var(--text-secondary)] max-w-2xl mx-auto">
                     Your journey to driving the extraordinary is simple and seamless. Follow these steps to get behind the wheel.
                  </p>
@@ -112,11 +112,11 @@ export default function HowItWorksPage() {
                             <ul className="space-y-3">
                                 <li className="flex items-start gap-3">
                                     <span className="text-green-500 mt-1">✔</span>
-                                    <span className="text-[var(--text-secondary)]">Valid UAE Driving License (min. 6 months old)</span>
+                                    <span className="text-[var(--text-secondary)]">Valid Driving License (min. 12 months old)</span>
                                 </li>
                                 <li className="flex items-start gap-3">
                                     <span className="text-green-500 mt-1">✔</span>
-                                    <span className="text-[var(--text-secondary)]">Emirates ID Copy</span>
+                                    <span className="text-[var(--text-secondary)]">National ID Card Copy</span>
                                 </li>
                                 <li className="flex items-start gap-3">
                                     <span className="text-green-500 mt-1">✔</span>
@@ -131,7 +131,7 @@ export default function HowItWorksPage() {
                         <div>
                             <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-[var(--accent)]">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                For Tourists
+                                For International Visitors
                             </h3>
                             <ul className="space-y-3">
                                 <li className="flex items-start gap-3">
@@ -140,7 +140,7 @@ export default function HowItWorksPage() {
                                 </li>
                                 <li className="flex items-start gap-3">
                                     <span className="text-green-500 mt-1">✔</span>
-                                    <span className="text-[var(--text-secondary)]">Visit Visa Copy</span>
+                                    <span className="text-[var(--text-secondary)]">Entry Stamp (Visa) Copy</span>
                                 </li>
                                 <li className="flex items-start gap-3">
                                     <span className="text-green-500 mt-1">✔</span>
@@ -148,7 +148,7 @@ export default function HowItWorksPage() {
                                 </li>
                                 <li className="flex items-start gap-3">
                                     <span className="text-green-500 mt-1">✔</span>
-                                    <span className="text-[var(--text-secondary)]">International Driving Permit (IDP)</span>
+                                    <span className="text-[var(--text-secondary)]">International Driving Permit (IDP) If Needed</span>
                                 </li>
                             </ul>
                         </div>

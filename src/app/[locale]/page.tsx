@@ -92,10 +92,10 @@ export default async function Home() {
         <section className="py-24 bg-navy relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-electric/20 to-gold/20 opacity-30" />
             <div className="container mx-auto px-4 relative z-10 text-center space-y-8">
-                <h2 className="text-4xl md:text-6xl font-heading font-black text-white leading-tight">
+                <h2 className="text-3xl sm:text-4xl md:text-6xl font-heading font-black text-white leading-tight">
                     {t('title')}
                 </h2>
-                <p className="text-xl text-gray-300 max-w-2xl mx-auto font-body">
+                <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto font-body">
                     {t('subtitle')}
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">

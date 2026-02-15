@@ -122,7 +122,7 @@ export default function MyBookingsPage() {
                             {/* Image */}
                             <div className="w-full lg:w-64 aspect-[4/3] bg-gray-100 rounded-2xl overflow-hidden relative flex-shrink-0 border border-gray-100">
                                 <Image 
-                                   src={booking.vehicle?.images?.[0]?.url || '/images/placeholder-car.jpg'} 
+                                   src={booking.vehicle?.images?.[0]?.url || '/images/car-placeholder.jpg'} 
                                    alt={booking.vehicle?.brand || 'Car'} 
                                    fill
                                    className="object-cover group-hover:scale-105 transition-transform duration-700"

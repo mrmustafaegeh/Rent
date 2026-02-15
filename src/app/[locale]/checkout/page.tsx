@@ -389,7 +389,7 @@ function CheckoutContent() {
                                 <div className="flex gap-4 mb-6">
                                     <div className="w-24 h-24 bg-gray-100 rounded-xl overflow-hidden relative border border-gray-200">
                                         <Image 
-                                            src={vehicle.images?.[0]?.url || '/images/placeholder-car.jpg'} 
+                                            src={vehicle.images?.[0]?.url || '/images/car-placeholder.jpg'} 
                                             alt={vehicle.brand} 
                                             fill
                                             className="object-cover"

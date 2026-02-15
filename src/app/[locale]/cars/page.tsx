@@ -102,8 +102,8 @@ export default async function CarsPage({
                 
                 <div className="relative z-10 text-center space-y-4 px-4">
                     <span className="text-gold font-bold tracking-[0.2em] text-sm uppercase">PREMIUM SELECTION</span>
-                    <h1 className="text-5xl md:text-7xl font-heading font-black text-white">Our Fleet</h1>
-                    <p className="text-xl text-gray-200 max-w-2xl mx-auto font-body">
+                    <h1 className="text-3xl sm:text-5xl md:text-7xl font-heading font-black text-white">Our Fleet</h1>
+                    <p className="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto font-body">
                         Choose from our curated collection of luxury, sports, and economy vehicles for your North Cyprus journey.
                     </p>
                 </div>
