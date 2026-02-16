@@ -13,7 +13,10 @@
     "about": "Hakkımızda",
     "dashboard": "Panel",
     "logout": "Çıkış Yap",
-    "login": "Giriş Yap"
+    "login": "Giriş Yap",
+    "changeLanguage": "Dili Değiştir",
+    "language": "Dil",
+    "currency": "Para Birimi"
   },
   "Common": {
     "loading": "Yükleniyor...",

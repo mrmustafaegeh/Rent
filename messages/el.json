@@ -13,7 +13,10 @@
     "about": "Σχετικά",
     "dashboard": "Ταμπλό",
     "logout": "Αποσύνδεση",
-    "login": "Σύνδεση"
+    "login": "Σύνδεση",
+    "changeLanguage": "Αλλαγή Γλώσσας",
+    "language": "Γλώσσα",
+    "currency": "Νόμισμα"
   },
   "Common": {
     "loading": "Φόρτωση...",

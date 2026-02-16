@@ -29,8 +29,11 @@ export function BookingWidget({ pricing, vehicleId }: BookingWidgetProps) {
   const [pickupLocation, setPickupLocation] = React.useState("ercan")
   const [dropoffLocation, setDropoffLocation] = React.useState("ercan")
   
+  const [mounted, setMounted] = React.useState(false)
+  
   // Set default dates on mount
   React.useEffect(() => {
+      setMounted(true)
       setPickupDate(new Date().toISOString().split('T')[0])
       setDropoffDate(addDays(new Date(), 3).toISOString().split('T')[0])
   }, [])
@@ -138,7 +141,7 @@ export function BookingWidget({ pricing, vehicleId }: BookingWidgetProps) {
                         className="h-12 pl-4 border-gray-200 bg-gray-50/50 rounded-xl focus:ring-gold/20 focus:border-gold font-medium text-navy" 
                         value={pickupDate}
                         onChange={(e) => setPickupDate(e.target.value)}
-                        min={new Date().toISOString().split('T')[0]}
+                        min={mounted ? new Date().toISOString().split('T')[0] : ""}
                      />
                  </div>
              </div>

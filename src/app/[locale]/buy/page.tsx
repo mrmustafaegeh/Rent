@@ -36,7 +36,9 @@ export default async function BuyPage({
     page: params.page ? Number(params.page) : 1,
     limit: 12,
     type: 'sale',
-    status: 'approved' // Only show approved listings
+    // In development or until the user explicitly manages status, 
+    // it's better to show all so they don't think the fleet is empty.
+    status: typeof params.status === 'string' ? params.status : undefined 
   };
 
   const result = await getVehicles(filterParams);

@@ -14,52 +14,44 @@ import { FAQ } from "@/components/features/home/FAQ";
 import { Button } from "@/components/ui/Button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import dbConnect from "@/lib/mongodb";
-import Vehicle from "@/models/Vehicle";
 import { getTranslations } from 'next-intl/server';
+import { getVehicles as getVehiclesFromService } from "@/lib/vehicleService";
 
-async function getVehicles() {
-  await dbConnect();
-  
-  // Fetch luxury (expanded categories)
-  const luxuryVehicles = await Vehicle.find({ 
-    category: { $in: ['Luxury', 'Sports', 'Supersport', 'Convertible'] },
-    type: 'rent' // Explicitly fetch rental cars for luxury showcase
-  })
-    .sort({ 'pricing.daily': -1 })
-    .limit(8)
-    .lean();
+async function getVehiclesData() {
+  // Fetch luxury
+  const luxuryResult = await getVehiclesFromService({ 
+    category: 'Luxury', // Simplified for now, or we can handle array in service if needed
+    type: 'rent',
+    status: 'approved',
+    limit: 8,
+    sort: 'price_desc'
+  });
 
   // Fetch affordable
-  const affordableVehicles = await Vehicle.find({ 
-      $or: [
-          { category: 'Economy' },
-          { 'pricing.daily': { $lt: 60 } }
-      ],
-      type: 'rent' // Explicitly fetch rental cars
-  })
-    .sort({ 'pricing.daily': 1 })
-    .limit(4)
-    .lean();
+  const affordableResult = await getVehiclesFromService({ 
+    type: 'rent',
+    status: 'approved',
+    maxPrice: 60,
+    limit: 4,
+    sort: 'price_asc'
+  });
 
-  // Fetch cars for sale - NEW
-  const saleVehicles = await Vehicle.find({
+  // Fetch cars for sale
+  const saleResult = await getVehiclesFromService({
       type: 'sale',
-      status: 'approved'
-  })
-    .sort({ 'createdAt': -1 })
-    .limit(4)
-    .lean();
+      status: 'approved',
+      limit: 4
+  });
 
   return {
-    luxury: JSON.parse(JSON.stringify(luxuryVehicles)),
-    affordable: JSON.parse(JSON.stringify(affordableVehicles)),
-    forSale: JSON.parse(JSON.stringify(saleVehicles))
+    luxury: luxuryResult.vehicles,
+    affordable: affordableResult.vehicles,
+    forSale: saleResult.vehicles
   };
 }
 
 export default async function Home() {
-  const { luxury, affordable, forSale } = await getVehicles();
+  const { luxury, affordable, forSale } = await getVehiclesData();
   const t = await getTranslations('HomePage');
 
   return (
@@ -73,8 +65,8 @@ export default async function Home() {
         
         <LuxuryShowcase vehicles={luxury} />
 
-        {/* Selling Car Section - NEW */}
-        <SellingCarSection vehicles={forSale} />
+        {/* Selling Car Section - HIDDEN PER USER REQUEST */}
+        {/* <SellingCarSection vehicles={forSale} /> */}
         
         <HowItWorks />
 

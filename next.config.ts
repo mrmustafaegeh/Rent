@@ -1,4 +1,4 @@
-const createNextIntlPlugin = require('next-intl/plugin');
+import createNextIntlPlugin from 'next-intl/plugin';
 
 const withNextIntl = createNextIntlPlugin();
 
@@ -33,8 +33,8 @@ const nextConfig: import('next').NextConfig = {
     formats: ["image/avif", "image/webp"],
     deviceSizes: [320, 420, 768, 1024, 1200, 1600, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    qualities: [75, 90],
     minimumCacheTTL: 60,
-    qualities: [75, 85],
   },
   
   // Performance optimizations
@@ -74,8 +74,8 @@ const nextConfig: import('next').NextConfig = {
             value: "strict-origin-when-cross-origin",
           },
           {
-             key: "Permissions-Policy",
-             value: "camera=(), microphone=(), geolocation=(self)",
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=(self)",
           },
           {
             key: "Content-Security-Policy",

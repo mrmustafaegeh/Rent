@@ -14,7 +14,9 @@
     "dashboard": "Dashboard",
     "logout": "Sign Out",
     "login": "Sign In",
-    "changeLanguage": "Change Language"
+    "changeLanguage": "Change Language",
+    "language": "Language",
+    "currency": "Currency"
   },
   "Common": {
     "loading": "Loading...",

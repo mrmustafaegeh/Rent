@@ -6,12 +6,15 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 import { Phone, Check, Gauge, Fuel, Users, Briefcase, MessageCircle, Heart } from "lucide-react"
 import { Button } from "@/components/ui/Button"
+import { useCurrency } from "@/context/CurrencyContext"
+import { CurrencyCode } from "@/lib/currency"
 
 interface AffordableCarsProps {
     vehicles: any[];
 }
 
 export function AffordableCars({ vehicles }: AffordableCarsProps) {
+    const { formatPrice } = useCurrency();
     if (!vehicles || vehicles.length === 0) return null;
 
     return (
@@ -54,7 +57,7 @@ export function AffordableCars({ vehicles }: AffordableCarsProps) {
                                 
                                 <Image 
                                     src={vehicle.images?.[0]?.url || '/images/car-placeholder.jpg'} 
-                                    alt={`${vehicle.make} ${vehicle.model}`}
+                                    alt={`${vehicle.brand} ${vehicle.vehicleModel}`}
                                     fill
                                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                                 />
@@ -63,26 +66,33 @@ export function AffordableCars({ vehicles }: AffordableCarsProps) {
                             {/* Content */}
                             <div className="p-5 space-y-4">
                                 <div>
-                                    <h3 className="font-heading font-bold text-xl text-navy">{vehicle.make} {vehicle.model}</h3>
+                                    <h3 className="font-heading font-bold text-xl text-navy">{vehicle.brand} {vehicle.vehicleModel}</h3>
                                     <div className="text-gray-400 text-sm mt-1 flex items-center gap-3">
-                                        <span className="flex items-center gap-1"><Users className="w-3 h-3" /> {vehicle.specs?.seats || 5}</span>
+                                        <span className="flex items-center gap-1"><Users className="w-3 h-3" /> {vehicle.seats || 5}</span>
                                         <span className="flex items-center gap-1"><Briefcase className="w-3 h-3" /> {vehicle.specs?.luggage || 2}</span>
-                                        <span className="flex items-center gap-1"><Fuel className="w-3 h-3" /> {vehicle.specs?.fuel || 'Petrol'}</span>
+                                        <span className="flex items-center gap-1"><Fuel className="w-3 h-3" /> {vehicle.fuelType || 'Petrol'}</span>
                                     </div>
                                 </div>
 
                                 <div className="flex items-end justify-between border-t border-gray-100 pt-4">
-                                    <div>
-                                        <span className="text-xs text-gray-400 uppercase font-bold">Daily Rate</span>
-                                        <div className="flex items-baseline gap-1">
-                                            <span className="text-2xl font-bold text-electric">€{vehicle.pricing?.daily || 30}</span>
-                                            <span className="text-gray-400 text-sm">/day</span>
-                                        </div>
-                                    </div>
-                                    <div className="text-right">
-                                        <span className="text-xs text-gray-400 uppercase font-bold">Weekly</span>
-                                        <div className="text-sm font-bold text-navy">€{vehicle.pricing?.weekly || 180}</div>
-                                    </div>
+                                    {(() => {
+                                        const vehicleCurrency = (vehicle.currency as CurrencyCode) || 'EUR';
+                                        return (
+                                            <>
+                                                <div>
+                                                    <span className="text-xs text-gray-400 uppercase font-bold">Daily Rate</span>
+                                                    <div className="flex items-baseline gap-1">
+                                                        <span className="text-2xl font-bold text-electric">{formatPrice(vehicle.pricing?.daily || 30, vehicleCurrency)}</span>
+                                                        <span className="text-gray-400 text-sm">/day</span>
+                                                    </div>
+                                                </div>
+                                                <div className="text-right">
+                                                    <span className="text-xs text-gray-400 uppercase font-bold">Weekly</span>
+                                                    <div className="text-sm font-bold text-navy">{formatPrice(vehicle.pricing?.weekly || 180, vehicleCurrency)}</div>
+                                                </div>
+                                            </>
+                                        )
+                                    })()}
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-3 pt-2">

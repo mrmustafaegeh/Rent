@@ -14,7 +14,12 @@ export function HeroSection() {
     const [location, setLocation] = React.useState("nicosia")
     const [pickupDate, setPickupDate] = React.useState("")
     const [dropoffDate, setDropoffDate] = React.useState("")
+    const [mounted, setMounted] = React.useState(false);
     const t = useTranslations('HeroSection');
+
+    React.useEffect(() => {
+        setMounted(true);
+    }, []);
     
     // Parallax effect
     const { scrollY } = useScroll();
@@ -30,6 +35,9 @@ export function HeroSection() {
         window.location.href = `/cars?${params.toString()}`
     }
 
+    // Get current date for min attribute - only used after mount
+    const minDate = mounted ? new Date().toISOString().slice(0, 16) : "";
+
     return (
         <section className="relative w-full h-screen md:h-[100vh] min-h-[500px] md:min-h-[800px] flex items-center justify-center overflow-hidden">
              {/* Background Video/Image with Parallax */}
@@ -41,6 +49,8 @@ export function HeroSection() {
                   fill
                   className="object-cover"
                   priority
+                  sizes="100vw"
+                  quality={90}
                 />
              </motion.div>
              
@@ -106,7 +116,7 @@ export function HeroSection() {
                                  </label>
                                  <Input
                                     type="datetime-local"
-                                    min={new Date().toISOString().slice(0, 16)}
+                                    min={minDate}
                                     className="w-full border-0 p-0 text-base md:text-lg font-heading font-black text-white bg-transparent focus-visible:ring-0 shadow-none placeholder:text-white/20 cursor-pointer h-7 md:h-8 selection:bg-gold/30"
                                     onChange={(e) => {
                                         setPickupDate(e.target.value);
@@ -126,7 +136,7 @@ export function HeroSection() {
                                  </label>
                                  <Input
                                     type="datetime-local"
-                                    min={pickupDate || new Date().toISOString().slice(0, 16)}
+                                    min={pickupDate || minDate}
                                     disabled={!pickupDate}
                                     className="w-full border-0 p-0 text-base md:text-lg font-heading font-black text-white bg-transparent focus-visible:ring-0 shadow-none placeholder:text-white/20 cursor-pointer h-7 md:h-8 disabled:opacity-20 disabled:cursor-not-allowed selection:bg-gold/30"
                                     onChange={(e) => setDropoffDate(e.target.value)}

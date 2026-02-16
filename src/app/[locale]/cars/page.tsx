@@ -8,72 +8,30 @@ import { Filter, ChevronDown, ArrowUpDown } from "lucide-react"
 import { Button } from "@/components/ui/Button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/Sheet"
 import Image from "next/image"
+import { getVehicles, VehicleFilterParams } from "@/lib/vehicleService"
 
 export const metadata = {
   title: 'Search Cars | Mediterranean Drive',
   description: 'Browse our extensive fleet of luxury, sports, and economy vehicles in North Cyprus.',
 }
 
-async function getVehicles(searchParams: { [key: string]: string | string[] | undefined }) {
-    await dbConnect()
+// Local wrapper function to adapt searchParams to VehicleFilterParams
+async function getVehiclesData(searchParams: { [key: string]: string | string[] | undefined }) {
+    const params: VehicleFilterParams = {
+        category: typeof searchParams.category === 'string' ? searchParams.category : undefined,
+        brand: typeof searchParams.brand === 'string' ? searchParams.brand : undefined,
+        location: typeof searchParams.location === 'string' ? searchParams.location : undefined,
+        transmission: typeof searchParams.transmission === 'string' ? searchParams.transmission : undefined,
+        fuelType: typeof searchParams.fuelType === 'string' ? searchParams.fuelType : undefined,
+        minPrice: searchParams.minPrice ? parseInt(searchParams.minPrice as string) : undefined,
+        maxPrice: searchParams.maxPrice ? parseInt(searchParams.maxPrice as string) : undefined,
+        type: 'rent', // Fleet page is for rentals
+        status: 'approved', // Only show approved cars to users
+        limit: 100, // Show many for now
+    };
 
-    const query: any = { available: true, type: { $ne: 'sale' } }
-
-    // Category Filter
-    if (searchParams.category && searchParams.category !== 'all') {
-        const categories = Array.isArray(searchParams.category) 
-            ? searchParams.category 
-            : [searchParams.category]
-        query.category = { $in: categories.map(c => new RegExp(c as string, 'i')) }
-    }
-    
-    // Type Filter (Alias for Category if used)
-    if (searchParams.type && searchParams.type !== 'all') {
-        const types = Array.isArray(searchParams.type) 
-            ? searchParams.type 
-            : [searchParams.type]
-        query.category = { $in: types.map(t => new RegExp(t as string, 'i')) }
-    }
-
-    // Brand Filter
-    if (searchParams.brand && searchParams.brand !== 'all') {
-        const brands = Array.isArray(searchParams.brand)
-            ? searchParams.brand
-            : [searchParams.brand]
-        query.brand = { $in: brands.map(b => new RegExp(b as string, 'i')) }
-    }
-
-    // Location Filter
-    if (searchParams.location && searchParams.location !== 'all') {
-        const locations = Array.isArray(searchParams.location)
-            ? searchParams.location
-            : [searchParams.location]
-        
-        // Handle city names and slugs mapping if needed, 
-        // but regex usually handles "Kyrenia" vs "kyrenia"
-        query.location = { $in: locations.map(l => new RegExp(l as string, 'i')) }
-    }
-
-    // Transmission Filter
-    if (searchParams.transmission) {
-        const transmissions = Array.isArray(searchParams.transmission)
-             ? searchParams.transmission
-             : [searchParams.transmission]
-        query['specs.transmission'] = { $in: transmissions }
-    }
-    
-    // Price Filter
-    if (searchParams.minPrice || searchParams.maxPrice) {
-        query['pricing.daily'] = {}
-        const min = parseInt(searchParams.minPrice as string)
-        const max = parseInt(searchParams.maxPrice as string)
-        if (!isNaN(min)) query['pricing.daily'].$gte = min
-        if (!isNaN(max)) query['pricing.daily'].$lte = max
-    }
-
-    const vehicles = await Vehicle.find(query).sort({ 'pricing.daily': 1 }).lean()
-    
-    return JSON.parse(JSON.stringify(vehicles))
+    const result = await getVehicles(params);
+    return result.vehicles;
 }
 
 export default async function CarsPage({
@@ -82,7 +40,7 @@ export default async function CarsPage({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
     const params = await searchParams
-    const vehicles = await getVehicles(params)
+    const vehicles = await getVehiclesData(params)
 
     return (
         <div className="flex flex-col min-h-screen bg-gray-50">

@@ -42,7 +42,7 @@ export async function GET(request: Request) {
       limit: searchParams.get('limit') ? parseInt(searchParams.get('limit')!) : (my ? 50 : 12),
       owner: ownerId,
       status: searchParams.get('status') || undefined,
-      type: (searchParams.get('type') as 'sale' | 'rent') || undefined
+      type: (searchParams.get('type') as any) || 'rent'
     };
     
     const result = await getVehicles(params);

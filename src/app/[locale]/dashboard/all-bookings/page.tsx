@@ -101,7 +101,7 @@ export default function AllBookingsPage() {
         
         let matchesSearch = (booking.bookingNumber || '').toLowerCase().includes(searchLower);
         
-        if (typeof booking.customer === 'object') {
+        if (booking.customer && typeof booking.customer === 'object') {
              matchesSearch = matchesSearch || 
                 (booking.customer.firstName || '').toLowerCase().includes(searchLower) ||
                 (booking.customer.lastName || '').toLowerCase().includes(searchLower) ||
@@ -236,18 +236,18 @@ export default function AllBookingsPage() {
                                         <td className="p-6 align-top">
                                             <div className="flex items-center gap-4">
                                                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-xs font-black shadow-sm ring-1 ring-inset ring-black/5
-                                                    ${typeof booking.customer === 'object' ? 'bg-gradient-to-br from-electric/20 to-blue-100 text-electric' : 'bg-gray-100 text-gray-500'}`}
+                                                    ${(booking.customer && typeof booking.customer === 'object') ? 'bg-gradient-to-br from-electric/20 to-blue-100 text-electric' : 'bg-gray-100 text-gray-500'}`}
                                                 >
-                                                    {typeof booking.customer === 'object' ? booking.customer.firstName[0] : 'G'}
+                                                    {(booking.customer && typeof booking.customer === 'object') ? booking.customer.firstName[0] : 'G'}
                                                 </div>
                                                 <div>
                                                     <div className="font-bold text-navy text-sm">
-                                                        {typeof booking.customer === 'object' 
+                                                        {(booking.customer && typeof booking.customer === 'object') 
                                                             ? `${booking.customer.firstName} ${booking.customer.lastName}` 
                                                             : 'Guest User'}
                                                     </div>
                                                     <div className="text-xs text-gray-400 mt-0.5 font-medium truncate max-w-[150px]">
-                                                        {typeof booking.customer === 'object' ? booking.customer.email : 'No contact info'}
+                                                        {(booking.customer && typeof booking.customer === 'object') ? booking.customer.email : 'No contact info'}
                                                     </div>
                                                 </div>
                                             </div>

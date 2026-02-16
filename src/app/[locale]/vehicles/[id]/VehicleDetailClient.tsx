@@ -36,6 +36,11 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [calculatedPrice, setCalculatedPrice] = useState<number | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Calculate rental price
   const calculatePrice = () => {
@@ -364,7 +369,7 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
                       type="date"
                       value={startDate}
                       onChange={(e) => setStartDate(e.target.value)}
-                      min={new Date().toISOString().split('T')[0]}
+                      min={mounted ? new Date().toISOString().split('T')[0] : ""}
                       className="w-full px-4 py-2.5 bg-[var(--surface)] text-white border border-[var(--border)] rounded-lg focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent"
                     />
                   </div>
@@ -377,7 +382,7 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
                       type="date"
                       value={endDate}
                       onChange={(e) => setEndDate(e.target.value)}
-                      min={startDate || new Date().toISOString().split('T')[0]}
+                      min={startDate || (mounted ? new Date().toISOString().split('T')[0] : "")}
                       className="w-full px-4 py-2.5 bg-[var(--surface)] text-white border border-[var(--border)] rounded-lg focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent"
                     />
                   </div>

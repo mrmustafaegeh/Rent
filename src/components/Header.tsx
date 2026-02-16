@@ -16,6 +16,7 @@ import {
 
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { CurrencySwitcher } from "./CurrencySwitcher";
 import { motion } from "framer-motion";
 
 export function Header() {
@@ -50,8 +51,8 @@ export function Header() {
 
   const navLinks = [
     { name: t('rent'), href: "/cars" },
-    { name: t('buy'), href: "/buy" },
-    { name: t('chauffeur'), href: "/chauffeur" },
+    // { name: t('buy'), href: "/buy" },
+    // { name: t('chauffeur'), href: "/chauffeur" },
     { name: t('locations'), href: "/locations" },
     { name: t('about'), href: "/about" },
   ];
@@ -60,13 +61,15 @@ export function Header() {
 
   return (
     <header 
-      className={`sticky top-0 z-[1000] w-full border-b transition-all duration-300 ${
+      className={`sticky top-0 z-[1000] w-full border-b transition-all duration-300 min-h-[70px] flex items-center ${
         scrolled 
-          ? "bg-[#0A1628]/95 backdrop-blur-[20px] border-white/10 shadow-lg py-2" 
-          : "bg-[#0A1628]/85 backdrop-blur-[10px] border-white/5 py-4"
+          ? "bg-[#0A1628] border-white/10 shadow-xl py-2" 
+          : mobileMenuOpen 
+            ? "bg-navy border-transparent py-4" 
+            : "bg-[#0A1628]/80 backdrop-blur-md border-white/5 py-4"
       }`}
     >
-      <div className="container relative z-[1001] flex h-full items-center justify-between mx-auto px-4">
+      <div className="container relative z-[10] flex items-center justify-between mx-auto px-4 w-full">
          {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
           <div className="relative flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-tr from-navy to-electric group-hover:rotate-180 transition-transform duration-700">
@@ -97,17 +100,10 @@ export function Header() {
 
         {/* Right Actions */}
         <div className="hidden lg:flex items-center gap-4">
-             {/* Language & Currency (Mock) */}
+             {/* Language & Currency */}
              <div className="flex items-center gap-3 text-white/70 text-sm border-r border-white/10 pr-4 mr-2">
                 <LanguageSwitcher />
-
-                <button 
-                  className="flex items-center gap-1 hover:text-white transition-colors"
-                  aria-label="Change currency"
-                >
-                    <DollarSign className="h-4 w-4" />
-                    <span>EUR</span>
-                </button>
+                <CurrencySwitcher />
              </div>
 
              {isAuthenticated ? (
@@ -181,8 +177,24 @@ export function Header() {
                         </Link>
                     </motion.div>
                  ))}
-                 
-                 <div className="h-px bg-white/10 my-6" />
+                                  <div className="h-px bg-white/10 my-4" />
+                  
+                  <div className="py-4 px-2 rounded-2xl bg-white/5 border border-white/10">
+                     <div className="flex flex-col gap-4">
+                        <span className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] px-2">{t('language')} & {t('currency')}</span>
+                        <div className="flex items-center gap-2">
+                            <div className="flex-1">
+                                <LanguageSwitcher />
+                            </div>
+                            <div className="w-px h-8 bg-white/10" />
+                            <div className="flex-1">
+                                <CurrencySwitcher />
+                            </div>
+                        </div>
+                     </div>
+                  </div>
+
+                  <div className="h-px bg-white/10 my-4" />
  
                  {isAuthenticated ? (
                     <motion.div 

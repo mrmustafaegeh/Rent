@@ -280,18 +280,18 @@ export default function VehicleSchedulePage() {
                                          <div className="flex flex-col sm:flex-row justify-between items-start gap-2">
                                              <div className="flex-1 min-w-0">
                                                  <div className="flex flex-wrap items-center gap-2 mb-1">
-                                                     <h3 className="font-bold text-navy text-lg truncate">
-                                                        {typeof booking.customer === 'object' ? `${booking.customer.firstName} ${booking.customer.lastName}` : (booking.customerName || 'Guest User')}
-                                                     </h3>
+                                                      <h3 className="font-bold text-navy text-lg truncate">
+                                                        {(booking.customer && typeof booking.customer === 'object') ? `${booking.customer.firstName} ${booking.customer.lastName}` : (booking.customerName || 'Guest User')}
+                                                      </h3>
                                                      {booking.customer?.phone && (
                                                          <span className="text-xs font-medium text-gray-400 bg-gray-100 px-2 py-0.5 rounded-md flex items-center gap-1 whitespace-nowrap">
                                                              <Phone className="w-3 h-3" /> {booking.customer.phone}
                                                          </span>
                                                      )}
                                                  </div>
-                                                 <p className="text-sm text-gray-500 font-medium flex items-center gap-1 truncate">
-                                                     <User className="w-3.5 h-3.5 shrink-0" /> {typeof booking.customer === 'object' ? booking.customer.email : (booking.customerEmail || 'No email')}
-                                                 </p>
+                                                  <p className="text-sm text-gray-500 font-medium flex items-center gap-1 truncate">
+                                                      <User className="w-3.5 h-3.5 shrink-0" /> {(booking.customer && typeof booking.customer === 'object') ? booking.customer.email : (booking.customerEmail || 'No email')}
+                                                  </p>
                                              </div>
                                              <div className="text-left sm:text-right shrink-0">
                                                  <span className="block text-2xl font-black text-navy">€{booking.totalPrice}</span>

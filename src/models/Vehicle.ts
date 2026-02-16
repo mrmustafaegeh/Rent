@@ -6,7 +6,7 @@ export interface IVehicle extends Document {
     brand: string;
     vehicleModel: string;
     year: number;
-    category: 'Luxury' | 'Sports' | 'SUV' | 'Sedan' | 'Economy' | 'Van' | 'Electric';
+    category: 'Luxury' | 'Sports' | 'SUV' | 'Sedan' | 'Economy' | 'Van' | 'Electric' | 'Convertible';
     transmission: 'Automatic' | 'Manual';
     fuelType: 'Petrol' | 'Diesel' | 'Electric' | 'Hybrid';
     seats: number;
@@ -15,6 +15,7 @@ export interface IVehicle extends Document {
         weekly?: number;
         monthly?: number;
     };
+    currency?: string;
     images: {
         url: string;
         isPrimary: boolean;
@@ -67,7 +68,7 @@ const vehicleSchema = new mongoose.Schema<IVehicle>({
     },
     category: {
         type: String,
-        enum: ['Luxury', 'Sports', 'SUV', 'Sedan', 'Economy', 'Van', 'Electric'],
+        enum: ['Luxury', 'Sports', 'SUV', 'Sedan', 'Economy', 'Van', 'Electric', 'Convertible'],
         required: true
     },
     transmission: {
@@ -122,6 +123,10 @@ const vehicleSchema = new mongoose.Schema<IVehicle>({
         weekly: Number,
         monthly: Number
     },
+    currency: {
+        type: String,
+        default: 'EUR'
+    },
     images: [{
         url: String,
         isPrimary: { type: Boolean, default: false }
@@ -162,7 +167,7 @@ const vehicleSchema = new mongoose.Schema<IVehicle>({
 vehicleSchema.index({ brand: 1, vehicleModel: 1 });
 vehicleSchema.index({ category: 1 });
 vehicleSchema.index({ 'pricing.daily': 1 });
-vehicleSchema.index({ featured: 1 });
+vehicleSchema.index({ isFeatured: 1 });
 vehicleSchema.index({ location: 1 });
 vehicleSchema.index({ status: 1 });
 

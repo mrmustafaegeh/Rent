@@ -191,7 +191,7 @@ export default function DashboardOverview() {
                                         </h4>
                                         <p className="text-xs text-gray-400 flex items-center gap-2 mt-0.5">
                                             <span className="truncate max-w-[150px] font-medium text-gray-500">
-                                                {typeof booking.customer === 'object' ? `${booking.customer.firstName} ${booking.customer.lastName}` : 'Guest'}
+                                                {booking.customer && typeof booking.customer === 'object' ? `${booking.customer.firstName} ${booking.customer.lastName}` : 'Guest'}
                                             </span>
                                             <span className="w-1 h-1 rounded-full bg-gray-300"></span>
                                             <span className="font-mono text-gray-300 text-[10px]">{booking.bookingNumber}</span>

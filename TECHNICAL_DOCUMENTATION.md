@@ -194,25 +194,46 @@ Protects Login and Register forms from bots.
 
 ---
 
-## ✨ Key Features Implementation
+## 🚀 Project Overview
 
-### Internationalization (i18n)
-- Uses `next-intl`.
-- Routes are wrapped in `/[locale]`.
-- Arabic (RTL) is automatically handled via `dir="rtl"` in layout.
+RentalX is a premium, full-stack car rental and sales marketplace. It is built using Next.js 15, focusing on extreme performance, SEO, and multi-language support. The platform allows partners to list vehicles for either rent or sale, and provides an integrated dashboard for fleet management.
 
-### Wishlist & Favorites
-- Authenticated users can "favorite" vehicles.
-- API: `/api/wishlist` handles CRUD operations.
-- Frontend: `VehicleCard` toggles state instantly with optimistic UI updates.
+---
 
-### Admin Dashboard
-- **Access**: Role-based access (admin users only).
-- **Capabilities**:
-  - Manage Vehicles (Create, Edit, Delete).
-  - Manage Bookings (Approve, Reject, Calendar View).
-  - Manage Users.
+## ✨ Features & Architecture
 
-### Booking System
-- **Flow**: User selects dates -> Stripe Payment (or Pay Later) -> Pending Status -> Admin Approval.
-- **Emails**: Automated emails sent on "Pending" (to Admin) and "Confirmed" (to User).
+### 1. Centralized Data Management (`src/lib/vehicleService.ts`)
+The entire application (Public Fleet, Dashboard, Home Sections) uses a single, unified service for data fetching. This ensures consistency in:
+- **Filtering**: Category, Brand, Price Range, Location (Regex-based), and Status.
+- **Sorting**: Price (ASC/DESC), Newest.
+- **Permissions**: Public views are restricted to `status: 'approved'`, while the Dashboard allows partners/admins to see their own drafts and pending listings.
+
+### 2. Marketplace Logic (Rent vs Sale)
+Vehicles are categorized by `type: 'rent' | 'sale'`.
+- **Rentals**: Use `pricing.daily`, `pricing.weekly`, and `pricing.monthly`.
+- **Sales**: Use `salePrice` and display a "WhatsApp Inquiry" CTA instead of a booking widget.
+- UI components (e.g., `VehicleCard`) dynamically adapt their display based on the car's type.
+
+### 3. Internationalization (i18n)
+Full multi-language support via `next-intl`:
+- **Locales**: English, Arabic (RTL), Russian, Turkish, Greek.
+- **Middleware**: Locale detection, redirection, and dynamic path rewriting are handled in `src/middleware.ts`.
+- **Static Analysis**: All strings are translated via JSON files in `/messages`.
+
+### 4. SEO & Performance (LCB/LCP)
+- **Sitemap**: Dynamically generated at `/sitemap.xml`, covering all base routes and vehicle detail pages in all 5 supported languages.
+- **Metadata**: Every page implements the `generateMetadata` pattern for dynamic titles, descriptions, and OpenGraph tags.
+- **Image Optimization**: Custom `next.config.ts` configuration for Cloudinary and Unsplash with `avif`/`webp` support and refined quality settings (75-90%).
+- **LCP Optimization**: Strategic use of the `priority` flag on focal Hero images to ensure the fastest possible paint for the largest content element.
+
+### 5. Authentication & Security
+- **Role-Based Access**: Multi-tier access (Customer, Staff, Admin, Company Owner).
+- **Session Support**: Managed via `AuthContext` and token-based API verification.
+- **CSRF & Buffering**: API routes use standard security practices and database connection pooling to handle high traffic.
+
+---
+
+## 🛠️ Developer Guide Updates
+ - **Middleware**: If you need to add protected routes, update the `matcher` in `src/middleware.ts`.
+ - **Adding Translations**: Add the key-value pair to all files in `/messages` to avoid Hydration errors in localized views.
+ - **Database Schema**: All vehicle-related UI changes must be reflected in `src/models/Vehicle.ts` and the `VehicleFilterParams` interface in the service.

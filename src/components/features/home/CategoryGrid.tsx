@@ -2,83 +2,86 @@
 
 import Link from "next/link"
 import { OptimizedImage } from "@/components/ui/OptimizedImage"
+import { useCurrency } from "@/context/CurrencyContext"
 
-const categories = [
+export function CategoryGrid() {
+  const { formatPrice } = useCurrency();
+  
+  const categories = [
     { 
         name: "Economy", 
         count: "95+ vehicles", 
-        price: "€30", 
+        price: 30, 
         period: "/day",
-        slug: "economy", 
-        image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=600&auto=format&fit=crop",
+        slug: "Economy", 
+        image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2",
         alt: "Economy car on road"
     },
     { 
         name: "Luxury", 
         count: "120+ vehicles", 
-        price: "€80", 
+        price: 80, 
         period: "/day",
-        slug: "luxury", 
-        image: "https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=600&auto=format&fit=crop",
+        slug: "Luxury", 
+        image: "https://images.unsplash.com/photo-1563720223185-11003d516935",
         alt: "Luxury sedan interior"
     },
     { 
         name: "SUVs", 
         count: "180+ vehicles", 
-        price: "€50", 
+        price: 50, 
         period: "/day",
-        slug: "suv", 
-        image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=600&auto=format&fit=crop",
+        slug: "SUV", 
+        image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf",
         alt: "Black SUV"
     },
     { 
         name: "Sports", 
         count: "35+ vehicles", 
-        price: "€200", 
+        price: 200, 
         period: "/day",
-        slug: "sports", 
-        image: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=600&auto=format&fit=crop",
+        slug: "Sports", 
+        image: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e",
         alt: "Red sports car"
     },
     { 
-        name: "Electric", 
+        name: "Sedan", 
         count: "25+ vehicles", 
-        price: "€45", 
+        price: 45, 
         period: "/day",
-        slug: "electric", 
-        image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?q=80&w=600&auto=format&fit=crop",
+        slug: "Sedan", 
+        image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89",
         alt: "Electric car charging"
     },
     { 
-        name: "Monthly", 
+        name: "Convertible", 
         count: "250+ vehicles", 
-        price: "€600", 
+        price: 600, 
         period: "/month",
-        slug: "monthly", 
-        image: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=600&auto=format&fit=crop",
+        slug: "Convertible", 
+        image: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d",
         alt: "Car driving on highway"
     },
     { 
-        name: "Chauffeur", 
-        count: "Pro Drivers", 
-        price: "€100", 
+        name: "Hatchback", 
+        count: "65+ vehicles", 
+        price: 25, 
         period: "/day",
-        slug: "chauffeur", 
-        image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=600&auto=format&fit=crop&ixlib=rb-4.0.3",
-        alt: "Professional chauffeur service"
+        slug: "Hatchback", 
+        image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2",
+        alt: "Compact hatchback car"
     },
     { 
-        name: "Supercars", 
+        name: "Electric", 
         count: "15+ vehicles", 
-        price: "€400", 
+        price: 400, 
         period: "/day",
-        slug: "supercar", 
-        image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=600&auto=format&fit=crop&ixlib=rb-4.0.3",
+        slug: "Electric", 
+        image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70",
         alt: "Luxury supercar"
     },
-]
+  ];
 
-export function CategoryGrid() {
   return (
     <section className="py-24 bg-gray-50 flex items-center justify-center">
        <div className="container mx-auto px-4">
@@ -93,7 +96,7 @@ export function CategoryGrid() {
              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
            >
               {categories.map((cat) => (
-                 <Link key={cat.slug} href={`/cars?type=${cat.slug}`} className="block h-full group">
+                 <Link key={cat.slug} href={`/cars?category=${cat.slug}`} className="block h-full group">
                      <article 
                         className="relative h-[320px] rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 group"
                      >
@@ -105,7 +108,7 @@ export function CategoryGrid() {
                                 alt={cat.alt}
                                 fill
                                 className="object-cover transition-transform duration-700 group-hover:scale-110"
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                              />
                              {/* Gradient Overlay */}
                              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300" />
@@ -123,7 +126,7 @@ export function CategoryGrid() {
                              <div className="mt-6 pt-4 border-t border-white/20 w-full flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-75">
                                  <span className="text-xs font-bold text-white/90 uppercase tracking-wider">From</span>
                                  <span className="text-[#06B6D4] font-black text-2xl bg-white/10 px-3 py-1 rounded-lg backdrop-blur-md shadow-lg border border-white/10">
-                                     {cat.price}
+                                     {formatPrice(cat.price)}
                 <span className="text-xs font-bold text-white/70 ms-1">{cat.period}</span>
                                  </span>
                              </div>

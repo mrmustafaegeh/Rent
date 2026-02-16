@@ -1,11 +1,17 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongodb';
 import Company from '@/models/Company';
+import mongoose from 'mongoose';
 
 export async function GET(request: Request, context: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await context.params;
     await dbConnect();
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return NextResponse.json({ error: 'Invalid company ID' }, { status: 400 });
+    }
+
     const company = await Company.findById(id).populate('owner');
     
     if (!company) {
@@ -26,6 +32,10 @@ export async function PUT(request: Request, context: { params: Promise<{ id: str
 
         await dbConnect();
         
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return NextResponse.json({ error: 'Invalid company ID' }, { status: 400 });
+        }
+
         const company = await Company.findByIdAndUpdate(id, { isActive }, { new: true });
         
         if (!company) {

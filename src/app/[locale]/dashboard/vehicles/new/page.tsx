@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import ImageUpload from '@/components/ui/ImageUpload';
 import { ChevronLeft, Plus, Car, Info, DollarSign, Image as ImageIcon, CheckCircle, Save } from 'lucide-react';
+import { currencies, CurrencyCode } from '@/lib/currency';
 
 export default function NewVehiclePage() {
     const router = useRouter();
@@ -24,7 +25,10 @@ export default function NewVehiclePage() {
         priceDaily: '',
         priceWeekly: '',
         priceMonthly: '',
+        currency: 'EUR' as CurrencyCode,
         location: '',
+        type: 'rent' as 'rent' | 'sale',
+        salePrice: '',
         images: [] as string[]
     });
 
@@ -45,6 +49,7 @@ export default function NewVehiclePage() {
             const payload = {
                 ...formData,
                 company: companyId,
+                currency: formData.currency,
                 year: Number(formData.year),
                 seats: Number(formData.seats),
                 pricing: {
@@ -56,6 +61,8 @@ export default function NewVehiclePage() {
                    url,
                    isPrimary: index === 0 
                 })),
+                type: formData.type,
+                salePrice: formData.type === 'sale' ? Number(formData.salePrice) : undefined,
                 available: true
             };
 
@@ -178,6 +185,8 @@ export default function NewVehiclePage() {
                                          <option>Sports</option>
                                          <option>SUV</option>
                                          <option>Sedan</option>
+                                         <option>Economy</option>
+                                         <option>Van</option>
                                          <option>Electric</option>
                                          <option>Convertible</option>
                                      </select>
@@ -272,45 +281,112 @@ export default function NewVehiclePage() {
                                 <DollarSign className="w-6 h-6" />
                             </div>
                             <div>
-                                <h3 className="font-heading font-black text-white text-xl">Pricing</h3>
-                                <p className="text-gray-400 text-xs font-bold uppercase tracking-wider">Rental Rates</p>
+                                <h3 className="font-heading font-black text-white text-xl">Listing Type & Pricing</h3>
+                                <p className="text-gray-400 text-xs font-bold uppercase tracking-wider">Financial Details</p>
                             </div>
                         </div>
                         
                         <div className="space-y-6">
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold text-gold uppercase tracking-wider ml-1">Daily Rate (€)</label>
-                                <Input 
-                                    name="priceDaily" 
-                                    type="number" 
-                                    placeholder="0.00" 
-                                    value={formData.priceDaily} 
-                                    onChange={handleChange} 
-                                    required 
-                                    className="bg-white/10 border-transparent focus:bg-white/20 transition-all h-16 rounded-xl text-3xl font-black text-white placeholder:text-white/20 text-center"
-                                />
+                            <div className="space-y-3">
+                                <label className="text-xs font-bold text-gold uppercase tracking-wider ml-1">Listed For</label>
+                                <div className="grid grid-cols-2 gap-3">
+                                    {['rent', 'sale'].map((t) => (
+                                        <button
+                                            key={t}
+                                            type="button"
+                                            onClick={() => setFormData({...formData, type: t as 'rent' | 'sale'})}
+                                            className={`h-12 rounded-xl text-sm font-bold transition-all border capitalize ${
+                                                formData.type === t 
+                                                ? 'bg-gold text-navy border-gold shadow-lg shadow-gold/20' 
+                                                : 'bg-white/5 text-gray-400 border-white/10 hover:bg-white/10'
+                                            }`}
+                                        >
+                                            {t}
+                                        </button>
+                                    ))}
+                                </div>
                             </div>
+
+                            {formData.type === 'rent' ? (
+                                <div className="space-y-2">
+                                    <label className="text-xs font-bold text-gold uppercase tracking-wider ml-1">Daily Rate</label>
+                                    <div className="flex gap-2">
+                                        <div className="relative shrink-0 w-24">
+                                            <select 
+                                                name="currency"
+                                                value={formData.currency}
+                                                onChange={handleChange}
+                                                className="w-full h-16 px-4 bg-white/10 border border-transparent rounded-xl text-white font-black appearance-none focus:outline-none focus:ring-2 focus:ring-gold/20 focus:bg-white/20 transition-all cursor-pointer text-xl"
+                                            >
+                                                {Object.keys(currencies).map(code => (
+                                                    <option key={code} value={code} className="text-navy">{code}</option>
+                                                ))}
+                                            </select>
+                                            <ChevronLeft className="w-4 h-4 text-gold absolute right-2 top-1/2 -translate-y-1/2 -rotate-90 pointer-events-none" />
+                                        </div>
+                                        <Input 
+                                            name="priceDaily" 
+                                            type="number" 
+                                            placeholder="0.00" 
+                                            value={formData.priceDaily} 
+                                            onChange={handleChange} 
+                                            required 
+                                            className="flex-1 bg-white/10 border-transparent focus:bg-white/20 transition-all h-16 rounded-xl text-3xl font-black text-white placeholder:text-white/20 text-center"
+                                        />
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="space-y-2">
+                                    <label className="text-xs font-bold text-gold uppercase tracking-wider ml-1">Sale Price</label>
+                                    <div className="flex gap-2">
+                                        <div className="relative shrink-0 w-24">
+                                            <select 
+                                                name="currency"
+                                                value={formData.currency}
+                                                onChange={handleChange}
+                                                className="w-full h-16 px-4 bg-white/10 border border-transparent rounded-xl text-white font-black appearance-none focus:outline-none focus:ring-2 focus:ring-gold/20 focus:bg-white/20 transition-all cursor-pointer text-xl"
+                                            >
+                                                {Object.keys(currencies).map(code => (
+                                                    <option key={code} value={code} className="text-navy">{code}</option>
+                                                ))}
+                                            </select>
+                                            <ChevronLeft className="w-4 h-4 text-gold absolute right-2 top-1/2 -translate-y-1/2 -rotate-90 pointer-events-none" />
+                                        </div>
+                                        <Input 
+                                            name="salePrice" 
+                                            type="number" 
+                                            placeholder="0.00" 
+                                            value={formData.salePrice} 
+                                            onChange={handleChange} 
+                                            required 
+                                            className="flex-1 bg-white/10 border-transparent focus:bg-white/20 transition-all h-16 rounded-xl text-3xl font-black text-white placeholder:text-white/20 text-center"
+                                        />
+                                    </div>
+                                </div>
+                            )}
                             
-                            <div className="grid grid-cols-1 gap-4">
-                                <Input 
-                                    label="Weekly Rate (Optional)" 
-                                    name="priceWeekly" 
-                                    type="number" 
-                                    placeholder="e.g. 1500" 
-                                    value={formData.priceWeekly} 
-                                    onChange={handleChange} 
-                                    className="bg-white/5 border-transparent text-white placeholder:text-gray-500 h-12 rounded-xl text-sm font-medium focus:bg-white/10"
-                                />
-                                <Input 
-                                    label="Monthly Rate (Optional)" 
-                                    name="priceMonthly" 
-                                    type="number" 
-                                    placeholder="e.g. 5000" 
-                                    value={formData.priceMonthly} 
-                                    onChange={handleChange} 
-                                    className="bg-white/5 border-transparent text-white placeholder:text-gray-500 h-12 rounded-xl text-sm font-medium focus:bg-white/10"
-                                />
-                            </div>
+                            {formData.type === 'rent' && (
+                                <div className="grid grid-cols-1 gap-4">
+                                    <Input 
+                                        label="Weekly Rate (Optional)" 
+                                        name="priceWeekly" 
+                                        type="number" 
+                                        placeholder="e.g. 1500" 
+                                        value={formData.priceWeekly} 
+                                        onChange={handleChange} 
+                                        className="bg-white/5 border-transparent text-white placeholder:text-gray-500 h-12 rounded-xl text-sm font-medium focus:bg-white/10"
+                                    />
+                                    <Input 
+                                        label="Monthly Rate (Optional)" 
+                                        name="priceMonthly" 
+                                        type="number" 
+                                        placeholder="e.g. 5000" 
+                                        value={formData.priceMonthly} 
+                                        onChange={handleChange} 
+                                        className="bg-white/5 border-transparent text-white placeholder:text-gray-500 h-12 rounded-xl text-sm font-medium focus:bg-white/10"
+                                    />
+                                </div>
+                            )}
                         </div>
                     </div>
 

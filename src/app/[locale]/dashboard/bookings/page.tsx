@@ -13,7 +13,7 @@ interface Booking {
     bookingNumber: string;
     vehicle: {
         brand: string;
-        model: string;
+        vehicleModel: string;
         images: { url: string }[];
     };
     startDate: string;
@@ -39,7 +39,7 @@ export default function MyBookingsPage() {
                      bookingNumber: 'RES-8392',
                      vehicle: {
                          brand: 'BMW',
-                         model: '4 Series Convertible',
+                         vehicleModel: '4 Series Convertible',
                          images: [{ url: '/images/hero-bg-cyprus.png' }]
                      },
                      startDate: '2024-06-15',
@@ -145,7 +145,7 @@ export default function MyBookingsPage() {
                                         <div className="text-xs font-mono text-gray-400 mb-1 uppercase tracking-wider">
                                             ref: {booking.bookingNumber}
                                         </div>
-                                        <h3 className="font-heading font-black text-2xl text-navy">{booking.vehicle?.brand} <span className="text-electric font-bold">{booking.vehicle?.model}</span></h3>
+                                        <h3 className="font-heading font-black text-2xl text-navy">{booking.vehicle?.brand} <span className="text-electric font-bold">{booking.vehicle?.vehicleModel}</span></h3>
                                     </div>
                                     <div className="text-left md:text-right">
                                         <p className="text-xs text-gray-400 font-bold uppercase tracking-wider">Total Price</p>

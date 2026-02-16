@@ -25,6 +25,8 @@ import {
     ChevronRight,
     MapPin
 } from 'lucide-react';
+import { useCurrency } from '@/context/CurrencyContext';
+import { CurrencyCode } from '@/lib/currency';
 
 interface Vehicle {
   _id: string;
@@ -35,6 +37,7 @@ interface Vehicle {
   pricing: {
     daily: number;
   };
+  currency?: string;
   transmission: string;
   fuelType: string;
   seats: number;
@@ -55,11 +58,18 @@ interface VehicleDetailsClientProps {
 export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientProps) {
   const router = useRouter();
   const { isAuthenticated } = useAuth();
+  const { formatPrice } = useCurrency();
+  const vehicleCurrency = (vehicle.currency as CurrencyCode) || 'EUR';
   
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [totalPrice, setTotalPrice] = useState(0);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Calculate total price effect
   useEffect(() => {
@@ -180,7 +190,7 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
                                  </div>
                              </div>
                              <div className="flex flex-col items-end">
-                                 <p className="text-3xl font-black text-navy">€{vehicle.pricing.daily}</p>
+                                 <p className="text-3xl font-black text-navy">{formatPrice(vehicle.pricing.daily, vehicleCurrency)}</p>
                                  <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Per Day</p>
                              </div>
                         </div>
@@ -253,7 +263,7 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
                                         type="date" 
                                         value={startDate}
                                         onChange={(e) => setStartDate(e.target.value)}
-                                        min={new Date().toISOString().split('T')[0]}
+                                        min={mounted ? new Date().toISOString().split('T')[0] : ""}
                                         className="bg-navy text-white border-white/20 focus:border-gold h-10 text-sm"
                                     />
                                  </div>
@@ -263,7 +273,7 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
                                         type="date" 
                                         value={endDate}
                                         onChange={(e) => setEndDate(e.target.value)}
-                                        min={startDate || new Date().toISOString().split('T')[0]}
+                                        min={startDate || (mounted ? new Date().toISOString().split('T')[0] : "")}
                                         className="bg-navy text-white border-white/20 focus:border-gold h-10 text-sm"
                                     />
                                  </div>
@@ -273,7 +283,7 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
                                  <div className="bg-white/10 rounded-xl p-4 mb-6 border border-white/5 animate-in fade-in slide-in-from-bottom-2">
                                      <div className="flex justify-between items-center mb-2">
                                          <span className="text-gray-300 text-sm">Rate</span>
-                                         <span className="font-bold">€{vehicle.pricing.daily} x {Math.ceil((new Date(endDate).getTime() - new Date(startDate).getTime()) / (1000 * 60 * 60 * 24))} Days</span>
+                                         <span className="font-bold">{formatPrice(vehicle.pricing.daily, vehicleCurrency)} x {Math.ceil((new Date(endDate).getTime() - new Date(startDate).getTime()) / (1000 * 60 * 60 * 24))} Days</span>
                                      </div>
                                      <div className="flex justify-between items-center text-sm mb-4">
                                          <span className="text-gray-300">Taxes & Fees</span>
@@ -282,7 +292,7 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
                                      <div className="h-px bg-white/20 my-2"></div>
                                      <div className="flex justify-between items-center">
                                          <span className="text-gold font-bold uppercase tracking-wider text-xs">Total</span>
-                                         <span className="text-2xl font-black text-white">€{totalPrice}</span>
+                                         <span className="text-2xl font-black text-white">{formatPrice(totalPrice, vehicleCurrency)}</span>
                                      </div>
                                  </div>
                              )}

@@ -13,7 +13,10 @@
     "about": "О нас",
     "dashboard": "Личный кабинет",
     "logout": "Выйти",
-    "login": "Войти"
+    "login": "Войти",
+    "changeLanguage": "Сменить язык",
+    "language": "Язык",
+    "currency": "Валюта"
   },
   "Common": {
     "loading": "Загрузка...",

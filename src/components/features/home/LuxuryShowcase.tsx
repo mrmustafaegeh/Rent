@@ -6,12 +6,14 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 import { Phone, Heart, Fuel, Gauge, ArrowRight, ArrowLeft, MessageCircle } from "lucide-react"
 import { Button } from "@/components/ui/Button"
+import { useCurrency } from "@/context/CurrencyContext"
+import { CurrencyCode } from "@/lib/currency"
 
 // Define interface locally to avoid dependency issues if VehicleCardProps changes
 interface Vehicle {
     _id: string;
-    make: string;
-    model: string;
+    brand: string;
+    vehicleModel: string;
     year: number;
     category: string;
     images: { url: string }[];
@@ -20,12 +22,9 @@ interface Vehicle {
         weekly: number;
         monthly: number;
     };
-    specs: {
-        transmission: string;
-        seats: number;
-        luggage: number;
-        fuel: string;
-    };
+    fuelType: string;
+    seats: number;
+    currency?: string;
 }
 
 interface LuxuryShowcaseProps {
@@ -38,6 +37,7 @@ export function LuxuryShowcase({ vehicles }: LuxuryShowcaseProps) {
     const scrollRef = React.useRef<HTMLDivElement>(null);
     const [canScrollLeft, setCanScrollLeft] = React.useState(false);
     const [canScrollRight, setCanScrollRight] = React.useState(true);
+    const { formatPrice } = useCurrency();
     const t = useTranslations('LuxuryShowcase');
     const tCommon = useTranslations('Common');
 
@@ -140,36 +140,48 @@ export function LuxuryShowcase({ vehicles }: LuxuryShowcaseProps) {
                              <div className="bg-white/5 backdrop-blur-[20px] border border-white/10 rounded-2xl overflow-hidden group hover:border-gold/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_10px_40px_rgba(0,0,0,0.4)]">
                                  {/* Image Area */}
                                  <div className="relative aspect-[3/2] w-full overflow-hidden">
-                                     <Image 
-                                        src={vehicle.images?.[0]?.url || '/images/car-placeholder.jpg'} 
-                                        alt={`${vehicle.make} ${vehicle.model}`}
-                                        fill
-                                        className="object-cover group-hover:scale-110 transition-transform duration-700"
-                                     />
-                                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60" />
-                                     
-                                     <button className="absolute top-4 right-4 p-2 rounded-full bg-black/40 text-white hover:bg-gold hover:text-navy transition-colors backdrop-blur-md">
-                                         <Heart className="w-5 h-5" />
-                                     </button>
-
-                                     <div className="absolute bottom-4 left-4 right-4">
-                                         <h3 className="font-heading font-bold text-2xl text-white mb-1">{vehicle.make} {vehicle.model}</h3>
-                                     </div>
+                                     {(() => {
+                                         const vehicleCurrency = (vehicle.currency as CurrencyCode) || 'EUR';
+                                         return (
+                                             <>
+                                                 <Image 
+                                                    src={vehicle.images?.[0]?.url || '/images/car-placeholder.jpg'} 
+                                                    alt={`${vehicle.brand} ${vehicle.vehicleModel}`}
+                                                    fill
+                                                    className="object-cover group-hover:scale-110 transition-transform duration-700"
+                                                 />
+                                                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60" />
+                                                 
+                                                 <button className="absolute top-4 right-4 p-2 rounded-full bg-black/40 text-white hover:bg-gold hover:text-navy transition-colors backdrop-blur-md">
+                                                     <Heart className="w-5 h-5" />
+                                                 </button>
+            
+                                                 <div className="absolute bottom-4 left-4 right-4">
+                                                     <h3 className="font-heading font-bold text-2xl text-white mb-1">{vehicle.brand} {vehicle.vehicleModel}</h3>
+                                                 </div>
+                                             </>
+                                         )
+                                     })()}
                                  </div>
-
+            
                                  {/* Content */}
                                  <div className="p-6 space-y-6">
                                      {/* Pricing Grid */}
-                                     <div className="grid grid-cols-2 gap-4">
-                                         <div className="bg-white/5 rounded-xl p-3 text-center border border-white/5">
-                                             <span className="block text-gold font-bold text-xl">€{vehicle.pricing?.daily || t('poa')}</span>
-                                             <span className="text-gray-400 text-xs uppercase tracking-wider">{t('perDay')}</span>
-                                         </div>
-                                         <div className="bg-white/5 rounded-xl p-3 text-center border border-white/5">
-                                             <span className="block text-white font-bold text-xl">€{vehicle.pricing?.monthly || t('poa')}</span>
-                                             <span className="text-gray-400 text-xs uppercase tracking-wider">{t('perMonth')}</span>
-                                         </div>
-                                     </div>
+                                     {(() => {
+                                         const vehicleCurrency = (vehicle.currency as CurrencyCode) || 'EUR';
+                                         return (
+                                             <div className="grid grid-cols-2 gap-4">
+                                                 <div className="bg-white/5 rounded-xl p-3 text-center border border-white/5">
+                                                     <span className="block text-gold font-bold text-xl">{vehicle.pricing?.daily ? formatPrice(vehicle.pricing.daily, vehicleCurrency) : t('poa')}</span>
+                                                     <span className="text-gray-400 text-xs uppercase tracking-wider">{t('perDay')}</span>
+                                                 </div>
+                                                 <div className="bg-white/5 rounded-xl p-3 text-center border border-white/5">
+                                                     <span className="block text-white font-bold text-xl">{vehicle.pricing?.monthly ? formatPrice(vehicle.pricing.monthly, vehicleCurrency) : t('poa')}</span>
+                                                     <span className="text-gray-400 text-xs uppercase tracking-wider">{t('perMonth')}</span>
+                                                 </div>
+                                             </div>
+                                         )
+                                     })()}
 
                                       {/* Specs */}
                                      <div className="flex justify-between items-center text-gray-400 text-sm px-2">
@@ -179,7 +191,7 @@ export function LuxuryShowcase({ vehicles }: LuxuryShowcaseProps) {
                                          </div>
                                          <div className="flex items-center gap-2">
                                              <Fuel className="w-4 h-4 text-gold" />
-                                             <span>{vehicle.specs?.fuel || 'Petrol'}</span>
+                                             <span>{vehicle.fuelType || 'Petrol'}</span>
                                          </div>
                                      </div>
 

@@ -281,17 +281,17 @@ export default function BookingConfirmationsPage() {
                                                 <div>
                                                     <p className="text-sm text-gray-500 mb-1">Customer</p>
                                                     <p className="font-medium text-gray-900">
-                                                        {booking.customer.firstName} {booking.customer.lastName}
+                                                        {booking.customer ? `${booking.customer.firstName} ${booking.customer.lastName}` : 'Guest User'}
                                                     </p>
-                                                    <p className="text-sm text-gray-600">{booking.customer.email}</p>
-                                                    <p className="text-sm text-gray-600">{booking.customer.phone}</p>
+                                                    <p className="text-sm text-gray-600">{booking.customer?.email || 'No contact info'}</p>
+                                                    <p className="text-sm text-gray-600">{booking.customer?.phone || 'No phone provided'}</p>
                                                 </div>
 
                                                 {/* Vehicle Info */}
                                                 <div>
                                                     <p className="text-sm text-gray-500 mb-1">Vehicle</p>
                                                     <p className="font-medium text-gray-900">
-                                                        {booking.vehicle.brand} {booking.vehicle.vehicleModel}
+                                                        {booking.vehicle ? `${booking.vehicle.brand} ${booking.vehicle.vehicleModel}` : 'Vehicle not found'}
                                                     </p>
                                                 </div>
 

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Space_Grotesk, Inter, Cairo } from "next/font/google";
 import "../globals.css";
 import { AuthProvider } from "@/context/AuthContext";
+import { CurrencyProvider } from "@/context/CurrencyContext";
 import { NextAuthProvider } from "@/components/NextAuthProvider";
 import { Toaster } from "react-hot-toast";
 import { NextIntlClientProvider } from 'next-intl';
@@ -101,8 +102,10 @@ export default async function LocaleLayout({
         <NextIntlClientProvider messages={messages}>
           <NextAuthProvider>
             <AuthProvider>
-              <Toaster position="bottom-right" />
-              {children}
+              <CurrencyProvider>
+                <Toaster position="bottom-right" />
+                {children}
+              </CurrencyProvider>
             </AuthProvider>
           </NextAuthProvider>
         </NextIntlClientProvider>

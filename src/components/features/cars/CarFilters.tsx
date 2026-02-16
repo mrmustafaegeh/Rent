@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { usePathname, useRouter } from "@/navigation"
+import { useSearchParams } from "next/navigation"
 import { Slider } from "@/components/ui/Slider"
 import { Checkbox } from "@/components/ui/Checkbox"
 import { Separator } from "@/components/ui/Separator"

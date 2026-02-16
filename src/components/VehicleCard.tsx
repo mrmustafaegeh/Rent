@@ -16,6 +16,8 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { useCurrency } from '@/context/CurrencyContext';
+import { CurrencyCode } from '@/lib/currency';
 
 interface VehicleCardProps {
   vehicle: {
@@ -31,6 +33,7 @@ interface VehicleCardProps {
       daily?: number;
       monthly?: number;
     };
+    currency?: string;
     mileageLimits?: {
       daily: number;
       monthly: number;
@@ -62,6 +65,7 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
   const [showShare, setShowShare] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [isTogglingFavorite, setIsTogglingFavorite] = useState(false);
+  const { formatPrice } = useCurrency();
   const t = useTranslations('VehicleCard');
   // const tCommon = useTranslations('Common');
 
@@ -76,9 +80,10 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
   
   // Determine price and label
   const isSale = vehicle.type === 'sale' || !!vehicle.salePrice;
-  const price = isSale ? vehicle.salePrice : vehicle.pricing?.daily;
+  const price = (isSale ? vehicle.salePrice : vehicle.pricing?.daily) || 0;
+  const vehicleCurrency = (vehicle.currency as CurrencyCode) || 'EUR';
+  const priceDisplay = price > 0 ? formatPrice(price, vehicleCurrency) : t('priceOnRequest');
   const priceLabel = isSale ? '' : ` / ${t('day')}`;
-  const priceDisplay = price ? `AED ${price.toLocaleString()}` : t('priceOnRequest');
 
   const whatsappMessage = encodeURIComponent(
     `Hi! I'm interested in ${isSale ? 'buying' : 'renting'} the ${vehicle.brand} ${vehicle.vehicleModel} ${vehicle.year} (${priceDisplay}${priceLabel})\n\nVehicle Link: ${process.env.NEXT_PUBLIC_APP_URL}/cars/${vehicle._id}`
@@ -260,7 +265,7 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
             <div className="flex items-baseline justify-between">
               <div className="flex items-baseline gap-2">
                 <span className="text-lg font-semibold text-[var(--text-secondary)]">
-                  AED {vehicle.pricing.monthly.toLocaleString()}
+                  {formatPrice(vehicle.pricing.monthly, vehicleCurrency)}
                 </span>
                 <span className="text-xs text-[var(--text-muted)]">/ {t('month')}</span>
               </div>

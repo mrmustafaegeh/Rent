@@ -5,8 +5,8 @@ import React, { useState } from 'react';
 interface ShareButtonsProps {
   vehicle: {
     brand: string;
-    model: string;
-    id: string; // Add ID to fix lint error if we use it, though current usage relies on window.location
+    vehicleModel: string;
+    id: string; 
   };
   className?: string;
   variant?: 'inline' | 'dropdown';
@@ -32,7 +32,7 @@ export default function ShareButtons({ vehicle, className = '', variant = 'inlin
     return '';
   };
 
-  const message = `Check out this ${vehicle.brand} ${vehicle.model} on RentalX!`;
+  const message = `Check out this ${vehicle.brand} ${vehicle.vehicleModel} on RentalX!`;
   const shareUrl = getShareUrl();
 
   const handleCopy = () => {

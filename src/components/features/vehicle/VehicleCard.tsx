@@ -6,6 +6,8 @@ import { Heart, MessageCircle, Phone, Gauge, MapPin, Fuel, Users, GaugeCircle } 
 import { Button } from "@/components/ui/Button"
 import { Badge } from "@/components/ui/Badge"
 import { cn } from "@/lib/utils"
+import { useCurrency } from "@/context/CurrencyContext"
+import { CurrencyCode } from "@/lib/currency"
 
 export interface VehicleCardProps {
     vehicle: {
@@ -22,10 +24,12 @@ export interface VehicleCardProps {
         mileageLimits?: {
             daily: number;
         };
+        fuelType?: string;
+        transmission?: string;
+        seats?: number;
         specs?: {
-            fuel?: string;
-            transmission?: string;
-            seats?: number;
+            origin?: string;
+            insurance?: boolean;
         };
         images?: { url: string; isPrimary?: boolean }[];
         company?: {
@@ -44,9 +48,11 @@ export interface VehicleCardProps {
 export function VehicleCard({ vehicle }: VehicleCardProps) {
     const primaryImage = vehicle.images?.find(img => img.isPrimary)?.url || vehicle.images?.[0]?.url || '/images/car-placeholder.jpg';
     
+    const { formatPrice } = useCurrency();
     const isSale = vehicle.type === 'sale' || !!vehicle.salePrice;
     const price = isSale ? vehicle.salePrice : vehicle.pricing?.daily;
-    const priceDisplay = price ? `€${price.toLocaleString()}` : 'Price on Request';
+    const vehicleCurrency = (vehicle.currency as CurrencyCode) || 'EUR';
+    const priceDisplay = price ? formatPrice(price, vehicleCurrency) : 'Price on Request';
     
     return (
         <div className="group relative flex flex-col bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] transition-all duration-300 h-full hover:-translate-y-1">
@@ -79,13 +85,13 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
                  <div className="absolute bottom-4 left-4 right-4 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
                      <div className="flex gap-2 text-white text-xs font-medium">
                          <span className="bg-black/40 backdrop-blur-md px-2 py-1 rounded-md flex items-center gap-1">
-                             <GaugeCircle className="w-3 h-3" /> {vehicle.specs?.transmission || 'Auto'}
+                             <GaugeCircle className="w-3 h-3" /> {vehicle.transmission || 'Auto'}
                          </span>
                          <span className="bg-black/40 backdrop-blur-md px-2 py-1 rounded-md flex items-center gap-1">
-                             <Fuel className="w-3 h-3" /> {vehicle.specs?.fuel || 'Petrol'}
+                             <Fuel className="w-3 h-3" /> {vehicle.fuelType || 'Petrol'}
                          </span>
                          <span className="bg-black/40 backdrop-blur-md px-2 py-1 rounded-md flex items-center gap-1">
-                             <Users className="w-3 h-3" /> {vehicle.specs?.seats || 5}
+                             <Users className="w-3 h-3" /> {vehicle.seats || 5}
                          </span>
                      </div>
                  </div>
@@ -116,7 +122,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
                     {!isSale && vehicle.pricing?.weekly && (
                          <div className="text-right">
                              <span className="text-xs text-gray-400 font-bold uppercase tracking-wider block mb-1">Weekly</span>
-                             <span className="text-sm font-bold text-navy">€{Math.round(vehicle.pricing.weekly)}</span>
+                             <span className="text-sm font-bold text-navy">{formatPrice(vehicle.pricing.weekly, vehicleCurrency)}</span>
                          </div>
                     )}
                 </div>

@@ -25,7 +25,7 @@ export function OptimizedImage({
         src={src}
         alt={alt}
         priority={priority}
-        quality={85}
+        quality={75}
         onLoad={() => setIsLoading(false)}
         className={`
           duration-700 ease-in-out

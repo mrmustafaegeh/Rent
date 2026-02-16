@@ -6,6 +6,7 @@ import VehicleCard from '@/components/VehicleCard';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import OptimizedImage from '@/components/ui/OptimizedImage';
+import { useCurrency } from '@/context/CurrencyContext';
 
 interface VehicleResultSectionProps {
   vehicles: any[];
@@ -21,6 +22,7 @@ export default function VehicleResultSection({ vehicles, pagination }: VehicleRe
   const router = useRouter();
   const searchParams = useSearchParams();
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const { formatPrice } = useCurrency();
 
   const currentSort = searchParams.get('sort') || 'newest';
 
@@ -117,7 +119,7 @@ export default function VehicleResultSection({ vehicles, pagination }: VehicleRe
                             <h3 className="text-xl font-bold text-white mt-1">{vehicle.vehicleModel}</h3>
                          </div>
                          <div className="text-right">
-                            <div className="text-xl font-bold text-white">${vehicle.pricing.daily}</div>
+                            <div className="text-xl font-bold text-white">{formatPrice(vehicle.pricing.daily)}</div>
                             <div className="text-xs text-[var(--text-secondary)]">/day</div>
                          </div>
                       </div>

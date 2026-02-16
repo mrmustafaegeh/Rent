@@ -15,9 +15,10 @@ export interface VehicleFilterParams {
   sort?: string;
   page?: number;
   limit?: number;
-  type?: 'rent' | 'sale';
+  type?: 'rent' | 'sale' | 'all';
   status?: string;
   owner?: string;
+  location?: string;
 }
 
 export interface VehicleResult {
@@ -48,34 +49,41 @@ export async function getVehicles(params: VehicleFilterParams): Promise<VehicleR
     limit = 12,
     type = 'rent',
     status,
-    owner
+    owner,
+    location
   } = params;
 
   const skip = (page - 1) * limit;
   const query: any = {};
     
-  query.type = type;
-
-  if (owner) query.owner = owner;
-
-  if (type === 'sale') {
-      // For sale listings, show approved by default unless status specified OR owner (dashboard) is viewing
-      if (status) query.status = status;
-      else if (!owner && !params.brand && !params.category) query.status = 'approved'; 
-      // Actually, keep simple: public view (no owner) defaults to approved.
-      else if (!owner) query.status = 'approved';
+  if (type === 'all') {
+      // No type filter
+  } else if (type === 'rent') {
+    query.type = { $ne: 'sale' };
   } else {
+    query.type = type;
+  }
+
+  if (owner) {
+      query.owner = owner;
+      // In dashboard, show all statuses unless specific one requested
       if (status) query.status = status;
-      // For rentals, if public view (no owner), force available=true?
-      // "make the costumer to see all the avaliable cars"
-      // Maybe the user implies they want to filter out unavailable ones?
-      // Or maybe existing logic is somehow hiding them?
-      // Current logic: shows everything.
+  } else {
+      // In public view, default to approved
+      if (status) {
+          if (status !== 'all') query.status = status;
+      } else {
+          query.status = 'approved';
+      }
+  }
+
+  if (location) {
+      query.location = { $regex: new RegExp(location, 'i') };
   }
 
   // Filters
   if (category) query.category = category;
-  if (featured) query.featured = true;
+  if (featured) query.isFeatured = true;
   if (brand) query.brand = brand;
   if (transmission) query.transmission = transmission;
   if (fuelType) query.fuelType = fuelType;

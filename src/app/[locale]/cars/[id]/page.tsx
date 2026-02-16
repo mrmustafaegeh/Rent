@@ -57,8 +57,8 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     if (!vehicle) return { title: 'Vehicle Not Found' }
     
     return {
-        title: `${vehicle.brand} ${vehicle.model} Rental | Mediterranean Drive`,
-        description: `Rent a ${vehicle.brand} ${vehicle.model} in North Cyprus. Best prices, free delivery to Ercan Airport and Kyrenia.`
+        title: `${vehicle.brand} ${vehicle.vehicleModel} Rental | Mediterranean Drive`,
+        description: `Rent a ${vehicle.brand} ${vehicle.vehicleModel} in North Cyprus. Best prices, free delivery to Ercan Airport and Kyrenia.`
     }
 }
 
@@ -98,13 +98,13 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
                                          <span className="text-gray-400 font-normal ml-1">(24 reviews)</span>
                                      </div>
                                  </div>
-                                 <h1 className="text-2xl sm:text-4xl md:text-5xl font-heading font-black text-navy leading-tight">{vehicle.brand} {vehicle.model}</h1>
+                                 <h1 className="text-2xl sm:text-4xl md:text-5xl font-heading font-black text-navy leading-tight">{vehicle.brand} {vehicle.vehicleModel}</h1>
                                  <p className="text-gray-500 text-sm sm:text-base font-medium flex items-center gap-2">
-                                     {vehicle.year} Model • {vehicle.specs?.transmission || 'Automatic'} • {vehicle.specs?.fuelType || 'Petrol'}
+                                     {vehicle.year} Model • {vehicle.transmission || 'Automatic'} • {vehicle.fuelType || 'Petrol'}
                                  </p>
                              </div>
                              
-                             <ImageGallery images={vehicle.images?.map((img: any) => img.url) || []} title={`${vehicle.brand} ${vehicle.model}`} />
+                             <ImageGallery images={vehicle.images?.map((img: any) => img.url) || []} title={`${vehicle.brand} ${vehicle.vehicleModel}`} />
                          </div>
 
                          {/* Specs Grid */}
@@ -255,7 +255,7 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
                                  <Separator />
 
                                  <div className="space-y-4">
-                                     <a href={`https://wa.me/+971501234567?text=Hi, I am interested in buying the ${vehicle.brand} ${vehicle.model}`} target="_blank" rel="noopener noreferrer">
+                                     <a href={`https://wa.me/+905330000000?text=Hi, I am interested in buying the ${vehicle.brand} ${vehicle.vehicleModel}`} target="_blank" rel="noopener noreferrer">
                                          <Button className="w-full h-14 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl shadow-lg shadow-green-600/20 text-lg">
                                              <MessageCircle className="mr-2 w-5 h-5" /> WhatsApp Inquiry
                                          </Button>

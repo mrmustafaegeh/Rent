@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import ImageUpload from '@/components/ui/ImageUpload';
 import { ChevronLeft, Save, Car, Info, DollarSign, Image as ImageIcon } from 'lucide-react';
+import { currencies, CurrencyCode } from '@/lib/currency';
 
 export default function EditVehiclePage() {
   const router = useRouter();
@@ -26,7 +27,10 @@ export default function EditVehiclePage() {
       priceDaily: '',
       priceWeekly: '',
       priceMonthly: '',
+      currency: 'EUR' as CurrencyCode,
       location: '',
+      type: 'rent' as 'rent' | 'sale',
+      salePrice: '',
       images: [] as string[]
   });
 
@@ -49,7 +53,10 @@ export default function EditVehiclePage() {
             priceDaily: v.pricing?.daily || '',
             priceWeekly: v.pricing?.weekly || '',
             priceMonthly: v.pricing?.monthly || '',
+            currency: v.currency || 'EUR',
             location: v.location || '',
+            type: v.type || 'rent',
+            salePrice: v.salePrice || '',
             images: v.images ? v.images.map((img: any) => img.url) : []
         });
 
@@ -87,11 +94,14 @@ export default function EditVehiclePage() {
                   weekly: formData.priceWeekly ? Number(formData.priceWeekly) : undefined,
                   monthly: formData.priceMonthly ? Number(formData.priceMonthly) : undefined
               },
+              currency: formData.currency,
               location: formData.location,
               images: formData.images.map((url, index) => ({
                  url,
                  isPrimary: index === 0 
               })),
+              type: formData.type,
+              salePrice: formData.type === 'sale' ? Number(formData.salePrice) : undefined,
           };
 
           const res = await fetch(`/api/vehicles/${params.id}`, {
@@ -201,7 +211,10 @@ export default function EditVehiclePage() {
                                      <option>Sports</option>
                                      <option>SUV</option>
                                      <option>Sedan</option>
+                                     <option>Economy</option>
+                                     <option>Van</option>
                                      <option>Electric</option>
+                                     <option>Convertible</option>
                                  </select>
                                  <ChevronLeft className="w-4 h-4 text-gray-400 absolute right-4 top-1/2 -translate-y-1/2 -rotate-90 pointer-events-none" />
                              </div>
@@ -285,37 +298,105 @@ export default function EditVehiclePage() {
                         <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-500">
                             <DollarSign className="w-5 h-5" />
                         </div>
-                        <h3 className="font-bold text-navy text-lg">Pricing</h3>
+                        <h3 className="font-bold text-navy text-lg">Listing & Pricing</h3>
                     </div>
                     
                     <div className="space-y-6">
-                        <Input 
-                            label="Daily Rate (€)" 
-                            name="priceDaily" 
-                            type="number" 
-                            value={formData.priceDaily} 
-                            onChange={handleChange} 
-                            required 
-                            className="bg-gray-50 border-gray-200 focus:bg-white transition-all h-14 rounded-xl text-xl font-black text-navy"
-                        />
-                        <div className="grid grid-cols-2 gap-4">
-                            <Input 
-                                label="Weekly Rate" 
-                                name="priceWeekly" 
-                                type="number" 
-                                value={formData.priceWeekly} 
-                                onChange={handleChange} 
-                                className="bg-gray-50 border-gray-200 h-11 rounded-xl text-sm font-medium"
-                            />
-                            <Input 
-                                label="Monthly Rate" 
-                                name="priceMonthly" 
-                                type="number" 
-                                value={formData.priceMonthly} 
-                                onChange={handleChange} 
-                                className="bg-gray-50 border-gray-200 h-11 rounded-xl text-sm font-medium"
-                            />
+                        <div className="space-y-2">
+                             <label className="text-sm font-bold text-gray-700 ml-1">Listed For</label>
+                             <div className="grid grid-cols-2 gap-2">
+                                 {['rent', 'sale'].map((t) => (
+                                     <button
+                                        key={t}
+                                        type="button"
+                                        onClick={() => setFormData({...formData, type: t as 'rent' | 'sale'})}
+                                        className={`h-11 rounded-xl text-xs font-bold transition-all border capitalize ${
+                                            formData.type === t 
+                                            ? 'bg-navy text-gold border-navy shadow-md' 
+                                            : 'bg-gray-50 text-gray-500 border-gray-200 hover:bg-gray-100'
+                                        }`}
+                                     >
+                                         {t}
+                                     </button>
+                                 ))}
+                             </div>
                         </div>
+
+                        {formData.type === 'rent' ? (
+                            <div className="space-y-2">
+                                <label className="text-sm font-bold text-gray-700 ml-1">Daily Rate</label>
+                                <div className="flex gap-2">
+                                    <div className="relative shrink-0 w-24">
+                                        <select 
+                                            name="currency"
+                                            value={formData.currency}
+                                            onChange={handleChange}
+                                            className="w-full h-14 px-3 bg-gray-50 border border-gray-200 rounded-xl text-navy font-black appearance-none focus:outline-none focus:ring-2 focus:ring-navy/5 transition-all cursor-pointer text-lg"
+                                        >
+                                            {Object.keys(currencies).map(code => (
+                                                <option key={code} value={code}>{code}</option>
+                                            ))}
+                                        </select>
+                                        <ChevronLeft className="w-4 h-4 text-gray-400 absolute right-2 top-1/2 -translate-y-1/2 -rotate-90 pointer-events-none" />
+                                    </div>
+                                    <Input 
+                                        name="priceDaily" 
+                                        type="number" 
+                                        value={formData.priceDaily} 
+                                        onChange={handleChange} 
+                                        required 
+                                        className="flex-1 bg-gray-50 border-gray-200 focus:bg-white transition-all h-14 rounded-xl text-2xl font-black text-navy"
+                                    />
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="space-y-2">
+                                <label className="text-sm font-bold text-gray-700 ml-1">Sale Price</label>
+                                <div className="flex gap-2">
+                                    <div className="relative shrink-0 w-24">
+                                        <select 
+                                            name="currency"
+                                            value={formData.currency}
+                                            onChange={handleChange}
+                                            className="w-full h-14 px-3 bg-gray-50 border border-gray-200 rounded-xl text-navy font-black appearance-none focus:outline-none focus:ring-2 focus:ring-navy/5 transition-all cursor-pointer text-lg"
+                                        >
+                                            {Object.keys(currencies).map(code => (
+                                                <option key={code} value={code}>{code}</option>
+                                            ))}
+                                        </select>
+                                        <ChevronLeft className="w-4 h-4 text-gray-400 absolute right-2 top-1/2 -translate-y-1/2 -rotate-90 pointer-events-none" />
+                                    </div>
+                                    <Input 
+                                        name="salePrice" 
+                                        type="number" 
+                                        value={formData.salePrice} 
+                                        onChange={handleChange} 
+                                        required 
+                                        className="flex-1 bg-gray-50 border-gray-200 focus:bg-white transition-all h-14 rounded-xl text-2xl font-black text-navy"
+                                    />
+                                </div>
+                            </div>
+                        )}
+                        {formData.type === 'rent' && (
+                            <div className="grid grid-cols-2 gap-4">
+                                <Input 
+                                    label="Weekly Rate" 
+                                    name="priceWeekly" 
+                                    type="number" 
+                                    value={formData.priceWeekly} 
+                                    onChange={handleChange} 
+                                    className="bg-gray-50 border-gray-200 h-11 rounded-xl text-sm font-medium"
+                                />
+                                <Input 
+                                    label="Monthly Rate" 
+                                    name="priceMonthly" 
+                                    type="number" 
+                                    value={formData.priceMonthly} 
+                                    onChange={handleChange} 
+                                    className="bg-gray-50 border-gray-200 h-11 rounded-xl text-sm font-medium"
+                                />
+                            </div>
+                        )}
                     </div>
                 </div>
 

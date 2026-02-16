@@ -42,6 +42,7 @@ export default function AdminVehiclesPage() {
   const [dataLoading, setDataLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterCategory, setFilterCategory] = useState('all');
+  const [filterType, setFilterType] = useState('all');
 
   const isLoading = authLoading || dataLoading;
 
@@ -56,9 +57,13 @@ export default function AdminVehiclesPage() {
         setDataLoading(true);
         try {
           // Fetch rental vehicles
-          const url = user?.role === 'admin' 
-            ? '/api/vehicles?limit=100&type=rent' 
-            : '/api/vehicles?my=true&limit=100&type=rent';
+          // Fetch all vehicles (rent + sale)
+          const baseUrl = user?.role === 'admin' 
+            ? '/api/vehicles?limit=100&type=all' 
+            : '/api/vehicles?my=true&limit=100&type=all';
+            
+          const typeParam = filterType !== 'all' ? `&type=${filterType}` : '';
+          const url = `${baseUrl}${typeParam}`;
             
           const response = await fetch(url);
           if (!response.ok) {
@@ -76,7 +81,7 @@ export default function AdminVehiclesPage() {
       };
       fetchVehicles();
     }
-  }, [user, authLoading]);
+  }, [user, authLoading, filterType]);
 
   const toggleAvailability = async (vehicleId: string, currentStatus: boolean) => {
       // Optimistic update
@@ -130,6 +135,19 @@ export default function AdminVehiclesPage() {
       {/* Filters & Search */}
       <div className="bg-white p-3 rounded-2xl border border-gray-200 shadow-sm flex flex-col md:flex-row justify-between items-center gap-4 sticky top-4 z-20 layout-pixel-perfect">
           <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto scrollbar-hide pb-2 md:pb-0">
+               {/* Type Filter */}
+               <select 
+                  className="bg-navy text-white px-4 py-2 rounded-xl text-sm font-bold border-none outline-none cursor-pointer shadow-md"
+                  value={filterType}
+                  onChange={(e) => setFilterType(e.target.value)}
+               >
+                  <option value="all">All Types</option>
+                  <option value="rent">Rentals Only</option>
+                  <option value="sale">For Sale Only</option>
+               </select>
+
+               <div className="w-px h-6 bg-gray-200 mx-2 hidden md:block" />
+
               {categories.map((cat) => (
                   <button
                       key={cat}
@@ -162,8 +180,8 @@ export default function AdminVehiclesPage() {
             <thead>
                 <tr className="bg-gray-50/50 border-b border-gray-100">
                     <th className="p-6 text-xs font-bold text-gray-400 uppercase tracking-wider">Vehicle Details</th>
-                    <th className="p-6 text-xs font-bold text-gray-400 uppercase tracking-wider hidden md:table-cell">Specs</th>
-                    <th className="p-6 text-xs font-bold text-gray-400 uppercase tracking-wider">Rate</th>
+                    <th className="p-6 text-xs font-bold text-gray-400 uppercase tracking-wider hidden md:table-cell">Usage</th>
+                    <th className="p-6 text-xs font-bold text-gray-400 uppercase tracking-wider">Rate/Price</th>
                     <th className="p-6 text-xs font-bold text-gray-400 uppercase tracking-wider">Status</th>
                     <th className="p-6 text-xs font-bold text-gray-400 uppercase tracking-wider text-right">Actions</th>
                 </tr>
@@ -222,21 +240,29 @@ export default function AdminVehiclesPage() {
                             </div>
                         </td>
                         <td className="p-6 hidden md:table-cell">
-                             <div className="flex flex-col gap-1.5 opacity-70">
-                                <div className="flex items-center gap-2 text-xs font-medium text-gray-600">
-                                    <Settings className="w-3.5 h-3.5 text-navy" />
-                                    <span>{vehicle.transmission || 'Automatic'}</span>
-                                </div>
-                                <div className="flex items-center gap-2 text-xs font-medium text-gray-600">
-                                    <Fuel className="w-3.5 h-3.5 text-navy" />
+                             <div className="flex flex-col gap-1.5">
+                                <Badge variant="outline" className={`w-fit uppercase text-[10px] font-black ${
+                                    vehicle.type === 'sale' 
+                                    ? 'border-gold text-gold bg-gold/5' 
+                                    : 'border-electric text-electric bg-electric/5'
+                                }`}>
+                                    {vehicle.type || 'rent'}
+                                </Badge>
+                                <div className="flex items-center gap-2 text-[10px] font-bold text-gray-400 mt-1">
+                                    <span>{vehicle.transmission || 'Auto'}</span>
+                                    <span>•</span>
                                     <span>{vehicle.fuelType || 'Petrol'}</span>
                                 </div>
                             </div>
                         </td>
                         <td className="p-6">
                             <div className="flex flex-col">
-                                <span className="font-black text-navy text-lg leading-none">€{vehicle.pricing?.daily || 0}</span>
-                                <span className="text-[10px] text-gray-400 uppercase font-bold tracking-wider mt-1">per day</span>
+                                <span className="font-black text-navy text-lg leading-none">
+                                    €{vehicle.type === 'sale' ? (vehicle as any).salePrice || 0 : vehicle.pricing?.daily || 0}
+                                </span>
+                                <span className="text-[10px] text-gray-400 uppercase font-bold tracking-wider mt-1">
+                                    {vehicle.type === 'sale' ? 'selling price' : 'per day'}
+                                </span>
                             </div>
                         </td>
                         <td className="p-6">

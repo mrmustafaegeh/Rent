@@ -62,7 +62,7 @@ export default function ApprovalsList({ initialVehicles }: { initialVehicles: an
                     <div className="relative w-full sm:w-64 h-56 sm:h-auto bg-gray-100 shrink-0">
                         <Image 
                             src={vehicle.images?.[0]?.url || '/images/car-placeholder.jpg'} 
-                            alt={vehicle.model || 'Car'}
+                            alt={vehicle.vehicleModel || 'Car'}
                             fill
                             className="object-cover group-hover:scale-105 transition-transform duration-500"
                         />

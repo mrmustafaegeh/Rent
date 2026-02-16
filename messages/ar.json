@@ -14,7 +14,9 @@
     "dashboard": "لوحة التحكم",
     "logout": "تسجيل الخروج",
     "login": "تسجيل الدخول",
-    "changeLanguage": "تغيير اللغة"
+    "changeLanguage": "تغيير اللغة",
+    "language": "اللغة",
+    "currency": "العملة"
   },
   "Common": {
     "loading": "جاري التحميل...",
