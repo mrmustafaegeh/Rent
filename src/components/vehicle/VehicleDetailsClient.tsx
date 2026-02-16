@@ -351,7 +351,7 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
                                     vehicle={{ 
                                         id: vehicle._id, 
                                         brand: vehicle.brand, 
-                                        model: vehicle.vehicleModel 
+                                        vehicleModel: vehicle.vehicleModel 
                                     }} 
                                     variant="inline"
                                 />

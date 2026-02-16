@@ -34,6 +34,8 @@ interface Vehicle {
   status: string;
   transmission?: string;
   fuelType?: string;
+  type?: 'rent' | 'sale';
+  salePrice?: number;
 }
 
 export default function AdminVehiclesPage() {
