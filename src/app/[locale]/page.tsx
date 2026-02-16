@@ -10,6 +10,7 @@ import { LocationGrid } from "@/components/features/home/LocationGrid";
 import { BrandGrid } from "@/components/features/home/BrandGrid";
 
 import { SellingCarSection } from "@/components/features/home/SellingCarSection";
+import { PartnerCTA } from "@/components/features/home/PartnerCTA";
 import { FAQ } from "@/components/features/home/FAQ";
 import { Button } from "@/components/ui/Button";
 import { ArrowRight } from "lucide-react";
@@ -77,7 +78,9 @@ export default async function Home() {
         <LocationGrid />
 
         <BrandGrid />
-
+        
+        <PartnerCTA />
+        
         <FAQ />
 
         {/* Final CTA Section */}

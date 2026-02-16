@@ -50,11 +50,12 @@ export function Header() {
   }, [mobileMenuOpen]);
 
   const navLinks = [
-    { name: t('rent'), href: "/cars" },
+    { name: t('Rent'), href: "/cars" },
     // { name: t('buy'), href: "/buy" },
     // { name: t('chauffeur'), href: "/chauffeur" },
-    { name: t('locations'), href: "/locations" },
-    { name: t('about'), href: "/about" },
+    { name: t('Locations'), href: "/locations" },
+    { name: t('About'), href: "/about" },
+    { name: t('Partnerup'), href: "/auth/partner-register" },
   ];
 
   const isActive = (path: string) => pathname === path;

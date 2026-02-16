@@ -16,7 +16,8 @@
     "login": "Войти",
     "changeLanguage": "Сменить язык",
     "language": "Язык",
-    "currency": "Валюта"
+    "currency": "Валюта",
+    "partners": "Партнеры"
   },
   "Common": {
     "loading": "Загрузка...",
@@ -67,7 +68,8 @@
       "terms": "Условия обслуживания",
       "privacy": "Политика конфиденциальности",
       "insurance": "Страхование",
-      "sitemap": "Карта сайта"
+      "sitemap": "Карта сайта",
+      "partners": "Партнерская программа"
     }
   },
   "VehicleCard": {

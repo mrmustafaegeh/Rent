@@ -8,6 +8,7 @@ import { useAuth } from '@/context/AuthContext';
 import { signIn } from 'next-auth/react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import { ArrowRight } from 'lucide-react';
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -222,10 +223,10 @@ export default function RegisterPage() {
             </div>
         </form>
 
-        <div className="text-center mt-8 text-gray-400 text-sm">
-            Already have an account?{' '}
-            <Link href="/auth/login" className="text-gold hover:text-white transition-colors font-bold uppercase tracking-wider ml-1">
-            Sign In
+        <div className="text-center mt-8 pt-8 border-t border-white/10 text-gray-400 text-sm">
+            <p className="mb-2">Own a fleet or rental business?</p>
+            <Link href="/auth/partner-register" className="inline-flex items-center gap-2 text-electric hover:text-white transition-all font-black uppercase tracking-widest text-xs group">
+                Become a Partner <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
             </Link>
         </div>
       </div>

@@ -47,6 +47,7 @@ export function Footer() {
               <li><Link href="/careers" className="hover:text-gold transition-colors block py-1">{t('links.careers')}</Link></li>
               <li><Link href="/blog" className="hover:text-gold transition-colors block py-1">{t('links.blog')}</Link></li>
               <li><Link href="/contact" className="hover:text-gold transition-colors block py-1">{t('links.contact')}</Link></li>
+              <li><Link href="/auth/partner-register" className="hover:text-gold transition-colors block py-1 font-bold text-electric">{t('links.partners')}</Link></li>
             </ul>
           </div>
           

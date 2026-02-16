@@ -16,7 +16,8 @@
     "login": "Sign In",
     "changeLanguage": "Change Language",
     "language": "Language",
-    "currency": "Currency"
+    "currency": "Currency",
+    "partners": "Partners"
   },
   "Common": {
     "loading": "Loading...",
@@ -67,7 +68,8 @@
       "terms": "Terms of Service",
       "privacy": "Privacy Policy",
       "insurance": "Insurance Info",
-      "sitemap": "Sitemap"
+      "sitemap": "Sitemap",
+      "partners": "Partner Program"
     }
   },
   "VehicleCard": {

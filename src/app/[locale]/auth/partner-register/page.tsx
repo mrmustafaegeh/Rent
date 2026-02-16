@@ -45,10 +45,10 @@ export default function PartnerRegisterPage() {
                     password: formData.password,
                     phone: formData.userPhone,
                     companyName: formData.companyName,
-                    description: formData.companyDescription,
-                    address: formData.companyAddress,
-                    contactPhone: formData.companyPhone,
-                    contactEmail: formData.companyEmail,
+                    companyDescription: formData.companyDescription,
+                    companyAddress: formData.companyAddress,
+                    companyPhone: formData.companyPhone,
+                    companyEmail: formData.companyEmail,
                 })
             });
 

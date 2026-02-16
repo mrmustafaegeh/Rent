@@ -16,7 +16,8 @@
     "login": "تسجيل الدخول",
     "changeLanguage": "تغيير اللغة",
     "language": "اللغة",
-    "currency": "العملة"
+    "currency": "العملة",
+    "partners": "الشركاء"
   },
   "Common": {
     "loading": "جاري التحميل...",
@@ -67,7 +68,8 @@
       "terms": "شروط الخدمة",
       "privacy": "سياسة الخصوصية",
       "insurance": "معلومات التأمين",
-      "sitemap": "خريطة الموقع"
+      "sitemap": "خريطة الموقع",
+      "partners": "برنامج الشركاء"
     }
   },
   "VehicleCard": {

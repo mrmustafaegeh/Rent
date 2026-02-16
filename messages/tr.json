@@ -16,7 +16,8 @@
     "login": "Giriş Yap",
     "changeLanguage": "Dili Değiştir",
     "language": "Dil",
-    "currency": "Para Birimi"
+    "currency": "Para Birimi",
+    "partners": "Ortaklar"
   },
   "Common": {
     "loading": "Yükleniyor...",
@@ -67,7 +68,8 @@
       "terms": "Hizmet Şartları",
       "privacy": "Gizlilik Politikası",
       "insurance": "Sigorta Bilgisi",
-      "sitemap": "Site Haritası"
+      "sitemap": "Site Haritası",
+      "partners": "İş Ortağı Programı"
     }
   },
   "VehicleCard": {
