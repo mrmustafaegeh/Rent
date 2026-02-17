@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import Link from "next/link"
 import { BrandIcon } from "./BrandIcon"
+import { useTranslations } from "next-intl"
 
 const brands = [
   "Mercedes-Benz", "BMW", "Audi", "Land Rover", 
@@ -11,11 +12,12 @@ const brands = [
 ]
 
 export function BrandGrid() {
+  const t = useTranslations('BrandGrid');
   return (
     <section className="py-20 bg-[#F8FAFC]">
       <div className="container mx-auto px-4 text-center">
-        <span className="text-gold font-bold tracking-[0.2em] text-xs uppercase block mb-4">OUR FLEET</span>
-        <h2 className="text-3xl md:text-4xl font-heading font-bold text-navy mb-12">Premium Brands</h2>
+        <span className="text-gold font-bold tracking-[0.2em] text-xs uppercase block mb-4">{t('overline')}</span>
+        <h2 className="text-3xl md:text-4xl font-heading font-bold text-navy mb-12">{t('title')}</h2>
         
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 mb-12">
           {brands.map((brand, index) => (

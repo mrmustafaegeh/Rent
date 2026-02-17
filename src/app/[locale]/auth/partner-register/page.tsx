@@ -6,8 +6,11 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Car, Building2, User } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export default function PartnerRegisterPage() {
+    const t = useTranslations('Auth.partnerRegister');
+    const authT = useTranslations('Auth.register');
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
@@ -58,10 +61,10 @@ export default function PartnerRegisterPage() {
                 // Success
                 router.push('/auth/login?registered=partner');
             } else {
-                setError(data.error || 'Registration failed');
+                setError(data.error || authT('error.failed'));
             }
         } catch (err: any) {
-            setError('Something went wrong. Please try again.');
+            setError(authT('error.unexpected'));
         } finally {
             setIsLoading(false);
         }
@@ -92,10 +95,10 @@ export default function PartnerRegisterPage() {
                         </Link>
                         
                         <h2 className="text-3xl font-heading font-black leading-tight mb-4">
-                            Grow Your Fleet Business
+                            {t('title')}
                         </h2>
                         <p className="text-gray-400 text-sm leading-relaxed mb-8">
-                            Join Mediterranean Drive's exclusive partner network. List your premium vehicles, manage bookings effortlessly, and reach high-value customers.
+                            {t('subtitle')}
                         </p>
                         
                         <div className="space-y-4">
@@ -104,8 +107,8 @@ export default function PartnerRegisterPage() {
                                     <Building2 className="w-5 h-5" />
                                 </div>
                                 <div>
-                                    <h4 className="font-bold text-sm">Company Profile</h4>
-                                    <p className="text-xs text-gray-400">Showcase your brand</p>
+                                    <h4 className="font-bold text-sm">{t('companyProfile.title')}</h4>
+                                    <p className="text-xs text-gray-400">{t('companyProfile.desc')}</p>
                                 </div>
                             </div>
                              <div className="flex items-center gap-4">
@@ -113,8 +116,8 @@ export default function PartnerRegisterPage() {
                                     <Car className="w-5 h-5" />
                                 </div>
                                 <div>
-                                    <h4 className="font-bold text-sm">Fleet Management</h4>
-                                    <p className="text-xs text-gray-400">Easy vehicle listing tools</p>
+                                    <h4 className="font-bold text-sm">{t('fleetManagement.title')}</h4>
+                                    <p className="text-xs text-gray-400">{t('fleetManagement.desc')}</p>
                                 </div>
                             </div>
                         </div>
@@ -128,7 +131,7 @@ export default function PartnerRegisterPage() {
                 {/* Right Side: Form */}
                 <div className="md:w-7/12 p-10 bg-white">
                     <div className="flex justify-end mb-6">
-                        <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Partner Application</span>
+                        <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">{t('application')}</span>
                     </div>
 
                     {error && (
@@ -142,18 +145,18 @@ export default function PartnerRegisterPage() {
                         {/* Personal Details */}
                         <div>
                              <h3 className="text-sm font-black text-navy uppercase tracking-widest mb-4 flex items-center gap-2">
-                                <User className="w-4 h-4 text-gold" /> Personal Info
+                                <User className="w-4 h-4 text-gold" /> {t('personalInfo')}
                              </h3>
                              <div className="grid md:grid-cols-2 gap-4">
-                                <Input label="First Name" name="firstName" placeholder="John" value={formData.firstName} onChange={handleChange} required className="bg-gray-50 text-black placeholder:text-gray-400 focus:bg-white h-12 rounded-xl" />
-                                <Input label="Last Name" name="lastName" placeholder="Doe" value={formData.lastName} onChange={handleChange} required className="bg-gray-50 text-black placeholder:text-gray-400 focus:bg-white h-12 rounded-xl" />
+                                <Input label={t('fields.firstName')} name="firstName" placeholder="John" value={formData.firstName} onChange={handleChange} required className="bg-gray-50 text-black placeholder:text-gray-400 focus:bg-white h-12 rounded-xl" />
+                                <Input label={t('fields.lastName')} name="lastName" placeholder="Doe" value={formData.lastName} onChange={handleChange} required className="bg-gray-50 text-black placeholder:text-gray-400 focus:bg-white h-12 rounded-xl" />
                              </div>
                              <div className="grid md:grid-cols-2 gap-4 mt-4">
-                                <Input label="Email" name="userEmail" type="email" placeholder="john@example.com" value={formData.userEmail} onChange={handleChange} required className="bg-gray-50 text-black placeholder:text-gray-400 focus:bg-white h-12 rounded-xl" />
-                                <Input label="Phone" name="userPhone" placeholder="+90 533..." value={formData.userPhone} onChange={handleChange} required className="bg-gray-50 text-black placeholder:text-gray-400 focus:bg-white h-12 rounded-xl" />
+                                <Input label={t('fields.email')} name="userEmail" type="email" placeholder="john@example.com" value={formData.userEmail} onChange={handleChange} required className="bg-gray-50 text-black placeholder:text-gray-400 focus:bg-white h-12 rounded-xl" />
+                                <Input label={t('fields.phone')} name="userPhone" placeholder="+90 533..." value={formData.userPhone} onChange={handleChange} required className="bg-gray-50 text-black placeholder:text-gray-400 focus:bg-white h-12 rounded-xl" />
                              </div>
                              <div className="mt-4">
-                                 <Input label="Password" name="password" type="password" placeholder="Min. 8 characters" value={formData.password} onChange={handleChange} required className="bg-gray-50 text-black placeholder:text-gray-400 focus:bg-white h-12 rounded-xl" />
+                                 <Input label={t('fields.password')} name="password" type="password" placeholder={t('fields.passwordHint')} value={formData.password} onChange={handleChange} required className="bg-gray-50 text-black placeholder:text-gray-400 focus:bg-white h-12 rounded-xl" />
                              </div>
                         </div>
 
@@ -162,22 +165,22 @@ export default function PartnerRegisterPage() {
                         {/* Company Details */}
                          <div>
                              <h3 className="text-sm font-black text-navy uppercase tracking-widest mb-4 flex items-center gap-2">
-                                <Building2 className="w-4 h-4 text-gold" /> Company Info
+                                <Building2 className="w-4 h-4 text-gold" /> {t('companyInfo')}
                              </h3>
                              
                              <div className="space-y-4">
-                                 <Input label="Company Name" name="companyName" placeholder="Prestige Rentals Ltd." value={formData.companyName} onChange={handleChange} required className="bg-gray-50 text-black placeholder:text-gray-400 focus:bg-white h-12 rounded-xl" />
+                                 <Input label={t('fields.companyName')} name="companyName" placeholder="Prestige Rentals Ltd." value={formData.companyName} onChange={handleChange} required className="bg-gray-50 text-black placeholder:text-gray-400 focus:bg-white h-12 rounded-xl" />
                                  <div className="grid md:grid-cols-2 gap-4">
-                                     <Input label="Company Email" name="companyEmail" type="email" placeholder="info@prestige.com" value={formData.companyEmail} onChange={handleChange} required className="bg-gray-50 text-black placeholder:text-gray-400 focus:bg-white h-12 rounded-xl" />
-                                     <Input label="Company Phone" name="companyPhone" placeholder="+90 392..." value={formData.companyPhone} onChange={handleChange} required className="bg-gray-50 text-black placeholder:text-gray-400 focus:bg-white h-12 rounded-xl" />
+                                     <Input label={t('fields.companyEmail')} name="companyEmail" type="email" placeholder="info@prestige.com" value={formData.companyEmail} onChange={handleChange} required className="bg-gray-50 text-black placeholder:text-gray-400 focus:bg-white h-12 rounded-xl" />
+                                     <Input label={t('fields.companyPhone')} name="companyPhone" placeholder="+90 392..." value={formData.companyPhone} onChange={handleChange} required className="bg-gray-50 text-black placeholder:text-gray-400 focus:bg-white h-12 rounded-xl" />
                                  </div>
-                                 <Input label="Headquarters City" name="companyAddress" placeholder="Kyrenia, North Cyprus" value={formData.companyAddress} onChange={handleChange} required className="bg-gray-50 text-black placeholder:text-gray-400 focus:bg-white h-12 rounded-xl" />
+                                 <Input label={t('fields.city')} name="companyAddress" placeholder="Kyrenia, North Cyprus" value={formData.companyAddress} onChange={handleChange} required className="bg-gray-50 text-black placeholder:text-gray-400 focus:bg-white h-12 rounded-xl" />
                                  
                                  <div className="space-y-2">
-                                    <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Business Description</label>
+                                    <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">{t('fields.desc')}</label>
                                     <textarea 
                                         name="companyDescription"
-                                        placeholder="Briefly describe your fleet and services..."
+                                        placeholder={t('fields.descPlaceholder')}
                                         className="w-full min-h-[100px] px-4 py-3 bg-gray-50 border border-transparent rounded-xl text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-navy/5 focus:bg-white transition-all text-sm font-medium resize-none"
                                         value={formData.companyDescription}
                                         onChange={handleChange}
@@ -187,14 +190,14 @@ export default function PartnerRegisterPage() {
                         </div>
 
                         <Button className="w-full h-14 text-lg font-bold bg-navy text-gold hover:bg-navy/90 rounded-xl shadow-lg shadow-navy/20 mt-4" isLoading={isLoading}>
-                            Submit Application
+                            {t('submit')}
                         </Button>
                     </form>
 
                     <p className="mt-8 text-center text-sm font-medium text-gray-500">
-                        Already a partner?{' '}
+                        {t('alreadyPartner')}{' '}
                         <Link href="/auth/login" className="text-navy hover:text-gold transition-colors font-bold">
-                            Login Dashboard
+                            {t('login')}
                         </Link>
                     </p>
                 </div>

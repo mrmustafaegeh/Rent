@@ -11,7 +11,9 @@ import { Input } from "@/components/ui/Input"
 import { Label } from "@/components/ui/Label"
 import { ChevronDown, ChevronUp, FilterX } from "lucide-react"
 
-// Hardcoded for now, could be dynamic
+import { useTranslations } from "next-intl"
+
+// English values for DB/filtering
 const CATEGORIES = ["Luxury", "Sports", "SUV", "Economy", "Sedan", "Convertible", "Van"]
 const TRANSMISSIONS = ["Automatic", "Manual"]
 const FUEL_TYPES = ["Petrol", "Diesel", "Electric", "Hybrid"]
@@ -20,6 +22,7 @@ const BRANDS = ["Mercedes-Benz", "BMW", "Audi", "Porsche", "Land Rover", "Toyota
 export function CarFilters() {
     const router = useRouter()
     const searchParams = useSearchParams()
+    const t = useTranslations('CarFilters')
     
     // State to hold filter values
     const [priceRange, setPriceRange] = useState([0, 2000])
@@ -66,10 +69,10 @@ export function CarFilters() {
     return (
         <div className="space-y-8 bg-white p-8 rounded-3xl border border-gray-100 shadow-sm">
             <div className="flex items-center justify-between">
-                <h3 className="font-heading font-bold text-xl text-navy">Filters</h3>
+                <h3 className="font-heading font-bold text-xl text-navy">{t('title')}</h3>
                 <Button variant="ghost" size="sm" onClick={clearFilters} className="h-8 px-2 text-red-500 hover:text-red-600 hover:bg-red-50">
                     <FilterX className="mr-2 h-4 w-4" />
-                    Reset
+                    {t('reset')}
                 </Button>
             </div>
             
@@ -77,7 +80,7 @@ export function CarFilters() {
             
             {/* Price Range */}
             <div className="space-y-4">
-                <h4 className="font-bold text-sm text-navy uppercase tracking-wider">Price Range / Day</h4>
+                <h4 className="font-bold text-sm text-navy uppercase tracking-wider">{t('priceRange')}</h4>
                 <div className="pt-2">
                     <Slider 
                         defaultValue={[0, 2000]} 
@@ -106,7 +109,7 @@ export function CarFilters() {
             
             {/* Categories */}
             <div className="space-y-4">
-                <h4 className="font-bold text-sm text-navy uppercase tracking-wider">Category</h4>
+                <h4 className="font-bold text-sm text-navy uppercase tracking-wider">{t('category')}</h4>
                 <div className="space-y-3">
                     {CATEGORIES.map((cat) => (
                         <div key={cat} className="flex items-center space-x-3 group">
@@ -117,7 +120,7 @@ export function CarFilters() {
                                 className="border-gray-300 data-[state=checked]:bg-gold data-[state=checked]:border-gold"
                             />
                             <Label htmlFor={`cat-${cat}`} className="cursor-pointer text-gray-600 group-hover:text-navy transition-colors">
-                                {cat}
+                                {t(`categories.${cat}`)}
                             </Label>
                         </div>
                     ))}
@@ -128,7 +131,7 @@ export function CarFilters() {
             
             {/* Transmission */}
             <div className="space-y-4">
-                <h4 className="font-bold text-sm text-navy uppercase tracking-wider">Transmission</h4>
+                <h4 className="font-bold text-sm text-navy uppercase tracking-wider">{t('transmission')}</h4>
                 <div className="space-y-3">
                     {TRANSMISSIONS.map((trans) => (
                         <div key={trans} className="flex items-center space-x-3 group">
@@ -139,7 +142,7 @@ export function CarFilters() {
                                 className="border-gray-300 data-[state=checked]:bg-gold data-[state=checked]:border-gold"
                             />
                             <Label htmlFor={`trans-${trans}`} className="cursor-pointer text-gray-600 group-hover:text-navy transition-colors">
-                                {trans}
+                                {t(`transmissions.${trans}`)}
                             </Label>
                         </div>
                     ))}
@@ -150,7 +153,7 @@ export function CarFilters() {
 
              {/* Brands */}
             <div className="space-y-4">
-                <h4 className="font-bold text-sm text-navy uppercase tracking-wider">Brands</h4>
+                <h4 className="font-bold text-sm text-navy uppercase tracking-wider">{t('brands')}</h4>
                 <div className="space-y-3">
                      {BRANDS.map((brand) => (
                         <div key={brand} className="flex items-center space-x-3 group">

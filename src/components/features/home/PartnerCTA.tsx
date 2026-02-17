@@ -5,8 +5,11 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
 import { Link } from '@/navigation';
 import { Building2, TrendingUp, Users, ShieldCheck, ArrowRight, Car } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export function PartnerCTA() {
+  const t = useTranslations('PartnerCTA');
+
   return (
     <section className="py-24 bg-white overflow-hidden relative">
       {/* Background elements */}
@@ -28,7 +31,7 @@ export function PartnerCTA() {
                 viewport={{ once: true }}
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-gold text-xs font-black uppercase tracking-widest"
               >
-                <Car className="w-3 h-3" /> Fleet Owners & Partners
+                <Car className="w-3 h-3" /> {t('overline')}
               </motion.div>
               
               <motion.h2
@@ -37,9 +40,8 @@ export function PartnerCTA() {
                 viewport={{ once: true }}
                 transition={{ delay: 0.1 }}
                 className="text-4xl md:text-6xl font-heading font-black text-white leading-tight"
-              >
-                Monetize Your <span className="text-gold">Fleet</span> with Mediterranean Drive
-              </motion.h2>
+                dangerouslySetInnerHTML={{ __html: t.rich('title', { span: (chunks) => `<span class="text-gold">${chunks}</span>` }) as string }}
+              />
               
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
@@ -48,7 +50,7 @@ export function PartnerCTA() {
                 transition={{ delay: 0.2 }}
                 className="text-gray-400 text-lg md:text-xl font-body leading-relaxed max-w-xl"
               >
-                Join Cyprus's most exclusive car rental marketplace. We provide the technology, the audience, and the tools you need to build a successful rental business.
+                {t('description')}
               </motion.p>
               
               <motion.div
@@ -63,8 +65,8 @@ export function PartnerCTA() {
                     <TrendingUp className="w-6 h-6" />
                   </div>
                   <div>
-                    <h4 className="text-white font-bold text-lg mb-1">Max Revenue</h4>
-                    <p className="text-gray-500 text-sm">Reach thousands of international travelers daily.</p>
+                    <h4 className="text-white font-bold text-lg mb-1">{t('features.revenue.title')}</h4>
+                    <p className="text-gray-500 text-sm">{t('features.revenue.desc')}</p>
                   </div>
                 </div>
                 
@@ -73,8 +75,8 @@ export function PartnerCTA() {
                     <ShieldCheck className="w-6 h-6" />
                   </div>
                   <div>
-                    <h4 className="text-white font-bold text-lg mb-1">Secure Platform</h4>
-                    <p className="text-gray-500 text-sm">Verified customers and robust booking management.</p>
+                    <h4 className="text-white font-bold text-lg mb-1">{t('features.secure.title')}</h4>
+                    <p className="text-gray-500 text-sm">{t('features.secure.desc')}</p>
                   </div>
                 </div>
               </motion.div>
@@ -88,7 +90,7 @@ export function PartnerCTA() {
               >
                 <Link href="/auth/partner-register">
                   <Button className="h-16 px-10 text-xl font-black bg-gold text-navy hover:bg-white hover:text-navy rounded-2xl transition-all group">
-                    Become a Partner <ArrowRight className="ml-2 w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                    {t('button')} <ArrowRight className="ml-2 w-6 h-6 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </Link>
               </motion.div>
@@ -105,21 +107,21 @@ export function PartnerCTA() {
                 <div className="space-y-4">
                   <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-[32px] text-center transform translate-y-8">
                     <div className="text-4xl font-black text-white mb-2">150+</div>
-                    <div className="text-gold text-xs font-bold uppercase tracking-widest">Active Partners</div>
+                    <div className="text-gold text-xs font-bold uppercase tracking-widest">{t('stats.partners')}</div>
                   </div>
                   <div className="bg-gradient-to-br from-gold to-yellow-500 p-8 rounded-[32px] text-center">
                     <div className="text-4xl font-black text-navy mb-2">500+</div>
-                    <div className="text-navy/70 text-xs font-bold uppercase tracking-widest">Vehicles Listed</div>
+                    <div className="text-navy/70 text-xs font-bold uppercase tracking-widest">{t('stats.vehicles')}</div>
                   </div>
                 </div>
                 <div className="space-y-4 mt-8">
                   <div className="bg-white p-8 rounded-[32px] text-center">
                     <Building2 className="w-10 h-10 text-navy mx-auto mb-4" />
-                    <div className="text-navy font-black text-lg">Direct Fleet Integration</div>
+                    <div className="text-navy font-black text-lg">{t('features.integration')}</div>
                   </div>
                   <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-[32px] text-center">
                     <Users className="w-10 h-10 text-gold mx-auto mb-4" />
-                    <div className="text-white font-black text-lg">Global Customer Base</div>
+                    <div className="text-white font-black text-lg">{t('features.global')}</div>
                   </div>
                 </div>
               </motion.div>

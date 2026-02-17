@@ -5,37 +5,40 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 import { Search, CalendarCheck, Key } from "lucide-react"
 import { Button } from "@/components/ui/Button"
-
-const steps = [
-    {
-        number: "01",
-        icon: Search,
-        title: "Search & Select",
-        description: "Choose your dates, location, and browse 300+ vehicles. Filter by price, type, brand, or features to find your perfect match."
-    },
-    {
-        number: "02",
-        icon: CalendarCheck,
-        title: "Book Instantly",
-        description: "Reserve your car in seconds. Contact providers directly via phone or WhatsApp. No hidden booking fees."
-    },
-    {
-        number: "03",
-        icon: Key,
-        title: "Drive Away",
-        description: "Pick up your car at the airport, your hotel, or any location in Cyprus. Start your Mediterranean adventure!"
-    }
-]
+import { useTranslations } from "next-intl"
 
 export function HowItWorks() {
+    const t = useTranslations('HowItWorks');
+
+    const steps = [
+        {
+            number: "01",
+            icon: Search,
+            title: t('steps.step1.title'),
+            description: t('steps.step1.desc')
+        },
+        {
+            number: "02",
+            icon: CalendarCheck,
+            title: t('steps.step2.title'),
+            description: t('steps.step2.desc')
+        },
+        {
+            number: "03",
+            icon: Key,
+            title: t('steps.step3.title'),
+            description: t('steps.step3.desc')
+        }
+    ]
+
     return (
         <section className="py-24 bg-[#F8FAFC]">
             <div className="container mx-auto px-4">
                 <div className="text-center mb-16 space-y-4">
-                    <span className="text-gold font-bold tracking-[0.2em] text-xs uppercase">SIMPLE PROCESS</span>
-                    <h2 className="text-4xl md:text-5xl font-heading font-bold text-navy">Rent a Car in 3 Simple Steps</h2>
+                    <span className="text-gold font-bold tracking-[0.2em] text-xs uppercase">{t('overline')}</span>
+                    <h2 className="text-4xl md:text-5xl font-heading font-bold text-navy">{t('title')}</h2>
                     <p className="text-gray-500 text-lg max-w-2xl mx-auto font-body">
-                        Easy booking process, no hassle. get on the road in minutes.
+                        {t('description')}
                     </p>
                 </div>
 
@@ -80,11 +83,11 @@ export function HowItWorks() {
                 <div className="flex flex-col items-center gap-6">
                     <Link href="/cars">
                         <Button className="h-14 px-8 text-lg font-bold bg-electric hover:bg-electric/90 text-white rounded-full shadow-[0_10px_20px_rgba(0,212,255,0.3)] hover:shadow-[0_15px_30px_rgba(0,212,255,0.5)] hover:scale-105 transition-all">
-                            Start Searching Now
+                            {t('button')}
                         </Button>
                     </Link>
                     <Link href="/how-it-works" className="text-gray-500 hover:text-electric font-medium transition-colors border-b border-transparent hover:border-electric pb-0.5">
-                        Learn more about our process
+                        {t('learnMore')}
                     </Link>
                 </div>
             </div>

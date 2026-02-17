@@ -132,7 +132,7 @@ export function Header() {
 
              <Link href="/list-your-car">
                 <Button className="bg-gradient-to-r from-gold to-yellow-500 text-navy font-bold hover:scale-105 hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-300 border-none">
-                   List Your Car
+                   {t('listCar')}
                 </Button>
              </Link>
         </div>
@@ -228,7 +228,7 @@ export function Header() {
                             <Button className="w-full h-14 text-lg font-bold border-white/20 text-white rounded-2xl" variant="outline">{t('login')}</Button>
                         </Link>
                         <Link href="/list-your-car" onClick={() => setMobileMenuOpen(false)}>
-                            <Button className="w-full h-14 text-lg bg-gold text-navy font-black rounded-2xl shadow-xl shadow-gold/10">List Your Car</Button>
+                            <Button className="w-full h-14 text-lg bg-gold text-navy font-black rounded-2xl shadow-xl shadow-gold/10">{t('listCar')}</Button>
                          </Link>
                     </motion.div>
                  )}

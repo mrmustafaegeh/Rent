@@ -3,7 +3,8 @@
     "title": "Premium Luxury Car Rental",
     "subtitle": "Experience the thrill of the drive with our premium fleet.",
     "rentBtn": "Rent Cars",
-    "listCarBtn": "List Your Car"
+    "listCarBtn": "List Your Car",
+    "expertBtn": "Talk to an Expert"
   },
   "Navigation": {
     "rent": "Rent Cars",
@@ -17,7 +18,8 @@
     "changeLanguage": "Change Language",
     "language": "Language",
     "currency": "Currency",
-    "partners": "Partners"
+    "partners": "Partners",
+    "listCar": "List Your Car"
   },
   "Common": {
     "loading": "Loading...",
@@ -41,7 +43,13 @@
     "trust1": "Free Cancellation",
     "trust2": "Instant Confirmation",
     "trust3": "24/7 Support",
-    "scroll": "Scroll"
+    "scroll": "Scroll",
+    "locations": {
+      "ercan": "Ercan Airport",
+      "nicosia": "Nicosia (Lefkoşa)",
+      "kyrenia": "Kyrenia (Girne)",
+      "famagusta": "Famagusta (Gazimağusa)"
+    }
   },
   "Footer": {
     "about": "The premier luxury and economy car rental marketplace in North Cyprus. Experience the freedom of the Mediterranean roads with our curated fleet.",
@@ -53,6 +61,7 @@
     "downloadApple": "Download on the",
     "downloadGoogle": "Get it on",
     "rights": "Mediterranean Drive. All rights reserved.",
+    "address": "Kyrenia, North Cyprus",
     "links": {
       "about": "About Us",
       "howItWorks": "How it Works",
@@ -74,6 +83,7 @@
   },
   "VehicleCard": {
     "day": "day",
+    "perDay": "/day",
     "month": "month",
     "priceOnRequest": "Price on Request",
     "loginRequired": "Please login to use wishlist",
@@ -83,7 +93,28 @@
     "whatsapp": "WhatsApp",
     "shareFacebook": "Share on Facebook",
     "copyLink": "Copy Link",
-    "linkCopied": "Link copied"
+    "linkCopied": "Link copied",
+    "call": "Call",
+    "salePrice": "Sale Price",
+    "dailyRate": "Daily Rate",
+    "weekly": "Weekly",
+    "transmissions": {
+      "Automatic": "Automatic",
+      "Manual": "Manual",
+      "Auto": "Auto"
+    },
+    "fuelTypes": {
+      "Petrol": "Petrol",
+      "Diesel": "Diesel",
+      "Electric": "Electric",
+      "Hybrid": "Hybrid"
+    },
+    "locations": {
+      "ercan": "Ercan Airport",
+      "nicosia": "Nicosia",
+      "kyrenia": "Kyrenia",
+      "famagusta": "Famagusta"
+    }
   },
   "LuxuryShowcase": {
     "tagline": "PREMIUM COLLECTION",
@@ -95,6 +126,557 @@
     "perMonth": "Per Month",
     "dayAbbr": "day",
     "call": "Call",
-    "whatsapp": "WhatsApp"
+    "whatsapp": "WhatsApp",
+    "petrol": "Petrol"
+  },
+  "CategoryGrid": {
+    "title": "Browse by Category",
+    "subtitle": "From budget-friendly to ultra-luxury, find your perfect ride for the Cyprus roads.",
+    "categories": {
+      "Economy": "Economy",
+      "Luxury": "Luxury",
+      "SUV": "SUVs",
+      "Sports": "Sports",
+      "Sedan": "Sedan",
+      "Convertible": "Convertible",
+      "Hatchback": "Hatchback",
+      "Electric": "Electric"
+    },
+    "vehiclesCount": "{count} vehicles",
+    "from": "From",
+    "perDay": "/day",
+    "perMonth": "/month"
+  },
+  "WhyChooseUs": {
+    "overline": "BEYOND EXPECTATIONS",
+    "title": "The Pinnacle of Mediterranean Motion",
+    "description": "Redefining the standard of car rental in North Cyprus through an unmatched fleet and world-class service.",
+    "features": {
+      "exclusive": {
+        "title": "Exclusive Selection",
+        "subtitle": "300+ Premium Vehicles",
+        "description": "From performance-tuned supercars to rugged luxury SUVs and eco-conscious electric fleets. We curate only the finest vehicles for the Mediterranean journey."
+      },
+      "transparency": {
+        "title": "Absolute Transparency",
+        "subtitle": "Best Price Guarantee",
+        "description": "No hidden fees, no surrogate charges. Our competitive pricing model ensures you get elite luxury at the most justified market rates in North Cyprus."
+      },
+      "experience": {
+        "title": "Elite Experience",
+        "subtitle": "24/7 Dedicated Concierge",
+        "description": "Beyond just rentals—we provide a complete experience. From airport VIP handovers to 24/7 road assistance and personalized driving routes."
+      }
+    },
+    "learnMore": "Learn More"
+  },
+  "LocationGrid": {
+    "overline": "PREMIUM DESTINATIONS",
+    "title": "Explore North Cyprus",
+    "description": "Rent cars in major cities and tourist destinations across the island.",
+    "exploreAll": "EXPLORE ALL",
+    "locations": {
+      "kyrenia": {
+        "name": "Kyrenia (Girne)",
+        "desc": "Coastal Paradise"
+      },
+      "nicosia": {
+        "name": "Nicosia (Lefkoşa)",
+        "desc": "Capital & Business Hub"
+      },
+      "famagusta": {
+        "name": "Famagusta (Gazimağusa)",
+        "desc": "Historic Eastern Coast"
+      },
+      "ercan": {
+        "name": "Ercan Airport",
+        "desc": "Instant Pickup"
+      }
+    },
+    "badgePopular": "Most Popular",
+    "availableFleet": "Available Fleet",
+    "premiumCars": "{count} Premium Cars"
+  },
+  "PartnerCTA": {
+    "overline": "Fleet Owners & Partners",
+    "title": "Monetize Your Fleet with Mediterranean Drive",
+    "description": "Join Cyprus's most exclusive car rental marketplace. We provide the technology, the audience, and the tools you need to build a successful rental business.",
+    "features": {
+      "revenue": {
+        "title": "Max Revenue",
+        "desc": "Reach thousands of international travelers daily."
+      },
+      "secure": {
+        "title": "Secure Platform",
+        "desc": "Verified customers and robust booking management."
+      },
+      "integration": "Direct Fleet Integration",
+      "global": "Global Customer Base"
+    },
+    "stats": {
+      "partners": "Active Partners",
+      "vehicles": "Vehicles Listed"
+    },
+    "button": "Become a Partner"
+  },
+  "FAQ": {
+    "overline": "GOT QUESTIONS?",
+    "title": "Frequently Asked Questions",
+    "description": "Everything you need to know about renting a car with us.",
+    "items": [
+      {
+        "question": "What documents do I need to rent a car in North Cyprus?",
+        "answer": "You will need a valid driver's license held for at least 2 years and a valid passport or ID card. International Driving Permits (IDP) are not typically required for tourists with licenses in English."
+      },
+      {
+        "question": "Is insurance included in the rental price?",
+        "answer": "Yes, basic Third Party Insurance is mandatory and included. Collision Damage Waiver (CDW) is often available as an optional extra for peace of mind."
+      },
+      {
+        "question": "Can I drive the rental car to South Cyprus?",
+        "answer": "Most North Cyprus rental cars cannot be driven to the South due to insurance limitations. Cross-border policies vary, so please check with the specific provider beforehand."
+      },
+      {
+        "question": "Do you offer airport delivery at Ercan Airport?",
+        "answer": "Absolutely! Most of our providers offer free or low-cost delivery to Ercan Airport (ECN). You can pick up your car immediately upon arrival."
+      },
+      {
+        "question": "Are there any hidden fees?",
+        "answer": "We pride ourselves on transparency. The price you see includes all mandatory taxes and fees. Any optional extras (child seats, additional drivers) are clearly listed."
+      }
+    ]
+  },
+  "HowItWorks": {
+    "overline": "SIMPLE PROCESS",
+    "title": "Rent a Car in 3 Simple Steps",
+    "description": "Easy booking process, no hassle. get on the road in minutes.",
+    "steps": {
+      "step1": {
+        "title": "Search & Select",
+        "desc": "Choose your dates, location, and browse 300+ vehicles. Filter by price, type, brand, or features to find your perfect match."
+      },
+      "step2": {
+        "title": "Book Instantly",
+        "desc": "Reserve your car in seconds. Contact providers directly via phone or WhatsApp. No hidden booking fees."
+      },
+      "step3": {
+        "title": "Drive Away",
+        "desc": "Pick up your car at the airport, your hotel, or any location in Cyprus. Start your Mediterranean adventure!"
+      }
+    },
+    "button": "Start Searching Now",
+    "learnMore": "Learn more about our process"
+  },
+  "AffordableCars": {
+    "overline": "BEST VALUE",
+    "title": "Affordable Rentals",
+    "description": "Quality cars at unbeatable prices, starting from €30/day. No hidden fees.",
+    "viewAll": "View All Budget Cars",
+    "bestValue": "Best Value",
+    "dailyRate": "Daily Rate",
+    "weekly": "Weekly",
+    "perDay": "/day",
+    "call": "Call",
+    "whatsapp": "WhatsApp",
+    "petrol": "Petrol"
+  },
+  "BrandGrid": {
+    "overline": "OUR FLEET",
+    "title": "Premium Brands"
+  },
+  "CarsPage": {
+    "overline": "PREMIUM SELECTION",
+    "title": "Our Fleet",
+    "description": "Choose from our curated collection of luxury, sports, and economy vehicles for your North Cyprus journey.",
+    "availableVehicles": "Available Vehicles",
+    "found": "({count} found)",
+    "filters": "Filters",
+    "sortBy": "Sort by: {value}",
+    "noVehicles": {
+      "title": "No vehicles found",
+      "desc": "We couldn't find any cars matching your criteria. Try adjusting your filters or search for something else.",
+      "clear": "Clear All Filters"
+    },
+    "loadMore": "Load More Vehicles",
+    "priceLowHigh": "Price (Low to High)"
+  },
+  "CarFilters": {
+    "title": "Filters",
+    "reset": "Reset",
+    "priceRange": "Price Range / Day",
+    "category": "Category",
+    "transmission": "Transmission",
+    "brands": "Brands",
+    "categories": {
+      "Luxury": "Luxury",
+      "Sports": "Sports",
+      "SUV": "SUV",
+      "Economy": "Economy",
+      "Sedan": "Sedan",
+      "Convertible": "Convertible",
+      "Van": "Van"
+    },
+    "transmissions": {
+      "Automatic": "Automatic",
+      "Manual": "Manual"
+    },
+    "fuelTypes": {
+      "Petrol": "Petrol",
+      "Diesel": "Diesel",
+      "Electric": "Electric",
+      "Hybrid": "Hybrid"
+    }
+  },
+  "VehicleDetails": {
+    "breadcrumb": {
+      "home": "Home",
+      "fleet": "Fleet"
+    },
+    "noImage": "No Image Available",
+    "class": "Class",
+    "view": "View",
+    "branch": "Kyrenia Branch",
+    "perDay": "Per Day",
+    "transmission": "Transmission",
+    "fuelType": "Fuel Type",
+    "seats": "Seats",
+    "persons": "Persons",
+    "mileage": "Mileage",
+    "unlimited": "Unlimited",
+    "featuresTitle": "Vehicle Features",
+    "descriptionTitle": "Description",
+    "defaultDescription": "Experience the thrill of driving the {brand} {model}. Perfect for exploring North Cyprus in style, this vehicle offers a blend of performance, comfort, and luxury suitable for both business and leisure trips.",
+    "reserveTitle": "Reserve Now",
+    "reserveDesc": "Best price guarantee. No hidden fees.",
+    "pickupDate": "Pick-up Date",
+    "dropoffDate": "Drop-off Date",
+    "rate": "Rate",
+    "included": "Included",
+    "taxes": "Taxes & Fees",
+    "total": "Total",
+    "proceed": "Proceed to Checkout",
+    "loginToBook": "Login to Book",
+    "notCharged": "You won't be charged yet.",
+    "shareTitle": "Share this Car",
+    "days": "Days",
+    "categories": {
+      "Luxury": "Luxury",
+      "Sports": "Sports",
+      "SUV": "SUV",
+      "Economy": "Economy",
+      "Sedan": "Sedan",
+      "Convertible": "Convertible",
+      "Van": "Van"
+    },
+    "transmissions": {
+      "Automatic": "Automatic",
+      "Manual": "Manual",
+      "Auto": "Auto"
+    },
+    "fuelTypes": {
+      "Petrol": "Petrol",
+      "Diesel": "Diesel",
+      "Electric": "Electric",
+      "Hybrid": "Hybrid"
+    },
+    "badges": {
+      "insurance": {
+        "title": "Fully Insured",
+        "desc": "Comprehensive coverage included"
+      },
+      "cancellation": {
+        "title": "Free Cancellation",
+        "desc": "Up to 48 hours before pickup"
+      },
+      "support": {
+        "title": "24/7 Support",
+        "desc": "Roadside assistance anytime"
+      }
+    }
+  },
+  "LocationsPage": {
+    "metadata": {
+      "title": "Luxury Car Rental Locations | Mediterranean Drive",
+      "description": "Find Mediterranean Drive rental points across North Cyprus. Convenient pickup in Kyrenia, Nicosia, Famagusta, and Ercan Airport."
+    },
+    "hero": {
+      "alt": "Cyprus Locations",
+      "overline": "Island-Wide Coverage",
+      "title": "Our <highlight>Locations</highlight>",
+      "description": "Experience seamless pickup and drop-off services at key destinations across North Cyprus."
+    },
+    "cities": {
+      "kyrenia": "Kyrenia",
+      "nicosia": "Nicosia",
+      "famagusta": "Famagusta",
+      "ercan": "Ercan Airport"
+    },
+    "defaultBranchDesc": "Visit our premium branch in {city} for personalized service and a wide range of luxury vehicles.",
+    "labels": {
+      "address": "Address",
+      "phone": "Phone",
+      "hours": "Hours"
+    },
+    "viewCars": "View Available Cars",
+    "getDirections": "Get Directions",
+    "map": {
+      "title": "Find Your Nearest Branch",
+      "description": "We are strategically located to serve you better. Check our map for real-time navigation.",
+      "button": "Open Interactive Map"
+    },
+    "cta": {
+      "title": "Not Near a Location?",
+      "description": "We offer VIP delivery service. Have your vehicle delivered to your hotel, villa, or office anywhere in North Cyprus.",
+      "deliveryBtn": "Request Delivery",
+      "whatsappBtn": "WhatsApp Concierge"
+    }
+  },
+  "ChauffeurPage": {
+    "hero": {
+      "overline": "Premium Service",
+      "title": "Driven by <highlight>Excellence</highlight>",
+      "description": "Sit back, relax, and let our professional chauffeurs take you where you need to go in ultimate comfort and style.",
+      "button": "Book a Chauffeur"
+    },
+    "features": {
+      "vip": {
+        "title": "VIP Treatment",
+        "desc": "Experience red-carpet service with our highly trained and discreet chauffeurs."
+      },
+      "punctuality": {
+        "title": "Punctuality",
+        "desc": "We value your time. Our chauffeurs arrive 15 minutes early, every time."
+      },
+      "safety": {
+        "title": "Safe & Secure",
+        "desc": "Navigate confidentially with our security-trained drivers and armored options."
+      },
+      "fleet": {
+        "title": "Immaculate Fleet",
+        "desc": "Choose from our range of pristine luxury sedans, limousines, and SUVs."
+      }
+    },
+    "business": {
+      "overline": "For Professionals",
+      "title": "Your Private <br/> <highlight>Mobile Office</highlight>",
+      "description": "Transform travel time into productive hours. Our vehicles are equipped with everything you need to conduct business on the move, in absolute privacy and comfort.",
+      "features": {
+        "connectivity": {
+          "title": "Seamless Connectivity",
+          "desc": "High-speed Wi-Fi and multiple charging ports."
+        },
+        "privacy": {
+          "title": "Absolute Privacy",
+          "desc": "Sound-insulated cabins and privacy shades."
+        },
+        "amenities": {
+          "title": "Executive Amenities",
+          "desc": "Refreshments, daily newspapers, and climate control."
+        }
+      },
+      "button": "Open Corporate Account",
+      "imageAlt": "Luxury Car Interior",
+      "floatingCard": {
+        "overline": "Available Fleet",
+        "title": "Mercedes-Benz S-Class"
+      }
+    },
+    "services": {
+      "title": "Services Tailored for <br/> <highlight>Every Occasion</highlight>",
+      "description": "Whether it's a high-stakes business meeting, a wedding, or an airport transfer, our chauffeur service ensures you arrive refreshed and on time.",
+      "items": {
+        "airport": "Airport Transfers (Ercan & Larnaca)",
+        "corporate": "Corporate & Business Travel",
+        "wedding": "Weddings & Special Events",
+        "tours": "Private Island Tours",
+        "hourly": "Hourly As-Directed Service"
+      },
+      "button": "Inquire for Rates",
+      "imageAlt": "Professional Chauffeur Service",
+      "availability": {
+        "title": "24/7 Availability",
+        "desc": "Always ready when you are."
+      }
+    }
+  },
+  "ContactPage": {
+    "hero": {
+      "overline": "Here to Help",
+      "title": "Get in <highlight>Touch</highlight>",
+      "description": "Have a question about our fleet or services? Our concierge team is available 24/7 to assist you."
+    },
+    "info": {
+      "title": "Contact Information",
+      "description": "Fill out the form and our team will get back to you within 24 hours.",
+      "phone": "Phone",
+      "email": "Email",
+      "headquarters": "Headquarters"
+    },
+    "form": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email Address",
+      "phone": "Phone Number",
+      "message": "Message",
+      "placeholder": {
+        "firstName": "John",
+        "lastName": "Doe",
+        "email": "john@example.com",
+        "phone": "+1 (555) 000-0000",
+        "message": "How can we help you?"
+      },
+      "send": "Send Message",
+      "sending": "Sending...",
+      "success": "Message sent! We will get back to you soon.",
+      "error": "Failed to send message.",
+      "unexpectedError": "Something went wrong."
+    }
+  },
+  "Auth": {
+    "login": {
+      "title": "Welcome Back",
+      "subtitle": "Enter your details to access your account",
+      "email": "Email",
+      "password": "Password",
+      "forgotPassword": "Forgot password?",
+      "submit": "SIGN IN",
+      "orContinueWith": "Or continue with",
+      "noAccount": "Don't have an account?",
+      "createAccount": "Create Account",
+      "error": {
+        "failed": "Login failed",
+        "unexpected": "An unexpected error occurred"
+      }
+    },
+    "register": {
+      "title": "Create Account",
+      "subtitle": "Begin your premium experience today",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "phone": "Phone",
+      "password": "Password",
+      "confirmPassword": "Confirm",
+      "submit": "SIGN UP",
+      "alreadyHaveAccount": "Already have an account?",
+      "login": "Login",
+      "error": {
+        "match": "Passwords do not match",
+        "failed": "Registration failed",
+        "unexpected": "An unexpected error occurred"
+      },
+      "partner": {
+        "title": "Own a fleet or rental business?",
+        "cta": "Become a Partner"
+      }
+    },
+    "partnerRegister": {
+      "title": "Grow Your Fleet Business",
+      "subtitle": "Join Mediterranean Drive's exclusive partner network. List your premium vehicles, manage bookings effortlessly, and reach high-value customers.",
+      "application": "Partner Application",
+      "companyProfile": {
+        "title": "Company Profile",
+        "desc": "Showcase your brand"
+      },
+      "fleetManagement": {
+        "title": "Fleet Management",
+        "desc": "Easy vehicle listing tools"
+      },
+      "personalInfo": "Personal Info",
+      "companyInfo": "Company Info",
+      "fields": {
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email",
+        "phone": "Phone",
+        "password": "Password",
+        "passwordHint": "Min. 8 characters",
+        "companyName": "Company Name",
+        "companyEmail": "Company Email",
+        "companyPhone": "Company Phone",
+        "city": "Headquarters City",
+        "desc": "Business Description",
+        "descPlaceholder": "Briefly describe your fleet and services..."
+      },
+      "submit": "Submit Application",
+      "alreadyPartner": "Already a partner?",
+      "login": "Login Dashboard"
+    }
+  },
+  "Checkout": {
+    "title": "Finalize Your Reservation",
+    "sections": {
+      "driver": "Driver Details",
+      "payment": "Payment Method",
+      "summary": "Order Summary"
+    },
+    "form": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "phone": "Phone (WhatsApp)",
+      "license": "Driver's License",
+      "passport": "Passport / ID",
+      "uploadFront": "Upload Front Side",
+      "uploadPhoto": "Upload Photo Page",
+      "notes": "Special Requests (Optional)",
+      "notesPlaceholder": "Flight number, child seat request, etc."
+    },
+    "payment": {
+      "pickup": {
+        "title": "Pay at Pickup",
+        "desc": "Cash or Card upon arrival",
+        "info": "You will pay the full amount of <highlight>€{total}</highlight> when you pick up the car. We accept local currency, Euros, Sterling, or Credit Cards."
+      },
+      "stripe": {
+        "title": "Pay Now",
+        "desc": "Secure Credit Card checkout"
+      },
+      "payNow": "Pay €{total} Now",
+      "confirm": "Confirm Reservation"
+    },
+    "summary": {
+      "duration": "Duration",
+      "days": "{days} Days",
+      "dailyRate": "Daily Rate",
+      "taxes": "Taxes & Fees",
+      "included": "Included",
+      "total": "Total to Pay",
+      "bestPrice": "Best Price Verified",
+      "insuranceInfo": "Basic insurance included. Security deposit of €500 will be blocked on your credit card at pickup."
+    },
+    "errors": {
+      "failed": "Booking creation failed. Please try again.",
+      "unexpected": "An unexpected error occurred. Please try again."
+    }
+  },
+  "ListCar": {
+    "title": "List Your Vehicle",
+    "subtitle": "Fill out the details below to list your car for sale on our premium marketplace.",
+    "overline": "Sell Your Car",
+    "sections": {
+      "info": "Vehicle Information",
+      "pricing": "Pricing",
+      "photos": "Photos"
+    },
+    "fields": {
+      "brand": "Brand",
+      "model": "Model",
+      "year": "Year",
+      "condition": "Condition",
+      "mileage": "Mileage (km)",
+      "category": "Category",
+      "transmission": "Transmission",
+      "fuelType": "Fuel Type",
+      "location": "Location",
+      "price": "Asking Price (€)"
+    },
+    "submit": "Submit Listing",
+    "success": {
+      "title": "Listing Submitted!",
+      "desc": "Your vehicle has been successfully submitted for review. Once approved by our team, it will appear in the \"Buy Car\" section.",
+      "dashboard": "Go to Dashboard",
+      "home": "Back to Home"
+    }
   }
 }

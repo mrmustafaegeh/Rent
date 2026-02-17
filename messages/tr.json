@@ -3,7 +3,8 @@
     "title": "Premium Lüks Araç Kiralama",
     "subtitle": "Premium filomuzla sürüş heyecanını yaşayın.",
     "rentBtn": "Araç Kirala",
-    "listCarBtn": "Aracınızı Listeyelin"
+    "listCarBtn": "Aracınızı Listeleyin",
+    "expertBtn": "Bir Uzmana Danışın"
   },
   "Navigation": {
     "rent": "Kirala",
@@ -17,7 +18,8 @@
     "changeLanguage": "Dili Değiştir",
     "language": "Dil",
     "currency": "Para Birimi",
-    "partners": "Ortaklar"
+    "partners": "Ortaklar",
+    "listCar": "Arabanızı Listeleyin"
   },
   "Common": {
     "loading": "Yükleniyor...",
@@ -41,7 +43,13 @@
     "trust1": "Ücretsiz İptal",
     "trust2": "Anında Onay",
     "trust3": "7/24 Destek",
-    "scroll": "Kaydır"
+    "scroll": "Kaydır",
+    "locations": {
+      "ercan": "Ercan Havalimanı",
+      "nicosia": "Lefkoşa",
+      "kyrenia": "Girne (Kyrenia)",
+      "famagusta": "Gazimağusa (Famagusta)"
+    }
   },
   "Footer": {
     "about": "Kuzey Kıbrıs'ın önde gelen lüks ve ekonomik araç kiralama pazarı. Özenle seçilmiş filomuzla Akdeniz yollarının özgürlüğünü yaşayın.",
@@ -53,6 +61,7 @@
     "downloadApple": "İndirin",
     "downloadGoogle": "'den alın",
     "rights": "Mediterranean Drive. Tüm hakları saklıdır.",
+    "address": "Girne, Kuzey Kıbrıs",
     "links": {
       "about": "Hakkımızda",
       "howItWorks": "Nasıl Çalışır",
@@ -95,6 +104,557 @@
     "perMonth": "Aylık",
     "dayAbbr": "gün",
     "call": "Ara",
-    "whatsapp": "WhatsApp"
+    "whatsapp": "WhatsApp",
+    "petrol": "Benzin"
+  },
+  "CategoryGrid": {
+    "title": "Kategoriye Göre Göz At",
+    "subtitle": "Bütçe dostu araçlardan ultra lükse kadar, Kıbrıs yolları için mükemmel aracınızı bulun.",
+    "categories": {
+      "Economy": "Ekonomik",
+      "Luxury": "Lüks",
+      "SUV": "SUV",
+      "Sports": "Spor",
+      "Sedan": "Sedan",
+      "Convertible": "Üstü Açık",
+      "Hatchback": "Hatchback",
+      "Electric": "Elektrikli"
+    },
+    "vehiclesCount": "{count} araç",
+    "from": "Fiyat",
+    "perDay": "/gün",
+    "perMonth": "/ay"
+  },
+  "WhyChooseUs": {
+    "overline": "BEKLENTİLERİN ÖTESİNDE",
+    "title": "Akdeniz Hareketinin Zirvesi",
+    "description": "Eşsiz bir filo ve dünya standartlarında hizmet ile Kuzey Kıbrıs'ta araç kiralama standartlarını yeniden tanımlıyoruz.",
+    "features": {
+      "exclusive": {
+        "title": "Özel Seçim",
+        "subtitle": "300+ Premium Araç",
+        "description": "Performans odaklı süper otomobillerden sağlam lüks SUV'lara ve çevre dostu elektrikli filolara kadar Akdeniz yolculuğunuz için sadece en iyi araçları seçiyoruz."
+      },
+      "transparency": {
+        "title": "Tam Şeffaflık",
+        "subtitle": "En İyi Fiyat Garantisi",
+        "description": "Gizli ücret yok, sürpriz maliyet yok. Rekabetçi fiyatlandırma modelimiz, Kuzey Kıbrıs pazarındaki en makul fiyatlarla elit lükse sahip olmanızı sağlar."
+      },
+      "experience": {
+        "title": "Seçkin Deneyim",
+        "subtitle": "7/24 Özel Konsiyerj",
+        "description": "Sadece kiralamanın ötesinde—tam bir deneyim sunuyoruz. Havalimanı VIP karşılamalarından 7/24 yol yardımına ve kişiselleştirilmiş rota önerilerine kadar her an yanınızdayız."
+      }
+    },
+    "learnMore": "Daha Fazla Bilgi"
+  },
+  "LocationGrid": {
+    "overline": "PREMIUM DESTİNASYONLAR",
+    "title": "Kuzey Kıbrıs'ı Keşfedin",
+    "description": "Adanın dört bir yanındaki büyük şehirlerde ve turistik bölgelerde araç kiralayın.",
+    "exploreAll": "TÜMÜNÜ KEŞFET",
+    "locations": {
+      "kyrenia": {
+        "name": "Girne (Kyrenia)",
+        "desc": "Kıyı Cenneti"
+      },
+      "nicosia": {
+        "name": "Lefkoşa (Nicosia)",
+        "desc": "Başkent ve İş Merkezi"
+      },
+      "famagusta": {
+        "name": "Gazimağusa (Famagusta)",
+        "desc": "Tarihi Doğu Kıyısı"
+      },
+      "ercan": {
+        "name": "Ercan Havalimanı",
+        "desc": "Anında Teslim"
+      }
+    },
+    "badgePopular": "En Popüler",
+    "availableFleet": "Mevcut Filo",
+    "premiumCars": "{count} Premium Araç"
+  },
+  "PartnerCTA": {
+    "overline": "Filo Sahipleri ve İş Ortakları",
+    "title": "Filonuzu Mediterranean Drive ile Kazanca Dönüştürün",
+    "description": "Kıbrıs'ın en özel araç kiralama pazarına katılın. Başarılı bir kiralama işi kurmanız için gereken teknolojiyi, kitleyi ve araçları sağlıyoruz.",
+    "features": {
+      "revenue": {
+        "title": "Maksimum Gelir",
+        "desc": "Her gün binlerce uluslararası gezginle buluşun."
+      },
+      "secure": {
+        "title": "Güvenli Platform",
+        "desc": "Doğrulanmış müşteriler ve güçlü rezervasyon yönetimi."
+      },
+      "integration": "Doğrudan Filo Entegrasyonu",
+      "global": "Küresel Müşteri Tabanı"
+    },
+    "stats": {
+      "partners": "Aktif Ortaklar",
+      "vehicles": "Listelenen Araç"
+    },
+    "button": "İş Ortağı Ol"
+  },
+  "FAQ": {
+    "overline": "SORULARINIZ MI VAR?",
+    "title": "Sıkça Sorulan Sorular",
+    "description": "Bizimle araç kiralama hakkında bilmeniz gereken her şey.",
+    "items": [
+      {
+        "question": "Kuzey Kıbrıs'ta araç kiralamak için hangi belgelere ihtiyacım var?",
+        "answer": "En az 2 yıllık geçerli bir ehliyet ve geçerli bir pasaport veya kimlik kartına ihtiyacınız olacaktır. İngilizce ehliyeti olan turistler için genellikle Uluslararası Sürüş İzni (IDP) gerekmez."
+      },
+      {
+        "question": "Sigorta kiralama fiyatına dahil mi?",
+        "answer": "Evet, temel Üçüncü Şahıs Sigortası zorunludur ve fiyata dahildir. Tam güvence için genellikle Kasko (CDW) seçeneği sunulur."
+      },
+      {
+        "question": "Kiralık aracı Güney Kıbrıs'a geçirebilir miyim?",
+        "answer": "Kuzey Kıbrıs kiralık araçlarının çoğu sigorta kısıtlamaları nedeniyle Güney'e geçirilemez. Sınır geçiş politikaları değişebilir, lütfen tedarikçiye danışın."
+      },
+      {
+        "question": "Ercan Havalimanı'nda araç teslimatı yapıyor musunuz?",
+        "answer": "Kesinlikle! Tedarikçilerimizin çoğu Ercan Havalimanı'na (ECN) ücretsiz veya düşük maliyetli teslimat sunmaktadır. Aracınızı iner inmez teslim alabilirsiniz."
+      },
+      {
+        "question": "Gizli ücretler var mı?",
+        "answer": "Şeffaflığımızla gurur duyuyoruz. Gördüğünüz fiyat, tüm zorunlu vergileri ve ücretleri içerir. Opsiyonel ekstralar (çocuk koltuğu vb.) açıkça listelenir."
+      }
+    ]
+  },
+  "HowItWorks": {
+    "overline": "BASİT SÜREÇ",
+    "title": "3 Basit Adımda Araç Kiralayın",
+    "description": "Kolay rezervasyon süreci, sorunsuz deneyim. Dakikalar içinde yola çıkın.",
+    "steps": {
+      "step1": {
+        "title": "Ara ve Seç",
+        "desc": "Tarihlerinizi, konumunuzu seçin ve 300'den fazla araca göz atın. Fiyat, tür veya markaya göre filtreleyin."
+      },
+      "step2": {
+        "title": "Anında Rezerve Et",
+        "desc": "Saniyeler içinde yerinizi ayırın. Tedarikçilerle doğrudan telefon veya WhatsApp üzerinden iletişime geçin."
+      },
+      "step3": {
+        "title": "Yola Çık",
+        "desc": "Aracınızı havalimanından, otelinizden veya Kıbrıs'taki herhangi bir konumdan teslim alın."
+      }
+    },
+    "button": "Aramaya Başla",
+    "learnMore": "Sürecimiz hakkında daha fazla bilgi edinin"
+  },
+  "AffordableCars": {
+    "overline": "EN İYİ FİYAT",
+    "title": "Ekonomik Kiralama",
+    "description": "30€/gün'den başlayan rakipsiz fiyatlarla kaliteli araçlar. Gizli ücret yok.",
+    "viewAll": "Tüm Ekonomik Araçları Gör",
+    "bestValue": "En İyi Fiyat",
+    "dailyRate": "Günlük Ücret",
+    "weekly": "Haftalık",
+    "perDay": "/gün",
+    "call": "Ara",
+    "whatsapp": "WhatsApp",
+    "petrol": "Benzin"
+  },
+  "BrandGrid": {
+    "overline": "FİLOMUZ",
+    "title": "Premium Markalar"
+  },
+  "CarsPage": {
+    "overline": "PREMIUM SEÇİM",
+    "title": "Filomuz",
+    "description": "Kuzey Kıbrıs yolculuğunuz için özenle seçilmiş lüks, spor ve ekonomik araç koleksiyonumuzdan seçiminizi yapın.",
+    "availableVehicles": "Mevcut Araçlar",
+    "found": "({count} bulundu)",
+    "filters": "Filtreler",
+    "sortBy": "Sıralama: {value}",
+    "noVehicles": {
+      "title": "Araç bulunamadı",
+      "desc": "Kriterlerinize uygun araç bulamadık. Lütfen filtreleri ayarlayın.",
+      "clear": "Tüm Filtreleri Temizle"
+    },
+    "loadMore": "Daha Fazla Araç Yükle",
+    "priceLowHigh": "Fiyat (Düşükten Yükseğe)"
+  },
+  "CarFilters": {
+    "title": "Filtreler",
+    "reset": "Sıfırla",
+    "priceRange": "Günlük Fiyat Aralığı",
+    "category": "Kategori",
+    "transmission": "Vites",
+    "brands": "Markalar",
+    "categories": {
+      "Luxury": "Lüks",
+      "Sports": "Spor",
+      "SUV": "SUV",
+      "Economy": "Ekonomik",
+      "Sedan": "Sedan",
+      "Convertible": "Üstü Açık",
+      "Van": "Van"
+    },
+    "transmissions": {
+      "Automatic": "Otomatik",
+      "Manual": "Manuel"
+    },
+    "fuelTypes": {
+      "Petrol": "Benzin",
+      "Diesel": "Dizel",
+      "Electric": "Elektrikli",
+      "Hybrid": "Hibrit"
+    }
+  },
+  "VehicleDetails": {
+    "breadcrumb": {
+      "home": "Anasayfa",
+      "fleet": "Filo"
+    },
+    "noImage": "Resim Mevcut Değil",
+    "class": "Sınıf",
+    "view": "Görünüm",
+    "branch": "Girne Şubesi",
+    "perDay": "Günlük",
+    "transmission": "Vites",
+    "fuelType": "Yakıt Türü",
+    "seats": "Koltuk",
+    "persons": "Kişi",
+    "mileage": "Kilometre",
+    "unlimited": "Sınırsız",
+    "featuresTitle": "Araç Özellikleri",
+    "descriptionTitle": "Açıklama",
+    "defaultDescription": "{brand} {model} sürüş heyecanını yaşayın.",
+    "reserveTitle": "Şimdi Rezerve Et",
+    "reserveDesc": "En iyi fiyat garantisi. Gizli ücret yok.",
+    "pickupDate": "Alış Tarihi",
+    "dropoffDate": "İade Tarihi",
+    "rate": "Ücret",
+    "included": "Dahil",
+    "taxes": "Vergiler ve Harçlar",
+    "total": "Toplam",
+    "proceed": "Ödemeye Geç",
+    "loginToBook": "Kiralamak için Giriş Yapın",
+    "notCharged": "Henüz ücret tahsil edilmeyecektir.",
+    "shareTitle": "Bu Aracı Paylaş",
+    "days": "Gün",
+    "categories": {
+      "Luxury": "Lüks",
+      "Sports": "Spor",
+      "SUV": "SUV",
+      "Economy": "Ekonomik",
+      "Sedan": "Sedan",
+      "Convertible": "Üstü Açık",
+      "Van": "Van"
+    },
+    "transmissions": {
+      "Automatic": "Otomatik",
+      "Manual": "Manuel",
+      "Auto": "Otomatik"
+    },
+    "fuelTypes": {
+      "Petrol": "Benzin",
+      "Diesel": "Dizel",
+      "Electric": "Elektrikli",
+      "Hybrid": "Hibrit"
+    },
+    "badges": {
+      "insurance": {
+        "title": "Tam Sigortalı",
+        "desc": "Kapsamlı güvence dahil"
+      },
+      "cancellation": {
+        "title": "Ücretsiz İptal",
+        "desc": "Alıştan 48 saat öncesine kadar"
+      },
+      "support": {
+        "title": "7/24 Destek",
+        "desc": "Her an yol yardımı"
+      }
+    }
+  },
+  "LocationsPage": {
+    "metadata": {
+      "title": "Lüks Araç Kiralama Noktaları | Mediterranean Drive",
+      "description": "Kuzey Kıbrıs genelindeki kiralama noktalarımızı bulun."
+    },
+    "hero": {
+      "alt": "Kıbrıs Konumları",
+      "overline": "Ada Genelinde Hizmet",
+      "title": "<highlight>Konumlarımız</highlight>",
+      "description": "Kuzey Kıbrıs genelinde kolay araç teslim alım ve iade hizmetini yaşayın."
+    },
+    "cities": {
+      "kyrenia": "Girne",
+      "nicosia": "Lefkoşa",
+      "famagusta": "Gazimağusa",
+      "ercan": "Ercan Havalimanı"
+    },
+    "defaultBranchDesc": "{city} şubemizi ziyaret edin.",
+    "labels": {
+      "address": "Adres",
+      "phone": "Telefon",
+      "hours": "Çalışma Saatleri"
+    },
+    "viewCars": "Araçları Gör",
+    "getDirections": "Yol Tarifi",
+    "map": {
+      "title": "Size En Yakın Şubeyi Bulun",
+      "description": "Haritayı kontrol edin.",
+      "button": "İnteraktif Haritayı Aç"
+    },
+    "cta": {
+      "title": "Şubeye Yakın Değil misiniz?",
+      "description": "VIP teslimat hizmeti sunuyoruz.",
+      "deliveryBtn": "Teslimat İste",
+      "whatsappBtn": "WhatsApp Konsiyerj"
+    }
+  },
+  "ChauffeurPage": {
+    "hero": {
+      "overline": "Premium Hizmet",
+      "title": "Kusursuz Hizmet <highlight>Anlayışı</highlight>",
+      "description": "Arkanıza yaslanın, rahatlayın ve profesyonel şoförlerimizin sizi gitmek istediğiniz yere ulaştırmasına izin verin.",
+      "button": "Şoför Kirala"
+    },
+    "features": {
+      "vip": {
+        "title": "VIP Hizmet",
+        "desc": "Kırmızı halı kalitesinde hizmet."
+      },
+      "punctuality": {
+        "title": "Dakiklik",
+        "desc": "Zamanınıza değer veriyoruz."
+      },
+      "safety": {
+        "title": "Güven ve Emniyet",
+        "desc": "Güvenli seyahat."
+      },
+      "fleet": {
+        "title": "Kusursuz Filo",
+        "desc": "Geniş araç yelpazemizden seçin."
+      }
+    },
+    "business": {
+      "overline": "Profesyoneller İçin",
+      "title": "Özel <highlight>Mobil Ofisiniz</highlight>",
+      "description": "Seyahat süresini verimli çalışma saatlerine dönüştürün.",
+      "features": {
+        "connectivity": {
+          "title": "Bağlantı",
+          "desc": "Yüksek hızlı Wi-Fi."
+        },
+        "privacy": {
+          "title": "Gizlilik",
+          "desc": "Tam mahremiyet."
+        },
+        "amenities": {
+          "title": "İş Konforu",
+          "desc": "İkramlar ve konfor."
+        }
+      },
+      "button": "Kurumsal Hesap Aç",
+      "imageAlt": "Lüks Araç İç Mekan",
+      "floatingCard": {
+        "overline": "Mevcut Filo",
+        "title": "Mercedes-Benz S-Class"
+      }
+    },
+    "services": {
+      "title": "Her Duruma Uygun <highlight>Hizmetler</highlight>",
+      "description": "Havalimanı transferi, düğün veya iş toplantıları.",
+      "items": {
+        "airport": "Havalimanı Transferleri",
+        "corporate": "Kurumsal Seyahat",
+        "wedding": "Düğün ve Özel Günler",
+        "tours": "Özel Ada Turları",
+        "hourly": "Saatlik Hizmet"
+      },
+      "button": "Fiyat Alın",
+      "imageAlt": "Profesyonel Şoför Hizmeti",
+      "availability": {
+        "title": "7/24 Hizmet",
+        "desc": "Her zaman hazırız."
+      }
+    }
+  },
+  "ContactPage": {
+    "hero": {
+      "overline": "Yardım İçin Buradayız",
+      "title": "Bizimle İletişime <highlight>Geçin</highlight>",
+      "description": "Filomuz veya hizmetlerimiz hakkında bir sorunuz mu var? Konsiyerj ekibimiz size yardımcı olmak için 7/24 hizmetinizdedir."
+    },
+    "info": {
+      "title": "İletişim Bilgileri",
+      "description": "Formu doldurun, ekibimiz 24 saat içinde size geri dönecektir.",
+      "phone": "Telefon",
+      "email": "E-posta",
+      "headquarters": "Merkez Ofis"
+    },
+    "form": {
+      "firstName": "Ad",
+      "lastName": "Soyad",
+      "email": "E-posta Adresi",
+      "phone": "Telefon Numarası",
+      "message": "Mesaj",
+      "placeholder": {
+        "firstName": "Can",
+        "lastName": "Yılmaz",
+        "email": "can@ornek.com",
+        "phone": "+90 ...",
+        "message": "Size nasıl yardımcı olabiliriz?"
+      },
+      "send": "Mesaj Gönder",
+      "sending": "Gönderiliyor...",
+      "success": "Mesaj gönderildi! En kısa sürede size geri döneceğiz.",
+      "error": "Mesaj gönderilemedi.",
+      "unexpectedError": "Bir hata oluştu."
+    }
+  },
+  "Auth": {
+    "login": {
+      "title": "Tekrar Hoş Geldiniz",
+      "subtitle": "Hesabınıza erişmek için bilgilerinizi girin",
+      "email": "E-posta",
+      "password": "Şifre",
+      "forgotPassword": "Şifrenizi mi unuttunuz?",
+      "submit": "GİRİŞ YAP",
+      "orContinueWith": "Veya şununla devam et",
+      "noAccount": "Hesabınız yok mu?",
+      "createAccount": "Hesap Oluştur",
+      "error": {
+        "failed": "Giriş başarısız",
+        "unexpected": "Beklenmedik bir hata oluştu"
+      }
+    },
+    "register": {
+      "title": "Hesap Oluştur",
+      "subtitle": "Premium deneyiminize bugün başlayın",
+      "firstName": "Ad",
+      "lastName": "Soyad",
+      "email": "E-posta",
+      "phone": "Telefon",
+      "password": "Şifre",
+      "confirmPassword": "Şifre Onayı",
+      "submit": "KAYIT OL",
+      "alreadyHaveAccount": "Zaten hesabınız var mı?",
+      "login": "Giriş Yap",
+      "error": {
+        "match": "Şifreler eşleşmiyor",
+        "failed": "Kayıt başarısız",
+        "unexpected": "Beklenmedik bir hata oluştu"
+      },
+      "partner": {
+        "title": "Filo veya kiralama şirketiniz mi var?",
+        "cta": "Ortak Olun"
+      }
+    },
+    "partnerRegister": {
+      "title": "Filo İşinizi Büyütün",
+      "subtitle": "Mediterranean Drive'ın özel ortak ağına katılın. Premium araçlarınızı listeleyin, rezervasyonları zahmetsizce yönetin ve değerli müşterilere ulaşın.",
+      "application": "Ortaklık Başvurusu",
+      "companyProfile": {
+        "title": "Şirket Profili",
+        "desc": "Markanızı sergileyin"
+      },
+      "fleetManagement": {
+        "title": "Filo Yönetimi",
+        "desc": "Kolay araç listeleme araçları"
+      },
+      "personalInfo": "Kişisel Bilgiler",
+      "companyInfo": "Şirket Bilgileri",
+      "fields": {
+        "firstName": "Ad",
+        "lastName": "Soyad",
+        "email": "E-posta",
+        "phone": "Telefon",
+        "password": "Şifre",
+        "passwordHint": "En az 8 karakter",
+        "companyName": "Şirket Adı",
+        "companyEmail": "Şirket E-postası",
+        "companyPhone": "Şirket Telefonu",
+        "city": "Genel Merkez Şehri",
+        "desc": "İş Açıklaması",
+        "descPlaceholder": "Filonuzu ve hizmetlerinizi kısaca açıklayın..."
+      },
+      "submit": "Başvuruyu Gönder",
+      "alreadyPartner": "Zaten ortak mısınız?",
+      "login": "Yönetim Paneli Girişi"
+    }
+  },
+  "Checkout": {
+    "title": "Rezervasyonu Tamamla",
+    "sections": {
+      "driver": "Sürücü Bilgileri",
+      "payment": "Ödeme Yöntemi",
+      "summary": "Sipariş Özeti"
+    },
+    "form": {
+      "firstName": "Ad",
+      "lastName": "Soyad",
+      "email": "E-posta",
+      "phone": "Telefon (WhatsApp)",
+      "license": "Sürücü Belgesi",
+      "passport": "Pasaport / Kimlik",
+      "uploadFront": "Ön Yüzü Yükle",
+      "uploadPhoto": "Fotoğraflı Sayfayı Yükle",
+      "notes": "Özel İstekler (Opsiyonel)",
+      "notesPlaceholder": "Uçuş numarası, çocuk koltuğu isteği, vb."
+    },
+    "payment": {
+      "pickup": {
+        "title": "Teslimatta Öde",
+        "desc": "Varışta Nakit veya Kart",
+        "info": "Aracı teslim alırken <highlight>€{total}</highlight> tutarındaki toplam bedeli ödeyeceksiniz. Yerel para birimi, Euro, Sterlin veya Kredi Kartı kabul ediyoruz."
+      },
+      "stripe": {
+        "title": "Şimdi Öde",
+        "desc": "Güvenli Kredi Kartı ödemesi"
+      },
+      "payNow": "Şimdi €{total} Öde",
+      "confirm": "Rezervasyonu Onayla"
+    },
+    "summary": {
+      "duration": "Süre",
+      "days": "{days} Gün",
+      "dailyRate": "Günlük Ücret",
+      "taxes": "Vergiler ve Harçlar",
+      "included": "Dahil",
+      "total": "Ödenecek Toplam",
+      "bestPrice": "En İyi Fiyat Doğrulandı",
+      "insuranceInfo": "Temel sigorta dahildir. Teslimat sırasında kredi kartınızdan €500 tutarında bir güvenlik depozitosu bloke edilecektir."
+    },
+    "errors": {
+      "failed": "Rezervasyon oluşturulamadı. Lütfen tekrar deneyin.",
+      "unexpected": "Beklenmedik bir hata oluştu. Lütfen tekrar deneyin."
+    }
+  },
+  "ListCar": {
+    "title": "Aracınızı Listeleyin",
+    "subtitle": "Aracınızı premium pazar yerimizde satışa sunmak için aşağıdaki ayrıntıları doldurun.",
+    "overline": "Aracınızı Satın",
+    "sections": {
+      "info": "Araç Bilgileri",
+      "pricing": "Fiyatlandırma",
+      "photos": "Fotoğraflar"
+    },
+    "fields": {
+      "brand": "Marka",
+      "model": "Model",
+      "year": "Yıl",
+      "condition": "Durum",
+      "mileage": "Kilometre (km)",
+      "category": "Kategori",
+      "transmission": "Vites",
+      "fuelType": "Yakıt Türü",
+      "location": "Konum",
+      "price": "İstenen Fiyat (€)"
+    },
+    "submit": "İlanı Gönder",
+    "success": {
+      "title": "İlan Gönderildi!",
+      "desc": "Aracınız inceleme için başarıyla gönderildi. Ekibimiz tarafından onaylandıktan sonra \"Araç Satın Al\" bölümünde görünecektir.",
+      "dashboard": "Panelle Git",
+      "home": "Anasayfaya Dön"
+    }
   }
 }

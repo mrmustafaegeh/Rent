@@ -9,6 +9,8 @@ import { cn } from "@/lib/utils"
 import { useCurrency } from "@/context/CurrencyContext"
 import { CurrencyCode } from "@/lib/currency"
 
+import { useTranslations } from "next-intl"
+
 export interface VehicleCardProps {
     vehicle: {
         _id: string; 
@@ -49,10 +51,11 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
     const primaryImage = vehicle.images?.find(img => img.isPrimary)?.url || vehicle.images?.[0]?.url || '/images/car-placeholder.jpg';
     
     const { formatPrice } = useCurrency();
+    const t = useTranslations('VehicleCard');
     const isSale = vehicle.type === 'sale' || !!vehicle.salePrice;
     const price = isSale ? vehicle.salePrice : vehicle.pricing?.daily;
     const vehicleCurrency = (vehicle.currency as CurrencyCode) || 'EUR';
-    const priceDisplay = price ? formatPrice(price, vehicleCurrency) : 'Price on Request';
+    const priceDisplay = price ? formatPrice(price, vehicleCurrency) : t('priceOnRequest');
     
     return (
         <div className="group relative flex flex-col bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] transition-all duration-300 h-full hover:-translate-y-1">
@@ -76,7 +79,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
                  {vehicle.isFeatured && (
                     <div className="absolute top-4 left-4 z-10">
                         <span className="bg-gold text-navy text-xs font-bold px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1">
-                            ★ Featured
+                            ★ {t('featured')}
                         </span>
                     </div>
                  )}
@@ -85,10 +88,10 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
                  <div className="absolute bottom-4 left-4 right-4 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
                      <div className="flex gap-2 text-white text-xs font-medium">
                          <span className="bg-black/40 backdrop-blur-md px-2 py-1 rounded-md flex items-center gap-1">
-                             <GaugeCircle className="w-3 h-3" /> {vehicle.transmission || 'Auto'}
+                             <GaugeCircle className="w-3 h-3" /> {t(`transmissions.${vehicle.transmission || 'Automatic'}`)}
                          </span>
                          <span className="bg-black/40 backdrop-blur-md px-2 py-1 rounded-md flex items-center gap-1">
-                             <Fuel className="w-3 h-3" /> {vehicle.fuelType || 'Petrol'}
+                             <Fuel className="w-3 h-3" /> {t(`fuelTypes.${vehicle.fuelType || 'Petrol'}`)}
                          </span>
                          <span className="bg-black/40 backdrop-blur-md px-2 py-1 rounded-md flex items-center gap-1">
                              <Users className="w-3 h-3" /> {vehicle.seats || 5}
@@ -104,7 +107,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
                         <h3 className="font-heading font-bold text-xl text-navy leading-tight line-clamp-1">{vehicle.brand} {vehicle.vehicleModel}</h3>
                         <div className="flex items-center gap-2 mt-2 text-sm text-gray-400">
                             <MapPin className="h-3 w-3" /> 
-                            <span>{vehicle.location || 'North Cyprus'}</span>
+                            <span>{t(`locations.${vehicle.location || 'ercan'}`)}</span>
                             <span className="text-gray-300">•</span>
                             <span>{vehicle.year}</span>
                         </div>
@@ -113,15 +116,15 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
                 
                 <div className="mt-auto pt-4 border-t border-gray-100 flex items-end justify-between">
                     <div>
-                        <span className="text-xs text-gray-400 font-bold uppercase tracking-wider block mb-1">{isSale ? 'Sale Price' : 'Daily Rate'}</span>
+                        <span className="text-xs text-gray-400 font-bold uppercase tracking-wider block mb-1">{isSale ? t('salePrice') : t('dailyRate')}</span>
                         <div className="flex items-baseline gap-1">
                             <span className="text-2xl font-bold text-electric">{priceDisplay}</span>
-                            {!isSale && price && <span className="text-sm text-gray-400">/day</span>}
+                            {!isSale && price && <span className="text-sm text-gray-400">{t('perDay')}</span>}
                         </div>
                     </div>
                     {!isSale && vehicle.pricing?.weekly && (
                          <div className="text-right">
-                             <span className="text-xs text-gray-400 font-bold uppercase tracking-wider block mb-1">Weekly</span>
+                             <span className="text-xs text-gray-400 font-bold uppercase tracking-wider block mb-1">{t('weekly')}</span>
                              <span className="text-sm font-bold text-navy">{formatPrice(vehicle.pricing.weekly, vehicleCurrency)}</span>
                          </div>
                     )}
@@ -129,7 +132,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
                 
                 <div className="grid grid-cols-2 gap-3 pt-2">
                     <Button variant="outline" className="w-full gap-2 border-gray-200 hover:border-electric hover:text-electric hover:bg-white h-11 text-sm font-bold rounded-xl transition-all">
-                        <Phone className="h-4 w-4" /> Call
+                        <Phone className="h-4 w-4" /> {t('call')}
                     </Button>
                     <Button className="w-full gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white border-none h-11 text-sm font-bold rounded-xl shadow-[0_4px_14px_0_rgba(37,211,102,0.39)] transition-all">
                         <MessageCircle className="h-4 w-4" /> WhatsApp

@@ -27,6 +27,7 @@ import {
 } from 'lucide-react';
 import { useCurrency } from '@/context/CurrencyContext';
 import { CurrencyCode } from '@/lib/currency';
+import { useTranslations } from 'next-intl';
 
 interface Vehicle {
   _id: string;
@@ -59,6 +60,7 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
   const router = useRouter();
   const { isAuthenticated } = useAuth();
   const { formatPrice } = useCurrency();
+  const t = useTranslations('VehicleDetails');
   const vehicleCurrency = (vehicle.currency as CurrencyCode) || 'EUR';
   
   const [startDate, setStartDate] = useState('');
@@ -121,9 +123,9 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
         <div className="container mx-auto px-4 lg:px-8">
             {/* Breadcrumb */}
             <nav className="flex items-center text-sm font-medium text-gray-400 mb-8 space-x-2">
-                <Link href="/" className="hover:text-navy transition-colors">Home</Link>
+                <Link href="/" className="hover:text-navy transition-colors">{t('breadcrumb.home')}</Link>
                 <ChevronRight className="w-4 h-4" />
-                <Link href="/cars" className="hover:text-navy transition-colors">Fleet</Link>
+                <Link href="/cars" className="hover:text-navy transition-colors">{t('breadcrumb.fleet')}</Link>
                 <ChevronRight className="w-4 h-4" />
                 <span className="text-navy font-bold">{vehicle.brand} {vehicle.vehicleModel}</span>
             </nav>
@@ -144,11 +146,11 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
                                     priority
                                 />
                              ) : (
-                                <div className="flex items-center justify-center h-full text-gray-400">No Image Available</div>
+                                <div className="flex items-center justify-center h-full text-gray-400">{t('noImage')}</div>
                              )}
                              <div className="absolute top-4 left-4">
                                  <span className="bg-navy/90 backdrop-blur-md text-gold px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest border border-white/10 shadow-lg">
-                                     {vehicle.category} Class
+                                     {t(`categories.${vehicle.category}`, { default: vehicle.category })} {t('class')}
                                  </span>
                              </div>
                         </div>
@@ -166,7 +168,7 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
                                     >
                                         <Image 
                                             src={img.url} 
-                                            alt={`View ${idx + 1}`}
+                                            alt={`${t('view')} ${idx + 1}`}
                                             fill
                                             className="object-cover"
                                         />
@@ -191,7 +193,7 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
                              </div>
                              <div className="flex flex-col items-end">
                                  <p className="text-3xl font-black text-navy">{formatPrice(vehicle.pricing.daily, vehicleCurrency)}</p>
-                                 <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Per Day</p>
+                                 <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">{t('perDay')}</p>
                              </div>
                         </div>
 
@@ -199,28 +201,28 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
                              <div className="flex flex-col items-center p-4 bg-gray-50 rounded-2xl border border-gray-100 group hover:border-navy/20 transition-colors">
                                  <Settings className="w-6 h-6 text-navy mb-2 group-hover:scale-110 transition-transform" />
-                                 <span className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Transmission</span>
-                                 <span className="font-bold text-navy">{vehicle.transmission}</span>
+                                 <span className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">{t('transmission')}</span>
+                                 <span className="font-bold text-navy">{t(`transmissions.${vehicle.transmission}`, { default: vehicle.transmission })}</span>
                              </div>
                              <div className="flex flex-col items-center p-4 bg-gray-50 rounded-2xl border border-gray-100 group hover:border-navy/20 transition-colors">
                                  <Fuel className="w-6 h-6 text-navy mb-2 group-hover:scale-110 transition-transform" />
-                                 <span className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Fuel Type</span>
-                                 <span className="font-bold text-navy">{vehicle.fuelType}</span>
+                                 <span className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">{t('fuelType')}</span>
+                                 <span className="font-bold text-navy">{t(`fuelTypes.${vehicle.fuelType}`, { default: vehicle.fuelType })}</span>
                              </div>
                              <div className="flex flex-col items-center p-4 bg-gray-50 rounded-2xl border border-gray-100 group hover:border-navy/20 transition-colors">
                                  <Users className="w-6 h-6 text-navy mb-2 group-hover:scale-110 transition-transform" />
-                                 <span className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Seats</span>
-                                 <span className="font-bold text-navy">{vehicle.seats} Persons</span>
+                                 <span className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">{t('seats')}</span>
+                                 <span className="font-bold text-navy">{vehicle.seats} {t('persons')}</span>
                              </div>
                              <div className="flex flex-col items-center p-4 bg-gray-50 rounded-2xl border border-gray-100 group hover:border-navy/20 transition-colors">
                                  <Gauge className="w-6 h-6 text-navy mb-2 group-hover:scale-110 transition-transform" />
-                                 <span className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Mileage</span>
-                                 <span className="font-bold text-navy">Unlimited</span>
+                                 <span className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">{t('mileage')}</span>
+                                 <span className="font-bold text-navy">{t('unlimited')}</span>
                              </div>
                         </div>
 
                         <div className="space-y-6">
-                            <h3 className="text-xl font-bold text-navy">Vehicle Features</h3>
+                            <h3 className="text-xl font-bold text-navy">{t('featuresTitle')}</h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {features.map((feature, i) => (
                                     <div key={i} className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors">
@@ -234,9 +236,9 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
                         </div>
                         
                          <div className="mt-10 pt-10 border-t border-gray-100">
-                            <h3 className="text-xl font-bold text-navy mb-4">Description</h3>
+                            <h3 className="text-xl font-bold text-navy mb-4">{t('descriptionTitle')}</h3>
                             <p className="text-gray-500 leading-relaxed text-sm">
-                                {vehicle.details?.description || `Experience the thrill of driving the ${vehicle.brand} ${vehicle.vehicleModel}. Perfect for exploring North Cyprus in style, this vehicle offers a blend of performance, comfort, and luxury suitable for both business and leisure trips.`}
+                                {vehicle.details?.description || t('defaultDescription', { brand: vehicle.brand, model: vehicle.vehicleModel })}
                             </p>
                         </div>
                     </div>
@@ -252,13 +254,13 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
                     <div className="sticky top-24 space-y-6">
                         <div className="bg-navy rounded-3xl p-8 text-white shadow-2xl shadow-navy/20">
                              <div className="mb-6">
-                                 <h3 className="text-2xl font-heading font-black text-white mb-2">Reserve Now</h3>
-                                 <p className="text-gray-400 text-sm">Best price guarantee. No hidden fees.</p>
+                                 <h3 className="text-2xl font-heading font-black text-white mb-2">{t('reserveTitle')}</h3>
+                                 <p className="text-gray-400 text-sm">{t('reserveDesc')}</p>
                              </div>
 
                              <div className="space-y-4 mb-8">
                                  <div className="bg-white/5 p-4 rounded-xl border border-white/10">
-                                    <label className="block text-xs font-bold text-gold uppercase tracking-wider mb-2 text-left">Pick-up Date</label>
+                                    <label className="block text-xs font-bold text-gold uppercase tracking-wider mb-2 text-left">{t('pickupDate')}</label>
                                     <Input 
                                         type="date" 
                                         value={startDate}
@@ -268,7 +270,7 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
                                     />
                                  </div>
                                  <div className="bg-white/5 p-4 rounded-xl border border-white/10">
-                                    <label className="block text-xs font-bold text-gold uppercase tracking-wider mb-2 text-left">Drop-off Date</label>
+                                    <label className="block text-xs font-bold text-gold uppercase tracking-wider mb-2 text-left">{t('dropoffDate')}</label>
                                     <Input 
                                         type="date" 
                                         value={endDate}
@@ -282,16 +284,16 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
                              {startDate && endDate && totalPrice > 0 && (
                                  <div className="bg-white/10 rounded-xl p-4 mb-6 border border-white/5 animate-in fade-in slide-in-from-bottom-2">
                                      <div className="flex justify-between items-center mb-2">
-                                         <span className="text-gray-300 text-sm">Rate</span>
-                                         <span className="font-bold">{formatPrice(vehicle.pricing.daily, vehicleCurrency)} x {Math.ceil((new Date(endDate).getTime() - new Date(startDate).getTime()) / (1000 * 60 * 60 * 24))} Days</span>
+                                         <span className="text-gray-300 text-sm">{t('rate')}</span>
+                                         <span className="font-bold">{formatPrice(vehicle.pricing.daily, vehicleCurrency)} x {Math.ceil((new Date(endDate).getTime() - new Date(startDate).getTime()) / (1000 * 60 * 60 * 24))} {t('days')}</span>
                                      </div>
                                      <div className="flex justify-between items-center text-sm mb-4">
-                                         <span className="text-gray-300">Taxes & Fees</span>
-                                         <span className="font-bold">Included</span>
+                                         <span className="text-gray-300">{t('taxes')}</span>
+                                         <span className="font-bold">{t('included')}</span>
                                      </div>
                                      <div className="h-px bg-white/20 my-2"></div>
                                      <div className="flex justify-between items-center">
-                                         <span className="text-gold font-bold uppercase tracking-wider text-xs">Total</span>
+                                         <span className="text-gold font-bold uppercase tracking-wider text-xs">{t('total')}</span>
                                          <span className="text-2xl font-black text-white">{formatPrice(totalPrice, vehicleCurrency)}</span>
                                      </div>
                                  </div>
@@ -304,11 +306,11 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
                                 disabled={!startDate || !endDate}
                              >
                                  <Zap className="w-5 h-5 mr-2 fill-current" />
-                                 {isAuthenticated ? 'Proceed to Checkout' : 'Login to Book'}
+                                 {isAuthenticated ? t('proceed') : t('loginToBook')}
                              </Button>
                              
                              <p className="text-center text-xs text-gray-500 mt-4 font-medium">
-                                 You won't be charged yet.
+                                 {t('notCharged')}
                              </p>
                         </div>
 
@@ -319,8 +321,8 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
                                      <Shield className="w-5 h-5" />
                                  </div>
                                  <div>
-                                     <h4 className="font-bold text-navy text-sm">Fully Insured</h4>
-                                     <p className="text-xs text-gray-400">Comprehensive coverage included</p>
+                                     <h4 className="font-bold text-navy text-sm">{t('badges.insurance.title')}</h4>
+                                     <p className="text-xs text-gray-400">{t('badges.insurance.desc')}</p>
                                  </div>
                              </div>
                              <div className="flex items-center gap-4">
@@ -328,8 +330,8 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
                                      <CheckCircle className="w-5 h-5" />
                                  </div>
                                  <div>
-                                     <h4 className="font-bold text-navy text-sm">Free Cancellation</h4>
-                                     <p className="text-xs text-gray-400">Up to 48 hours before pickup</p>
+                                     <h4 className="font-bold text-navy text-sm">{t('badges.cancellation.title')}</h4>
+                                     <p className="text-xs text-gray-400">{t('badges.cancellation.desc')}</p>
                                  </div>
                              </div>
                              <div className="flex items-center gap-4">
@@ -337,15 +339,15 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
                                      <Settings className="w-5 h-5" />
                                  </div>
                                  <div>
-                                     <h4 className="font-bold text-navy text-sm">24/7 Support</h4>
-                                     <p className="text-xs text-gray-400">Roadside assistance anytime</p>
+                                     <h4 className="font-bold text-navy text-sm">{t('badges.support.title')}</h4>
+                                     <p className="text-xs text-gray-400">{t('badges.support.desc')}</p>
                                  </div>
                              </div>
                         </div>
 
                         {/* Share */}
                         <div className="bg-white rounded-2xl p-6 border border-gray-100 text-center">
-                             <h4 className="font-bold text-navy text-sm mb-4 uppercase tracking-wider">Share this Car</h4>
+                             <h4 className="font-bold text-navy text-sm mb-4 uppercase tracking-wider">{t('shareTitle')}</h4>
                              <div className="flex justify-center">
                                 <ShareButtons 
                                     vehicle={{ 

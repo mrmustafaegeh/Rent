@@ -9,8 +9,10 @@ import { signIn } from 'next-auth/react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { ArrowRight } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export default function RegisterPage() {
+  const t = useTranslations('Auth.register');
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -35,7 +37,7 @@ export default function RegisterPage() {
     setError('');
 
     if (formData.password !== formData.confirmPassword) {
-        setError('Passwords do not match');
+        setError(t('error.match'));
         setIsLoading(false);
         return;
     }
@@ -59,10 +61,10 @@ export default function RegisterPage() {
         login(data.token, data.user);
         router.push('/');
       } else {
-        setError(data.error || 'Registration failed');
+        setError(data.error || t('error.failed'));
       }
     } catch (err) {
-      setError('An unexpected error occurred');
+      setError(t('error.unexpected'));
     } finally {
       setIsLoading(false);
     }
@@ -87,8 +89,8 @@ export default function RegisterPage() {
         
         {/* Header */}
         <div className="text-center mb-8 space-y-2">
-            <h1 className="text-4xl font-heading font-black text-white tracking-tight">Create Account</h1>
-            <p className="text-gray-300 font-medium">Begin your premium experience today</p>
+            <h1 className="text-4xl font-heading font-black text-white tracking-tight">{t('title')}</h1>
+            <p className="text-gray-300 font-medium">{t('subtitle')}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
@@ -101,7 +103,7 @@ export default function RegisterPage() {
 
             <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">First Name</label>
+                    <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">{t('firstName')}</label>
                     <Input
                         id="firstName"
                         type="text"
@@ -113,7 +115,7 @@ export default function RegisterPage() {
                     />
                 </div>
                 <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Last Name</label>
+                    <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">{t('lastName')}</label>
                     <Input
                         id="lastName"
                         type="text"
@@ -127,7 +129,7 @@ export default function RegisterPage() {
             </div>
 
             <div className="space-y-1.5">
-                <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Email</label>
+                <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">{t('email')}</label>
                 <Input
                   id="email"
                   type="email"
@@ -140,7 +142,7 @@ export default function RegisterPage() {
             </div>
 
             <div className="space-y-1.5">
-                <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Phone</label>
+                <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">{t('phone')}</label>
                 <Input
                   id="phone"
                   type="tel"
@@ -154,7 +156,7 @@ export default function RegisterPage() {
 
             <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Password</label>
+                    <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">{t('password')}</label>
                     <Input
                         id="password"
                         type="password"
@@ -166,7 +168,7 @@ export default function RegisterPage() {
                     />
                 </div>
                 <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Confirm</label>
+                    <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">{t('confirmPassword')}</label>
                      <Input
                         id="confirmPassword"
                         type="password"
@@ -184,7 +186,7 @@ export default function RegisterPage() {
                 className="w-full h-12 mt-4 bg-gradient-to-r from-gold to-amber-500 hover:from-amber-400 hover:to-gold text-navy font-black text-lg rounded-xl shadow-lg shadow-gold/10 hover:shadow-gold/20 hover:-translate-y-0.5 transition-all duration-300" 
                 isLoading={isLoading}
             >
-                SIGN UP
+                {t('submit')}
             </Button>
 
             <div className="relative my-8">
@@ -224,9 +226,9 @@ export default function RegisterPage() {
         </form>
 
         <div className="text-center mt-8 pt-8 border-t border-white/10 text-gray-400 text-sm">
-            <p className="mb-2">Own a fleet or rental business?</p>
+            <p className="mb-2">{t('partner.title')}</p>
             <Link href="/auth/partner-register" className="inline-flex items-center gap-2 text-electric hover:text-white transition-all font-black uppercase tracking-widest text-xs group">
-                Become a Partner <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                {t('partner.cta')} <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
             </Link>
         </div>
       </div>

@@ -8,8 +8,10 @@ import { useAuth } from '@/context/AuthContext';
 import { signIn } from 'next-auth/react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import { useTranslations } from 'next-intl';
 
 export default function LoginPage() {
+  const t = useTranslations('Auth.login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -36,10 +38,10 @@ export default function LoginPage() {
         login(data.token, data.user);
         router.push('/');
       } else {
-        setError(data.error || 'Login failed');
+        setError(data.error || t('error.failed'));
       }
     } catch (err) {
-      setError('An unexpected error occurred');
+      setError(t('error.unexpected'));
     } finally {
       setIsLoading(false);
     }
@@ -64,8 +66,8 @@ export default function LoginPage() {
         
         {/* Header */}
         <div className="text-center mb-8 space-y-2">
-            <h1 className="text-3xl md:text-4xl font-heading font-black text-white tracking-tight">Welcome Back</h1>
-            <p className="text-gray-400 sm:text-gray-300 text-sm sm:text-base font-medium">Enter your details to access your account</p>
+            <h1 className="text-3xl md:text-4xl font-heading font-black text-white tracking-tight">{t('title')}</h1>
+            <p className="text-gray-400 sm:text-gray-300 text-sm sm:text-base font-medium">{t('subtitle')}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -78,7 +80,7 @@ export default function LoginPage() {
 
             <div className="space-y-4">
                 <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Email</label>
+                    <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">{t('email')}</label>
                     <Input
                         id="email"
                         type="email"
@@ -91,7 +93,7 @@ export default function LoginPage() {
                 </div>
 
                 <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Password</label>
+                    <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">{t('password')}</label>
                     <Input
                         id="password"
                         type="password"
@@ -103,7 +105,7 @@ export default function LoginPage() {
                     />
                     <div className="flex justify-end pt-1">
                         <Link href="/auth/forgot-password" className="text-xs text-gold hover:text-white transition-colors font-bold uppercase tracking-wider">
-                        Forgot password?
+                        {t('forgotPassword')}
                         </Link>
                     </div>
                 </div>
@@ -114,7 +116,7 @@ export default function LoginPage() {
                 className="w-full h-12 bg-gradient-to-r from-gold to-amber-500 hover:from-amber-400 hover:to-gold text-navy font-black text-lg rounded-xl shadow-lg shadow-gold/10 hover:shadow-gold/20 hover:-translate-y-0.5 transition-all duration-300" 
                 isLoading={isLoading}
             >
-              SIGN IN
+              {t('submit')}
             </Button>
             
             <div className="relative my-8">
@@ -122,7 +124,7 @@ export default function LoginPage() {
                     <span className="w-full border-t border-white/10"></span>
                 </div>
                 <div className="relative flex justify-center text-[10px] font-black uppercase tracking-widest">
-                    <span className="bg-transparent px-4 text-gray-500 backdrop-blur-xl">Or continue with</span>
+                    <span className="bg-transparent px-4 text-gray-500 backdrop-blur-xl">{t('orContinueWith')}</span>
                 </div>
             </div>
 
@@ -155,9 +157,9 @@ export default function LoginPage() {
 
         <div className="text-center mt-8">
             <p className="text-gray-400 text-sm">
-                Don't have an account?{' '}
+                {t('noAccount')}{' '}
                 <Link href="/auth/register" className="text-gold hover:text-white transition-colors font-bold uppercase tracking-wider ml-1">
-                Create Account
+                {t('createAccount')}
                 </Link>
             </p>
         </div>

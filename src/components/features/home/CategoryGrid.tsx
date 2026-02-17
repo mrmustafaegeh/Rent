@@ -3,79 +3,81 @@
 import Link from "next/link"
 import { OptimizedImage } from "@/components/ui/OptimizedImage"
 import { useCurrency } from "@/context/CurrencyContext"
+import { useTranslations } from "next-intl"
 
 export function CategoryGrid() {
   const { formatPrice } = useCurrency();
+  const t = useTranslations('CategoryGrid');
   
   const categories = [
     { 
-        name: "Economy", 
-        count: "95+ vehicles", 
+        name: t('categories.Economy'), 
+        count: t('vehiclesCount', { count: 95 }), 
         price: 30, 
-        period: "/day",
+        period: t('perDay'),
         slug: "Economy", 
         image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2",
         alt: "Economy car on road"
     },
     { 
-        name: "Luxury", 
-        count: "120+ vehicles", 
+        name: t('categories.Luxury'), 
+        count: t('vehiclesCount', { count: 120 }), 
         price: 80, 
-        period: "/day",
+        period: t('perDay'),
         slug: "Luxury", 
         image: "https://images.unsplash.com/photo-1563720223185-11003d516935",
         alt: "Luxury sedan interior"
     },
     { 
-        name: "SUVs", 
-        count: "180+ vehicles", 
+        name: t('categories.SUV'), 
+        count: t('vehiclesCount', { count: 180 }), 
         price: 50, 
-        period: "/day",
+        period: t('perDay'),
         slug: "SUV", 
         image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf",
         alt: "Black SUV"
     },
     { 
-        name: "Sports", 
-        count: "35+ vehicles", 
+        name: t('categories.Sports'), 
+        count: t('vehiclesCount', { count: 35 }), 
         price: 200, 
-        period: "/day",
+        period: t('perDay'),
         slug: "Sports", 
         image: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e",
         alt: "Red sports car"
     },
     { 
-        name: "Sedan", 
-        count: "25+ vehicles", 
+        name: t('categories.Sedan'), 
+        count: t('vehiclesCount', { count: 25 }), 
         price: 45, 
-        period: "/day",
+        period: t('perDay'),
         slug: "Sedan", 
         image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89",
         alt: "Electric car charging"
     },
     { 
-        name: "Convertible", 
-        count: "250+ vehicles", 
+        name: t('categories.Convertible'), 
+        count: t('vehiclesCount', { count: 250 }), 
         price: 600, 
-        period: "/month",
+        period: t('perMonth'),
         slug: "Convertible", 
         image: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d",
         alt: "Car driving on highway"
     },
     { 
-        name: "Hatchback", 
-        count: "65+ vehicles", 
+        name: t('categories.Hatchback'), 
+        count: t('vehiclesCount', { count: 65 }), 
         price: 25, 
-        period: "/day",
+        period: t('perDay'),
         slug: "Hatchback", 
         image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2",
         alt: "Compact hatchback car"
     },
     { 
-        name: "Electric", 
-        count: "15+ vehicles", 
+        name: t('categories.Electric'), 
+        count: t('vehiclesCount', { count: 15 }), 
         price: 400, 
-        period: "/day",
+        period: t('perDay'),
         slug: "Electric", 
         image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70",
         alt: "Luxury supercar"
@@ -87,8 +89,8 @@ export function CategoryGrid() {
        <div className="container mx-auto px-4">
            {/* Section Header */}
            <div className="text-center mb-12 sm:mb-16 space-y-4">
-               <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-black text-navy tracking-tight">Browse by Category</h2>
-               <p className="text-gray-500 text-base md:text-lg max-w-2xl mx-auto font-medium">From budget-friendly to ultra-luxury, find your perfect ride for the Cyprus roads.</p>
+               <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-black text-navy tracking-tight">{t('title')}</h2>
+               <p className="text-gray-500 text-base md:text-lg max-w-2xl mx-auto font-medium">{t('subtitle')}</p>
            </div>
            
            {/* Grid */}
@@ -124,7 +126,7 @@ export function CategoryGrid() {
 
                              {/* Price Tag with Glassmorphism */}
                              <div className="mt-6 pt-4 border-t border-white/20 w-full flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-75">
-                                 <span className="text-xs font-bold text-white/90 uppercase tracking-wider">From</span>
+                                 <span className="text-xs font-bold text-white/90 uppercase tracking-wider">{t('from')}</span>
                                  <span className="text-[#06B6D4] font-black text-2xl bg-white/10 px-3 py-1 rounded-lg backdrop-blur-md shadow-lg border border-white/10">
                                      {formatPrice(cat.price)}
                 <span className="text-xs font-bold text-white/70 ms-1">{cat.period}</span>

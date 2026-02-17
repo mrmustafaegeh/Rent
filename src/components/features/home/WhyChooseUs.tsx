@@ -2,29 +2,32 @@
 
 import { ShieldCheck, Tag, Layers, ArrowRight } from "lucide-react"
 import { motion } from "framer-motion"
-
-const features = [
-    {
-        icon: Layers,
-        title: "Exclusive Selection",
-        subtitle: "300+ Premium Vehicles",
-        description: "From performance-tuned supercars to rugged luxury SUVs and eco-conscious electric fleets. We curate only the finest vehicles for the Mediterranean journey."
-    },
-    {
-        icon: Tag,
-        title: "Absolute Transparency",
-        subtitle: "Best Price Guarantee",
-        description: "No hidden fees, no surrogate charges. Our competitive pricing model ensures you get elite luxury at the most justified market rates in North Cyprus."
-    },
-    {
-        icon: ShieldCheck,
-        title: "Elite Experience",
-        subtitle: "24/7 Dedicated Concierge",
-        description: "Beyond just rentals—we provide a complete experience. From airport VIP handovers to 24/7 road assistance and personalized driving routes."
-    }
-]
+import { useTranslations } from "next-intl"
 
 export function WhyChooseUs() {
+    const t = useTranslations('WhyChooseUs');
+    
+    const features = [
+        {
+            icon: Layers,
+            title: t('features.exclusive.title'),
+            subtitle: t('features.exclusive.subtitle'),
+            description: t('features.exclusive.description')
+        },
+        {
+            icon: Tag,
+            title: t('features.transparency.title'),
+            subtitle: t('features.transparency.subtitle'),
+            description: t('features.transparency.description')
+        },
+        {
+            icon: ShieldCheck,
+            title: t('features.experience.title'),
+            subtitle: t('features.experience.subtitle'),
+            description: t('features.experience.description')
+        }
+    ]
+
     return (
         <section className="py-32 bg-navy relative overflow-hidden">
             {/* Background Decorations */}
@@ -35,10 +38,10 @@ export function WhyChooseUs() {
 
             <div className="container mx-auto px-4 relative z-10">
                 <div className="text-center mb-16 md:mb-24 space-y-4">
-                    <span className="text-gold font-black tracking-[0.4em] text-[10px] uppercase block">BEYOND EXPECTATIONS</span>
-                    <h2 className="text-3xl sm:text-5xl md:text-7xl font-heading font-black text-white leading-tight">The Pinnacle of <br className="hidden md:block" /> Mediterranean Motion</h2>
+                    <span className="text-gold font-black tracking-[0.4em] text-[10px] uppercase block">{t('overline')}</span>
+                    <h2 className="text-3xl sm:text-5xl md:text-7xl font-heading font-black text-white leading-tight" dangerouslySetInnerHTML={{ __html: t.rich('title', { br: () => '<br class="hidden md:block" />' }) as string }} />
                     <p className="text-gray-400 text-base md:text-xl max-w-3xl mx-auto font-body font-light">
-                        Redefining the standard of car rental in North Cyprus through an unmatched fleet and world-class service.
+                        {t('description')}
                     </p>
                 </div>
                 
@@ -73,7 +76,7 @@ export function WhyChooseUs() {
                                 className="mt-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                             >
                                 <span className="flex items-center gap-2 text-white/40 font-black text-[10px] uppercase tracking-widest group-hover:text-white transition-colors cursor-pointer">
-                                    Learn More <ArrowRight className="w-3 h-3 text-gold" />
+                                    {t('learnMore')} <ArrowRight className="w-3 h-3 text-gold" />
                                 </span>
                             </motion.div>
                         </motion.div>

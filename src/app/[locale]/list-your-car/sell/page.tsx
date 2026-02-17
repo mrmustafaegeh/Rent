@@ -11,8 +11,10 @@ import ImageUpload from '@/components/ui/ImageUpload';
 import { ChevronLeft, Info, DollarSign, Image as ImageIcon, Car, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 
 export default function SellCarPage() {
+    const t = useTranslations('ListCar');
     const router = useRouter();
     const { user, isLoading: authLoading } = useAuth();
     const [isLoading, setIsLoading] = useState(false);
@@ -58,17 +60,8 @@ export default function SellCarPage() {
                    isPrimary: index === 0 
                 })),
                 available: true,
-                owner: user?._id // Pass owner explicitly? Or backend handles it? Backend doesn't know user._id unless I decode token or pass it.
-                                 // Usually API decodes token. But here I'll pass it if API supports it.
-                                 // API POST doesn't extract user from token yet. I'll pass it in body for now.
+                owner: user?._id
             };
-
-            // Assuming the API endpoint handles owner assignment via body or token.
-            // Since I updated the model but not the POST handler to extract user from session, 
-            // I should pass it (if I trust the client) or update the API to be secure.
-            // For now, I'll update the API to use the session user if available, but passing in body is easiest for MVP.
-            // Wait, I can't easily pass user ID if the API doesn't expect it.
-            // I'll update the API next.
 
             const res = await fetch('/api/vehicles', {
                 method: 'POST',
@@ -102,19 +95,19 @@ export default function SellCarPage() {
                         <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto text-green-600 mb-4">
                             <CheckCircle className="w-10 h-10" />
                         </div>
-                        <h2 className="text-3xl font-heading font-black text-navy">Listing Submitted!</h2>
+                        <h2 className="text-3xl font-heading font-black text-navy">{t('success.title')}</h2>
                         <p className="text-gray-500 font-medium">
-                            Your vehicle has been successfully submitted for review. Once approved by our team, it will appear in the "Buy Car" section.
+                            {t('success.desc')}
                         </p>
                         <div className="pt-4 flex flex-col gap-3">
                             <Link href="/dashboard/all-bookings">
                                 <Button className="w-full h-12 bg-navy text-white rounded-xl font-bold">
-                                    Go to Dashboard
+                                    {t('success.dashboard')}
                                 </Button>
                             </Link>
                             <Link href="/">
                                 <Button variant="ghost" className="w-full h-12 text-gray-500 font-bold hover:bg-gray-50 rounded-xl">
-                                    Back to Home
+                                    {t('success.home')}
                                 </Button>
                             </Link>
                         </div>
@@ -132,10 +125,10 @@ export default function SellCarPage() {
             <main className="flex-1 py-12 px-4 sm:px-6">
                 <div className="max-w-4xl mx-auto space-y-8">
                     <div className="text-center space-y-2">
-                        <span className="text-gold font-bold uppercase tracking-widest text-xs">Sell Your Car</span>
-                        <h1 className="text-4xl font-heading font-black text-navy">List Your Vehicle</h1>
+                        <span className="text-gold font-bold uppercase tracking-widest text-xs">{t('overline')}</span>
+                        <h1 className="text-4xl font-heading font-black text-navy">{t('title')}</h1>
                         <p className="text-gray-500 font-medium max-w-xl mx-auto">
-                            Fill out the details below to list your car for sale on our premium marketplace.
+                            {t('subtitle')}
                         </p>
                     </div>
 
@@ -146,18 +139,18 @@ export default function SellCarPage() {
                                 <div className="w-10 h-10 rounded-full bg-navy/5 flex items-center justify-center text-navy">
                                     <Car className="w-5 h-5" />
                                 </div>
-                                <h2 className="text-xl font-bold text-navy">Vehicle Information</h2>
+                                <h2 className="text-xl font-bold text-navy">{t('sections.info')}</h2>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <Input label="Brand" name="brand" placeholder="e.g. BMW" value={formData.brand} onChange={handleChange} required className="text-black bg-gray-50 h-12 rounded-xl border-transparent focus:bg-white focus:border-gray-200" />
-                                <Input label="Model" name="vehicleModel" placeholder="e.g. X5" value={formData.vehicleModel} onChange={handleChange} required className="text-black bg-gray-50 h-12 rounded-xl border-transparent focus:bg-white focus:border-gray-200" />
+                                <Input label={t('fields.brand')} name="brand" placeholder="e.g. BMW" value={formData.brand} onChange={handleChange} required className="text-black bg-gray-50 h-12 rounded-xl border-transparent focus:bg-white focus:border-gray-200" />
+                                <Input label={t('fields.model')} name="vehicleModel" placeholder="e.g. X5" value={formData.vehicleModel} onChange={handleChange} required className="text-black bg-gray-50 h-12 rounded-xl border-transparent focus:bg-white focus:border-gray-200" />
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <Input label="Year" name="year" type="number" value={formData.year} onChange={handleChange} required className="text-black bg-gray-50 h-12 rounded-xl border-transparent focus:bg-white focus:border-gray-200" />
+                                <Input label={t('fields.year')} name="year" type="number" value={formData.year} onChange={handleChange} required className="text-black bg-gray-50 h-12 rounded-xl border-transparent focus:bg-white focus:border-gray-200" />
                                 <div className="space-y-2">
-                                     <label className="text-xs font-bold text-black uppercase tracking-wider ml-1">Condition</label>
+                                     <label className="text-xs font-bold text-black uppercase tracking-wider ml-1">{t('fields.condition')}</label>
                                      <select 
                                         name="condition" 
                                         value={formData.condition} 
@@ -169,12 +162,12 @@ export default function SellCarPage() {
                                          <option>Certified Pre-Owned</option>
                                      </select>
                                 </div>
-                                <Input label="Mileage (km)" name="mileage" type="number" placeholder="0" value={formData.mileage} onChange={handleChange} required className="text-black bg-gray-50 h-12 rounded-xl border-transparent focus:bg-white focus:border-gray-200" />
+                                <Input label={t('fields.mileage')} name="mileage" type="number" placeholder="0" value={formData.mileage} onChange={handleChange} required className="text-black bg-gray-50 h-12 rounded-xl border-transparent focus:bg-white focus:border-gray-200" />
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <div className="space-y-2">
-                                     <label className="text-xs font-bold text-black uppercase tracking-wider ml-1">Category</label>
+                                     <label className="text-xs font-bold text-black uppercase tracking-wider ml-1">{t('fields.category')}</label>
                                      <select name="category" value={formData.category} onChange={handleChange} className="w-full h-12 px-4 bg-gray-50 border border-transparent rounded-xl text-black font-bold appearance-none focus:outline-none focus:ring-2 focus:ring-navy/5 focus:bg-white transition-all cursor-pointer">
                                          <option>Sedan</option>
                                          <option>SUV</option>
@@ -186,14 +179,14 @@ export default function SellCarPage() {
                                      </select>
                                 </div>
                                 <div className="space-y-2">
-                                     <label className="text-xs font-bold text-black uppercase tracking-wider ml-1">Transmission</label>
+                                     <label className="text-xs font-bold text-black uppercase tracking-wider ml-1">{t('fields.transmission')}</label>
                                      <select name="transmission" value={formData.transmission} onChange={handleChange} className="w-full h-12 px-4 bg-gray-50 border border-transparent rounded-xl text-black font-bold appearance-none focus:outline-none focus:ring-2 focus:ring-navy/5 focus:bg-white transition-all cursor-pointer">
                                          <option>Automatic</option>
                                          <option>Manual</option>
                                      </select>
                                 </div>
                                 <div className="space-y-2">
-                                     <label className="text-xs font-bold text-black uppercase tracking-wider ml-1">Fuel Type</label>
+                                     <label className="text-xs font-bold text-black uppercase tracking-wider ml-1">{t('fields.fuelType')}</label>
                                      <select name="fuelType" value={formData.fuelType} onChange={handleChange} className="w-full h-12 px-4 bg-gray-50 border border-transparent rounded-xl text-black font-bold appearance-none focus:outline-none focus:ring-2 focus:ring-navy/5 focus:bg-white transition-all cursor-pointer">
                                          <option>Petrol</option>
                                          <option>Diesel</option>
@@ -203,7 +196,7 @@ export default function SellCarPage() {
                                 </div>
                             </div>
                             
-                            <Input label="Location" name="location" placeholder="e.g. Istanbul, Turkey" value={formData.location} onChange={handleChange} required className="text-black bg-gray-50 h-12 rounded-xl border-transparent focus:bg-white focus:border-gray-200" />
+                            <Input label={t('fields.location')} name="location" placeholder="e.g. Istanbul, Turkey" value={formData.location} onChange={handleChange} required className="text-black bg-gray-50 h-12 rounded-xl border-transparent focus:bg-white focus:border-gray-200" />
                         </div>
 
                         {/* Pricing & Images */}
@@ -213,10 +206,10 @@ export default function SellCarPage() {
                                     <div className="w-10 h-10 rounded-full bg-navy/5 flex items-center justify-center text-navy">
                                         <DollarSign className="w-5 h-5" />
                                     </div>
-                                    <h2 className="text-xl font-bold text-navy">Pricing</h2>
+                                    <h2 className="text-xl font-bold text-navy">{t('sections.pricing')}</h2>
                                 </div>
                                 <div>
-                                    <label className="text-xs font-bold text-black uppercase tracking-wider ml-1 mb-2 block">Asking Price (€)</label>
+                                    <label className="text-xs font-bold text-black uppercase tracking-wider ml-1 mb-2 block">{t('fields.price')}</label>
                                     <Input 
                                         name="salePrice" 
                                         type="number" 
@@ -234,7 +227,7 @@ export default function SellCarPage() {
                                     <div className="w-10 h-10 rounded-full bg-navy/5 flex items-center justify-center text-navy">
                                         <ImageIcon className="w-5 h-5" />
                                     </div>
-                                    <h2 className="text-xl font-bold text-navy">Photos</h2>
+                                    <h2 className="text-xl font-bold text-navy">{t('sections.photos')}</h2>
                                 </div>
                                 <div className="bg-gray-50 rounded-2xl p-2 border border-dashed border-gray-200">
                                      <ImageUpload 
@@ -252,7 +245,7 @@ export default function SellCarPage() {
                                 isLoading={isLoading}
                                 className="bg-navy text-gold hover:bg-navy/90 font-bold h-14 px-10 rounded-xl shadow-xl shadow-navy/20 text-lg"
                             >
-                                Submit Listing
+                                {t('submit')}
                             </Button>
                         </div>
                     </form>

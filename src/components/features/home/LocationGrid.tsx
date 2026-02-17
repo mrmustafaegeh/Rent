@@ -5,44 +5,47 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/Button"
 import { MapPin, ArrowRight } from "lucide-react"
-
-const locations = [
-    {
-        name: "Kyrenia (Girne)",
-        count: "120+ Cars",
-        image: "/images/kyrenia-new.png",
-        slug: "kyrenia",
-        description: "Coastal Paradise",
-        colSpan: "md:col-span-2 lg:col-span-2",
-    },
-    {
-        name: "Nicosia (Lefkoşa)",
-        count: "150+ Cars",
-        image: "/images/nicosia-new.png",
-        slug: "nicosia",
-        description: "Capital & Business Hub",
-        colSpan: "md:col-span-1 lg:col-span-1",
-    },
-    {
-        name: "Famagusta (Gazimağusa)",
-        count: "90+ Cars",
-        image: "/images/famagusta-new.png", 
-        slug: "famagusta",
-        description: "Historic Eastern Coast",
-        colSpan: "md:col-span-1 lg:col-span-1",
-    },
-    {
-        name: "Ercan Airport",
-        count: "200+ Cars",
-        image: "https://images.unsplash.com/photo-1542296332-2e4473faf563?q=80&w=1200&auto=format&fit=crop", 
-        slug: "ercan-airport",
-        description: "Instant Pickup",
-        badge: "Most Popular",
-        colSpan: "md:col-span-3 lg:col-span-4", // Full width or large
-    }
-]
+import { useTranslations } from "next-intl"
 
 export function LocationGrid() {
+    const t = useTranslations('LocationGrid');
+    
+    const locations = [
+        {
+            name: t('locations.kyrenia.name'),
+            count: t('premiumCars', { count: 120 }),
+            image: "/images/kyrenia-new.png",
+            slug: "kyrenia",
+            description: t('locations.kyrenia.desc'),
+            colSpan: "md:col-span-2 lg:col-span-2",
+        },
+        {
+            name: t('locations.nicosia.name'),
+            count: t('premiumCars', { count: 150 }),
+            image: "/images/nicosia-new.png",
+            slug: "nicosia",
+            description: t('locations.nicosia.desc'),
+            colSpan: "md:col-span-1 lg:col-span-1",
+        },
+        {
+            name: t('locations.famagusta.name'),
+            count: t('premiumCars', { count: 90 }),
+            image: "/images/famagusta-new.png", 
+            slug: "famagusta",
+            description: t('locations.famagusta.desc'),
+            colSpan: "md:col-span-1 lg:col-span-1",
+        },
+        {
+            name: t('locations.ercan.name'),
+            count: t('premiumCars', { count: 200 }),
+            image: "https://images.unsplash.com/photo-1542296332-2e4473faf563?q=80&w=1200&auto=format&fit=crop", 
+            slug: "ercan-airport",
+            description: t('locations.ercan.desc'),
+            badge: t('badgePopular'),
+            colSpan: "md:col-span-3 lg:col-span-4", // Full width or large
+        }
+    ]
+
     return (
         <section className="py-32 bg-white relative overflow-hidden">
             {/* Subtle background pattern or element */}
@@ -51,13 +54,13 @@ export function LocationGrid() {
             <div className="container mx-auto px-4 relative z-10">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
                      <div className="space-y-4">
-                         <span className="text-gold font-black tracking-[0.4em] text-[10px] uppercase block">PREMIUM DESTINATIONS</span>
-                         <h2 className="text-3xl sm:text-5xl md:text-6xl font-heading font-black text-navy leading-tight">Explore <br className="md:hidden" /> North Cyprus</h2>
-                         <p className="text-gray-500 text-base md:text-lg max-w-2xl font-body font-medium">Rent cars in major cities and tourist destinations across the island.</p>
+                         <span className="text-gold font-black tracking-[0.4em] text-[10px] uppercase block">{t('overline')}</span>
+                         <h2 className="text-3xl sm:text-5xl md:text-6xl font-heading font-black text-navy leading-tight" dangerouslySetInnerHTML={{ __html: t.rich('title', { br: () => '<br class="md:hidden" />' }) as string }} />
+                         <p className="text-gray-500 text-base md:text-lg max-w-2xl font-body font-medium">{t('description')}</p>
                      </div>
                      <Link href="/locations" className="w-full md:w-auto">
                          <Button variant="outline" className="w-full md:w-auto border-navy/10 text-navy hover:bg-navy hover:text-white font-black px-8 h-14 rounded-full group transition-all">
-                             EXPLORE ALL <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                             {t('exploreAll')} <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                          </Button>
                      </Link>
                  </div>
@@ -96,8 +99,8 @@ export function LocationGrid() {
                                     
                                     <div className="flex items-center justify-between opacity-0 md:group-hover:opacity-100 transition-all duration-500 delay-100 transform translate-y-4 group-hover:translate-y-0">
                                         <div className="flex flex-col">
-                                            <span className="text-gold font-black text-[10px] md:text-xs uppercase tracking-tighter">Available Fleet</span>
-                                            <span className="text-white/70 text-xs md:text-sm font-bold">{loc.count} Premium Cars</span>
+                                            <span className="text-gold font-black text-[10px] md:text-xs uppercase tracking-tighter">{t('availableFleet')}</span>
+                                            <span className="text-white/70 text-xs md:text-sm font-bold">{loc.count}</span>
                                         </div>
                                         <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gold flex items-center justify-center shadow-lg shadow-gold/20 group-hover:shadow-gold/40 transition-all">
                                             <ArrowRight className="w-5 h-5 md:w-6 md:h-6 text-navy" />

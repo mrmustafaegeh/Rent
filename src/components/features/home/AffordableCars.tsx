@@ -8,6 +8,7 @@ import { Phone, Check, Gauge, Fuel, Users, Briefcase, MessageCircle, Heart } fro
 import { Button } from "@/components/ui/Button"
 import { useCurrency } from "@/context/CurrencyContext"
 import { CurrencyCode } from "@/lib/currency"
+import { useTranslations } from "next-intl"
 
 interface AffordableCarsProps {
     vehicles: any[];
@@ -15,6 +16,7 @@ interface AffordableCarsProps {
 
 export function AffordableCars({ vehicles }: AffordableCarsProps) {
     const { formatPrice } = useCurrency();
+    const t = useTranslations('AffordableCars');
     if (!vehicles || vehicles.length === 0) return null;
 
     return (
@@ -22,13 +24,13 @@ export function AffordableCars({ vehicles }: AffordableCarsProps) {
             <div className="container mx-auto px-4">
                  <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
                      <div className="space-y-4">
-                         <span className="text-electric font-bold tracking-[0.2em] text-xs uppercase block">BEST VALUE</span>
-                         <h2 className="text-3xl md:text-5xl font-heading font-bold text-navy">Affordable Rentals</h2>
-                         <p className="text-gray-500 text-base md:text-lg max-w-2xl font-body">Quality cars at unbeatable prices, starting from €30/day. No hidden fees.</p>
+                         <span className="text-electric font-bold tracking-[0.2em] text-xs uppercase block">{t('overline')}</span>
+                         <h2 className="text-3xl md:text-5xl font-heading font-bold text-navy">{t('title')}</h2>
+                         <p className="text-gray-500 text-base md:text-lg max-w-2xl font-body">{t('description')}</p>
                      </div>
                      <Link href="/cars?category=economy" className="w-full md:w-auto">
                          <Button variant="outline" className="w-full md:w-auto border-navy text-navy hover:bg-navy hover:text-white font-bold px-6 h-12 rounded-xl transition-all">
-                             View All Budget Cars
+                             {t('viewAll')}
                          </Button>
                      </Link>
                  </div>

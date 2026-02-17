@@ -14,11 +14,13 @@ import { Label } from '@/components/ui/Label';
 import { Separator } from '@/components/ui/Separator';
 import { ShieldCheck, CreditCard, Wallet, Calendar, MapPin, ArrowRight, CheckCircle, Info, Upload } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
+import { useTranslations } from 'next-intl';
 
 // Initialize Stripe (placeholder key if not provided)
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
 
 function CheckoutForm({ total, onSuccess }: { total: number, onSuccess: () => void }) {
+    const t = useTranslations('Checkout');
     const stripe = useStripe();
     const elements = useElements();
     const [message, setMessage] = useState<string | null>(null);
@@ -41,7 +43,7 @@ function CheckoutForm({ total, onSuccess }: { total: number, onSuccess: () => vo
         });
 
         if (error) {
-            setMessage(error.message || 'An unexpected error occurred.');
+            setMessage(error.message || t('errors.unexpected'));
         } else {
             onSuccess();
         }
@@ -56,13 +58,14 @@ function CheckoutForm({ total, onSuccess }: { total: number, onSuccess: () => vo
             </div>
             {message && <div className="text-red-500 text-sm bg-red-50 p-3 rounded-lg flex items-center gap-2"><Info className="w-4 h-4"/> {message}</div>}
             <Button className="w-full h-12 bg-electric hover:bg-electric/90 text-white font-bold rounded-xl" size="lg" isLoading={isLoading} disabled={!stripe || isLoading}>
-                Pay €{total} Now
+                {t('payment.payNow', { total })}
             </Button>
         </form>
     );
 }
 
 function CheckoutContent() {
+    const t = useTranslations('Checkout');
     const searchParams = useSearchParams();
     const router = useRouter();
     const { user, isLoading: authLoading } = useAuth();
@@ -180,12 +183,12 @@ function CheckoutContent() {
             if (bookingRes.ok) {
                  router.push('/dashboard/bookings?success=true');
             } else {
-                 alert('Booking creation failed. Please try again.');
+                 alert(t('errors.failed'));
             }
 
         } catch (err) {
             console.error(err);
-            alert('An error occurred. Please try again.');
+            alert(t('errors.unexpected'));
         } finally {
             setIsProcessing(false);
         }
@@ -212,17 +215,17 @@ function CheckoutContent() {
                         
                         {/* Left Column: Details Form */}
                         <div className="flex-1 space-y-8">
-                            <h1 className="text-3xl font-heading font-black text-navy">Finalize Your Reservation</h1>
+                            <h1 className="text-3xl font-heading font-black text-navy">{t('title')}</h1>
                             
                             {/* 1. Driver Details */}
                             <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm">
                                 <div className="flex items-center gap-3 mb-6">
                                     <div className="w-8 h-8 rounded-full bg-navy text-gold flex items-center justify-center font-bold text-sm">1</div>
-                                    <h2 className="text-xl font-bold text-navy">Driver Details</h2>
+                                    <h2 className="text-xl font-bold text-navy">{t('sections.driver')}</h2>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
-                                        <Label className="text-black font-bold">First Name</Label>
+                                        <Label className="text-black font-bold">{t('form.firstName')}</Label>
                                         <Input 
                                             placeholder="John" 
                                             className="h-12 rounded-xl bg-gray-50 border-gray-200 text-black placeholder:text-gray-400 focus:bg-white transition-all"
@@ -231,7 +234,7 @@ function CheckoutContent() {
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label className="text-black font-bold">Last Name</Label>
+                                        <Label className="text-black font-bold">{t('form.lastName')}</Label>
                                         <Input 
                                             placeholder="Doe" 
                                             className="h-12 rounded-xl bg-gray-50 border-gray-200 text-black placeholder:text-gray-400 focus:bg-white transition-all"
@@ -240,7 +243,7 @@ function CheckoutContent() {
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label className="text-black font-bold">Email</Label>
+                                        <Label className="text-black font-bold">{t('form.email')}</Label>
                                         <Input 
                                             placeholder="john@example.com" 
                                             type="email"
@@ -250,7 +253,7 @@ function CheckoutContent() {
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label className="text-black font-bold">Phone (WhatsApp)</Label>
+                                        <Label className="text-black font-bold">{t('form.phone')}</Label>
                                         <Input 
                                             placeholder="+90 533 ..." 
                                             className="h-12 rounded-xl bg-gray-50 border-gray-200 text-black placeholder:text-gray-400 focus:bg-white transition-all"
@@ -263,7 +266,7 @@ function CheckoutContent() {
                                     <div className="col-span-full grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
                                          <div className="space-y-2">
                                             <Label className="text-black font-bold flex items-center gap-2">
-                                                Driver's License <span className="text-red-500">*</span>
+                                                {t('form.license')} <span className="text-red-500">*</span>
                                             </Label>
                                             <div className="relative group">
                                                 <input 
@@ -278,14 +281,14 @@ function CheckoutContent() {
                                                         <Upload className="w-4 h-4" />
                                                     </div>
                                                     <span className="text-sm text-gray-400 font-medium truncate">
-                                                        {(formData as any).driversLicense?.name || "Upload Front Side"}
+                                                        {(formData as any).driversLicense?.name || t('form.uploadFront')}
                                                     </span>
                                                 </div>
                                             </div>
                                          </div>
                                          <div className="space-y-2">
                                             <Label className="text-black font-bold flex items-center gap-2">
-                                                Passport / ID <span className="text-red-500">*</span>
+                                                {t('form.passport')} <span className="text-red-500">*</span>
                                             </Label>
                                             <div className="relative group">
                                                  <input 
@@ -300,7 +303,7 @@ function CheckoutContent() {
                                                         <Upload className="w-4 h-4" />
                                                     </div>
                                                     <span className="text-sm text-gray-400 font-medium truncate">
-                                                        {(formData as any).passport?.name || "Upload Photo Page"}
+                                                        {(formData as any).passport?.name || t('form.uploadPhoto')}
                                                     </span>
                                                 </div>
                                             </div>
@@ -308,9 +311,9 @@ function CheckoutContent() {
                                     </div>
 
                                     <div className="col-span-full space-y-2">
-                                        <Label className="text-black font-bold">Special Requests (Optional)</Label>
+                                        <Label className="text-black font-bold">{t('form.notes')}</Label>
                                         <Input 
-                                            placeholder="Flight number, child seat request, etc." 
+                                            placeholder={t('form.notesPlaceholder')} 
                                             className="h-12 rounded-xl bg-gray-50 border-gray-200 text-black placeholder:text-gray-400 focus:bg-white transition-all"
                                             value={formData.notes}
                                             onChange={(e) => setFormData({...formData, notes: e.target.value})}
@@ -323,7 +326,7 @@ function CheckoutContent() {
                             <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm">
                                 <div className="flex items-center gap-3 mb-6">
                                     <div className="w-8 h-8 rounded-full bg-navy text-gold flex items-center justify-center font-bold text-sm">2</div>
-                                    <h2 className="text-xl font-bold text-navy">Payment Method</h2>
+                                    <h2 className="text-xl font-bold text-navy">{t('sections.payment')}</h2>
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -336,8 +339,8 @@ function CheckoutContent() {
                                         </div>
                                         <Wallet className="w-5 h-5 text-navy" />
                                         <div className="text-left">
-                                            <span className="block font-bold text-sm text-navy">Pay at Pickup</span>
-                                            <span className="block text-xs text-gray-500">Cash or Card upon arrival</span>
+                                            <span className="block font-bold text-sm text-navy">{t('payment.pickup.title')}</span>
+                                            <span className="block text-xs text-gray-500">{t('payment.pickup.desc')}</span>
                                         </div>
                                     </button>
 
@@ -351,8 +354,8 @@ function CheckoutContent() {
                                         </div>
                                         <CreditCard className="w-5 h-5 text-navy" />
                                         <div className="text-left">
-                                            <span className="block font-bold text-sm text-navy">Pay Now</span>
-                                            <span className="block text-xs text-gray-500">Secure Credit Card checkout</span>
+                                            <span className="block font-bold text-sm text-navy">{t('payment.stripe.title')}</span>
+                                            <span className="block text-xs text-gray-500">{t('payment.stripe.desc')}</span>
                                         </div>
                                     </button>
                                 </div>
@@ -367,14 +370,19 @@ function CheckoutContent() {
                                     <div className="bg-gray-50 p-6 rounded-2xl space-y-4">
                                         <div className="flex gap-3">
                                             <CheckCircle className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
-                                            <p className="text-sm text-gray-600">You will pay the full amount of <span className="font-bold text-navy">€{total}</span> when you pick up the car. We accept local currency, Euros, Sterling, or Credit Cards.</p>
+                                            <p className="text-sm text-gray-600">
+                                                {t.rich('payment.pickup.info', {
+                                                    total,
+                                                    highlight: (chunks) => <span className="font-bold text-navy">{chunks}</span>
+                                                })}
+                                            </p>
                                         </div>
                                         <Button 
                                             className="w-full h-14 bg-navy hover:bg-navy/90 text-gold font-bold rounded-xl text-lg shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5"
                                             onClick={handleBookingCreation}
                                             isLoading={isProcessing}
                                         >
-                                            Confirm Reservation <ArrowRight className="ml-2 w-5 h-5" />
+                                            {t('payment.confirm')} <ArrowRight className="ml-2 w-5 h-5" />
                                         </Button>
                                     </div>
                                 )}
@@ -384,7 +392,7 @@ function CheckoutContent() {
                         {/* Right Column: Order Summary */}
                         <div className="lg:w-[400px] flex-shrink-0">
                             <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-[0_8px_30px_rgba(0,0,0,0.08)] sticky top-24">
-                                <h3 className="text-xl font-heading font-bold text-navy mb-6">Order Summary</h3>
+                                <h3 className="text-xl font-heading font-bold text-navy mb-6">{t('sections.summary')}</h3>
                                 
                                 <div className="flex gap-4 mb-6">
                                     <div className="w-24 h-24 bg-gray-100 rounded-xl overflow-hidden relative border border-gray-200">
@@ -427,16 +435,16 @@ function CheckoutContent() {
 
                                 <div className="space-y-3">
                                     <div className="flex justify-between items-center text-sm">
-                                        <span className="text-gray-600">Duration</span>
-                                        <span className="font-bold text-navy">{days} Days</span>
+                                        <span className="text-gray-600">{t('summary.duration')}</span>
+                                        <span className="font-bold text-navy">{t('summary.days', { days })}</span>
                                     </div>
                                     <div className="flex justify-between items-center text-sm">
-                                        <span className="text-gray-600">Daily Rate</span>
+                                        <span className="text-gray-600">{t('summary.dailyRate')}</span>
                                         <span className="font-bold text-navy">€{Math.round(total / days)}</span>
                                     </div>
                                     <div className="flex justify-between items-center text-sm">
-                                        <span className="text-gray-600">Taxes & Fees</span>
-                                        <span className="font-bold text-emerald-600">Included</span>
+                                        <span className="text-gray-600">{t('summary.taxes')}</span>
+                                        <span className="font-bold text-emerald-600">{t('summary.included')}</span>
                                     </div>
                                 </div>
 
@@ -444,18 +452,18 @@ function CheckoutContent() {
 
                                 <div className="flex justify-between items-end">
                                     <div>
-                                        <p className="text-xs text-gray-400 uppercase font-bold tracking-wider mb-1">Total to Pay</p>
+                                        <p className="text-xs text-gray-400 uppercase font-bold tracking-wider mb-1">{t('summary.total')}</p>
                                         <p className="text-3xl font-heading font-black text-navy">€{total}</p>
                                     </div>
                                     <div className="bg-gold/10 text-gold-dark px-3 py-1 rounded-lg text-xs font-bold">
-                                        Best Price Verified
+                                        {t('summary.bestPrice')}
                                     </div>
                                 </div>
                                 
                                 <div className="mt-6 flex items-start gap-3 bg-blue-50/50 p-4 rounded-xl">
                                     <ShieldCheck className="w-5 h-5 text-blue-600 flex-shrink-0" />
                                     <p className="text-xs text-gray-600 leading-relaxed">
-                                        Basic insurance included. Security deposit of €500 will be blocked on your credit card at pickup.
+                                        {t('summary.insuranceInfo')}
                                     </p>
                                 </div>
                             </div>

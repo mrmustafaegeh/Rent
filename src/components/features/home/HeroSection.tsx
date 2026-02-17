@@ -99,10 +99,10 @@ export function HeroSection() {
                                         <SelectValue placeholder={<span className="text-white/30 font-bold">{t('selectLocation')}</span>} />
                                     </SelectTrigger>
                                     <SelectContent className="font-body border-white/10 bg-navy/95 backdrop-blur-2xl text-white shadow-2xl rounded-2xl ring-1 ring-white/5">
-                                        <SelectItem value="ercan" className="focus:bg-white/10 focus:text-gold cursor-pointer py-4 transition-colors">Ercan Airport</SelectItem>
-                                        <SelectItem value="nicosia" className="focus:bg-white/10 focus:text-gold cursor-pointer py-4 transition-colors">Nicosia (Lefkoşa)</SelectItem>
-                                        <SelectItem value="kyrenia" className="focus:bg-white/10 focus:text-gold cursor-pointer py-4 transition-colors">Kyrenia (Girne)</SelectItem>
-                                        <SelectItem value="famagusta" className="focus:bg-white/10 focus:text-gold cursor-pointer py-4 transition-colors">Famagusta (Gazimağusa)</SelectItem>
+                                        <SelectItem value="ercan" className="focus:bg-white/10 focus:text-gold cursor-pointer py-4 transition-colors">{t('locations.ercan')}</SelectItem>
+                                        <SelectItem value="nicosia" className="focus:bg-white/10 focus:text-gold cursor-pointer py-4 transition-colors">{t('locations.nicosia')}</SelectItem>
+                                        <SelectItem value="kyrenia" className="focus:bg-white/10 focus:text-gold cursor-pointer py-4 transition-colors">{t('locations.kyrenia')}</SelectItem>
+                                        <SelectItem value="famagusta" className="focus:bg-white/10 focus:text-gold cursor-pointer py-4 transition-colors">{t('locations.famagusta')}</SelectItem>
                                     </SelectContent>
                                  </Select>
                              </div>

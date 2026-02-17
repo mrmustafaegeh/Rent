@@ -101,7 +101,7 @@ export default async function Home() {
                     </Link>
                     <Link href="/contact">
                         <Button variant="outline" className="h-16 px-10 text-xl font-bold border-white/20 text-white hover:bg-white/10 hover:border-white rounded-full transition-all">
-                             Talk to an Expert
+                             {t('expertBtn')}
                         </Button>
                     </Link>
                 </div>

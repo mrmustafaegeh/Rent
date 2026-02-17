@@ -7,8 +7,10 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import { useTranslations } from 'next-intl';
 
 export default function ContactPage() {
+  const t = useTranslations('ContactPage');
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -30,13 +32,13 @@ export default function ContactPage() {
       });
 
       if (res.ok) {
-        toast.success('Message sent! We will get back to you soon.');
+        toast.success(t('form.success'));
         setFormData({ firstName: '', lastName: '', email: '', phone: '', content: '' });
       } else {
-        toast.error('Failed to send message.');
+        toast.error(t('form.error'));
       }
     } catch (error) {
-      toast.error('Something went wrong.');
+      toast.error(t('form.unexpectedError'));
     } finally {
       setLoading(false);
     }
@@ -55,12 +57,14 @@ export default function ContactPage() {
         <section className="bg-navy py-20 md:py-32 relative overflow-hidden">
             <div className="absolute inset-0 bg-[url('/images/pattern-grid.png')] opacity-10" />
             <div className="container mx-auto px-4 relative z-10 text-center">
-                <span className="text-gold font-bold uppercase tracking-widest text-xs mb-4 block">Here to Help</span>
+                <span className="text-gold font-bold uppercase tracking-widest text-xs mb-4 block">{t('hero.overline')}</span>
                 <h1 className="text-3xl sm:text-5xl md:text-6xl font-heading font-black text-white mb-6">
-                    Get in <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold to-yellow-500">Touch</span>
+                    {t.rich('hero.title', {
+                        highlight: (chunks) => <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold to-yellow-500">{chunks}</span>
+                    })}
                 </h1>
                 <p className="text-gray-300 text-base md:text-lg max-w-2xl mx-auto font-body font-light">
-                    Have a question about our fleet or services? Our concierge team is available 24/7 to assist you.
+                    {t('hero.description')}
                 </p>
             </div>
         </section>
@@ -76,8 +80,8 @@ export default function ContactPage() {
                          
                          <div className="relative z-10 space-y-12">
                              <div>
-                                 <h3 className="text-2xl font-heading font-bold mb-2">Contact Information</h3>
-                                 <p className="text-gray-400 font-body text-sm">Fill out the form and our team will get back to you within 24 hours.</p>
+                                 <h3 className="text-2xl font-heading font-bold mb-2">{t('info.title')}</h3>
+                                 <p className="text-gray-400 font-body text-sm">{t('info.description')}</p>
                              </div>
                              
                              <div className="space-y-8">
@@ -86,7 +90,7 @@ export default function ContactPage() {
                                          <Phone className="w-5 h-5" />
                                      </div>
                                      <div>
-                                         <p className="text-xs text-gray-400 uppercase tracking-wider font-bold mb-1">Phone</p>
+                                         <p className="text-xs text-gray-400 uppercase tracking-wider font-bold mb-1">{t('info.phone')}</p>
                                          <p className="font-heading font-medium text-lg">+90 533 000 00 00</p>
                                      </div>
                                  </div>
@@ -96,7 +100,7 @@ export default function ContactPage() {
                                          <Mail className="w-5 h-5" />
                                      </div>
                                      <div>
-                                         <p className="text-xs text-gray-400 uppercase tracking-wider font-bold mb-1">Email</p>
+                                         <p className="text-xs text-gray-400 uppercase tracking-wider font-bold mb-1">{t('info.email')}</p>
                                          <p className="font-heading font-medium text-lg">hello@mediterraneandrive.com</p>
                                      </div>
                                  </div>
@@ -106,7 +110,7 @@ export default function ContactPage() {
                                          <MapPin className="w-5 h-5" />
                                      </div>
                                      <div>
-                                         <p className="text-xs text-gray-400 uppercase tracking-wider font-bold mb-1">Headquarters</p>
+                                         <p className="text-xs text-gray-400 uppercase tracking-wider font-bold mb-1">{t('info.headquarters')}</p>
                                          <p className="font-heading font-medium text-lg">Kyrenia, North Cyprus</p>
                                      </div>
                                  </div>
@@ -134,20 +138,20 @@ export default function ContactPage() {
                         <form className="space-y-6" onSubmit={handleSubmit}>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <Input 
-                                    label="First Name" 
+                                    label={t('form.firstName')} 
                                     name="firstName"
                                     value={formData.firstName}
                                     onChange={handleChange}
-                                    placeholder="John" 
+                                    placeholder={t('form.placeholder.firstName')} 
                                     className="bg-gray-50 border-transparent focus:bg-white focus:border-gray-200" 
                                     required
                                 />
                                 <Input 
-                                    label="Last Name" 
+                                    label={t('form.lastName')} 
                                     name="lastName"
                                     value={formData.lastName}
                                     onChange={handleChange}
-                                    placeholder="Doe" 
+                                    placeholder={t('form.placeholder.lastName')} 
                                     className="bg-gray-50 border-transparent focus:bg-white focus:border-gray-200" 
                                     required
                                 />
@@ -155,41 +159,41 @@ export default function ContactPage() {
                             
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <Input 
-                                    label="Email Address" 
+                                    label={t('form.email')} 
                                     type="email" 
                                     name="email"
                                     value={formData.email}
                                     onChange={handleChange}
-                                    placeholder="john@example.com" 
+                                    placeholder={t('form.placeholder.email')} 
                                     className="bg-gray-50 border-transparent focus:bg-white focus:border-gray-200" 
                                     required
                                 />
                                 <Input 
-                                    label="Phone Number" 
+                                    label={t('form.phone')} 
                                     type="tel" 
                                     name="phone"
                                     value={formData.phone}
                                     onChange={handleChange}
-                                    placeholder="+1 (555) 000-0000" 
+                                    placeholder={t('form.placeholder.phone')} 
                                     className="bg-gray-50 border-transparent focus:bg-white focus:border-gray-200" 
                                 />
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-sm font-bold text-gray-700 ml-1">Message</label>
+                                <label className="text-sm font-bold text-gray-700 ml-1">{t('form.message')}</label>
                                 <textarea 
                                     name="content"
                                     value={formData.content}
                                     onChange={handleChange}
                                     className="w-full min-h-[150px] p-4 rounded-xl bg-gray-50 border border-transparent focus:bg-white focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-navy/5 transition-all text-black font-medium resize-none"
-                                    placeholder="How can we help you?"
+                                    placeholder={t('form.placeholder.message')}
                                     required
                                 ></textarea>
                             </div>
 
                             <div className="pt-4 flex justify-end">
                                 <Button disabled={loading} className="h-14 px-8 bg-navy text-gold hover:bg-navy/90 font-bold rounded-xl shadow-lg shadow-navy/20 flex items-center gap-2">
-                                    <Send className="w-4 h-4" /> {loading ? 'Sending...' : 'Send Message'}
+                                    <Send className="w-4 h-4" /> {loading ? t('form.sending') : t('form.send')}
                                 </Button>
                             </div>
                         </form>

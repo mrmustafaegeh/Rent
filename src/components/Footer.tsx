@@ -25,7 +25,7 @@ export function Footer() {
             <div className="flex flex-col gap-4 text-gray-400 text-sm">
                 <div className="flex items-center gap-3">
                     <MapPin className="w-4 h-4 text-electric" />
-                    <span>Kyrenia, North Cyprus</span>
+                    <span>{t('address')}</span>
                 </div>
                 <div className="flex items-center gap-3">
                     <Phone className="w-4 h-4 text-electric" />

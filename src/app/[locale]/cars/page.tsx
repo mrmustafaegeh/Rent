@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/Button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/Sheet"
 import Image from "next/image"
 import { getVehicles, VehicleFilterParams } from "@/lib/vehicleService"
+import { getTranslations } from "next-intl/server"
 
 export const metadata = {
   title: 'Search Cars | Mediterranean Drive',
@@ -36,11 +37,14 @@ async function getVehiclesData(searchParams: { [key: string]: string | string[] 
 
 export default async function CarsPage({
   searchParams,
+  params: { locale }
 }: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>,
+  params: { locale: string }
 }) {
     const params = await searchParams
     const vehicles = await getVehiclesData(params)
+    const t = await getTranslations('CarsPage');
 
     return (
         <div className="flex flex-col min-h-screen bg-gray-50">
@@ -50,7 +54,7 @@ export default async function CarsPage({
             <div className="relative h-[40vh] min-h-[400px] flex items-center justify-center overflow-hidden">
                 <Image 
                     src="/images/hero-bg-cyprus.png"
-                    alt="Our Fleet"
+                    alt={t('title')}
                     fill
                     className="object-cover"
                     priority
@@ -59,10 +63,10 @@ export default async function CarsPage({
                 <div className="absolute inset-0 bg-gradient-to-t from-gray-50 via-transparent to-transparent" />
                 
                 <div className="relative z-10 text-center space-y-4 px-4">
-                    <span className="text-gold font-bold tracking-[0.2em] text-sm uppercase">PREMIUM SELECTION</span>
-                    <h1 className="text-3xl sm:text-5xl md:text-7xl font-heading font-black text-white">Our Fleet</h1>
+                    <span className="text-gold font-bold tracking-[0.2em] text-sm uppercase">{t('overline')}</span>
+                    <h1 className="text-3xl sm:text-5xl md:text-7xl font-heading font-black text-white">{t('title')}</h1>
                     <p className="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto font-body">
-                        Choose from our curated collection of luxury, sports, and economy vehicles for your North Cyprus journey.
+                        {t('description')}
                     </p>
                 </div>
             </div>
@@ -82,8 +86,8 @@ export default async function CarsPage({
                         <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between mb-8">
                             <div className="flex items-center gap-2">
                                 <h2 className="font-heading font-bold text-navy text-lg">
-                                    Available Vehicles 
-                                    <span className="ml-2 text-gray-400 text-sm font-normal">({vehicles.length} found)</span>
+                                    {t('availableVehicles')}
+                                    <span className="ml-2 text-gray-400 text-sm font-normal">{t('found', { count: vehicles.length })}</span>
                                 </h2>
                             </div>
                             
@@ -92,7 +96,7 @@ export default async function CarsPage({
                                 <Sheet>
                                     <SheetTrigger asChild>
                                         <Button variant="outline" className="lg:hidden border-gray-200 text-navy font-bold" aria-label="Open filters">
-                                            <Filter className="mr-2 h-4 w-4" /> Filters
+                                            <Filter className="mr-2 h-4 w-4" /> {t('filters')}
                                         </Button>
                                     </SheetTrigger>
                                     <SheetContent side="left" className="w-[300px] sm:w-[400px] overflow-y-auto bg-gray-50">
@@ -104,7 +108,7 @@ export default async function CarsPage({
 
                                 {/* Sort (Visual only for now) */}
                                 <Button variant="ghost" className="hidden sm:flex gap-2 text-gray-500 hover:text-navy font-medium">
-                                    <ArrowUpDown className="w-4 h-4" /> Sort by: Price (Low to High) <ChevronDown className="w-4 h-4" />
+                                    <ArrowUpDown className="w-4 h-4" /> {t('sortBy', { value: t('priceLowHigh') })} <ChevronDown className="w-4 h-4" />
                                 </Button>
                             </div>
                         </div>
@@ -114,12 +118,12 @@ export default async function CarsPage({
                                 <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-6">
                                     <Filter className="w-8 h-8 text-gray-300" />
                                 </div>
-                                <h3 className="text-2xl font-heading font-bold text-navy mb-2">No vehicles found</h3>
+                                <h3 className="text-2xl font-heading font-bold text-navy mb-2">{t('noVehicles.title')}</h3>
                                 <p className="text-gray-500 max-w-md mx-auto mb-8 font-body">
-                                    We couldn't find any cars matching your criteria. Try adjusting your filters or search for something else.
+                                    {t('noVehicles.desc')}
                                 </p>
                                 <Button className="bg-electric hover:bg-electric/90 text-white font-bold rounded-full px-8 h-12">
-                                    Clear All Filters
+                                    {t('noVehicles.clear')}
                                 </Button>
                             </div>
                         ) : (
@@ -134,7 +138,7 @@ export default async function CarsPage({
                         {vehicles.length > 0 && (
                             <div className="mt-16 flex justify-center">
                                 <Button variant="outline" className="h-14 px-8 border-gray-200 text-gray-500 hover:text-navy hover:border-navy rounded-full font-bold transition-all">
-                                    Load More Vehicles
+                                    {t('loadMore')}
                                 </Button>
                             </div>
                         )}

@@ -7,11 +7,15 @@ import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { MapPin, Phone, Mail, Clock, Navigation, ExternalLink, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { getTranslations } from 'next-intl/server';
 
-export const metadata: Metadata = {
-  title: 'Luxury Car Rental Locations | Mediterranean Drive',
-  description: 'Find Mediterranean Drive rental points across North Cyprus. Convenient pickup in Kyrenia, Nicosia, Famagusta, and Ercan Airport.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('LocationsPage.metadata');
+  return {
+    title: t('title'),
+    description: t('description'),
+  };
+}
 
 async function getLocations() {
   await dbConnect();
@@ -58,6 +62,7 @@ async function getLocations() {
 
 export default async function LocationsPage() {
   const locations = await getLocations();
+  const t = await getTranslations('LocationsPage');
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
@@ -68,7 +73,7 @@ export default async function LocationsPage() {
         <section className="relative h-[50vh] min-h-[400px] flex items-center justify-center overflow-hidden">
              <Image 
                 src="/images/hero-bg-cyprus.png"
-                alt="Cyprus Locations"
+                alt={t('hero.alt')}
                 fill
                 className="object-cover"
                 priority
@@ -78,13 +83,15 @@ export default async function LocationsPage() {
              
              <div className="container mx-auto px-4 relative z-10 text-center space-y-6">
                 <span className="inline-block px-4 py-1.5 rounded-full border border-gold/30 bg-gold/10 text-gold text-xs font-bold tracking-[0.2em] uppercase backdrop-blur-md">
-                    Island-Wide Coverage
+                    {t('hero.overline')}
                 </span>
                 <h1 className="text-4xl md:text-6xl font-heading font-black text-white leading-tight">
-                    Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold to-amber-500">Locations</span>
+                    {t.rich('hero.title', { 
+                        highlight: (chunks) => <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold to-amber-500">{chunks}</span>
+                    })}
                 </h1>
                 <p className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto font-light">
-                    Experience seamless pickup and drop-off services at key destinations across North Cyprus.
+                    {t('hero.description')}
                 </p>
              </div>
         </section>
@@ -110,7 +117,7 @@ export default async function LocationsPage() {
                                 
                                 <div className="absolute top-4 left-4">
                                     <span className="bg-white/90 backdrop-blur-md text-navy px-3 py-1 rounded-full text-xs font-bold border border-white uppercase tracking-wider shadow-sm flex items-center gap-1">
-                                        <MapPin className="w-3 h-3 text-gold" /> {location.city}
+                                        <MapPin className="w-3 h-3 text-gold" /> {t(`cities.${location.city.toLowerCase()}`, { default: location.city })}
                                     </span>
                                 </div>
                                 <div className="absolute bottom-6 left-6 right-6">
@@ -123,7 +130,7 @@ export default async function LocationsPage() {
                             {/* Details */}
                             <div className="p-8 flex-1 flex flex-col space-y-6">
                                 <p className="text-gray-500 text-sm leading-relaxed border-b border-gray-100 pb-6">
-                                    {location.description || `Visit our premium branch in ${location.city} for personalized service and a wide range of luxury vehicles.`}
+                                    {location.description || t('defaultBranchDesc', { city: location.city })}
                                 </p>
 
                                 <div className="space-y-4">
@@ -132,7 +139,7 @@ export default async function LocationsPage() {
                                             <MapPin className="w-5 h-5" />
                                         </div>
                                         <div>
-                                            <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-0.5">Address</h4>
+                                            <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-0.5">{t('labels.address')}</h4>
                                             <p className="text-navy font-bold text-sm">{location.address}</p>
                                         </div>
                                     </div>
@@ -142,7 +149,7 @@ export default async function LocationsPage() {
                                             <Phone className="w-5 h-5" />
                                         </div>
                                         <div>
-                                            <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-0.5">Phone</h4>
+                                            <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-0.5">{t('labels.phone')}</h4>
                                             <a href={`tel:${location.phone}`} className="text-navy font-bold text-sm hover:text-electric transition-colors block">
                                                 {location.phone}
                                             </a>
@@ -154,7 +161,7 @@ export default async function LocationsPage() {
                                             <Clock className="w-5 h-5" />
                                         </div>
                                         <div>
-                                            <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-0.5">Hours</h4>
+                                            <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-0.5">{t('labels.hours')}</h4>
                                             <p className="text-navy font-bold text-sm block">
                                                 {location.operatingHours}
                                             </p>
@@ -165,7 +172,7 @@ export default async function LocationsPage() {
                                 <div className="pt-6 mt-auto space-y-3">
                                     <Link href={`/cars?location=${location.city.toLowerCase()}`} className="block">
                                         <Button className="w-full bg-electric text-white hover:bg-navy hover:text-white font-bold h-12 rounded-xl shadow-lg shadow-electric/20 hover:shadow-xl transition-all group/btn">
-                                            View Available Cars <ArrowRight className="ml-2 w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                                            {t('viewCars')} <ArrowRight className="ml-2 w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                                         </Button>
                                     </Link>
 
@@ -175,7 +182,7 @@ export default async function LocationsPage() {
                                         className="block"
                                     >
                                         <Button variant="outline" className="w-full border-gray-200 text-gray-500 hover:text-navy hover:border-navy font-bold h-12 rounded-xl transition-all">
-                                            <Navigation className="w-4 h-4 mr-2" /> Get Directions
+                                            <Navigation className="w-4 h-4 mr-2" /> {t('getDirections')}
                                         </Button>
                                     </Link>
                                 </div>
@@ -200,13 +207,13 @@ export default async function LocationsPage() {
                                 <MapPin className="w-10 h-10 text-electric" />
                            </div>
                            <h2 className="text-3xl font-heading font-black text-navy max-w-lg">
-                               Find Your Nearest Branch
+                               {t('map.title')}
                            </h2>
                            <p className="text-gray-500 max-w-md text-lg">
-                               We are strategically located to serve you better. Check our map for real-time navigation.
+                               {t('map.description')}
                            </p>
                            <Button className="bg-gold text-navy font-bold px-8 h-12 rounded-full hover:scale-105 transition-transform shadow-lg shadow-gold/30">
-                               <ExternalLink className="w-4 h-4 mr-2" /> Open Interactive Map
+                               <ExternalLink className="w-4 h-4 mr-2" /> {t('map.button')}
                            </Button>
                       </div>
                  </div>
@@ -218,20 +225,20 @@ export default async function LocationsPage() {
              <div className="absolute inset-0 bg-gradient-to-r from-electric/20 to-gold/20 opacity-30" />
              <div className="container mx-auto px-4 relative z-10 text-center space-y-8">
                  <h2 className="text-4xl md:text-5xl font-heading font-black text-white leading-tight">
-                     Not Near a Location?
+                     {t('cta.title')}
                  </h2>
                  <p className="text-xl text-gray-400 max-w-2xl mx-auto font-light">
-                     We offer VIP delivery service. Have your vehicle delivered to your hotel, villa, or office anywhere in North Cyprus.
+                     {t('cta.description')}
                  </p>
                  <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
                      <Link href="/contact">
                          <Button className="h-14 px-8 text-lg font-bold bg-white text-navy hover:bg-gold hover:text-navy rounded-full shadow-lg transition-all">
-                             Request Delivery <ArrowRight className="ml-2 w-5 h-5" />
+                             {t('cta.deliveryBtn')} <ArrowRight className="ml-2 w-5 h-5" />
                          </Button>
                      </Link>
                      <Link href="https://wa.me/905330000000">
                          <Button variant="outline" className="h-14 px-8 text-lg font-bold border-white/20 text-white hover:bg-white/10 hover:border-white rounded-full transition-all">
-                             WhatsApp Concierge
+                             {t('cta.whatsappBtn')}
                          </Button>
                      </Link>
                  </div>
