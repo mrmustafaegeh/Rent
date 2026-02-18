@@ -14,7 +14,7 @@ import { PartnerCTA } from "@/components/features/home/PartnerCTA";
 import { FAQ } from "@/components/features/home/FAQ";
 import { Button } from "@/components/ui/Button";
 import { ArrowRight } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/navigation";
 import { getTranslations } from 'next-intl/server';
 import { getVehicles as getVehiclesFromService } from "@/services/vehicleService";
 

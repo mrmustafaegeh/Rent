@@ -7,7 +7,7 @@ import { Calendar, MapPin, Search, ChevronDown, CheckCircle2 } from "lucide-reac
 import { Button } from "@/components/ui/Button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select"
 import { Input } from "@/components/ui/Input"
-
+import { useRouter } from "@/navigation";
 import { useTranslations } from 'next-intl';
 
 export interface HeroSectionProps {
@@ -17,6 +17,7 @@ export interface HeroSectionProps {
 }
 
 export function HeroSection({ title, subtitleHighlight, description }: HeroSectionProps) {
+    const router = useRouter();
     const [location, setLocation] = React.useState("nicosia")
     const [pickupDate, setPickupDate] = React.useState("")
     const [dropoffDate, setDropoffDate] = React.useState("")
@@ -38,7 +39,7 @@ export function HeroSection({ title, subtitleHighlight, description }: HeroSecti
         if (pickupDate) params.append("pickup", pickupDate)
         if (dropoffDate) params.append("dropoff", dropoffDate)
         
-        window.location.href = `/cars?${params.toString()}`
+        router.push(`/cars?${params.toString()}`);
     }
 
     // Get current date for min attribute - only used after mount

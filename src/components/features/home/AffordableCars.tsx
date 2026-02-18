@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from "react"
-import Link from "next/link"
+import { Link } from "@/navigation"
 import { OptimizedImage } from "@/components/ui/OptimizedImage"
 import { motion } from "framer-motion"
 import { Phone, Check, Gauge, Fuel, Users, Briefcase, MessageCircle, Heart } from "lucide-react"
