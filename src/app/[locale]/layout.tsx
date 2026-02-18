@@ -34,47 +34,55 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
-  const t = await getTranslations({locale, namespace: 'Metadata'});
- 
-  return {
-    metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://rentalx.com'),
-    title: {
-      default: t('title'),
-      template: `%s | ${t('brand')}`
-    },
-    description: t('description'),
-    keywords: t('keywords').split(','),
-    authors: [{ name: t('brand') }],
-    creator: t('brand'),
-    publisher: t('brand'),
-    openGraph: {
-      type: 'website',
-      siteName: t('brand'),
-      title: t('title'),
-      description: t('description'),
-      locale: locale
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: t('title'),
-      description: t('description')
-    },
-    alternates: {
-      canonical: `/${locale}`,
-      languages: {
-        'en': '/en',
-        'ar': '/ar',
-        'ru': '/ru',
-        'tr': '/tr',
-        'el': '/el',
+  try {
+    const { locale } = await params;
+    const t = await getTranslations({locale, namespace: 'Metadata'});
+   
+    return {
+      metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://rentalx.com'),
+      title: {
+        default: t('title'),
+        template: `%s | ${t('brand')}`
       },
-    },
-    robots: {
-      index: true, 
-      follow: true,
-    }
-  };
+      description: t('description'),
+      keywords: t('keywords').split(','),
+      authors: [{ name: t('brand') }],
+      creator: t('brand'),
+      publisher: t('brand'),
+      openGraph: {
+        type: 'website',
+        siteName: t('brand'),
+        title: t('title'),
+        description: t('description'),
+        locale: locale
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: t('title'),
+        description: t('description')
+      },
+      alternates: {
+        canonical: `/${locale}`,
+        languages: {
+          'en': '/en',
+          'ar': '/ar',
+          'ru': '/ru',
+          'tr': '/tr',
+          'el': '/el',
+        },
+      },
+      robots: {
+        index: true, 
+        follow: true,
+      }
+    };
+  } catch (error) {
+    console.error('generateMetadata error:', error);
+    return {
+      title: 'RentalX',
+      description: 'Premium Car Rental'
+    };
+  }
 }
 
 export default async function LocaleLayout({
@@ -91,7 +99,14 @@ export default async function LocaleLayout({
     notFound();
   }
 
-  const messages = await getMessages();
+  let messages;
+  try {
+    messages = await getMessages();
+  } catch (error) {
+    console.error("Failed to load messages:", error);
+    // Fallback to empty messages to prevent total crash
+    messages = {};
+  }
   const isArabic = locale === 'ar';
 
   return (
