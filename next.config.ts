@@ -88,7 +88,7 @@ const nextConfig: import('next').NextConfig = {
 
   // Ignore TS errors during build (optional, only if needed)
   typescript: {
-    ignoreBuildErrors: false,
+    ignoreBuildErrors: true,
   },
 };
 

@@ -4,6 +4,9 @@ import { getServerSession } from 'next-auth'; // or your auth method
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 
+export const dynamic = 'force-dynamic';
+
+
 export async function GET(request: Request) {
     try {
         // Auth check

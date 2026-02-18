@@ -4,6 +4,9 @@ import { getVehicles } from '@/services/vehicleService';
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 
+export const dynamic = 'force-dynamic';
+
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);

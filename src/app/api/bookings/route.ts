@@ -7,6 +7,9 @@ import { cookies } from 'next/headers';
 import { sendBookingConfirmationEmail } from '@/lib/emailService';
 import bcrypt from 'bcryptjs';
 
+export const dynamic = 'force-dynamic';
+
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();

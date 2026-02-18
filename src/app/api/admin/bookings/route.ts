@@ -6,6 +6,9 @@ import bcrypt from 'bcryptjs';
 import { sendEmail, emailTemplates } from '@/lib/email';
 import { generateContractBuffer } from '@/lib/pdf/generateContractBuffer';
 
+export const dynamic = 'force-dynamic';
+
+
 // Helper to authenticate admin/company owner
 async function authorizeAdmin(req?: Request) {
     try {

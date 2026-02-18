@@ -685,7 +685,19 @@
     "submit": "Submit Review",
     "submitting": "Submitting...",
     "success": "Review submitted successfully!",
-    "error": "Failed to submit review"
+    "error": "Failed to submit review",
+    "admin": {
+      "badge": "Reviews Management",
+      "title": "Customer",
+      "subtitle": "Feedback",
+      "description": "Monitor and manage customer reviews. Approve or reject feedback to maintain quality standards.",
+      "pending": "Pending Reviews",
+      "approved": "Published Reviews"
+    },
+    "searchPlaceholder": "Search reviews...",
+    "filter": "Filter Reviews",
+    "noReviews": "No reviews found",
+    "noReviewsDesc": "There are no reviews matching your criteria."
   },
   "ListCar": {
     "title": "List Your Vehicle",
