@@ -5,6 +5,12 @@ export interface EmailOptions {
     subject: string;
     html: string;
     text?: string;
+    attachments?: Array<{
+        filename: string;
+        content?: any;
+        path?: string;
+        contentType?: string;
+    }>;
 }
 
 // Create reusable transporter
@@ -51,6 +57,7 @@ export const sendEmail = async (options: EmailOptions): Promise<boolean> => {
             subject: options.subject,
             text: options.text,
             html: options.html,
+            attachments: options.attachments,
         };
 
         await transporter.sendMail(mailOptions);

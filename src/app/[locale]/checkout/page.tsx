@@ -19,7 +19,12 @@ import { useTranslations } from 'next-intl';
 // Initialize Stripe (placeholder key if not provided)
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
 
-function CheckoutForm({ total, onSuccess }: { total: number, onSuccess: () => void }) {
+function CheckoutForm({ total, paymentIntentId, onBeforePay, onSuccess }: { 
+    total: number, 
+    paymentIntentId: string,
+    onBeforePay: () => Promise<string | null>, 
+    onSuccess: () => void 
+}) {
     const t = useTranslations('Checkout');
     const stripe = useStripe();
     const elements = useElements();
@@ -33,22 +38,47 @@ function CheckoutForm({ total, onSuccess }: { total: number, onSuccess: () => vo
 
         setIsLoading(true);
 
-        const { error } = await stripe.confirmPayment({
-            elements,
-            confirmParams: {
-                // Return URL for success
-                return_url: `${window.location.origin}/dashboard/bookings`,
-            },
-            redirect: 'if_required' 
-        });
+        try {
+            // 1. Create Booking (Pending)
+            const bookingId = await onBeforePay();
+            if (!bookingId) {
+                setMessage(t('errors.failed'));
+                setIsLoading(false);
+                return;
+            }
 
-        if (error) {
-            setMessage(error.message || t('errors.unexpected'));
-        } else {
-            onSuccess();
+            // 2. Link Booking to PaymentIntent
+            const updateRes = await fetch('/api/checkout', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ paymentIntentId, bookingId })
+            });
+
+            if (!updateRes.ok) {
+                throw new Error('Failed to link booking');
+            }
+
+            // 3. Confirm Payment
+            const { error } = await stripe.confirmPayment({
+                elements,
+                confirmParams: {
+                    // Return URL for success
+                    return_url: `${window.location.origin}/dashboard/bookings?success=true`,
+                },
+                redirect: 'if_required' 
+            });
+
+            if (error) {
+                setMessage(error.message || t('errors.unexpected'));
+            } else {
+                onSuccess(); // Client-side success (optional now if redirect works)
+            }
+        } catch (err: any) {
+            console.error(err);
+            setMessage(err.message || t('errors.unexpected'));
+        } finally {
+            setIsLoading(false);
         }
-
-        setIsLoading(false);
     };
 
     return (
@@ -87,6 +117,7 @@ function CheckoutContent() {
     // State
     const [vehicle, setVehicle] = useState<any>(null);
     const [clientSecret, setClientSecret] = useState('');
+    const [paymentIntentId, setPaymentIntentId] = useState('');
     const [paymentMethod, setPaymentMethod] = useState<'stripe' | 'pickup'>('pickup'); // Default to pickup
     const [isProcessing, setIsProcessing] = useState(false);
     
@@ -129,11 +160,16 @@ function CheckoutContent() {
                  fetch('/api/checkout', {
                      method: 'POST',
                      headers: { 'Content-Type': 'application/json' },
-                     body: JSON.stringify({ vehicleId: vehicle._id, days: diffDays })
+                     body: JSON.stringify({ vehicleId: vehicle.id, days: diffDays })
                  })
                  .then(res => res.json())
                  .then(data => {
-                     if(data.clientSecret) setClientSecret(data.clientSecret);
+                     if(data.clientSecret) {
+                        setClientSecret(data.clientSecret);
+                        // Extract paymentIntentId from clientSecret (starts with pi_...)
+                        const piId = data.clientSecret.split('_secret')[0];
+                        setPaymentIntentId(piId);
+                     }
                  })
                  .catch(err => console.error("Stripe Intent Error", err));
              }
@@ -169,8 +205,13 @@ function CheckoutContent() {
         return data.url;
     };
 
-    const handleBookingCreation = async () => {
-        setIsProcessing(true);
+    const createBookingRecord = async (): Promise<string | null> => {
+        // Validation
+        if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone) {
+            alert(t('errors.failed')); // Basic validation
+            return null;
+        }
+
         try {
             let driversLicenseUrl = '';
             let passportUrl = '';
@@ -178,10 +219,15 @@ function CheckoutContent() {
             // 1. Upload Documents if present
             const fd = formData as any;
             if (fd.driversLicense) {
-                driversLicenseUrl = await uploadFile(fd.driversLicense);
+                 // only upload if it's a File object (not already string URL from potential prev attempt)
+                 if (userId && typeof fd.driversLicense === 'object') {
+                    driversLicenseUrl = await uploadFile(fd.driversLicense);
+                 }
             }
             if (fd.passport) {
-                passportUrl = await uploadFile(fd.passport);
+                 if (userId && typeof fd.passport === 'object') {
+                    passportUrl = await uploadFile(fd.passport);
+                 }
             }
 
             // 2. Create Booking in Database
@@ -199,27 +245,41 @@ function CheckoutContent() {
                     startDate,
                     endDate,
                     pickupLocation,
+                    pickupDate: startDate, // API expects consistent naming, ensure payload matches
                     dropoffLocation,
                     driversLicense: driversLicenseUrl,
                     passport: passportUrl,
                     totalPrice: calculateTotal(),
-                    status: paymentMethod === 'stripe' ? 'confirmed' : 'pending',
-                    paymentStatus: paymentMethod === 'stripe' ? 'paid' : 'pending'
+                    // If method is Stripe, we create as PENDING first.
+                    // If pickup, we create as CONFIRMED (but pending payment)
+                    status: paymentMethod === 'stripe' ? 'PENDING_PAYMENT' : 'CONFIRMED',
+                    paymentStatus: 'PENDING'
                 })
             });
 
             if (bookingRes.ok) {
-                 router.push('/dashboard/bookings?success=true');
+                 const data = await bookingRes.json();
+                 return data.data.id;
             } else {
                  const errData = await bookingRes.json();
                  alert(errData.error || t('errors.failed'));
+                 return null;
             }
 
         } catch (err: any) {
             console.error(err);
             alert(err.message || t('errors.unexpected'));
-        } finally {
-            setIsProcessing(false);
+            return null;
+        }
+    };
+
+    const handlePickupSuccess = async () => {
+        setIsProcessing(true);
+        const bookingId = await createBookingRecord();
+        setIsProcessing(false);
+        
+        if (bookingId) {
+             router.push('/dashboard/bookings?success=true');
         }
     };
 
@@ -234,6 +294,8 @@ function CheckoutContent() {
 
     const total = calculateTotal();
     const days = Math.ceil(Math.abs(new Date(endDate!).getTime() - new Date(startDate!).getTime()) / (1000 * 60 * 60 * 24));
+    // Determine userId for upload checks (safer access)
+    const userId = user?.id;
 
     return (
         <div className="flex flex-col min-h-screen bg-gray-50">
@@ -391,7 +453,12 @@ function CheckoutContent() {
 
                                 {paymentMethod === 'stripe' && clientSecret && (
                                     <Elements stripe={stripePromise} options={{ clientSecret, appearance: { theme: 'stripe', variables: { colorPrimary: '#0A1628', borderRadius: '12px' } } }}>
-                                         <CheckoutForm total={total} onSuccess={handleBookingCreation} />
+                                         <CheckoutForm 
+                                            total={total} 
+                                            paymentIntentId={paymentIntentId}
+                                            onBeforePay={createBookingRecord}
+                                            onSuccess={() => router.push('/dashboard/bookings?success=true')} 
+                                        />
                                     </Elements>
                                 )}
 
@@ -408,7 +475,7 @@ function CheckoutContent() {
                                         </div>
                                         <Button 
                                             className="w-full h-14 bg-navy hover:bg-navy/90 text-gold font-bold rounded-xl text-lg shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5"
-                                            onClick={handleBookingCreation}
+                                            onClick={handlePickupSuccess}
                                             isLoading={isProcessing}
                                         >
                                             {t('payment.confirm')} <ArrowRight className="ml-2 w-5 h-5" />

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { generateContractBuffer } from '@/lib/pdf/generateContractBuffer';
 import prisma from '@/lib/prisma';
 import { createBooking } from '@/services/bookingService';
 import jwt from 'jsonwebtoken';
@@ -63,6 +64,14 @@ export async function POST(request: Request) {
         paymentStatus
     });
 
+    // Generate Contract PDF
+    let pdfBuffer: Buffer | undefined;
+    try {
+        pdfBuffer = await generateContractBuffer(booking);
+    } catch (e) {
+        console.error('Failed to generate contract for email:', e);
+    }
+
     // Send Confirmation Email (Fire and forget)
     // We fetch the vehicle details back from the created booking for the email
     sendBookingConfirmationEmail(user.email, {
@@ -74,7 +83,7 @@ export async function POST(request: Request) {
         dropoffLocation,
         totalPrice: booking.totalPrice,
         status: booking.status
-    }).catch(console.error);
+    }, pdfBuffer).catch(console.error);
     
     return NextResponse.json({ success: true, data: booking }, { status: 201 });
   } catch (error: any) {
@@ -103,12 +112,28 @@ export async function GET(request: Request) {
         }
 
         let where: any = {};
+        
+        const url = new URL(request.url);
+        const fromDate = url.searchParams.get('from');
+        const toDate = url.searchParams.get('to');
+
+        if (fromDate && toDate) {
+            where.AND = [
+                { startDate: { lte: new Date(toDate) } },
+                { endDate: { gte: new Date(fromDate) } }
+            ];
+        }
+
         if (user.role === 'CUSTOMER') {
-            where = { customerId: user.id };
+            where.customerId = user.id;
         } else if (user.role === 'PARTNER') {
              // For partners, show bookings for their vehicles
-             where = { vehicle: { ownerId: user.id } };
+             where.vehicle = { ownerId: user.id };
+        } else if (user.role !== 'ADMIN') {
+             // If not admin, partner or customer (e.g. unknown role), fallback to empty set or error
+             return NextResponse.json({ success: false, error: 'Unauthorized role' }, { status: 403 });
         }
+        // Admin gets all (filtered by date if provided)
         
         const bookings = await prisma.booking.findMany({
             where,

@@ -19,6 +19,7 @@ export interface VehicleFilterParams {
   ownerId?: string;
   startDate?: Date;
   endDate?: Date;
+  location?: string;
 }
 
 export async function getVehicles(params: VehicleFilterParams) {
@@ -39,7 +40,8 @@ export async function getVehicles(params: VehicleFilterParams) {
     status,
     ownerId,
     startDate,
-    endDate
+    endDate,
+    location
   } = params;
 
   const skip = (page - 1) * limit;
@@ -77,6 +79,7 @@ export async function getVehicles(params: VehicleFilterParams) {
   if (transmission) where.transmission = transmission.toUpperCase() as any;
   if (fuelType) where.fuelType = fuelType.toUpperCase() as any;
   if (seats) where.seats = { gte: seats };
+  if (location) where.location = location;
 
   if (minPrice || maxPrice) {
     const priceField = type === 'sale' ? 'salePrice' : 'dailyPrice';
@@ -144,3 +147,4 @@ export async function getVehicleById(id: string) {
         }
     });
 }
+

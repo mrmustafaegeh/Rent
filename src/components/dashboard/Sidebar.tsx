@@ -17,7 +17,9 @@ import {
     BadgePlus,
     CheckCircle,
     MessageSquare,
-    Building2
+    Building2,
+    Star,
+    TrendingUp
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
@@ -62,6 +64,18 @@ export default function Sidebar() {
             icon: CheckCircle,
             roles: ['admin'] 
         },
+        {
+            name: 'Schedule',
+            href: '/dashboard/admin/schedule',
+            icon: Calendar,
+            roles: ['admin']
+        },
+        {
+            name: 'Analytics',
+            href: '/dashboard/admin/analytics',
+            icon: TrendingUp,
+            roles: ['admin']
+        },
         { 
             name: 'My Bookings', 
             href: '/dashboard/bookings', 
@@ -78,6 +92,12 @@ export default function Sidebar() {
             name: 'Messages', 
             href: '/dashboard/admin/messages', 
             icon: MessageSquare,
+            roles: ['admin'] 
+        },
+        { 
+            name: 'Reviews', 
+            href: '/dashboard/admin/reviews', 
+            icon: Star,
             roles: ['admin'] 
         },
         { 

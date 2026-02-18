@@ -20,7 +20,8 @@ import {
     Briefcase,
     ShieldCheck,
     ChevronRight,
-    SearchX
+    SearchX,
+    Clock
 } from 'lucide-react';
 import { Input } from '@/components/ui/Input';
 import { toast } from 'react-hot-toast';

@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 import bcrypt from 'bcryptjs';
 import { sendEmail, emailTemplates } from '@/lib/email';
+import { generateContractBuffer } from '@/lib/pdf/generateContractBuffer';
 
 // Helper to authenticate admin/company owner
 async function authorizeAdmin(req?: Request) {
@@ -423,11 +424,24 @@ export async function POST(request: Request) {
             pickupLocation: booking.pickupLocation
         });
         
+        // Generate Contract PDF
+        let pdfBuffer: Buffer | undefined;
+        try {
+            pdfBuffer = await generateContractBuffer(booking);
+        } catch (e) {
+            console.error('Failed to generate contract for email:', e);
+        }
+
         const emailSent = await sendEmail({
             to: user.email,
             subject: confirmationTemplate.subject,
             html: confirmationTemplate.html,
             text: confirmationTemplate.text,
+            attachments: pdfBuffer ? [{
+                filename: `RentalContract-${booking.bookingNumber}.pdf`,
+                content: pdfBuffer,
+                contentType: 'application/pdf'
+            }] : undefined,
         });
 
         return NextResponse.json({ 

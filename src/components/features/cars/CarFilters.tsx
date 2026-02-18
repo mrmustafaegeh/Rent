@@ -17,6 +17,7 @@ import { useTranslations } from "next-intl"
 const CATEGORIES = ["Luxury", "Sports", "SUV", "Economy", "Sedan", "Convertible", "Van"]
 const TRANSMISSIONS = ["Automatic", "Manual"]
 const FUEL_TYPES = ["Petrol", "Diesel", "Electric", "Hybrid"]
+const LOCATIONS = ["Kyrenia", "Nicosia", "Famagusta", "Ercan Airport"]
 const BRANDS = ["Mercedes-Benz", "BMW", "Audi", "Porsche", "Land Rover", "Toyota", "Nissan", "Kia", "Hyundai"]
 
 export function CarFilters() {
@@ -44,6 +45,11 @@ export function CarFilters() {
             } else {
                 params.delete(key)
                 current.filter(c => c !== value).forEach(c => params.append(key, c))
+            }
+        } else if (key === 'location') {
+            params.delete(key)
+            if (checked) {
+                params.append(key, value)
             }
         }
         
@@ -226,6 +232,28 @@ export function CarFilters() {
             
             <Separator className="bg-gray-100" />
 
+            {/* Location */}
+            <div className="space-y-4">
+                <h4 className="font-bold text-sm text-navy uppercase tracking-wider">{t('location')}</h4>
+                <div className="space-y-3">
+                     {LOCATIONS.map((loc) => (
+                        <div key={loc} className="flex items-center space-x-3 group">
+                            <Checkbox 
+                                id={`loc-${loc}`} 
+                                checked={isChecked('location', loc)}
+                                onCheckedChange={(checked) => handleFilterChange('location', loc, checked as boolean)}
+                                className="border-gray-300 data-[state=checked]:bg-gold data-[state=checked]:border-gold"
+                            />
+                            <Label htmlFor={`loc-${loc}`} className="cursor-pointer text-gray-600 group-hover:text-navy transition-colors">
+                                {loc}
+                            </Label>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            <Separator className="bg-gray-100" />
+            
              {/* Brands */}
             <div className="space-y-4">
                 <h4 className="font-bold text-sm text-navy uppercase tracking-wider">{t('brands')}</h4>

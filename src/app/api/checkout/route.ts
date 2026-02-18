@@ -54,3 +54,22 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
 }
+// Update PaymentIntent with bookingId
+export async function PUT(request: Request) {
+    try {
+        const { paymentIntentId, bookingId } = await request.json();
+
+        if (!paymentIntentId || !bookingId) {
+            return NextResponse.json({ error: 'Missing paymentIntentId or bookingId' }, { status: 400 });
+        }
+
+        await stripe.paymentIntents.update(paymentIntentId, {
+            metadata: { bookingId }
+        });
+
+        return NextResponse.json({ success: true });
+    } catch (error: any) {
+        console.error('Stripe Update Error:', error);
+        return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+}

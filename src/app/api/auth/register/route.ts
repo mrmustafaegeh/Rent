@@ -13,7 +13,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: 'Too many registration attempts, please try again later.' }, { status: 429 });
     }
 
-    const { firstName, lastName, email, password, phone, role } = await request.json();
+    const { firstName, lastName, email, password, phone } = await request.json();
 
     const userExists = await prisma.user.findUnique({ where: { email } });
 
@@ -30,7 +30,7 @@ export async function POST(request: Request) {
         email,
         password: hashedPassword,
         phone,
-        role: (role?.toUpperCase() || 'CUSTOMER') as any
+        role: 'CUSTOMER'
       }
     });
 

@@ -5,10 +5,11 @@ interface EmailOptions {
   subject: string;
   html: string;
   text?: string;
+  attachments?: any[];
 }
 
-export const sendEmail = async ({ to, subject, html, text }: EmailOptions) => {
-  return sendRealEmail({ to, subject, html, text });
+export const sendEmail = async ({ to, subject, html, text, attachments }: EmailOptions) => {
+  return sendRealEmail({ to, subject, html, text, attachments });
 };
 
 export const sendWelcomeEmail = async (email: string, name: string) => {
@@ -26,7 +27,7 @@ export const sendWelcomeEmail = async (email: string, name: string) => {
   return sendEmail({ to: email, subject, html });
 };
 
-export const sendBookingConfirmationEmail = async (email: string, bookingDetails: any) => {
+export const sendBookingConfirmationEmail = async (email: string, bookingDetails: any, pdfBuffer?: Buffer) => {
   const subject = `Booking Confirmation - ${bookingDetails.bookingNumber}`;
   const html = `
     <div style="font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
@@ -45,7 +46,15 @@ export const sendBookingConfirmationEmail = async (email: string, bookingDetails
       <div style="margin: 30px 0;">
         <a href="${process.env.NEXT_PUBLIC_APP_URL}/dashboard/bookings" style="background: #0A1628; color: #fff; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold;">View Dashboard</a>
       </div>
+      ${pdfBuffer ? '<p style="font-size: 12px; color: #666;">Your rental contract is attached to this email.</p>' : ''}
     </div>
   `;
-  return sendEmail({ to: email, subject, html });
+  
+  const attachments = pdfBuffer ? [{
+    filename: `RentalContract-${bookingDetails.bookingNumber}.pdf`,
+    content: pdfBuffer,
+    contentType: 'application/pdf'
+  }] : [];
+
+  return sendEmail({ to: email, subject, html, attachments });
 };

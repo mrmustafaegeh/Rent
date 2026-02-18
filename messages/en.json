@@ -344,7 +344,8 @@
       "Hybrid": "Hybrid",
       "PETROL": "Petrol",
       "DIESEL": "Diesel"
-    }
+    },
+    "location": "Location"
   },
   "VehicleDetails": {
     "breadcrumb": {

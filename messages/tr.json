@@ -309,7 +309,8 @@
       "Diesel": "Dizel",
       "Electric": "Elektrikli",
       "Hybrid": "Hibrit"
-    }
+    },
+    "location": "Konum"
   },
   "VehicleDetails": {
     "breadcrumb": {

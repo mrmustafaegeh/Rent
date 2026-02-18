@@ -461,6 +461,65 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
               )}
             </div>
           </div>
+            
+            {/* Reviews Section */}
+            <div className="bg-[var(--surface-light)] rounded-xl p-6 shadow-sm border border-[var(--border)]">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-white">Guest Reviews</h2>
+                <div className="flex items-center gap-2 bg-[var(--surface)] px-3 py-1 rounded-lg border border-[var(--border)]">
+                   <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+                   <span className="font-bold text-white">
+                      {vehicle.reviews?.length > 0 
+                        ? (vehicle.reviews.reduce((acc: number, r: any) => acc + r.rating, 0) / vehicle.reviews.length).toFixed(1) 
+                        : 'New'}
+                   </span>
+                   <span className="text-xs text-[var(--text-secondary)]">
+                      ({vehicle.reviews?.length || 0} reviews)
+                   </span>
+                </div>
+              </div>
+
+              <div className="space-y-6">
+                {vehicle.reviews && vehicle.reviews.length > 0 ? (
+                  vehicle.reviews.map((review: any) => (
+                    <div key={review.id} className="border-b border-[var(--border)] last:border-0 pb-6 last:pb-0">
+                      <div className="flex items-start justify-between mb-2">
+                         <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-[var(--surface)] flex items-center justify-center border border-[var(--border)] overflow-hidden">
+                                {review.user.image ? (
+                                    <Image src={review.user.image} alt={review.user.name} width={40} height={40} className="object-cover" />
+                                ) : (
+                                    <span className="font-bold text-[var(--primary)] text-sm">
+                                        {(review.user.name?.[0] || 'U')}
+                                    </span>
+                                )}
+                            </div>
+                            <div>
+                                <p className="font-bold text-white text-sm">{review.user.name || 'Anonymous'}</p>
+                                <p className="text-xs text-[var(--text-muted)]">{new Date(review.createdAt).toLocaleDateString()}</p>
+                            </div>
+                         </div>
+                         <div className="flex">
+                            {[...Array(5)].map((_, i) => (
+                                <Star 
+                                    key={i} 
+                                    className={`w-3 h-3 ${i < review.rating ? 'fill-yellow-500 text-yellow-500' : 'text-gray-600'}`} 
+                                />
+                            ))}
+                         </div>
+                      </div>
+                      <p className="text-[var(--text-secondary)] text-sm leading-relaxed pl-14">
+                        {review.comment}
+                      </p>
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-center py-8 text-[var(--text-muted)] italic">
+                    No reviews yet. Be the first to rent this car!
+                  </div>
+                )}
+              </div>
+            </div>
         </div>
       </div>
 

@@ -73,7 +73,14 @@ export default async function VehicleDetailPage({ params }: Props) {
                    // logo: true, // Logo field?
                 }
             },
-            images: true
+            images: true,
+            reviews: {
+                where: { isApproved: true },
+                include: {
+                    user: { select: { name: true, image: true } }
+                },
+                orderBy: { createdAt: 'desc' }
+            }
         }
      });
   } catch (e) {

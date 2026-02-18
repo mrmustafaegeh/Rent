@@ -146,6 +146,29 @@ export default function AllBookingsPage() {
         }
     };
 
+    const downloadContract = async (bookingId: string, bookingNumber: string) => {
+        const toastId = toast.loading('Generating contract...');
+        try {
+            const res = await fetch(`/api/bookings/${bookingId}/contract`);
+            if (res.ok) {
+                const blob = await res.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `contract-${bookingNumber}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                toast.success('Contract downloaded', { id: toastId });
+            } else {
+                toast.error('Failed to generate contract', { id: toastId });
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error('Network error', { id: toastId });
+        }
+    };
+
     // Stats
     const activeBookings = bookings.filter(b => b.status?.toLowerCase() === 'confirmed' || b.status?.toLowerCase() === 'in_progress').length;
     const revenue = bookings.reduce((acc, b) => acc + (b.status?.toLowerCase() !== 'cancelled' ? b.totalPrice : 0), 0);
@@ -385,9 +408,20 @@ export default function AllBookingsPage() {
                                                         </button>
                                                     </div>
                                                 ) : (
-                                                    <button className="h-12 w-12 rounded-2xl bg-gray-50 text-gray-400 hover:bg-navy hover:text-white transition-all flex items-center justify-center">
-                                                         <MoreHorizontal className="w-5 h-5" />
-                                                    </button>
+                                                    <div className="flex gap-2 justify-end">
+                                                        {(booking.status?.toLowerCase() === 'confirmed' || booking.status?.toLowerCase() === 'completed') && (
+                                                            <button 
+                                                                onClick={() => downloadContract(booking.id, booking.bookingNumber)}
+                                                                className="h-12 w-12 rounded-2xl bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-all flex items-center justify-center"
+                                                                title="Download Contract"
+                                                            >
+                                                                <Download className="w-5 h-5" />
+                                                            </button>
+                                                        )}
+                                                        <button className="h-12 w-12 rounded-2xl bg-gray-50 text-gray-400 hover:bg-navy hover:text-white transition-all flex items-center justify-center">
+                                                             <MoreHorizontal className="w-5 h-5" />
+                                                        </button>
+                                                    </div>
                                                 )}
                                             </div>
                                         </td>
