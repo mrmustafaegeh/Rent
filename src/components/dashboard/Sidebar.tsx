@@ -1,9 +1,10 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { Link } from '@/navigation';
+import { usePathname } from '@/navigation';
 import { useAuth } from '@/context/AuthContext';
+import { useTranslations } from 'next-intl';
 import { 
     LayoutDashboard, 
     Calendar, 
@@ -11,97 +12,99 @@ import {
     Users, 
     Settings,
     LogOut,
-    ChevronRight,
     ClipboardList,
-    UserCircle,
     BadgePlus,
     CheckCircle,
     MessageSquare,
     Building2,
     Star,
-    TrendingUp
+    TrendingUp,
+    Search
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
 
 export default function Sidebar() {
     const { user, logout } = useAuth();
     const pathname = usePathname();
+    const t = useTranslations('Dashboard.Sidebar');
+    const tCommon = useTranslations('Common');
 
     const links = [
         { 
-            name: 'Overview', 
+            name: t('overview'), 
             href: '/dashboard', 
             icon: LayoutDashboard,
             roles: ['customer', 'admin', 'company_owner'] 
         },
         { 
-            name: 'Booking Requests', 
+            name: t('bookingRequests'), 
             href: '/dashboard/all-bookings', 
             icon: ClipboardList,
             roles: ['admin', 'company_owner'] 
         },
         { 
-            name: 'Confirmations', 
+            name: t('confirmations'), 
             href: '/dashboard/confirmations', 
             icon: CheckCircle,
             roles: ['admin', 'company_owner'] 
         },
         { 
-            name: 'Fleet Management', 
+            name: t('fleetManagement'), 
             href: '/dashboard/vehicles', 
             icon: Car,
             roles: ['admin', 'company_owner'] 
         },
         { 
-            name: 'Partner Requests', 
+            name: t('partnerRequests'), 
             href: '/dashboard/admin/partners/request', 
             icon: Building2,
             roles: ['admin'] 
         },
         { 
-            name: 'Vehicle Approvals', 
+            name: t('vehicleApprovals'), 
             href: '/dashboard/admin/approvals', 
             icon: CheckCircle,
             roles: ['admin'] 
         },
         {
-            name: 'Schedule',
+            name: t('schedule'),
             href: '/dashboard/admin/schedule',
             icon: Calendar,
             roles: ['admin']
         },
         {
-            name: 'Analytics',
+            name: t('analytics'),
             href: '/dashboard/admin/analytics',
             icon: TrendingUp,
             roles: ['admin']
         },
         { 
-            name: 'My Bookings', 
+            name: t('myBookings'), 
             href: '/dashboard/bookings', 
             icon: Calendar,
             roles: ['customer'] 
         },
         { 
-            name: 'User Management', 
+            name: t('userManagement'), 
             href: '/dashboard/users', 
             icon: Users,
             roles: ['admin'] 
         },
         { 
-            name: 'Messages', 
+            name: t('messages'), 
             href: '/dashboard/admin/messages', 
             icon: MessageSquare,
             roles: ['admin'] 
         },
         { 
-            name: 'Reviews', 
+            name: t('reviews'), 
             href: '/dashboard/admin/reviews', 
             icon: Star,
             roles: ['admin'] 
         },
         { 
-            name: 'Settings', 
+            name: t('settings'), 
             href: '/dashboard/settings', 
             icon: Settings,
             roles: ['customer', 'admin', 'company_owner'] 
@@ -118,9 +121,9 @@ export default function Sidebar() {
     if (!user) return null;
 
     return (
-        <aside className="w-72 bg-navy min-h-screen flex flex-col fixed left-0 top-0 z-40 shadow-[4px_0_24px_rgba(0,0,0,0.3)] overflow-y-auto border-r border-white/5">
+        <aside className="w-72 bg-navy h-screen flex flex-col fixed left-0 top-0 z-40 shadow-[4px_0_24px_rgba(0,0,0,0.3)] border-r border-white/5">
             {/* Logo Section */}
-            <div className="h-24 flex flex-col justify-center px-8 border-b border-white/5 bg-navy/80 backdrop-blur-xl sticky top-0 z-10">
+            <div className="h-24 flex-shrink-0 flex flex-col justify-center px-8 border-b border-white/5 bg-navy/80 backdrop-blur-xl sticky top-0 z-10">
                 <Link href="/" className="group block w-full transition-all hover:scale-[1.02]">
                     <div className="font-heading font-black text-2xl tracking-tight text-white flex items-center gap-3">
                         <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-gold via-amber-500 to-amber-600 flex items-center justify-center text-navy shadow-[0_8px_16px_rgba(255,215,0,0.2)] group-hover:shadow-[0_8px_24px_rgba(255,215,0,0.4)] transition-all">
@@ -134,10 +137,21 @@ export default function Sidebar() {
                 </Link>
             </div>
 
+            {/* Search Section */}
+            <div className="px-6 py-4 border-b border-white/5">
+                <div className="relative group">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 group-focus-within:text-gold transition-colors" />
+                    <Input 
+                        placeholder={t('searchPlaceholder')} 
+                        className="bg-white/5 border-white/10 text-sm pl-10 h-10 rounded-xl text-white placeholder:text-gray-600 focus-visible:ring-gold/50 focus-visible:border-gold/50 transition-all"
+                    />
+                </div>
+            </div>
+
             {/* Navigation */}
-            <nav className="flex-1 px-4 py-8 space-y-2">
-                <div className="px-6 mb-6">
-                    <p className="text-[11px] font-black text-gray-500 uppercase tracking-[0.2em] opacity-80">Main Menu</p>
+            <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto custom-scrollbar">
+                <div className="px-6 mb-4">
+                    <p className="text-[11px] font-black text-gray-500 uppercase tracking-[0.2em] opacity-80">{t('mainMenu')}</p>
                 </div>
                 
                 {relevantLinks.map((link) => {
@@ -168,10 +182,10 @@ export default function Sidebar() {
                 })}
 
                 {user.role === 'admin' && (
-                    <div className="mt-10 px-2">
+                    <div className="mt-10 px-2 pb-8">
                         <Link href="/dashboard/vehicles/new">
                             <Button className="w-full bg-gradient-to-br from-gold to-amber-600 hover:from-amber-400 hover:to-amber-500 text-navy font-black shadow-[0_12px_24px_rgba(251,191,36,0.2)] h-14 rounded-2xl flex items-center justify-center gap-3 transition-all hover:-translate-y-1 hover:shadow-[0_16px_32px_rgba(251,191,36,0.3)] border-none">
-                                <BadgePlus className="w-6 h-6" /> Add New Vehicle
+                                <BadgePlus className="w-6 h-6" /> {t('addNewVehicle')}
                             </Button>
                         </Link>
                     </div>
@@ -179,7 +193,7 @@ export default function Sidebar() {
             </nav>
 
             {/* Profile Section */}
-            <div className="p-6 mt-auto">
+            <div className="p-6 mt-auto border-t border-white/5 bg-navy z-20">
                 <div className="bg-white/5 backdrop-blur-xl rounded-[2rem] border border-white/10 p-5 group hover:bg-white/[0.08] transition-all duration-500">
                     <div className="flex items-center gap-4 mb-5">
                         <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-electric via-blue-600 to-indigo-700 flex items-center justify-center text-white font-black shadow-[0_8px_16px_rgba(10,182,212,0.2)] text-base group-hover:scale-105 transition-transform">
@@ -195,7 +209,7 @@ export default function Sidebar() {
                         onClick={logout}
                         className="w-full flex items-center justify-center gap-2 px-4 py-3 text-xs font-black text-gray-400 hover:text-white bg-white/5 hover:bg-red-500/20 rounded-xl transition-all duration-300 border border-transparent hover:border-red-500/30"
                     >
-                        <LogOut className="w-4 h-4" /> SIGN OUT
+                        <LogOut className="w-4 h-4" /> {t('signOut')}
                     </button>
                 </div>
                 

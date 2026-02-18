@@ -6,6 +6,27 @@
     "listCarBtn": "List Your Car",
     "expertBtn": "Talk to an Expert"
   },
+  "Dashboard": {
+    "Sidebar": {
+      "overview": "Overview",
+      "bookingRequests": "Booking Requests",
+      "confirmations": "Confirmations",
+      "fleetManagement": "Fleet Management",
+      "partnerRequests": "Partner Requests",
+      "vehicleApprovals": "Vehicle Approvals",
+      "schedule": "Schedule",
+      "analytics": "Analytics",
+      "myBookings": "My Bookings",
+      "userManagement": "User Management",
+      "messages": "Messages",
+      "reviews": "Reviews",
+      "settings": "Settings",
+      "searchPlaceholder": "Search...",
+      "mainMenu": "Main Menu",
+      "addNewVehicle": "Add New Vehicle",
+      "signOut": "Sign Out"
+    }
+  },
   "Navigation": {
     "rent": "Rent Cars",
     "buy": "Buy Cars", 

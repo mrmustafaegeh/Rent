@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from "react"
@@ -28,10 +29,11 @@ export function HeroSection({ title, subtitleHighlight, description }: HeroSecti
         setMounted(true);
     }, []);
     
-    // Parallax effect
+    // Parallax effect & Ken Burns zoom
     const { scrollY } = useScroll();
     const y = useTransform(scrollY, [0, 500], [0, 200]);
     const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+    const scale = useTransform(scrollY, [0, 500], [1, 1.1]);
 
     const handleSearch = () => {
         const params = new URLSearchParams()
@@ -46,85 +48,120 @@ export function HeroSection({ title, subtitleHighlight, description }: HeroSecti
     const minDate = mounted ? new Date().toISOString().slice(0, 16) : "";
 
     return (
-        <section className="relative w-full h-screen md:h-[100vh] min-h-[500px] md:min-h-[800px] flex items-center justify-center overflow-hidden">
-             {/* Background Video/Image with Parallax */}
-             <motion.div style={{ y }} className="absolute inset-0 z-0">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#0A1628]/80 via-[#0A1628]/60 to-[#0A1628]/30 z-10" />
-                <OptimizedImage 
-                  src="/images/hero-bg-cyprus.png"
-                  alt="North Cyprus Scenic Drive"
-                  fill
-                  className="object-cover"
-                  priority
-                  sizes="100vw"
-                  quality={90}
-                />
-             </motion.div>
+        <section className="relative w-full h-[100dvh] flex items-center justify-center overflow-hidden font-dm-sans">
+             {/* Background - Ken Burns & Gradient */}
+             <div className="absolute inset-0 z-0 overflow-hidden bg-[#050505]">
+                <motion.div 
+                    initial={{ scale: 1.04 }}
+                    animate={{ scale: 1.10 }}
+                    transition={{ duration: 18, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
+                    className="relative w-full h-full"
+                >
+                    <OptimizedImage 
+                      src="/images/kyrenia-hero.png"
+                      alt="Kyrenia Harbour North Cyprus"
+                      fill
+                      className="object-cover"
+                      priority
+                      sizes="100vw"
+                      quality={95}
+                    />
+                </motion.div>
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/60 to-black/85 z-10" />
+                
+                {/* Grain Texture */}
+                <div className="absolute inset-0 z-10 opacity-35 mix-blend-overlay pointer-events-none" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\' opacity=\'1\'/%3E%3C/svg%3E")' }} />
+                
+                {/* Top Gold Shimmer Bar */}
+                <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-gold to-transparent z-50 opacity-80" />
+             </div>
              
              <motion.div 
                style={{ opacity }}
-               className="container relative z-20 mx-auto px-4 flex flex-col items-center text-center space-y-8 md:space-y-16 py-12"
+               className="container relative z-20 mx-auto px-4 flex flex-col items-center text-center py-12"
              >
-                 <div className="space-y-4 md:space-y-6 max-w-5xl mx-auto pt-10 md:pt-0">
+                 {/* Hero Typography */}
+                 <div className="space-y-6 max-w-6xl mx-auto pt-10 md:pt-0 mb-12">
+                     <motion.div
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        className="flex items-center justify-center gap-4"
+                     >
+                         <div className="w-10 h-[1px] bg-gold" />
+                         <span className="text-gold text-[11px] tracking-[0.3em] font-medium uppercase font-dm-sans">Premium Car Rental</span>
+                         <div className="w-10 h-[1px] bg-gold" />
+                     </motion.div>
+
                      <motion.h1 
                         initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
                         animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                        transition={{ duration: 0.8, ease: "easeOut" }}
-                        className="font-heading font-black text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] leading-[1.1] md:leading-[1.05] text-white drop-shadow-2xl tracking-tight"
+                        transition={{ duration: 1.0, delay: 0.15, ease: [0.25, 0.1, 0.25, 1.0] }}
+                        className="font-bebas text-white text-[clamp(64px,9vw,120px)] leading-[0.9] tracking-tight drop-shadow-2xl"
                      >
                         {title || t('title')} <br/>
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold via-yellow-200 to-gold">{subtitleHighlight || t('subtitleHighlight')}</span>
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F5C842] via-[#FFD96A] to-[#F5C842]">{subtitleHighlight || t('subtitleHighlight')}</span>
                      </motion.h1>
                      
                      <motion.p 
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.3 }}
-                        className="font-body text-base sm:text-lg md:text-2xl text-gray-200 font-medium tracking-wide max-w-2xl mx-auto opacity-90"
+                        transition={{ duration: 1.0, delay: 0.3, ease: [0.25, 0.1, 0.25, 1.0] }}
+                        className="font-dm-sans text-[15px] sm:text-base md:text-lg text-white/60 font-light tracking-wide max-w-xl mx-auto"
                      >
                         {description || t('description')}
                      </motion.p>
                  </div>
                  
-                 {/* Floating Search Pill */}
+                 {/* Luxury Booking Widget */}
                  <motion.div 
                     initial={{ opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.5 }}
+                    transition={{ duration: 1.0, delay: 0.5, ease: [0.25, 0.1, 0.25, 1.0] }}
                     className="w-full max-w-5xl relative z-30"
                  >
-                     <div className="bg-black/40 backdrop-blur-3xl rounded-3xl md:rounded-[2.5rem] p-1.5 md:p-2 shadow-[0_40px_100px_rgba(0,0,0,0.5)] border border-white/10 ring-1 ring-white/10 overflow-hidden group/pill">
-                         <div className="flex flex-col md:flex-row items-center gap-1 p-1">
+                     {/* The Card */}
+                     <div className="relative rounded-[24px] bg-[rgba(10,10,10,0.55)] backdrop-blur-[28px] backdrop-saturate-[180%] shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 group overflow-hidden">
+                         
+                         {/* Top Shimmer Line */}
+                         <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-gold/50 to-transparent opacity-50" />
+                         
+                         {/* Outer Glow via Box Shadow (simulated) */}
+                         <div className="absolute -inset-[1px] rounded-[25px] bg-gradient-to-br from-[#F5C842]/20 to-transparent -z-10 opacity-50 blur-sm pointer-events-none" />
+
+                         <div className="grid grid-cols-1 md:grid-cols-[1.1fr_1px_1fr_1px_1fr_auto] items-center">
                              
                              {/* Location */}
-                             <div className="flex-1 w-full px-5 py-4 md:px-8 md:py-5 relative group text-left hover:bg-white/5 transition-all duration-300 rounded-2xl md:rounded-3xl cursor-pointer">
-                                 <label className="flex items-center gap-2 text-[10px] font-black text-white/40 uppercase tracking-[0.2em] mb-1.5 md:mb-2 group-focus-within:text-gold group-hover:text-white/60 transition-colors">
-                                    <MapPin className="w-3 h-3 md:w-3.5 md:h-3.5 text-gold/80" /> {t('pickupLocation')}
+                             <div className="relative group/field px-7 py-6 cursor-pointer hover:bg-[#F5C842]/10 transition-colors duration-300">
+                                 <label className="flex items-center gap-2 text-[9.5px] text-[#F5C842] font-medium uppercase tracking-[0.2em] mb-1.5 font-dm-sans">
+                                    <MapPin className="w-3 h-3" /> {t('pickupLocation')}
                                  </label>
                                  <Select value={location} onValueChange={setLocation}>
-                                    <SelectTrigger className="w-full border-0 p-0 h-7 md:h-8 text-lg font-heading font-black text-white shadow-none focus:ring-0 bg-transparent gap-2 truncate tracking-tight">
-                                        <SelectValue placeholder={<span className="text-white/30 font-bold">{t('selectLocation')}</span>} />
+                                    <SelectTrigger className="w-full border-0 p-0 h-6 text-[15px] font-dm-sans text-white focus:ring-0 bg-transparent gap-2 truncate font-normal hover:bg-transparent shadow-none [&>svg]:text-gold">
+                                        <SelectValue placeholder={t('selectLocation')} />
                                     </SelectTrigger>
-                                    <SelectContent className="font-body border-white/10 bg-navy/95 backdrop-blur-2xl text-white shadow-2xl rounded-2xl ring-1 ring-white/5">
-                                        <SelectItem value="ercan" className="focus:bg-white/10 focus:text-gold cursor-pointer py-4 transition-colors">{t('locations.ercan')}</SelectItem>
-                                        <SelectItem value="nicosia" className="focus:bg-white/10 focus:text-gold cursor-pointer py-4 transition-colors">{t('locations.nicosia')}</SelectItem>
-                                        <SelectItem value="kyrenia" className="focus:bg-white/10 focus:text-gold cursor-pointer py-4 transition-colors">{t('locations.kyrenia')}</SelectItem>
-                                        <SelectItem value="famagusta" className="focus:bg-white/10 focus:text-gold cursor-pointer py-4 transition-colors">{t('locations.famagusta')}</SelectItem>
+                                    <SelectContent className="border-white/10 bg-[#0a0a0a]/95 backdrop-blur-2xl text-white shadow-2xl rounded-xl">
+                                        <SelectItem value="ercan" className="focus:bg-white/10 focus:text-[#F5C842] cursor-pointer py-3">{t('locations.ercan')}</SelectItem>
+                                        <SelectItem value="nicosia" className="focus:bg-white/10 focus:text-[#F5C842] cursor-pointer py-3">{t('locations.nicosia')}</SelectItem>
+                                        <SelectItem value="kyrenia" className="focus:bg-white/10 focus:text-[#F5C842] cursor-pointer py-3">{t('locations.kyrenia')}</SelectItem>
+                                        <SelectItem value="famagusta" className="focus:bg-white/10 focus:text-[#F5C842] cursor-pointer py-3">{t('locations.famagusta')}</SelectItem>
                                     </SelectContent>
                                  </Select>
                              </div>
 
-                             <div className="hidden md:block w-px h-14 bg-white/5 self-center mx-2" />
+                             {/* Divider */}
+                             <div className="hidden md:block w-px h-12 bg-white/10" />
                              
                              {/* Pickup */}
-                             <div className="flex-1 w-full px-5 py-4 md:px-8 md:py-5 relative group text-left hover:bg-white/5 transition-all duration-300 rounded-2xl md:rounded-3xl">
-                                 <label className="flex items-center gap-2 text-[10px] font-black text-white/40 uppercase tracking-[0.2em] mb-1.5 md:mb-2 group-focus-within:text-gold group-hover:text-white/60 transition-colors">
-                                    <Calendar className="w-3 h-3 md:w-3.5 md:h-3.5 text-gold/80" /> {t('pickupDate')}
+                             <div className="relative group/field px-7 py-6 hover:bg-[#F5C842]/10 transition-colors duration-300">
+                                 <label className="flex items-center gap-2 text-[9.5px] text-[#F5C842] font-medium uppercase tracking-[0.2em] mb-1.5 font-dm-sans">
+                                    <Calendar className="w-3 h-3" /> {t('pickupDate')}
                                  </label>
                                  <Input
                                     type="datetime-local"
                                     min={minDate}
-                                    className="w-full border-0 p-0 text-base md:text-lg font-heading font-black text-white bg-transparent focus-visible:ring-0 shadow-none placeholder:text-white/20 cursor-pointer h-7 md:h-8 selection:bg-gold/30"
+                                    className="w-full border-0 p-0 h-6 text-[15px] font-dm-sans text-white bg-transparent focus-visible:ring-0 shadow-none placeholder:text-white/30 cursor-pointer font-normal [color-scheme:dark] selection:bg-[#F5C842]/30"
                                     onChange={(e) => {
                                         setPickupDate(e.target.value);
                                         if (dropoffDate && e.target.value > dropoffDate) {
@@ -134,67 +171,70 @@ export function HeroSection({ title, subtitleHighlight, description }: HeroSecti
                                  />
                              </div>
 
-                             <div className="hidden md:block w-px h-14 bg-white/5 self-center mx-2" />
+                             {/* Divider */}
+                             <div className="hidden md:block w-px h-12 bg-white/10" />
 
                              {/* Return */}
-                             <div className="flex-1 w-full px-5 py-4 md:px-8 md:py-5 relative group text-left hover:bg-white/5 transition-all duration-300 rounded-2xl md:rounded-3xl">
-                                 <label className="flex items-center gap-2 text-[10px] font-black text-white/40 uppercase tracking-[0.2em] mb-1.5 md:mb-2 group-focus-within:text-gold group-hover:text-white/60 transition-colors">
-                                    <Calendar className="w-3 h-3 md:w-3.5 md:h-3.5 text-gold/80" /> {t('returnDate')}
+                             <div className="relative group/field px-7 py-6 hover:bg-[#F5C842]/10 transition-colors duration-300">
+                                 <label className="flex items-center gap-2 text-[9.5px] text-[#F5C842] font-medium uppercase tracking-[0.2em] mb-1.5 font-dm-sans">
+                                    <Calendar className="w-3 h-3" /> {t('returnDate')}
                                  </label>
                                  <Input
                                     type="datetime-local"
                                     min={pickupDate || minDate}
                                     disabled={!pickupDate}
-                                    className="w-full border-0 p-0 text-base md:text-lg font-heading font-black text-white bg-transparent focus-visible:ring-0 shadow-none placeholder:text-white/20 cursor-pointer h-7 md:h-8 disabled:opacity-20 disabled:cursor-not-allowed selection:bg-gold/30"
+                                    className="w-full border-0 p-0 h-6 text-[15px] font-dm-sans text-white bg-transparent focus-visible:ring-0 shadow-none placeholder:text-white/30 cursor-pointer font-normal disabled:opacity-30 disabled:cursor-not-allowed [color-scheme:dark] selection:bg-[#F5C842]/30"
                                     onChange={(e) => setDropoffDate(e.target.value)}
                                     value={dropoffDate}
                                  />
                              </div>
                              
                              {/* Button */}
-                             <div className="w-full md:w-auto p-1 md:p-2">
+                             <div className="p-2 md:pr-2 w-full md:w-auto">
                                  <Button 
-                                    size="lg" 
                                     onClick={handleSearch}
-                                    className="w-full md:w-auto h-14 md:h-24 aspect-auto md:aspect-square rounded-xl md:rounded-[2rem] bg-gold hover:bg-white text-navy shadow-[0_15px_40px_rgba(255,215,0,0.2)] hover:shadow-[0_20px_50px_rgba(255,215,0,0.4)] hover:scale-[1.02] md:hover:scale-105 active:scale-95 transition-all duration-500 p-0 flex items-center justify-center group/btn relative overflow-hidden group-hover/pill:shadow-gold/10"
+                                    className="w-full md:w-auto h-[60px] md:h-full aspect-auto md:aspect-square rounded-[18px] bg-[#F5C842] hover:bg-[#FFD96A] text-[#0a0a0a] shadow-[0_10px_30px_rgba(245,200,66,0.25)] hover:shadow-[0_14px_40px_rgba(245,200,66,0.45)] hover:scale-[1.03] hover:-translate-y-[2px] transition-all duration-500 p-0 flex flex-col items-center justify-center group/btn relative overflow-hidden active:scale-95"
                                  >
-                                    <div className="absolute inset-0 bg-gradient-to-tr from-white/60 to-transparent opacity-0 group-hover/btn:opacity-100 transition-opacity" />
-                                    <Search className="w-5 h-5 md:w-10 md:h-10 group-hover/btn:scale-110 group-hover/btn:rotate-6 transition-all duration-500 relative z-10 stroke-[2.5px]" />
-                                    <span className="md:hidden ml-3 font-black text-lg relative z-10 uppercase tracking-widest">{t('findCar')}</span>
+                                    <div className="flex flex-row md:flex-col items-center gap-2">
+                                        <Search className="w-5 h-5 stroke-[2.5px] group-hover/btn:translate-x-[3px] md:group-hover/btn:translate-x-0 md:group-hover/btn:-translate-y-1 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]" />
+                                        <span className="font-dm-sans font-bold text-[11px] uppercase tracking-widest">{t('findCar').split(' ')[0]}</span>
+                                    </div>
                                  </Button>
                              </div>
+                         </div>
+
+                         {/* Perks Strip */}
+                         <div className="border-t border-white/10 px-7 py-3 flex flex-wrap justify-center md:justify-start gap-6 bg-black/20">
+                            {[
+                                t('trust1'),
+                                t('trust2'),
+                                t('trust3')
+                            ].map((item, index) => (
+                                <div key={index} className="flex items-center gap-2">
+                                    <div className="w-1 h-1 rounded-full bg-[#F5C842] shadow-[0_0_5px_#F5C842]" />
+                                    <span className="font-dm-sans text-[11px] tracking-wide text-white/50">{item}</span>
+                                </div>
+                            ))}
                          </div>
                      </div>
                  </motion.div>
                  
-                 {/* Trust Indicators */}
-                 <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.8 }}
-                    className="flex flex-wrap justify-center gap-4 md:gap-12 pt-4"
-                 >
-                    {[
-                        t('trust1'),
-                        t('trust2'),
-                        t('trust3')
-                    ].map((item, index) => (
-                        <div key={index} className="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10">
-                            <CheckCircle2 className="w-3.5 h-3.5 text-gold" />
-                            <span className="font-medium text-white/90 text-xs md:text-base">{item}</span>
-                        </div>
-                    ))}
-                 </motion.div>
-                 
                  {/* Scroll Indicator */}
                  <motion.div 
-                    animate={{ y: [0, 10, 0] }}
-                    transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1.0, duration: 1.0 }}
                     onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
-                    className="absolute bottom-8 left-1/2 -translate-x-1/2 cursor-pointer hidden md:flex flex-col items-center gap-2 opacity-60 hover:opacity-100 transition-opacity"
+                    className="absolute bottom-8 left-1/2 -translate-x-1/2 cursor-pointer flex flex-col items-center gap-3 opacity-60 hover:opacity-100 transition-opacity"
                  >
-                    <span className="text-[10px] uppercase tracking-[0.2em] text-white">{t('scroll')}</span>
-                    <ChevronDown className="w-5 h-5 text-white" />
+                    <span className="text-[9px] font-dm-sans font-bold uppercase tracking-[0.3em] text-[#F5C842]">{t('scroll')}</span>
+                    <div className="w-[1px] h-12 bg-white/10 relative overflow-hidden">
+                        <motion.div 
+                            animate={{ y: ["-100%", "100%"] }}
+                            transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
+                            className="absolute inset-0 w-full h-full bg-gradient-to-b from-transparent via-[#F5C842] to-transparent"
+                        />
+                    </div>
                  </motion.div>
              </motion.div>
         </section>

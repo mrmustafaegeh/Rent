@@ -16,7 +16,7 @@ export function Footer() {
           <div className="lg:col-span-4 space-y-6">
             <Link href="/" className="inline-block">
                 <span className="font-heading font-black text-2xl tracking-tighter text-white">
-                    MEDITERRANEAN <span className="text-gold">DRIVE</span>
+                    MY <span className="text-gold">ISLAND</span>
                 </span>
             </Link>
             <p className="text-gray-400 font-body leading-relaxed max-w-sm">

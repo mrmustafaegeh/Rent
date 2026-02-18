@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Inter, Cairo } from "next/font/google";
+import { Space_Grotesk, Inter, Cairo, Bebas_Neue, DM_Sans } from "next/font/google"; // already has fonts from separate block replacement
 import "../globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { CurrencyProvider } from "@/context/CurrencyContext";
@@ -8,6 +8,18 @@ import { Toaster } from "react-hot-toast";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
+
+const bebas = Bebas_Neue({
+  variable: "--font-bebas",
+  weight: "400",
+  subsets: ["latin"],
+});
+
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "700"],
+});
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-heading",
@@ -112,7 +124,7 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} dir={isArabic ? 'rtl' : 'ltr'} suppressHydrationWarning>
       <body
-        className={`${spaceGrotesk.variable} ${inter.variable} ${cairo.variable} antialiased ${isArabic ? 'font-arabic' : 'font-body'} bg-background text-foreground`}
+        className={`${spaceGrotesk.variable} ${inter.variable} ${cairo.variable} ${bebas.variable} ${dmSans.variable} antialiased ${isArabic ? 'font-arabic' : 'font-body'} bg-background text-foreground`}
       >
         <NextIntlClientProvider messages={messages}>
           <NextAuthProvider>

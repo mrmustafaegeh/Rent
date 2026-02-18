@@ -77,7 +77,7 @@ export function Header() {
              <Car className="h-6 w-6 text-white" />
           </div>
           <span className="font-heading font-black text-2xl tracking-tight text-white">
-            MEDITERRANEAN<span className="text-gold">DRIVE</span>
+            MY<span className="text-gold">ISLAND</span>
           </span>
         </Link>
         

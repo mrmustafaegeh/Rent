@@ -1,6 +1,7 @@
 import { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import FacebookProvider from 'next-auth/providers/facebook';
+import AppleProvider from 'next-auth/providers/apple';
 import prisma from '@/lib/prisma';
 
 export const authOptions: NextAuthOptions = {
@@ -12,6 +13,10 @@ export const authOptions: NextAuthOptions = {
         FacebookProvider({
             clientId: process.env.FACEBOOK_CLIENT_ID || '',
             clientSecret: process.env.FACEBOOK_CLIENT_SECRET || ''
+        }),
+        AppleProvider({
+            clientId: process.env.APPLE_ID || '',
+            clientSecret: process.env.APPLE_SECRET || ''
         })
     ],
     callbacks: {
@@ -19,7 +24,7 @@ export const authOptions: NextAuthOptions = {
             try {
                 if (!user.email) return false;
                 
-                if (account?.provider === 'google' || account?.provider === 'facebook') {
+                if (['google', 'facebook', 'apple'].includes(account?.provider || '')) {
                     const existingUser = await prisma.user.findUnique({
                         where: { email: user.email }
                     });
