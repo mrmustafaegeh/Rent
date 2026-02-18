@@ -697,7 +697,11 @@
     "searchPlaceholder": "Search reviews...",
     "filter": "Filter Reviews",
     "noReviews": "No reviews found",
-    "noReviewsDesc": "There are no reviews matching your criteria."
+    "noReviewsDesc": "There are no reviews matching your criteria.",
+    "actions": {
+      "approve": "Approve",
+      "reject": "Reject"
+    }
   },
   "ListCar": {
     "title": "List Your Vehicle",

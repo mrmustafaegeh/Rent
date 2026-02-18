@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Star, CheckCircle, XCircle, Search, Filter } from 'lucide-react';
+import { Star, CheckCircle, XCircle, Search, Filter, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
@@ -131,4 +131,4 @@ export default function ReviewsList({ initialReviews }: { initialReviews: any[] 
     );
 }
 
-import { MessageSquare } from 'lucide-react';
+
