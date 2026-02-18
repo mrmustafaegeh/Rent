@@ -19,36 +19,45 @@ import { getTranslations } from 'next-intl/server';
 import { getVehicles as getVehiclesFromService } from "@/services/vehicleService";
 
 async function getVehiclesData() {
-  // Fetch luxury
-  const luxuryResult = await getVehiclesFromService({ 
-    category: 'Luxury', // Simplified for now, or we can handle array in service if needed
-    type: 'rent',
-    status: 'approved',
-    limit: 8,
-    sort: 'price_desc'
-  });
+  try {
+    // Fetch luxury
+    const luxuryResult = await getVehiclesFromService({ 
+      category: 'Luxury', 
+      type: 'rent',
+      status: 'approved',
+      limit: 8,
+      sort: 'price_desc'
+    });
 
-  // Fetch affordable
-  const affordableResult = await getVehiclesFromService({ 
-    type: 'rent',
-    status: 'approved',
-    maxPrice: 60,
-    limit: 4,
-    sort: 'price_asc'
-  });
+    // Fetch affordable
+    const affordableResult = await getVehiclesFromService({ 
+      type: 'rent',
+      status: 'approved',
+      maxPrice: 60,
+      limit: 4,
+      sort: 'price_asc'
+    });
 
-  // Fetch cars for sale
-  const saleResult = await getVehiclesFromService({
+    // Fetch cars for sale
+    const saleResult = await getVehiclesFromService({
       type: 'sale',
       status: 'approved',
       limit: 4
-  });
+    });
 
-  return {
-    luxury: luxuryResult.vehicles,
-    affordable: affordableResult.vehicles,
-    forSale: saleResult.vehicles
-  };
+    return {
+      luxury: luxuryResult.vehicles,
+      affordable: affordableResult.vehicles,
+      forSale: saleResult.vehicles
+    };
+  } catch (error) {
+    console.error("Failed to fetch home page data:", error);
+    return {
+      luxury: [],
+      affordable: [],
+      forSale: []
+    };
+  }
 }
 
 export default async function Home() {
