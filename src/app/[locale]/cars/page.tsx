@@ -2,13 +2,11 @@ import { Header } from "@/components/Header"
 import { Footer } from "@/components/Footer"
 import { CarFilters } from "@/components/features/cars/CarFilters"
 import { VehicleCard } from "@/components/features/vehicle/VehicleCard"
-import dbConnect from "@/lib/mongodb"
-import Vehicle from "@/models/Vehicle"
 import { Filter, ChevronDown, ArrowUpDown } from "lucide-react"
 import { Button } from "@/components/ui/Button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/Sheet"
 import Image from "next/image"
-import { getVehicles, VehicleFilterParams } from "@/lib/vehicleService"
+import { getVehicles, VehicleFilterParams } from "@/services/vehicleService"
 import { getTranslations } from "next-intl/server"
 
 export const metadata = {
@@ -26,8 +24,10 @@ async function getVehiclesData(searchParams: { [key: string]: string | string[] 
         fuelType: typeof searchParams.fuelType === 'string' ? searchParams.fuelType : undefined,
         minPrice: searchParams.minPrice ? parseInt(searchParams.minPrice as string) : undefined,
         maxPrice: searchParams.maxPrice ? parseInt(searchParams.maxPrice as string) : undefined,
+        startDate: typeof searchParams.pickup === 'string' ? new Date(searchParams.pickup) : undefined,
+        endDate: typeof searchParams.dropoff === 'string' ? new Date(searchParams.dropoff) : undefined,
         type: 'rent', // Fleet page is for rentals
-        status: 'approved', // Only show approved cars to users
+        status: 'APPROVED', // Only show approved cars to users (Prisma Enum is uppercase)
         limit: 100, // Show many for now
     };
 
@@ -35,15 +35,14 @@ async function getVehiclesData(searchParams: { [key: string]: string | string[] 
     return result.vehicles;
 }
 
-export default async function CarsPage({
-  searchParams,
-  params: { locale }
-}: {
+export default async function CarsPage(props: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>,
-  params: { locale: string }
+  params: Promise<{ locale: string }>
 }) {
-    const params = await searchParams
-    const vehicles = await getVehiclesData(params)
+    const searchParams = await props.searchParams
+    const params = await props.params
+    const locale = params.locale
+    const vehicles = await getVehiclesData(searchParams)
     const t = await getTranslations('CarsPage');
 
     return (
@@ -129,7 +128,7 @@ export default async function CarsPage({
                         ) : (
                             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
                                 {vehicles.map((vehicle: any) => (
-                                    <VehicleCard key={vehicle._id} vehicle={vehicle} />
+                                    <VehicleCard key={vehicle.id} vehicle={vehicle} />
                                 ))}
                             </div>
                         )}

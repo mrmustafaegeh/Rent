@@ -1,6 +1,5 @@
 import { MetadataRoute } from 'next';
-import dbConnect from '@/lib/mongodb';
-import Vehicle from '@/models/Vehicle';
+import prisma from '@/lib/prisma';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
@@ -13,15 +12,27 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/locations',
     '/how-it-works',
     '/about',
-    '/auth/login',
-    '/auth/register',
+    '/contact',
+    '/blog',
+    '/car-rental-north-cyprus',
+    '/car-rental-kyrenia',
+    '/car-rental-nicosia',
+    '/car-rental-famagusta',
+    '/ercan-airport-car-rental',
+    '/luxury-car-rental-north-cyprus',
+    '/cheap-car-rental-north-cyprus',
+    '/legal/terms',
+    '/legal/privacy',
+    '/legal/refunds',
   ];
 
   // Dynamic vehicle routes
-  let vehicles: Array<{ _id: { toString(): string }; updatedAt?: Date }> = [];
+  let vehicles: Array<{ id: string; updatedAt: Date }> = [];
   try {
-    await dbConnect();
-    vehicles = await Vehicle.find({ status: 'approved' }).select('_id updatedAt').exec();
+    vehicles = await prisma.vehicle.findMany({
+        where: { status: 'APPROVED' },
+        select: { id: true, updatedAt: true }
+    });
   } catch (error) {
     console.warn('Sitemap generation: failed to fetch vehicles', error);
   }
@@ -43,7 +54,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Add vehicle routes
     vehicles.forEach((vehicle) => {
         allRoutes.push({
-            url: `${baseUrl}/${locale}/cars/${vehicle._id}`,
+            url: `${baseUrl}/${locale}/cars/${vehicle.id}`,
             lastModified: vehicle.updatedAt || new Date(),
             changeFrequency: 'weekly',
             priority: 0.7,

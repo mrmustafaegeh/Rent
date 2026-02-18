@@ -19,7 +19,10 @@
     "language": "Γλώσσα",
     "currency": "Νόμισμα",
     "partners": "Συνεργάτες",
-    "listCar": "Καταχωρήστε το αυτοκίνητό σας"
+    "listCar": "Καταχωρήστε το αυτοκίνητό σας",
+    "changeCurrency": "Αλλαγή Νομίσματος",
+    "menuOpen": "Άνοιγμα μενού",
+    "menuClose": "Κλείσιμο μενού"
   },
   "Common": {
     "loading": "Φόρτωση...",
@@ -281,6 +284,9 @@
   "CarFilters": {
     "title": "Φίλτρα",
     "reset": "Επαναφορά",
+    "rentalDates": "Ημερομηνίες Ενοικίασης",
+    "pickup": "Παραλαβή",
+    "dropoff": "Επιστροφή",
     "priceRange": "Εύρος Τιμής / Ημέρα",
     "category": "Κατηγορία",
     "transmission": "Κιβώτιο",

@@ -57,16 +57,16 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
     
     // Calculate based on duration
     let price = 0;
-    if (days >= 30 && vehicle.pricing.monthly) {
+    if (days >= 30 && vehicle.monthlyPrice) {
       const months = Math.floor(days / 30);
       const remainingDays = days % 30;
-      price = (months * vehicle.pricing.monthly) + (remainingDays * vehicle.pricing.daily);
-    } else if (days >= 7 && vehicle.pricing.weekly) {
+      price = (months * vehicle.monthlyPrice) + (remainingDays * vehicle.dailyPrice);
+    } else if (days >= 7 && vehicle.weeklyPrice) {
       const weeks = Math.floor(days / 7);
       const remainingDays = days % 7;
-      price = (weeks * vehicle.pricing.weekly) + (remainingDays * vehicle.pricing.daily);
+      price = (weeks * vehicle.weeklyPrice) + (remainingDays * vehicle.dailyPrice);
     } else {
-      price = days * vehicle.pricing.daily;
+      price = days * vehicle.dailyPrice;
     }
     
     setCalculatedPrice(price);
@@ -75,7 +75,7 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
   // WhatsApp & Phone
   const phoneNumber = vehicle.company?.phone || '+971501234567';
   const whatsappMessage = encodeURIComponent(
-    `Hi! I'm interested in renting the ${vehicle.brand} ${vehicle.vehicleModel} ${vehicle.year}\n\nDaily Rate: AED ${vehicle.pricing.daily}\n${startDate && endDate ? `\nDates: ${startDate} to ${endDate}` : ''}`
+    `Hi! I'm interested in renting the ${vehicle.brand} ${vehicle.vehicleModel} ${vehicle.year}\n\nDaily Rate: AED ${vehicle.dailyPrice}\n${startDate && endDate ? `\nDates: ${startDate} to ${endDate}` : ''}`
   );
   const whatsappUrl = `https://wa.me/${phoneNumber.replace(/[^0-9]/g, '')}?text=${whatsappMessage}`;
 
@@ -216,7 +216,7 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
                   <div>
                     <p className="text-xs text-[var(--text-secondary)]">Origin</p>
                     <p className="font-semibold text-white">
-                      {vehicle.specs?.origin || 'GCC'}
+                      {vehicle.origin || 'GCC'}
                     </p>
                   </div>
                 </div>
@@ -249,7 +249,7 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
                   <div>
                     <p className="font-semibold text-white">Minimum Rental Period</p>
                     <p className="text-sm text-[var(--text-secondary)]">
-                      {vehicle.specs?.minRentalDays || 1} day(s)
+                      {vehicle.minRentalDays || 1} day(s)
                     </p>
                   </div>
                 </div>
@@ -259,7 +259,7 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
                   <div>
                     <p className="font-semibold text-white">Insurance</p>
                     <p className="text-sm text-[var(--text-secondary)]">
-                      {vehicle.specs?.insurance ? 'Basic insurance included' : 'Not included'}
+                      {vehicle.insurance ? 'Basic insurance included' : 'Not included'}
                     </p>
                   </div>
                 </div>
@@ -269,8 +269,8 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
                   <div>
                     <p className="font-semibold text-white">Mileage Limit</p>
                     <p className="text-sm text-[var(--text-secondary)]">
-                      {vehicle.mileageLimits?.daily || 250} km per day<br />
-                      {vehicle.mileageLimits?.monthly || 4500} km per month
+                      {vehicle.dailyMileage || 250} km per day<br />
+                      {vehicle.monthlyMileage || 4500} km per month
                     </p>
                   </div>
                 </div>
@@ -326,30 +326,30 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
                 <div className="flex items-baseline justify-between">
                   <div>
                     <span className="text-3xl font-bold text-white">
-                      AED {vehicle.pricing.daily.toLocaleString()}
+                      AED {vehicle.dailyPrice.toLocaleString()}
                     </span>
                     <span className="text-[var(--text-secondary)]"> / day</span>
                   </div>
                   <div className="text-right">
                     <p className="text-xs text-[var(--text-muted)]">Mileage</p>
                     <p className="font-semibold text-[var(--text-secondary)]">
-                      {vehicle.mileageLimits?.daily || 250} km
+                      {vehicle.dailyMileage || 250} km
                     </p>
                   </div>
                 </div>
 
-                {vehicle.pricing.monthly && (
+                {vehicle.monthlyPrice && (
                   <div className="flex items-baseline justify-between">
                     <div>
                       <span className="text-xl font-semibold text-[var(--text-secondary)]">
-                        AED {vehicle.pricing.monthly.toLocaleString()}
+                        AED {vehicle.monthlyPrice.toLocaleString()}
                       </span>
                       <span className="text-[var(--text-muted)] text-sm"> / month</span>
                     </div>
                     <div className="text-right">
                       <p className="text-xs text-[var(--text-muted)]">Mileage</p>
                       <p className="font-semibold text-[var(--text-secondary)]">
-                        {vehicle.mileageLimits?.monthly || 4500} km
+                        {vehicle.monthlyMileage || 4500} km
                       </p>
                     </div>
                   </div>

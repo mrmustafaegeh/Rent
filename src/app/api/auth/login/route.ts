@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
-import dbConnect from '@/lib/mongodb';
-import User from '@/models/User';
+import prisma from '@/lib/prisma';
 import jwt from 'jsonwebtoken';
 import { serialize } from 'cookie';
 import { rateLimit, getIp } from '@/lib/rateLimit';
+import bcrypt from 'bcryptjs';
 
 export async function POST(request: Request) {
   try {
@@ -12,26 +12,25 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: 'Too many requests, please try again later.' }, { status: 429 });
     }
 
-    await dbConnect();
     const { email, password } = await request.json();
 
     if (!email || !password) {
       return NextResponse.json({ success: false, error: 'Please provide an email and password' }, { status: 400 });
     }
 
-    const user = await User.findOne({ email }).select('+password');
+    const user = await prisma.user.findUnique({ where: { email } });
 
     if (!user) {
       return NextResponse.json({ success: false, error: 'Invalid credentials' }, { status: 401 });
     }
 
-    const isMatch = await user.matchPassword(password);
+    const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
       return NextResponse.json({ success: false, error: 'Invalid credentials' }, { status: 401 });
     }
 
-    const token = jwt.sign({ id: user._id } as object, process.env.JWT_SECRET as string, {
+    const token = jwt.sign({ id: user.id } as object, process.env.JWT_SECRET as string, {
       expiresIn: (process.env.JWT_EXPIRE || '30d') as jwt.SignOptions['expiresIn']
     });
 
@@ -46,8 +45,8 @@ export async function POST(request: Request) {
       success: true,
       token,
       user: {
-        id: user._id,
-        name: `${user.firstName} ${user.lastName}`,
+        id: user.id,
+        name: user.name,
         email: user.email,
         role: user.role
       }
@@ -57,6 +56,7 @@ export async function POST(request: Request) {
     return response;
 
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    console.error('Login error:', error);
+    return NextResponse.json({ success: false, error: 'Internal server error' }, { status: 500 });
   }
 }

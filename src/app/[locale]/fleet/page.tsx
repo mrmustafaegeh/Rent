@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { getVehicles, VehicleFilterParams } from '@/lib/vehicleService';
+import { getVehicles, VehicleFilterParams } from '@/services/vehicleService';
 import FilterSidebar from '@/components/fleet/FilterSidebar';
 import VehicleResultSection from '@/components/fleet/VehicleResultSection';
 import { Metadata } from 'next';

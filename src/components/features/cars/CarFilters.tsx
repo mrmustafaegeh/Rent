@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/Separator"
 import { Button } from "@/components/ui/Button"
 import { Input } from "@/components/ui/Input"
 import { Label } from "@/components/ui/Label"
-import { ChevronDown, ChevronUp, FilterX } from "lucide-react"
+import { ChevronDown, ChevronUp, FilterX, Calendar } from "lucide-react"
 
 import { useTranslations } from "next-intl"
 
@@ -66,6 +66,31 @@ export function CarFilters() {
         return searchParams.getAll(key).includes(value)
     }
 
+    const [dates, setDates] = useState({
+        pickup: searchParams.get('pickup') || '',
+        dropoff: searchParams.get('dropoff') || ''
+    });
+
+    useEffect(() => {
+        setDates({
+            pickup: searchParams.get('pickup') || '',
+            dropoff: searchParams.get('dropoff') || ''
+        });
+    }, [searchParams]);
+
+    const handleDateChange = (key: 'pickup' | 'dropoff', value: string) => {
+        setDates(prev => ({ ...prev, [key]: value }));
+        
+        // Update URL immediately (or could be onBlur)
+        const params = new URLSearchParams(searchParams.toString());
+        if (value) {
+            params.set(key, value);
+        } else {
+            params.delete(key);
+        }
+        router.push(`/cars?${params.toString()}`, { scroll: false });
+    };
+
     return (
         <div className="space-y-8 bg-white p-8 rounded-3xl border border-gray-100 shadow-sm">
             <div className="flex items-center justify-between">
@@ -76,6 +101,56 @@ export function CarFilters() {
                 </Button>
             </div>
             
+            <Separator className="bg-gray-100" />
+
+            {/* Date Range */}
+            <div className="space-y-4">
+                 <div className="flex items-center justify-between">
+                     <h4 className="font-bold text-sm text-navy uppercase tracking-wider">{t('rentalDates')}</h4>
+                     {(dates.pickup || dates.dropoff) && (
+                         <button 
+                            onClick={() => {
+                                setDates({ pickup: '', dropoff: '' });
+                                const params = new URLSearchParams(searchParams.toString());
+                                params.delete('pickup');
+                                params.delete('dropoff');
+                                router.push(`/cars?${params.toString()}`, { scroll: false });
+                            }}
+                            className="text-[10px] font-bold text-gray-400 hover:text-navy uppercase tracking-tight transition-colors"
+                         >
+                             Clear
+                         </button>
+                     )}
+                 </div>
+                 <div className="space-y-3">
+                    <div className="space-y-1.5 group">
+                        <Label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1 group-focus-within:text-gold transition-colors">{t('pickup')}</Label>
+                        <div className="relative">
+                            <Calendar className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none group-focus-within:text-gold transition-colors" />
+                            <Input 
+                                type="datetime-local" 
+                                value={dates.pickup} 
+                                onChange={(e) => handleDateChange('pickup', e.target.value)}
+                                className="bg-gray-50/50 border-gray-200 rounded-xl pl-10 h-12 text-sm font-medium focus:bg-white focus:ring-gold/20 focus:border-gold transition-all"
+                            />
+                        </div>
+                    </div>
+                    <div className="space-y-1.5 group">
+                        <Label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1 group-focus-within:text-gold transition-colors">{t('dropoff')}</Label>
+                        <div className="relative">
+                            <Calendar className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none group-focus-within:text-gold transition-colors" />
+                            <Input 
+                                type="datetime-local" 
+                                value={dates.dropoff} 
+                                onChange={(e) => handleDateChange('dropoff', e.target.value)}
+                                className="bg-gray-50/50 border-gray-200 rounded-xl pl-10 h-12 text-sm font-medium focus:bg-white focus:ring-gold/20 focus:border-gold transition-all"
+                                min={dates.pickup}
+                            />
+                        </div>
+                    </div>
+                 </div>
+            </div>
+
             <Separator className="bg-gray-100" />
             
             {/* Price Range */}

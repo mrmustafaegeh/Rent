@@ -101,7 +101,7 @@ export default function VehicleResultSection({ vehicles, pagination }: VehicleRe
                 />
              ) : (
                 // List View Card
-                <div key={vehicle._id} className="bg-[var(--surface-light)] border border-[var(--border)] rounded-xl p-4 flex flex-col sm:flex-row gap-6 hover:border-[var(--primary)] transition-all">
+                <div key={vehicle.id} className="bg-[var(--surface-light)] border border-[var(--border)] rounded-xl p-4 flex flex-col sm:flex-row gap-6 hover:border-[var(--primary)] transition-all">
                   <div className="relative w-full sm:w-64 h-48 flex-shrink-0 bg-[var(--surface-lighter)] text-white rounded-lg overflow-hidden">
                     <OptimizedImage 
                       src={vehicle.images?.[0]?.url || ''} 
@@ -119,7 +119,7 @@ export default function VehicleResultSection({ vehicles, pagination }: VehicleRe
                             <h3 className="text-xl font-bold text-white mt-1">{vehicle.vehicleModel}</h3>
                          </div>
                          <div className="text-right">
-                            <div className="text-xl font-bold text-white">{formatPrice(vehicle.pricing.daily)}</div>
+                            <div className="text-xl font-bold text-white">{formatPrice(vehicle.dailyPrice)}</div>
                             <div className="text-xs text-[var(--text-secondary)]">/day</div>
                          </div>
                       </div>
@@ -139,7 +139,7 @@ export default function VehicleResultSection({ vehicles, pagination }: VehicleRe
                       </div>
                     </div>
                     <div className="mt-4 sm:mt-0 pt-4 sm:pt-0 flex justify-end">
-                       <Link href={`/vehicles/${vehicle._id}`}>
+                       <Link href={`/vehicles/${vehicle.id}`}>
                          <Button className="w-full sm:w-auto">Rent Now</Button>
                        </Link>
                     </div>

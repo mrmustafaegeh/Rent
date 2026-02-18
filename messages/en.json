@@ -19,7 +19,10 @@
     "language": "Language",
     "currency": "Currency",
     "partners": "Partners",
-    "listCar": "List Your Car"
+    "listCar": "List Your Car",
+    "changeCurrency": "Change Currency",
+    "menuOpen": "Open menu",
+    "menuClose": "Close menu"
   },
   "Common": {
     "loading": "Loading...",
@@ -48,7 +51,8 @@
       "ercan": "Ercan Airport",
       "nicosia": "Nicosia (Lefkoşa)",
       "kyrenia": "Kyrenia (Girne)",
-      "famagusta": "Famagusta (Gazimağusa)"
+      "famagusta": "Famagusta (Gazimağusa)",
+      "lefkosha": "Lefkoşa"
     }
   },
   "Footer": {
@@ -78,7 +82,8 @@
       "privacy": "Privacy Policy",
       "insurance": "Insurance Info",
       "sitemap": "Sitemap",
-      "partners": "Partner Program"
+      "partners": "Partner Program",
+      "touristRules": "Tourist Rules"
     }
   },
   "VehicleCard": {
@@ -101,19 +106,28 @@
     "transmissions": {
       "Automatic": "Automatic",
       "Manual": "Manual",
-      "Auto": "Auto"
+      "Auto": "Auto",
+      "AUTOMATIC": "Automatic",
+      "MANUAL": "Manual"
     },
     "fuelTypes": {
       "Petrol": "Petrol",
       "Diesel": "Diesel",
       "Electric": "Electric",
-      "Hybrid": "Hybrid"
+      "Hybrid": "Hybrid",
+      "PETROL": "Petrol",
+      "DIESEL": "Diesel"
     },
     "locations": {
       "ercan": "Ercan Airport",
-      "nicosia": "Nicosia",
-      "kyrenia": "Kyrenia",
-      "famagusta": "Famagusta"
+      "nicosia": "Nicosia (Lefkoşa)",
+      "kyrenia": "Kyrenia (Girne)",
+      "famagusta": "Famagusta (Gazimağusa)",
+      "lefkosha": "Lefkoşa",
+      "Kyrenia": "Kyrenia",
+      "Nicosia": "Nicosia",
+      "Famagusta": "Famagusta",
+      "Ercan": "Ercan"
     }
   },
   "LuxuryShowcase": {
@@ -303,6 +317,9 @@
   "CarFilters": {
     "title": "Filters",
     "reset": "Reset",
+    "rentalDates": "Rental Dates",
+    "pickup": "Pickup",
+    "dropoff": "Dropoff",
     "priceRange": "Price Range / Day",
     "category": "Category",
     "transmission": "Transmission",
@@ -324,7 +341,9 @@
       "Petrol": "Petrol",
       "Diesel": "Diesel",
       "Electric": "Electric",
-      "Hybrid": "Hybrid"
+      "Hybrid": "Hybrid",
+      "PETROL": "Petrol",
+      "DIESEL": "Diesel"
     }
   },
   "VehicleDetails": {
@@ -371,13 +390,17 @@
     "transmissions": {
       "Automatic": "Automatic",
       "Manual": "Manual",
-      "Auto": "Auto"
+      "Auto": "Auto",
+      "AUTOMATIC": "Automatic",
+      "MANUAL": "Manual"
     },
     "fuelTypes": {
       "Petrol": "Petrol",
       "Diesel": "Diesel",
       "Electric": "Electric",
-      "Hybrid": "Hybrid"
+      "Hybrid": "Hybrid",
+      "PETROL": "Petrol",
+      "DIESEL": "Diesel"
     },
     "badges": {
       "insurance": {
@@ -409,7 +432,8 @@
       "kyrenia": "Kyrenia",
       "nicosia": "Nicosia",
       "famagusta": "Famagusta",
-      "ercan": "Ercan Airport"
+      "ercan": "Ercan Airport",
+      "lefkosha": "Lefkoşa"
     },
     "defaultBranchDesc": "Visit our premium branch in {city} for personalized service and a wide range of luxury vehicles.",
     "labels": {
@@ -650,6 +674,18 @@
       "unexpected": "An unexpected error occurred. Please try again."
     }
   },
+  "Reviews": {
+    "rateVehicle": "Rate Vehicle",
+    "givenReview": "Review Submitted",
+    "title": "Rate your experience",
+    "description": "How was your trip with the {vehicleName}?",
+    "placeholder": "Tell us about your experience...",
+    "cancel": "Cancel",
+    "submit": "Submit Review",
+    "submitting": "Submitting...",
+    "success": "Review submitted successfully!",
+    "error": "Failed to submit review"
+  },
   "ListCar": {
     "title": "List Your Vehicle",
     "subtitle": "Fill out the details below to list your car for sale on our premium marketplace.",
@@ -677,6 +713,159 @@
       "desc": "Your vehicle has been successfully submitted for review. Once approved by our team, it will appear in the \"Buy Car\" section.",
       "dashboard": "Go to Dashboard",
       "home": "Back to Home"
+    }
+  },
+  "SEO": {
+    "northCyprus": {
+      "metaTitle": "Car Rental North Cyprus | Best Rates & Premium Fleet | RentalX",
+      "metaDescription": "Rent a car in North Cyprus with RentalX. Choose from luxury, SUV, and economy vehicles. Instant booking, transparent pricing, and 24/7 support across Girne, Lefkoşa, and Gazimağusa.",
+      "h1": "Car Rental North Cyprus",
+      "title": "Explore North Cyprus in Style",
+      "intro": "Welcome to RentalX, your premier destination for reliable and premium car rentals in Northern Cyprus (TRNC). Whether you're visiting for business or leisure, our extensive fleet ensures you find the perfect vehicle for the Mediterranean roads.",
+      "sections": [
+        {
+          "title": "Why Rent a Car in North Cyprus?",
+          "content": "Exploring Northern Cyprus is best done by car. From the historic harbor of Kyrenia to the golden sands of Karpaz, having your own vehicle gives you the freedom to discover hidden gems at your own pace. Public transport is limited, making car rental the most practical choice for tourists and professionals alike."
+        },
+        {
+          "title": "Our Fleet Collections",
+          "content": "We offer a diverse range of vehicles to suit every need. Choose our Luxury Collection for a prestigious experience, our SUV & 4x4 options for mountain adventures, or our Economy range for budget-friendly travel without compromising on quality."
+        },
+        {
+          "title": "Transparent Pricing & No Hidden Fees",
+          "content": "At RentalX, we believe in honesty. The price you see is the price you pay. All rentals include basic insurance, and we offer clear upgrades for full coverage. Our booking process is streamlined to get you on the road as quickly as possible."
+        }
+      ],
+      "faq": {
+        "title": "North Cyprus Car Rental FAQ",
+        "items": [
+          {
+            "q": "Can I pick up my car at Ercan Airport?",
+            "a": "Yes, we provide 24/7 delivery and pickup services at Ercan Airport (ECN). Your driver will meet you at the arrivals gate."
+          },
+          {
+            "q": "What side of the road do you drive on in North Cyprus?",
+            "a": "Like the UK, we drive on the left side of the road in North Cyprus."
+          }
+        ]
+      }
+    },
+    "kyrenia": {
+      "metaTitle": "Car Rental Kyrenia (Girne) | Premium Vehicle Hire | RentalX",
+      "metaDescription": "Looking for car rental in Kyrenia? RentalX offers the best selection of luxury and economy cars in Girne. Pick up at the harbor, city center, or your hotel.",
+      "h1": "Car Rental Kyrenia (Girne)",
+      "title": "Your Journey in the Pearl of the Mediterranean",
+      "intro": "Kyrenia is the most popular tourist destination in North Cyprus. With RentalX, you can enjoy a seamless rental experience right in the heart of Girne.",
+      "sections": [
+        {
+          "title": "Explore Kyrenia Harbor & Castle",
+          "content": "With a rental car, you can easily visit the iconic Kyrenia Harbor and the majestic Kyrenia Castle. Avoid the heat and travel in comfort with our modern, air-conditioned fleet."
+        }
+      ]
+    },
+    "nicosia": {
+      "metaTitle": "Car Rental Nicosia (Lefkoşa) | Business & City Car Hire | RentalX",
+      "metaDescription": "Rent a car in Nicosia with RentalX. Best rates for business travelers and tourists in the capital. Convenient city center pickup and drop-off.",
+      "h1": "Car Rental Nicosia (Lefkoşa)",
+      "title": "Drive Through the Capital",
+      "intro": "As the business and administrative heart of North Cyprus, Nicosia requires reliable mobility. RentalX provides professional service for both corporate and leisure travelers.",
+      "sections": [
+        {
+          "title": "Perfect for Business & City Exploration",
+          "content": "Navigate the bustling streets of Lefkoşa with ease. Our compact city cars are perfect for parking, while our executive sedans offer the comfort needed for professional meetings."
+        }
+      ]
+    },
+    "famagusta": {
+      "metaTitle": "Car Rental Famagusta (Gazimağusa) | Explore the Historic East | RentalX",
+      "metaDescription": "Explore Famagusta with RentalX. Rent a car to visit the Old City, Salamis Ruins, and the stunning beaches of the east coast.",
+      "h1": "Car Rental Famagusta (Gazimağusa)",
+      "title": "Historical Adventures in Gazimağusa",
+      "intro": "Famagusta offers a unique blend of history and beaches. Having a car is essential to explore the vast archaeological sites of Salamis and the ghost town of Varosha.",
+      "sections": [
+        {
+          "title": "Your Gateway to the East Coast",
+          "content": "Gazimağusa is the perfect base for exploring the eastern part of the island. Our SUVs and reliable sedans are ready to take you on your next historical adventure."
+        }
+      ]
+    },
+    "ercan": {
+      "metaTitle": "Ercan Airport Car Rental | 24/7 Terminal Pickup | RentalX",
+      "metaDescription": "Rent your car at Ercan Airport (ECN) with RentalX. 24/7 service, no waiting, and direct terminal pickup. Book online for the best rates.",
+      "h1": "Ercan Airport Car Rental",
+      "title": "Start Your Trip the Moment You Land",
+      "intro": "Don't waste time waiting for taxis. With RentalX, your car will be waiting for you at Ercan Airport terminal the moment you arrive.",
+      "sections": [
+        {
+          "title": "Seamless Airport Transfers",
+          "content": "Our airport team monitors your flight in real-time. Whether you land early or late, we ensure a smooth handover right at the terminal exit."
+        }
+      ]
+    },
+    "luxury": {
+      "metaTitle": "Luxury Car Rental North Cyprus | Premium & Exotic Cars | RentalX",
+      "metaDescription": "Experience ultimate luxury in North Cyprus. Rent Porsche, Mercedes, and Range Rover with RentalX. VIP service and pristine vehicles.",
+      "h1": "Luxury Car Rental North Cyprus",
+      "title": "Drive Excellence",
+      "intro": "The Mediterranean roads deserve a car that matches the view. Our luxury fleet is curated for those who settle for nothing but the best.",
+      "sections": [
+        {
+          "title": "A Fleet of Prestige",
+          "content": "From high-performance sports cars to executive SUVs, our luxury collection offers the latest models with top-tier specifications."
+        }
+      ]
+    },
+    "cheap": {
+      "metaTitle": "Cheap Car Rental North Cyprus | Budget-Friendly Rates | RentalX",
+      "metaDescription": "Affordable car rental in North Cyprus. Best rates for economy cars. No hidden fees, free cancellation, and reliable service.",
+      "h1": "Cheap Car Rental North Cyprus",
+      "title": "Quality Travel on a Budget",
+      "intro": "Traveling in North Cyprus shouldn't be expensive. RentalX offers the most competitive rates for reliable economy vehicles.",
+      "sections": [
+        {
+          "title": "Best Value Guarantee",
+          "content": "Our economy fleet is regularly serviced and fuel-efficient, ensuring you save on both rental costs and pump prices."
+        }
+      ]
+    },
+    "suv": {
+      "metaTitle": "SUV Rental North Cyprus | 4x4 & Family Vehicles | RentalX",
+      "metaDescription": "Rent an SUV in North Cyprus. Perfect for families and mountain roads. Choose from Range Rover, Kia, and Hyundai 4x4 options.",
+      "h1": "SUV Rental North Cyprus",
+      "title": "Space, Comfort & Power",
+      "intro": "Whether you're traveling with family or heading to the Five-Finger Mountains, our SUV collection provides the space and power you need.",
+      "sections": [
+        {
+          "title": "Unmatched Versatility",
+          "content": "Our SUVs are equipped for the diverse terrain of North Cyprus, offering safety for families and performance for the adventurous."
+        }
+      ]
+    },
+    "longTerm": {
+      "metaTitle": "Long Term Car Rental North Cyprus | Monthly & Annual Rates | RentalX",
+      "metaDescription": "Special discounts for long-term car rental in North Cyprus. Monthly and annual rentals available for residents and long-stay tourists.",
+      "h1": "Long Term Car Rental North Cyprus",
+      "title": "Extended Freedom in the Mediterranean",
+      "intro": "Staying for a while? Our long-term rental plans offer the best value for durations over 30 days.",
+      "sections": [
+        {
+          "title": "Tailored Long-Stay Packages",
+          "content": "Benefit from fixed monthly rates, inclusive maintenance, and dedicated priority support for long-term commitments."
+        }
+      ]
+    },
+    "selfDrive": {
+      "metaTitle": "Self-Drive Car Rental Cyprus | Tour the Island at Your Pace | RentalX",
+      "metaDescription": "Self-drive car hire in North Cyprus. Hire a car and explore the beauties of the island. Flexible pickup and wide vehicle selection.",
+      "h1": "Self-Drive Car Rental Cyprus",
+      "title": "You Are in Control of the Journey",
+      "intro": "Experience true independence. Rent any car from our fleet and create your own itinerary across North Cyprus.",
+      "sections": [
+        {
+          "title": "Total Freedom",
+          "content": "With no fixed tours or schedules, self-driving allows you to discover the authentic culture and hidden natural wonders of Cyprus."
+        }
+      ]
     }
   }
 }

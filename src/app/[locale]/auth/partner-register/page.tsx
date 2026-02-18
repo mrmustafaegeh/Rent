@@ -82,7 +82,9 @@ export default function PartnerRegisterPage() {
                 {/* Left Side: Info Panel */}
                 <div className="md:w-5/12 bg-navy p-10 text-white flex flex-col justify-between relative overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-br from-navy to-black opacity-50" />
-                    <div className="absolute inset-0 bg-[url('/images/pattern-grid.png')] opacity-10" />
+                    <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+                         style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} 
+                    />
                     
                     <div className="relative z-10">
                         <Link href="/" className="inline-flex items-center gap-2 mb-10 group">

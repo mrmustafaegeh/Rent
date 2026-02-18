@@ -1,11 +1,9 @@
 import { NextResponse } from 'next/server';
-import dbConnect from '@/lib/mongodb';
-import User from '@/models/User';
-import Company from '@/models/Company';
+import prisma from '@/lib/prisma';
+import bcrypt from 'bcryptjs';
 
 export async function POST(req: Request) {
   try {
-    await dbConnect();
     const body = await req.json();
     
     const { 
@@ -19,54 +17,48 @@ export async function POST(req: Request) {
     }
 
     // 2. Check if user exists
-    const userExists = await User.findOne({ email });
+    const userExists = await prisma.user.findUnique({ where: { email } });
     if (userExists) {
         return NextResponse.json({ error: 'User already exists' }, { status: 400 });
     }
 
-    // 3. Check if company exists
-    const companyExists = await Company.findOne({ name: companyName });
-    if (companyExists) {
-        return NextResponse.json({ error: 'Company name already registered' }, { status: 400 });
-    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const fullName = `${firstName} ${lastName}`.trim();
 
-    // 4. Create User
-    const user = await User.create({
-        firstName,
-        lastName,
-        email,
-        phone,
-        password,
-        role: 'company_owner',
-        isActive: true // User can login, but company might be pending
+    // 3. Transactions for User and Company creation
+    const result = await prisma.$transaction(async (tx: any) => {
+        // Create Company
+        const company = await tx.company.create({
+            data: {
+                name: companyName,
+                email: companyEmail || email,
+                phone: companyPhone || phone,
+                address: companyAddress,
+            }
+        });
+
+        // Create User
+        const user = await tx.user.create({
+            data: {
+                name: fullName,
+                email,
+                phone,
+                password: hashedPassword,
+                role: 'PARTNER',
+                companyId: company.id
+            }
+        });
+
+        return { user, company };
     });
 
-    // 5. Create Company
-    const company = await Company.create({
-        name: companyName,
-        email: companyEmail || email,
-        phone: companyPhone || phone,
-        address: { city: companyAddress }, // Simplified for now
-        description: companyDescription,
-        owner: user._id,
-        isActive: false // Pending approval
-    });
-
-    // 6. Link Company to User
-    user.companyId = company._id;
-    await user.save();
-
-    // 7. Notify Admin
-    // In a real app, this would be an actual email call
-    console.log(`[EMAIL to ADMIN] New Partner Registration: ${companyName} by ${firstName} ${lastName} (${email}). Needs approval.`);
-
-    // 7. Return success
+    // 4. Return success
     return NextResponse.json({ 
         success: true, 
         message: 'Partner account created. Please wait for admin approval.',
         data: {
-            user: { id: user._id, email: user.email, role: user.role },
-            company: { id: company._id, name: company.name, status: 'pending' }
+            user: { id: result.user.id, email: result.user.email, role: result.user.role },
+            company: { id: result.company.id, name: result.company.name }
         }
     }, { status: 201 });
 

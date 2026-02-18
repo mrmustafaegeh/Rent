@@ -30,24 +30,20 @@ import { CurrencyCode } from '@/lib/currency';
 import { useTranslations } from 'next-intl';
 
 interface Vehicle {
-  _id: string;
+  id: string;
   brand: string;
   vehicleModel: string;
   year: number;
   category: string;
-  pricing: {
-    daily: number;
-  };
+  dailyPrice: number;
   currency?: string;
   transmission: string;
   fuelType: string;
   seats: number;
-  details?: {
-    description: string;
-    features?: string[];
-  };
+  description?: string;
+  features?: string[];
   images: { url: string; isPrimary: boolean }[];
-  company: {
+  owner?: {
       name: string;
   }
 }
@@ -82,7 +78,7 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         
         if (diffDays > 0) {
-            setTotalPrice(diffDays * vehicle.pricing.daily);
+            setTotalPrice(diffDays * vehicle.dailyPrice);
         } else {
              setTotalPrice(0);
         }
@@ -96,14 +92,14 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
 
     if (!isAuthenticated) {
         // Prepare redirect URL with booking params so they aren't lost
-        const callbackUrl = `/vehicles/${vehicle._id}`; // Ideally pass params too but simple redirect for now
+        const callbackUrl = `/vehicles/${vehicle.id}`; // Ideally pass params too but simple redirect for now
         router.push(`/auth/login?redirect=${encodeURIComponent(callbackUrl)}`);
         return;
     }
 
     // Redirect to checkout with params
     const query = new URLSearchParams({
-        vehicleId: vehicle._id,
+        vehicleId: vehicle.id,
         startDate,
         endDate
     }).toString();
@@ -111,7 +107,7 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
     router.push(`/checkout?${query}`);
   };
 
-  const features = vehicle.details?.features || [
+  const features = vehicle.features || [
       'Leather Interior', 'Navigation System', 'Bluetooth', 'Climate Control', 'Premium Sound'
   ];
 
@@ -192,7 +188,7 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
                                  </div>
                              </div>
                              <div className="flex flex-col items-end">
-                                 <p className="text-3xl font-black text-navy">{formatPrice(vehicle.pricing.daily, vehicleCurrency)}</p>
+                                 <p className="text-3xl font-black text-navy">{formatPrice(vehicle.dailyPrice, vehicleCurrency)}</p>
                                  <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">{t('perDay')}</p>
                              </div>
                         </div>
@@ -238,14 +234,14 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
                          <div className="mt-10 pt-10 border-t border-gray-100">
                             <h3 className="text-xl font-bold text-navy mb-4">{t('descriptionTitle')}</h3>
                             <p className="text-gray-500 leading-relaxed text-sm">
-                                {vehicle.details?.description || t('defaultDescription', { brand: vehicle.brand, model: vehicle.vehicleModel })}
+                                {vehicle.description || t('defaultDescription', { brand: vehicle.brand, model: vehicle.vehicleModel })}
                             </p>
                         </div>
                     </div>
                     
                     {/* Reviews */}
                     <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
-                        <ReviewsSection vehicleId={vehicle._id} />
+                        <ReviewsSection vehicleId={vehicle.id} />
                     </div>
                 </div>
 
@@ -285,7 +281,7 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
                                  <div className="bg-white/10 rounded-xl p-4 mb-6 border border-white/5 animate-in fade-in slide-in-from-bottom-2">
                                      <div className="flex justify-between items-center mb-2">
                                          <span className="text-gray-300 text-sm">{t('rate')}</span>
-                                         <span className="font-bold">{formatPrice(vehicle.pricing.daily, vehicleCurrency)} x {Math.ceil((new Date(endDate).getTime() - new Date(startDate).getTime()) / (1000 * 60 * 60 * 24))} {t('days')}</span>
+                                         <span className="font-bold">{formatPrice(vehicle.dailyPrice, vehicleCurrency)} x {Math.ceil((new Date(endDate).getTime() - new Date(startDate).getTime()) / (1000 * 60 * 60 * 24))} {t('days')}</span>
                                      </div>
                                      <div className="flex justify-between items-center text-sm mb-4">
                                          <span className="text-gray-300">{t('taxes')}</span>
@@ -351,7 +347,7 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
                              <div className="flex justify-center">
                                 <ShareButtons 
                                     vehicle={{ 
-                                        id: vehicle._id, 
+                                        id: vehicle.id, 
                                         brand: vehicle.brand, 
                                         vehicleModel: vehicle.vehicleModel 
                                     }} 

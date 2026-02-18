@@ -47,40 +47,22 @@ export function CategoryGrid() {
         alt: "Red sports car"
     },
     { 
-        name: t('categories.Sedan'), 
-        count: t('vehiclesCount', { count: 25 }), 
-        price: 45, 
-        period: t('perDay'),
-        slug: "Sedan", 
-        image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89",
-        alt: "Electric car charging"
-    },
-    { 
-        name: t('categories.Convertible'), 
-        count: t('vehiclesCount', { count: 250 }), 
-        price: 600, 
-        period: t('perMonth'),
-        slug: "Convertible", 
-        image: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d",
-        alt: "Car driving on highway"
-    },
-    { 
         name: t('categories.Hatchback'), 
         count: t('vehiclesCount', { count: 65 }), 
         price: 25, 
         period: t('perDay'),
         slug: "Hatchback", 
-        image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2",
+        image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&q=80&w=1000",
         alt: "Compact hatchback car"
     },
     { 
         name: t('categories.Electric'), 
         count: t('vehiclesCount', { count: 15 }), 
-        price: 400, 
+        price: 40, 
         period: t('perDay'),
         slug: "Electric", 
         image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70",
-        alt: "Luxury supercar"
+        alt: "Luxury electric car"
     },
   ];
 
@@ -95,7 +77,7 @@ export function CategoryGrid() {
            
            {/* Grid */}
            <div 
-             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
            >
               {categories.map((cat) => (
                  <Link key={cat.slug} href={`/cars?category=${cat.slug}`} className="block h-full group">

@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-import Image from "next/image"
+import { OptimizedImage } from "@/components/ui/OptimizedImage"
 import { motion } from "framer-motion"
 import { Phone, Check, Gauge, Fuel, Users, Briefcase, MessageCircle, Heart } from "lucide-react"
 import { Button } from "@/components/ui/Button"
@@ -38,7 +38,7 @@ export function AffordableCars({ vehicles }: AffordableCarsProps) {
                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                      {vehicles.map((vehicle, index) => (
                          <motion.div 
-                            key={vehicle._id}
+                            key={vehicle.id}
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
@@ -57,7 +57,7 @@ export function AffordableCars({ vehicles }: AffordableCarsProps) {
                                     <Heart className="w-4 h-4" />
                                 </button>
                                 
-                                <Image 
+                                <OptimizedImage 
                                     src={vehicle.images?.[0]?.url || '/images/car-placeholder.jpg'} 
                                     alt={`${vehicle.brand} ${vehicle.vehicleModel}`}
                                     fill
@@ -71,7 +71,7 @@ export function AffordableCars({ vehicles }: AffordableCarsProps) {
                                     <h3 className="font-heading font-bold text-xl text-navy">{vehicle.brand} {vehicle.vehicleModel}</h3>
                                     <div className="text-gray-400 text-sm mt-1 flex items-center gap-3">
                                         <span className="flex items-center gap-1"><Users className="w-3 h-3" /> {vehicle.seats || 5}</span>
-                                        <span className="flex items-center gap-1"><Briefcase className="w-3 h-3" /> {vehicle.specs?.luggage || 2}</span>
+                                        <span className="flex items-center gap-1"><Briefcase className="w-3 h-3" /> {vehicle.luggage || 2}</span>
                                         <span className="flex items-center gap-1"><Fuel className="w-3 h-3" /> {vehicle.fuelType || 'Petrol'}</span>
                                     </div>
                                 </div>
@@ -84,13 +84,13 @@ export function AffordableCars({ vehicles }: AffordableCarsProps) {
                                                 <div>
                                                     <span className="text-xs text-gray-400 uppercase font-bold">Daily Rate</span>
                                                     <div className="flex items-baseline gap-1">
-                                                        <span className="text-2xl font-bold text-electric">{formatPrice(vehicle.pricing?.daily || 30, vehicleCurrency)}</span>
+                                                        <span className="text-2xl font-bold text-electric">{formatPrice(vehicle.dailyPrice || 30, vehicleCurrency)}</span>
                                                         <span className="text-gray-400 text-sm">/day</span>
                                                     </div>
                                                 </div>
                                                 <div className="text-right">
                                                     <span className="text-xs text-gray-400 uppercase font-bold">Weekly</span>
-                                                    <div className="text-sm font-bold text-navy">{formatPrice(vehicle.pricing?.weekly || 180, vehicleCurrency)}</div>
+                                                    <div className="text-sm font-bold text-navy">{formatPrice(vehicle.weeklyPrice || 180, vehicleCurrency)}</div>
                                                 </div>
                                             </>
                                         )

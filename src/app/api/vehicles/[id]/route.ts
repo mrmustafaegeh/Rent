@@ -1,58 +1,71 @@
 import { NextResponse } from 'next/server';
-import dbConnect from '@/lib/mongodb';
-import Vehicle from '@/models/Vehicle';
+import prisma from '@/lib/prisma';
+import { getVehicleById } from '@/services/vehicleService';
 
-export async function GET(request: Request, context: { params: Promise<{ id: string }> }) {
-  try {
-    await dbConnect();
-    const { id } = await context.params;
-
-    const vehicle = await Vehicle.findById(id);
-
-    if (!vehicle) {
-      return NextResponse.json({ error: 'Vehicle not found' }, { status: 404 });
-    }
-
-    return NextResponse.json(vehicle);
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch vehicle' }, { status: 500 });
-  }
-}
-
-export async function PUT(request: Request, context: { params: Promise<{ id: string }> }) {
-  try {
-    await dbConnect();
-    const { id } = await context.params;
-    const body = await request.json();
-
-    const vehicle = await Vehicle.findByIdAndUpdate(id, body, {
-      new: true,
-      runValidators: true,
-    });
-
-    if (!vehicle) {
-      return NextResponse.json({ error: 'Vehicle not found' }, { status: 404 });
-    }
-
-    return NextResponse.json(vehicle);
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to update vehicle' }, { status: 500 });
-  }
-}
-
-export async function DELETE(request: Request, context: { params: Promise<{ id: string }> }) {
+export async function GET(
+    request: Request,
+    { params }: { params: Promise<{ id: string }> }
+) {
     try {
-      await dbConnect();
-      const { id } = await context.params;
-  
-      const vehicle = await Vehicle.findByIdAndDelete(id);
-  
-      if (!vehicle) {
-        return NextResponse.json({ error: 'Vehicle not found' }, { status: 404 });
-      }
-  
-      return NextResponse.json({ message: 'Vehicle deleted successfully' });
+        const { id } = await params;
+        const vehicle = await getVehicleById(id);
+
+        if (!vehicle) {
+            return NextResponse.json({ error: 'Vehicle not found' }, { status: 404 });
+        }
+
+        return NextResponse.json(vehicle);
     } catch (error) {
-      return NextResponse.json({ error: 'Failed to delete vehicle' }, { status: 500 });
+        console.error('Vehicle Fetch Error:', error);
+        return NextResponse.json({ error: 'Failed to fetch vehicle' }, { status: 500 });
     }
-  }
+}
+
+export async function PUT(
+    request: Request,
+    { params }: { params: Promise<{ id: string }> }
+) {
+    try {
+        const { id } = await params;
+        const body = await request.json();
+
+        // Standardize data for Prisma
+        const updateData: any = {};
+        if (body.brand) updateData.brand = body.brand;
+        if (body.vehicleModel) updateData.vehicleModel = body.vehicleModel;
+        if (body.year) updateData.year = parseInt(body.year);
+        if (body.category) updateData.category = body.category;
+        if (body.status) updateData.status = body.status.toUpperCase();
+        if (body.dailyPrice) updateData.dailyPrice = parseFloat(body.dailyPrice);
+        if (body.salePrice) updateData.salePrice = parseFloat(body.salePrice);
+        if (typeof body.available === 'boolean') updateData.available = body.available;
+
+        const vehicle = await prisma.vehicle.update({
+            where: { id },
+            data: updateData
+        });
+
+        return NextResponse.json(vehicle);
+    } catch (error) {
+        console.error('Vehicle Update Error:', error);
+        return NextResponse.json({ error: 'Failed to update vehicle' }, { status: 500 });
+    }
+}
+
+export async function DELETE(
+    request: Request,
+    { params }: { params: Promise<{ id: string }> }
+) {
+    try {
+        const { id } = await params;
+        
+        await prisma.vehicle.delete({
+            where: { id }
+        });
+
+        return NextResponse.json({ message: 'Vehicle deleted successfully' });
+    } catch (error) {
+        console.error('Vehicle Delete Error:', error);
+        return NextResponse.json({ error: 'Failed to delete vehicle' }, { status: 500 });
+    }
+}

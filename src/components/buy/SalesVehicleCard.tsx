@@ -17,7 +17,7 @@ import { useState } from 'react';
 
 interface SalesVehicleCardProps {
   vehicle: {
-    _id: string;
+    id: string;
     brand: string;
     vehicleModel: string;
     year: number;
@@ -28,7 +28,7 @@ interface SalesVehicleCardProps {
     salePrice?: number;
     mileage?: number; // Total mileage
     condition?: string;
-    images?: Array<{ url: string; isPrimary: boolean }>;
+    images?: Array<{ url: string; isPrimary?: boolean }>;
     location?: string;
     type?: 'rent' | 'sale';
   };
@@ -46,14 +46,14 @@ export default function SalesVehicleCard({ vehicle }: SalesVehicleCardProps) {
   // WhatsApp & Phone
   const phoneNumber = '+971501234567'; // Default company phone, or vehicle.owner?.phone if we had it populated
   const whatsappMessage = encodeURIComponent(
-    `Hi! I'm interested in buying the ${vehicle.brand} ${vehicle.vehicleModel} ${vehicle.year} (Price: €${vehicle.salePrice?.toLocaleString()})\n\nLink: ${process.env.NEXT_PUBLIC_APP_URL}/buy/vehicles/${vehicle._id}`
+    `Hi! I'm interested in buying the ${vehicle.brand} ${vehicle.vehicleModel} ${vehicle.year} (Price: €${vehicle.salePrice?.toLocaleString()})\n\nLink: ${process.env.NEXT_PUBLIC_APP_URL}/buy/vehicles/${vehicle.id}`
   );
   const whatsappUrl = `https://wa.me/${phoneNumber.replace(/[^0-9]/g, '')}?text=${whatsappMessage}`;
 
   return (
     <div className="group relative bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
       {/* Image Section */}
-      <Link href={`/buy/vehicles/${vehicle._id}`} className="block relative aspect-[16/10] overflow-hidden bg-gray-100">
+      <Link href={`/buy/vehicles/${vehicle.id}`} className="block relative aspect-[16/10] overflow-hidden bg-gray-100">
         <Image
           src={imageError ? '/images/car-placeholder.jpg' : primaryImage}
           alt={`${vehicle.brand} ${vehicle.vehicleModel}`}
@@ -75,7 +75,7 @@ export default function SalesVehicleCard({ vehicle }: SalesVehicleCardProps) {
              <div className="flex justify-between items-start">
                  <div>
                     <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">{vehicle.brand}</span>
-                    <Link href={`/buy/vehicles/${vehicle._id}`}>
+                    <Link href={`/buy/vehicles/${vehicle.id}`}>
                     <h3 className="text-xl font-heading font-black text-navy hover:text-gold transition-colors line-clamp-1">
                         {vehicle.vehicleModel}
                     </h3>
@@ -119,7 +119,7 @@ export default function SalesVehicleCard({ vehicle }: SalesVehicleCardProps) {
             </div>
             
             <div className="flex gap-2">
-                 <Link href={`/buy/vehicles/${vehicle._id}`}>
+                 <Link href={`/buy/vehicles/${vehicle.id}`}>
                     <button className="w-10 h-10 rounded-xl bg-gray-50 text-navy hover:bg-navy hover:text-white transition-all flex items-center justify-center">
                         <Info className="w-5 h-5" />
                     </button>

@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server';
-import dbConnect from '@/lib/mongodb';
-import Vehicle from '@/models/Vehicle';
-import { getVehicles, VehicleFilterParams } from '@/lib/vehicleService';
-import User from '@/models/User';
+import prisma from '@/lib/prisma';
+import { getVehicles } from '@/services/vehicleService';
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 
@@ -27,7 +25,7 @@ export async function GET(request: Request) {
         }
     }
 
-    const params: VehicleFilterParams = {
+    const params = {
       category: searchParams.get('category') || undefined,
       brand: searchParams.get('brand') || undefined,
       minPrice: searchParams.get('minPrice') ? parseInt(searchParams.get('minPrice')!) : undefined,
@@ -40,9 +38,11 @@ export async function GET(request: Request) {
       sort: searchParams.get('sort') || 'newest',
       page: searchParams.get('page') ? parseInt(searchParams.get('page')!) : 1,
       limit: searchParams.get('limit') ? parseInt(searchParams.get('limit')!) : (my ? 50 : 12),
-      owner: ownerId,
+      ownerId,
       status: searchParams.get('status') || undefined,
-      type: (searchParams.get('type') as any) || 'rent'
+      type: (searchParams.get('type') as any) || 'rent',
+      startDate: searchParams.get('startDate') ? new Date(searchParams.get('startDate')!) : undefined,
+      endDate: searchParams.get('endDate') ? new Date(searchParams.get('endDate')!) : undefined,
     };
     
     const result = await getVehicles(params);
@@ -60,19 +60,15 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    await dbConnect();
-    
-    // Authenticate
     const cookieStore = await cookies();
     const token = cookieStore.get('token')?.value;
-    let user;
-    
-    if (token) {
-        try {
-            const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: string };
-            user = await User.findById(decoded.id);
-        } catch(e) {}
+
+    if (!token) {
+         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: string };
+    const user = await prisma.user.findUnique({ where: { id: decoded.id } });
 
     if (!user) {
          return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -85,39 +81,41 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
     
-    if (!body.type || body.type === 'rent') {
-        // Only Admin/Owner can list rentals
-        if (user.role !== 'admin' && user.role !== 'company_owner') {
-             return NextResponse.json({ error: 'Only partners can list rentals.' }, { status: 403 });
-        }
+    const vehicleData: any = {
+        brand: body.brand,
+        vehicleModel: body.vehicleModel,
+        year: parseInt(body.year) || 2024,
+        category: body.category.toUpperCase(),
+        type: body.type || 'rent',
+        transmission: (body.transmission || 'AUTOMATIC').toUpperCase(),
+        fuelType: (body.fuelType || 'PETROL').toUpperCase(),
+        seats: parseInt(body.seats) || 5,
+        doors: parseInt(body.doors) || 4,
+        description: body.description,
+        ownerId: user.id,
+        status: 'APPROVED', // Default for now
+    };
 
-        if (!body.pricing || !body.pricing.daily) {
-            return NextResponse.json({ error: 'Daily pricing is required for rental vehicles' }, { status: 400 });
-        }
-        
-        // Auto-approve rentals from verified partners/admins
-        if (!body.status) body.status = 'approved';
-
-    } else if (body.type === 'sale') {
-        if (!body.salePrice) {
-             return NextResponse.json({ error: 'Sale price is required' }, { status: 400 });
-        }
-        // Force pending status for sale listings
-        body.status = 'pending';
+    if (vehicleData.type === 'rent') {
+        vehicleData.dailyPrice = parseFloat(body.dailyPrice || body.pricing?.daily || body.priceDaily || 0);
+        vehicleData.weeklyPrice = parseFloat(body.weeklyPrice || body.pricing?.weekly || body.priceWeekly) || null;
+        vehicleData.monthlyPrice = parseFloat(body.monthlyPrice || body.pricing?.monthly || body.priceMonthly) || null;
+    } else {
+        vehicleData.salePrice = parseFloat(body.salePrice || 0);
     }
 
-    // Assign owner
-    if (!body.owner) body.owner = user._id;
+    const vehicle = await prisma.vehicle.create({
+        data: {
+            ...vehicleData,
+            images: {
+                create: body.images?.map((img: any) => ({ url: img.url })) || []
+            }
+        }
+    });
 
-    // Assign company if applicable
-    if (user.role === 'company_owner' && user.companyId && !body.company) {
-         body.company = user.companyId;
-    }
-
-    const vehicle = await Vehicle.create(body);
     return NextResponse.json({ success: true, data: vehicle }, { status: 201 });
-  } catch (error) {
-    const message = error instanceof Error ? error.message : 'Failed to create vehicle';
-    return NextResponse.json({ success: false, error: message }, { status: 500 });
+  } catch (error: any) {
+    console.error('Vehicle creation error:', error);
+    return NextResponse.json({ success: false, error: error.message || 'Failed to create vehicle' }, { status: 500 });
   }
 }

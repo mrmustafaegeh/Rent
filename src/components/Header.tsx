@@ -143,7 +143,7 @@ export function Header() {
           size="icon" 
           className="lg:hidden text-white hover:bg-white/10"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+          aria-label={mobileMenuOpen ? t('menuClose') : t('menuOpen')}
           aria-expanded={mobileMenuOpen}
           aria-controls="mobile-menu"
         >

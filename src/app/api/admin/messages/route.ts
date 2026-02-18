@@ -1,11 +1,10 @@
 import { NextResponse } from 'next/server';
-import dbConnect from '@/lib/mongodb';
-import Message from '@/models/Message';
+import prisma from '@/lib/prisma';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/authOptions"; 
-import User from '@/models/User';
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
+
 export async function GET(req: Request) {
   try {
     // Check NextAuth session first
@@ -14,6 +13,7 @@ export async function GET(req: Request) {
     let userEmail = null;
 
     if (session && session.user) {
+        // Access role safely
         userRole = (session.user as any).role;
         userEmail = session.user.email;
     } else {
@@ -21,10 +21,10 @@ export async function GET(req: Request) {
         const cookieStore = await cookies();
         const token = cookieStore.get('token')?.value;
 
-        if (token) {
+        if (token && process.env.JWT_SECRET) {
             try {
-                const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: string };
-                const dbUser = await User.findById(decoded.id);
+                const decoded = jwt.verify(token, process.env.JWT_SECRET) as { id: string };
+                const dbUser = await prisma.user.findUnique({ where: { id: decoded.id } });
                 if (dbUser) {
                     userRole = dbUser.role;
                     userEmail = dbUser.email;
@@ -43,16 +43,21 @@ export async function GET(req: Request) {
       email: userEmail
     });
 
-    // Enforce Admin Role
-    if (userRole !== 'admin' && userRole !== 'super_admin') {
+    // Enforce Admin Role (check for both 'ADMIN' and legacy 'admin'/'super_admin' strings if necessary)
+    // The Prisma schema uses 'ADMIN' enum, but let's be flexible
+    const isAdmin = userRole === 'ADMIN' || userRole === 'admin' || userRole === 'super_admin';
+
+    if (!isAdmin) {
       return NextResponse.json({ 
         error: `Unauthorized: User role '${userRole}' is not 'admin'`,
         debug: { role: userRole, email: userEmail } 
       }, { status: 401 });
     }
 
-    await dbConnect();
-    const messages = await Message.find({}).sort({ createdAt: -1 });
+    const messages = await prisma.message.findMany({
+        orderBy: { createdAt: 'desc' }
+    });
+    
     console.log(`Found ${messages.length} messages for admin`);
 
     return NextResponse.json({ 

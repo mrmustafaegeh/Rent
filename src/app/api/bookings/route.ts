@@ -1,68 +1,75 @@
 import { NextResponse } from 'next/server';
-import dbConnect from '@/lib/mongodb';
-import Booking from '@/models/Booking';
-import Vehicle from '@/models/Vehicle';
-import User from '@/models/User';
+import prisma from '@/lib/prisma';
+import { createBooking } from '@/services/bookingService';
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 import { sendBookingConfirmationEmail } from '@/lib/emailService';
-import crypto from 'crypto';
+import bcrypt from 'bcryptjs';
 
 export async function POST(request: Request) {
   try {
-    await dbConnect();
     const body = await request.json();
     
     // Validate required fields
-    const { customer, vehicleId, startDate, endDate, pickupLocation, dropoffLocation, totalPrice, status, paymentStatus } = body;
+    const { 
+        customer, 
+        vehicleId, 
+        startDate, 
+        endDate, 
+        pickupLocation, 
+        dropoffLocation, 
+        totalPrice,
+        driversLicense,
+        passport,
+        status,
+        paymentStatus
+    } = body;
     
     if (!customer?.email || !vehicleId || !startDate || !endDate || !pickupLocation || !dropoffLocation) {
         return NextResponse.json({ error: 'Missing required booking information' }, { status: 400 });
     }
     
-    // Check if vehicle exists
-    const vehicle = await Vehicle.findById(vehicleId);
-    if (!vehicle) {
-        return NextResponse.json({ error: 'Vehicle not found' }, { status: 404 });
-    }
-    
-    // Find or create customer
-    let user = await User.findOne({ email: customer.email });
+    // Find or create customer using Prisma
+    let user = await prisma.user.findUnique({ where: { email: customer.email } });
     
     if (!user) {
          // Create a new user for the guest
-         const randomPassword = crypto.randomBytes(8).toString('hex');
-         user = await User.create({
-             firstName: customer.firstName || 'Guest',
-             lastName: customer.lastName || 'User',
-             email: customer.email,
-             phone: customer.phone,
-             password: randomPassword,
-             role: 'customer'
-         });
+         const randomPassword = Math.random().toString(36).slice(-10);
+         const hashedPassword = await bcrypt.hash(randomPassword, 10);
          
-         // In a real app, send welcome email with password reset link here
+         user = await prisma.user.create({
+             data: {
+                 name: `${customer.firstName} ${customer.lastName}`,
+                 email: customer.email,
+                 phone: customer.phone,
+                 password: hashedPassword,
+                 role: 'CUSTOMER'
+             }
+         });
     }
 
-    const booking = await Booking.create({
-        customer: user._id,
-        vehicle: vehicleId,
-        company: vehicle.company,
+    // Create booking using our service (handles availability check)
+    const booking = await createBooking({
+        customerId: user.id,
+        vehicleId,
         startDate,
         endDate,
         pickupLocation,
         dropoffLocation,
-        totalPrice: totalPrice || 0, // Fallback if not provided (though frontend sends it)
-        status: status || 'pending',
-        paymentStatus: paymentStatus || 'pending'
+        totalPrice: totalPrice || 0,
+        driversLicense,
+        passport,
+        status,
+        paymentStatus
     });
 
     // Send Confirmation Email (Fire and forget)
+    // We fetch the vehicle details back from the created booking for the email
     sendBookingConfirmationEmail(user.email, {
         bookingNumber: booking.bookingNumber,
-        vehicleName: `${vehicle.brand} ${vehicle.vehicleModel}`,
-        startDate,
-        endDate,
+        vehicleName: `${booking.vehicle.brand} ${booking.vehicle.vehicleModel}`,
+        startDate: startDate.toString(),
+        endDate: endDate.toString(),
         pickupLocation,
         dropoffLocation,
         totalPrice: booking.totalPrice,
@@ -70,16 +77,17 @@ export async function POST(request: Request) {
     }).catch(console.error);
     
     return NextResponse.json({ success: true, data: booking }, { status: 201 });
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json({ success: false, error: 'Failed to create booking' }, { status: 500 });
+  } catch (error: any) {
+    console.error('Booking creation error:', error);
+    return NextResponse.json({ 
+        success: false, 
+        error: error.message || 'Failed to create booking' 
+    }, { status: 500 });
   }
 }
 
 export async function GET(request: Request) {
     try {
-        await dbConnect();
-        
         const cookieStore = await cookies();
         const token = cookieStore.get('token')?.value;
 
@@ -88,33 +96,40 @@ export async function GET(request: Request) {
         }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: string, role: string };
-        const user = await User.findById(decoded.id);
+        const user = await prisma.user.findUnique({ where: { id: decoded.id } });
 
         if (!user) {
             return NextResponse.json({ success: false, error: 'User not found' }, { status: 404 });
         }
 
-        let query = {};
-        if (user.role === 'customer') {
-            query = { customer: user._id };
-        } else if (user.role === 'company_owner') {
-             // Find vehicles owned by this user or their company
-             const vehicleQuery: any = { $or: [{ owner: user._id }] };
-             if (user.companyId) {
-                 vehicleQuery.$or.push({ company: user.companyId });
-             }
-             
-             const vehicles = await Vehicle.find(vehicleQuery).select('_id');
-             const vehicleIds = vehicles.map(v => v._id);
-             
-             // Filter bookings for these vehicles
-             query = { vehicle: { $in: vehicleIds } };
+        let where: any = {};
+        if (user.role === 'CUSTOMER') {
+            where = { customerId: user.id };
+        } else if (user.role === 'PARTNER') {
+             // For partners, show bookings for their vehicles
+             where = { vehicle: { ownerId: user.id } };
         }
         
-        const bookings = await Booking.find(query)
-            .populate('vehicle')
-            .populate('customer', 'firstName lastName email')
-            .sort({ createdAt: -1 });
+        const bookings = await prisma.booking.findMany({
+            where,
+            include: {
+                vehicle: {
+                    include: {
+                        images: true
+                    }
+                },
+                customer: {
+                    select: {
+                        name: true,
+                        email: true
+                    }
+                },
+                reviews: true
+            },
+            orderBy: {
+                createdAt: 'desc'
+            }
+        });
         
         return NextResponse.json({ success: true, data: bookings });
     } catch (error) {

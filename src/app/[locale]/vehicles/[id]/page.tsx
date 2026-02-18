@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import dbConnect from '@/lib/mongodb';
-import Vehicle from '@/models/Vehicle';
+import prisma from '@/lib/prisma';
 import VehicleDetailClient from './VehicleDetailClient';
 
 interface Props {
@@ -10,16 +9,25 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
-  await dbConnect();
   
   try {
-    const vehicle = await Vehicle.findById(id).populate('company', 'name').lean();
+    const vehicle = await prisma.vehicle.findUnique({
+        where: { id },
+        include: { company: { select: { name: true } } }
+    });
+
     if (!vehicle) return { title: 'Vehicle Not Found - RENTALX' };
 
     const title = `${vehicle.brand} ${vehicle.vehicleModel} ${vehicle.year} Rent in Dubai`;
-    const description = `Rent ${vehicle.brand} ${vehicle.vehicleModel} ${vehicle.year} in Dubai from AED ${vehicle.pricing.daily}/day. ${vehicle.category} car with ${vehicle.transmission} transmission. Book now!`;
-
-    const imageUrl = vehicle.images?.[0]?.url || '';
+    const description = `Rent ${vehicle.brand} ${vehicle.vehicleModel} ${vehicle.year} in Dubai from AED ${vehicle.dailyPrice}/day. ${vehicle.category} car with ${vehicle.transmission} transmission. Book now!`;
+    
+    // Prisma Image relation or embedded images? Previously Mongoose had images array.
+    // Prisma schema has `images: VehicleImage[]`.
+    const vehicleWithImages = await prisma.vehicle.findUnique({
+        where: { id },
+        include: { images: true }
+    });
+    const imageUrl = vehicleWithImages?.images?.[0]?.url || '';
 
     return {
       title,
@@ -51,13 +59,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function VehicleDetailPage({ params }: Props) {
   const { id } = await params;
-  await dbConnect();
   
   let vehicle;
   try {
-     vehicle = await Vehicle.findById(id)
-      .populate('company', 'name logo phone rating')
-      .lean();
+     vehicle = await prisma.vehicle.findUnique({
+        where: { id },
+        include: {
+            company: {
+                select: {
+                   name: true,
+                   // phone: true, // Check if phone exists in Prisma Company model. Yes.
+                   // rating: true, // Check if rating exists. No rating in Prisma Company model currently (checked schema earlier, added description & isActive).
+                   // logo: true, // Logo field?
+                }
+            },
+            images: true
+        }
+     });
   } catch (e) {
      notFound();
   }
@@ -66,8 +84,14 @@ export default async function VehicleDetailPage({ params }: Props) {
     notFound();
   }
 
-  // Convert MongoDB document to plain object for Client Component
-  const vehicleData = JSON.parse(JSON.stringify(vehicle));
+  // Convert dates and decimals to ensure serializability if needed
+  const vehicleData = {
+      ...vehicle,
+      dailyPrice: Number(vehicle.dailyPrice),
+      weeklyPrice: vehicle.weeklyPrice ? Number(vehicle.weeklyPrice) : null,
+      monthlyPrice: vehicle.monthlyPrice ? Number(vehicle.monthlyPrice) : null,
+      salePrice: vehicle.salePrice ? Number(vehicle.salePrice) : null,
+  };
 
   return <VehicleDetailClient vehicle={vehicleData} />;
 }

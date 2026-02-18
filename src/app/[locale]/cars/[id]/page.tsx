@@ -5,50 +5,22 @@ import { VehicleSpecs } from "@/components/features/vehicle/VehicleSpecs"
 import { BookingWidget } from "@/components/features/vehicle/BookingWidget"
 import { Separator } from "@/components/ui/Separator"
 import { Badge } from "@/components/ui/Badge"
-import dbConnect from "@/lib/mongodb"
-import Vehicle from "@/models/Vehicle"
 import { notFound } from "next/navigation"
 import { Check, Star, ShieldCheck, ArrowLeft, Info, HelpCircle, Mail, MessageCircle, Phone } from "lucide-react"
+import { Button } from "@/components/ui/Button"
+import { VehicleReviews } from "@/components/features/vehicle/VehicleReviews"
 import { RecommendedCars } from "@/components/features/vehicle/RecommendedCars"
 import Link from "next/link"
-import { Button } from "@/components/ui/Button"
+
+import { getVehicleById, getVehicles } from "@/services/vehicleService"
 
 async function getVehicle(id: string) {
-    await dbConnect()
-    try {
-        const vehicle = await Vehicle.findById(id).lean()
-        if (!vehicle) return null
-        return JSON.parse(JSON.stringify(vehicle))
-    } catch (e) {
-        return null
-    }
+    return getVehicleById(id)
 }
 
 async function getRecommendedVehicles(category: string, currentId: string) {
-    await dbConnect()
-    try {
-        const vehicles = await Vehicle.find({ 
-            category: category,
-            _id: { $ne: currentId }
-        })
-        .limit(4)
-        .lean()
-        
-        // If not enough same category, fetch others
-        if (vehicles.length < 4) {
-            const others = await Vehicle.find({
-                _id: { $ne: currentId, $nin: vehicles.map(v => v._id) }
-            })
-            .limit(4 - vehicles.length)
-            .lean()
-            
-            return JSON.parse(JSON.stringify([...vehicles, ...others]))
-        }
-
-        return JSON.parse(JSON.stringify(vehicles))
-    } catch (e) {
-        return []
-    }
+    const { vehicles } = await getVehicles({ category, limit: 4 })
+    return vehicles.filter((v: any) => v.id !== currentId)
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
@@ -62,15 +34,33 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     }
 }
 
-export default async function VehicleDetailPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function VehicleDetailPage({ 
+    params, 
+    searchParams 
+}: { 
+    params: Promise<{ id: string }>,
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) {
     const { id } = await params
+    const resolvedSearchParams = await searchParams
+    const pickupDate = resolvedSearchParams.pickup as string | undefined
+    const dropoffDate = resolvedSearchParams.dropoff as string | undefined
+    const pickupLocation = resolvedSearchParams.location as string | undefined
+
     const vehicle = await getVehicle(id)
 
     if (!vehicle) {
         notFound()
     }
 
-    const recommended = await getRecommendedVehicles(vehicle.category, vehicle._id)
+    const recommended = await getRecommendedVehicles(vehicle.category, vehicle.id)
+
+    // Map Prisma prices to BookingWidget format
+    const pricingData = {
+        daily: vehicle.dailyPrice,
+        weekly: vehicle.weeklyPrice || undefined,
+        threeDays: (vehicle.dailyPrice * 0.9)
+    }
 
     return (
         <div className="flex flex-col min-h-screen bg-gray-50">
@@ -111,8 +101,7 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
                          <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm">
                              <h2 className="text-xl font-heading font-bold text-navy mb-6">Vehicle Specifications</h2>
                              <VehicleSpecs specs={{
-                                ...vehicle.specs,
-                                transmission: vehicle.transmission, // Fallback if regular field exists
+                                transmission: vehicle.transmission,
                                 fuelType: vehicle.fuelType,
                                 seats: vehicle.seats,
                                 year: vehicle.year
@@ -124,7 +113,7 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
                              <div>
                                  <h2 className="text-xl font-heading font-bold text-navy mb-4">About this {vehicle.brand}</h2>
                                  <p className="text-gray-500 leading-relaxed font-body">
-                                    Experience the ultimate driving pleasure with our {vehicle.brand} {vehicle.model}. 
+                                    Experience the ultimate driving pleasure with our {vehicle.brand} {vehicle.vehicleModel}. 
                                     Perfect for exploring the beautiful coastlines of North Cyprus or making a statement at your business meetings.
                                     This vehicle comes equipped with premium features and is maintained to the highest standards.
                                  </p>
@@ -280,7 +269,13 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
                                  </div>
                              </div>
                          ) : (
-                             <BookingWidget pricing={vehicle.pricing} vehicleId={vehicle._id} />
+                             <BookingWidget 
+                                pricing={pricingData} 
+                                vehicleId={vehicle.id}
+                                initialStartDate={pickupDate}
+                                initialEndDate={dropoffDate}
+                                initialPickupLocation={pickupLocation}
+                             />
                          )}
                          
                          <div className="mt-8 bg-navy p-8 rounded-3xl text-center shadow-lg relative overflow-hidden">
@@ -300,12 +295,16 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
 
                  <Separator className="bg-gray-200 mb-12" />
 
-                 <div className="space-y-8">
-                     <div className="flex items-center justify-between">
-                         <h2 className="text-2xl md:text-3xl font-heading font-bold text-navy">Similar Models</h2>
-                     </div>
-                     <RecommendedCars vehicles={recommended} />
-                 </div>
+                  <div className="space-y-16">
+                      <VehicleReviews vehicleId={vehicle.id} />
+                      
+                      <div className="space-y-8">
+                          <div className="flex items-center justify-between">
+                              <h2 className="text-2xl md:text-3xl font-heading font-bold text-navy">Similar Models</h2>
+                          </div>
+                          <RecommendedCars vehicles={recommended} />
+                      </div>
+                  </div>
             </main>
             
             <Footer />

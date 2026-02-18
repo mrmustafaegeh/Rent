@@ -16,30 +16,42 @@ import {
     CreditCard,
     DollarSign,
     Filter,
-    Download
+    Download,
+    Activity,
+    ArrowRight,
+    Users,
+    TrendingUp,
+    ShieldCheck,
+    Zap,
+    ChevronRight,
+    AlertCircle,
+    Package
 } from 'lucide-react';
 import { Input } from '@/components/ui/Input';
+import { toast } from 'react-hot-toast';
 
 interface Booking {
-    _id: string;
+    id: string;
     bookingNumber: string;
     customer: {
         firstName: string;
         lastName: string;
         email: string;
         phone?: string;
+        avatar?: string;
     } | string; 
     vehicle: {
         brand: string;
         vehicleModel: string;
-        pricing: { daily: number };
+        dailyPrice: number;
+        pricing?: { daily: number };
         images?: { url: string }[];
     } | null;
     startDate: string;
     endDate: string;
     totalPrice: number;
-    status: 'pending' | 'confirmed' | 'cancelled' | 'completed' | 'in_progress';
-    paymentStatus: 'pending' | 'paid' | 'failed' | 'refunded' | 'pay_at_pickup';
+    status: 'pending' | 'confirmed' | 'cancelled' | 'completed' | 'in_progress' | 'PENDING' | 'CONFIRMED' | 'CANCELLED' | 'COMPLETED' | 'IN_PROGRESS';
+    paymentStatus: string;
     pickupLocation: string;
     dropoffLocation: string;
     createdAt: string;
@@ -66,6 +78,7 @@ export default function AllBookingsPage() {
             }
         } catch (error) {
             console.error(error);
+            toast.error("Failed to sync reservations");
         } finally {
             setIsLoading(false);
         }
@@ -77,26 +90,29 @@ export default function AllBookingsPage() {
 
     const updateStatus = async (id: string, status: string) => {
         try {
-            const res = await fetch('/api/admin/bookings', { // Assuming use of admin route or similar
+            const res = await fetch('/api/admin/bookings', {
                 method: 'PATCH', 
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id, status }) // Adjust based on actual API
+                body: JSON.stringify({ id, status })
             });
             
-            // Fallback to local update for responsiveness or if API structure differs
-             setBookings(bookings.map(b => 
-                b._id === id ? { ...b, status: status as any } : b
-            ));
-
+            if (res.ok) {
+                setBookings(bookings.map(b => 
+                    b.id === id ? { ...b, status: status as any } : b
+                ));
+                toast.success(`Booking ${status.toLowerCase()} successfully`);
+            } else {
+                toast.error("Process failed");
+            }
         } catch (error) {
             console.error(error);
-            alert('Error updating status');
+            toast.error("Network error");
         }
     };
 
     // Filter Logic
     const filteredBookings = bookings.filter(booking => {
-        const matchesStatus = filterStatus === 'all' || booking.status === filterStatus;
+        const matchesStatus = filterStatus === 'all' || booking.status?.toLowerCase() === filterStatus.toLowerCase();
         const searchLower = searchTerm.toLowerCase();
         
         let matchesSearch = (booking.bookingNumber || '').toLowerCase().includes(searchLower);
@@ -119,45 +135,96 @@ export default function AllBookingsPage() {
     );
 
     const getStatusColor = (status: string) => {
-        switch (status) {
-            case 'confirmed': return 'bg-emerald-50 text-emerald-700 border-emerald-200';
-            case 'pending': return 'bg-amber-50 text-amber-700 border-amber-200';
-            case 'cancelled': return 'bg-red-50 text-red-700 border-red-200';
-            case 'completed': return 'bg-blue-50 text-blue-700 border-blue-200';
-            case 'in_progress': return 'bg-purple-50 text-purple-700 border-purple-200';
-            default: return 'bg-gray-50 text-gray-700 border-gray-200';
+        const s = status?.toLowerCase();
+        switch (s) {
+            case 'confirmed': return 'bg-emerald-50 text-emerald-600 border-emerald-100';
+            case 'pending': return 'bg-amber-50 text-amber-600 border-amber-100';
+            case 'cancelled': return 'bg-red-50 text-red-500 border-red-100';
+            case 'completed': return 'bg-blue-50 text-blue-600 border-blue-100';
+            case 'in_progress': return 'bg-purple-50 text-purple-600 border-purple-100';
+            default: return 'bg-gray-50 text-gray-500 border-gray-100';
         }
     };
 
+    // Stats
+    const activeBookings = bookings.filter(b => b.status?.toLowerCase() === 'confirmed' || b.status?.toLowerCase() === 'in_progress').length;
+    const revenue = bookings.reduce((acc, b) => acc + (b.status?.toLowerCase() !== 'cancelled' ? b.totalPrice : 0), 0);
+
     return (
-        <div className="space-y-8 pb-12 w-full max-w-[1600px] mx-auto">
-            {/* Header */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div className="space-y-10 pb-20 w-full max-w-[1500px] mx-auto animate-in fade-in duration-700">
+            
+            {/* Premium Header */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div>
-                    <h1 className="text-3xl font-heading font-black text-navy tracking-tight">Booking Management</h1>
-                    <p className="text-gray-500 mt-1 font-medium">Monitor and manage all fleet reservations.</p>
+                     <div className="flex items-center gap-2 text-[10px] font-black text-blue-500 uppercase tracking-[0.2em] mb-2 px-3 py-1 bg-blue-50 rounded-full w-fit border border-blue-100">
+                        <Activity className="w-3 h-3" />
+                        Logistics Intelligence
+                    </div>
+                    <h1 className="text-4xl md:text-5xl font-heading font-black text-navy tracking-tight">
+                        Booking <span className="text-electric">Registry</span>
+                    </h1>
+                    <p className="text-gray-500 mt-2 font-medium">
+                        Unified control center for all fleet reservations and lifecycle events.
+                    </p>
                 </div>
-                <div className="flex gap-3">
-                    <Button variant="outline" className="gap-2 border-gray-200 text-gray-600 hover:text-navy hover:border-navy h-11 rounded-xl font-bold bg-white">
-                        <Download className="w-4 h-4" /> Export CSV
-                    </Button>
-                    {/* Link to schedule page or new booking modal could go here */}
+                <div className="flex gap-4 w-full md:w-auto">
+                    <button className="flex-1 md:flex-none h-14 px-8 rounded-2xl border border-gray-100 bg-white text-navy text-[10px] font-black uppercase tracking-widest hover:border-navy hover:text-navy transition-all flex items-center justify-center gap-3">
+                        <Download className="w-4 h-4" /> EXPORT MANIFEST
+                    </button>
                 </div>
             </div>
 
-            {/* Filters & Search Toolbar */}
-            <div className="bg-white p-2 rounded-2xl border border-gray-200 shadow-sm flex flex-col lg:flex-row justify-between items-center gap-4 sticky top-4 z-20">
-                
-                {/* Status Tabs */}
-                <div className="flex items-center p-1 gap-1 overflow-x-auto w-full lg:w-auto scrollbar-hide">
+            {/* Logistics Status Strip */}
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+                <div className="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm flex items-center gap-5 group hover:border-blue-200 transition-all">
+                    <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-500 flex items-center justify-center group-hover:bg-blue-500 group-hover:text-white transition-all">
+                        <Users className="w-7 h-7" />
+                    </div>
+                    <div>
+                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1">Total Load</p>
+                        <p className="text-2xl font-black text-navy">{bookings.length} <span className="text-sm font-medium text-gray-300">Res.</span></p>
+                    </div>
+                </div>
+                <div className="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm flex items-center gap-5 group hover:border-emerald-200 transition-all">
+                    <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-500 flex items-center justify-center group-hover:bg-emerald-500 group-hover:text-white transition-all">
+                        <ShieldCheck className="w-7 h-7" />
+                    </div>
+                    <div>
+                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1">Active Operations</p>
+                        <p className="text-2xl font-black text-navy">{activeBookings}</p>
+                    </div>
+                </div>
+                <div className="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm flex items-center gap-5 group hover:border-amber-200 transition-all">
+                    <div className="w-14 h-14 rounded-2xl bg-amber-50 text-amber-500 flex items-center justify-center group-hover:bg-amber-500 group-hover:text-white transition-all">
+                        <Clock className="w-7 h-7" />
+                    </div>
+                    <div>
+                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1">Awaiting Action</p>
+                        <p className="text-2xl font-black text-navy">{bookings.filter(b => b.status === 'pending').length}</p>
+                    </div>
+                </div>
+                <div className="bg-navy p-6 rounded-[2rem] shadow-xl shadow-navy/20 text-white flex items-center gap-5">
+                    <div className="w-14 h-14 rounded-2xl bg-white/10 text-gold flex items-center justify-center">
+                        <TrendingUp className="w-7 h-7" />
+                    </div>
+                    <div>
+                        <p className="text-[10px] font-black text-white/40 uppercase tracking-widest leading-none mb-1">Gross Lifecycle Value</p>
+                        <p className="text-2xl font-black text-white">€{revenue.toLocaleString()}</p>
+                    </div>
+                </div>
+            </div>
+
+            {/* Advanced Filters */}
+            <div className="bg-white/80 backdrop-blur-md p-4 rounded-[2.5rem] border border-gray-100 shadow-sm flex flex-col xl:flex-row justify-between items-center gap-6 sticky top-4 z-20">
+                <div className="flex items-center gap-2 overflow-x-auto w-full xl:w-auto scrollbar-hide py-1">
                     {['all', 'pending', 'confirmed', 'in_progress', 'completed', 'cancelled'].map((status) => (
                         <button
                             key={status}
                             onClick={() => { setFilterStatus(status); setCurrentPage(1); }}
-                            className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap uppercase tracking-wider ${
+                            className={`px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap border ${
                                 filterStatus === status 
-                                ? 'bg-navy text-gold shadow-md shadow-navy/20' 
-                                : 'text-gray-500 hover:bg-gray-50 hover:text-navy'
+                                ? 'bg-navy text-gold border-navy shadow-lg shadow-navy/20' 
+                                : 'bg-white text-gray-400 border-gray-100 hover:border-gray-300 hover:text-navy'
                             }`}
                         >
                             {status.replace('_', ' ')}
@@ -165,174 +232,162 @@ export default function AllBookingsPage() {
                     ))}
                 </div>
                 
-                {/* Search */}
-                <div className="relative w-full lg:w-96 m-1">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <Input 
-                        placeholder="Search by name, reference, or email..." 
-                        className="pl-11 h-11 bg-gray-50 border-transparent focus:bg-white focus:border-gray-200 transition-all rounded-xl text-sm font-medium"
+                <div className="relative w-full xl:w-96">
+                    <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-300" />
+                    <input 
+                        placeholder="Search reference, customer, or identifier..." 
+                        className="w-full h-14 pl-14 pr-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-gray-200 focus:ring-0 transition-all text-sm font-bold text-navy"
                         value={searchTerm}
                         onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }}
                     />
                 </div>
             </div>
 
-            {/* Bookings Table Card */}
-            <div className="bg-white rounded-3xl border border-gray-200 shadow-xl shadow-gray-100/50 overflow-hidden flex flex-col min-h-[600px]">
-                <div className="overflow-x-auto flex-1">
+            {/* Registry Table */}
+            <div className="bg-white rounded-[3rem] border border-gray-100 shadow-[0_12px_45px_rgba(0,0,0,0.02)] overflow-hidden">
+                <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                         <thead>
-                            <tr className="bg-gray-50/50 border-b border-gray-100">
-                                <th className="p-6 text-xs font-bold text-gray-400 uppercase tracking-wider">Booking Ref</th>
-                                <th className="p-6 text-xs font-bold text-gray-400 uppercase tracking-wider">Customer</th>
-                                <th className="p-6 text-xs font-bold text-gray-400 uppercase tracking-wider">Vehicle</th>
-                                <th className="p-6 text-xs font-bold text-gray-400 uppercase tracking-wider">Schedule</th>
-                                <th className="p-6 text-xs font-bold text-gray-400 uppercase tracking-wider">Status</th>
-                                <th className="p-6 text-xs font-bold text-gray-400 uppercase tracking-wider text-right">Actions</th>
+                            <tr className="bg-gray-50/50 border-b border-gray-50">
+                                <th className="p-8 text-[10px] font-black text-gray-400 uppercase tracking-widest">Metadata</th>
+                                <th className="p-8 text-[10px] font-black text-gray-400 uppercase tracking-widest">Customer Entity</th>
+                                <th className="p-8 text-[10px] font-black text-gray-400 uppercase tracking-widest">Asset Allocated</th>
+                                <th className="p-8 text-[10px] font-black text-gray-400 uppercase tracking-widest">Operational Window</th>
+                                <th className="p-8 text-[10px] font-black text-gray-400 uppercase tracking-widest">Status / Value</th>
+                                <th className="p-8 text-[10px] font-black text-gray-400 uppercase tracking-widest text-right">Actions</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-gray-100">
+                        <tbody className="divide-y divide-gray-50">
                             {isLoading ? (
                                 <tr>
-                                    <td colSpan={6} className="p-24 text-center">
-                                        <div className="animate-spin rounded-full h-10 w-10 border-2 border-navy border-t-transparent mx-auto mb-4"></div>
-                                        <p className="text-gray-500 font-bold">Loading reservations...</p>
+                                    <td colSpan={6} className="p-32 text-center">
+                                        <div className="flex flex-col items-center gap-4">
+                                            <div className="w-12 h-12 border-4 border-navy/10 border-t-navy rounded-full animate-spin"></div>
+                                            <p className="text-navy font-black text-[10px] uppercase tracking-widest opacity-40">Synchronizing global registry</p>
+                                        </div>
                                     </td>
                                 </tr>
                             ) : paginatedBookings.length === 0 ? (
                                 <tr>
-                                    <td colSpan={6} className="p-24 text-center">
-                                        <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6 border border-gray-100">
-                                            <Search className="w-10 h-10 text-gray-300" />
+                                    <td colSpan={6} className="p-32 text-center">
+                                        <div className="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-8 border border-gray-100">
+                                            <Package className="w-10 h-10 text-gray-200" />
                                         </div>
-                                        <h3 className="font-bold text-navy text-xl mb-2">No bookings found</h3>
-                                        <p className="text-gray-400 max-w-xs mx-auto">We couldn't find any bookings matching your current filters.</p>
-                                        <Button 
-                                            variant="outline" 
-                                            className="mt-6 border-gray-200 text-navy font-bold"
-                                            onClick={() => { setFilterStatus('all'); setSearchTerm(''); }}
-                                        >
-                                            Clear Filters
-                                        </Button>
+                                        <h3 className="text-2xl font-black text-navy mb-3">No matching records</h3>
+                                        <p className="text-gray-400 max-w-sm mx-auto font-medium">Clear filters to view the full logistics manifest.</p>
                                     </td>
                                 </tr>
                             ) : (
                                 paginatedBookings.map((booking) => (
-                                    <tr key={booking._id} className="hover:bg-blue-50/20 transition-all group">
-                                        {/* Reference */}
-                                        <td className="p-6 align-top">
-                                            <div className="flex flex-col gap-1.5">
-                                                <span className="font-mono text-xs font-black text-navy bg-navy/5 px-2 py-1 rounded-md w-fit tracking-wide">
-                                                    {booking.bookingNumber}
+                                    <tr key={booking.id} className="hover:bg-blue-50/10 transition-all duration-300 group">
+                                        {/* Metadata */}
+                                        <td className="p-8 align-top">
+                                            <div className="flex flex-col gap-2">
+                                                <span className="font-mono text-xs font-black text-navy bg-navy/5 px-2.5 py-1.5 rounded-xl w-fit border border-navy/5">
+                                                    #{booking.bookingNumber}
                                                 </span>
-                                                <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider flex items-center gap-1">
-                                                    <Clock className="w-3 h-3" />
-                                                    {new Date(booking.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
-                                                </span>
+                                                <div className="flex items-center gap-2 text-[10px] text-gray-400 font-black uppercase tracking-widest">
+                                                    <Clock className="w-3 h-3 text-gold" />
+                                                    {new Date(booking.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
+                                                </div>
                                             </div>
                                         </td>
                                         
                                         {/* Customer */}
-                                        <td className="p-6 align-top">
+                                        <td className="p-8 align-top">
                                             <div className="flex items-center gap-4">
-                                                <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-xs font-black shadow-sm ring-1 ring-inset ring-black/5
-                                                    ${(booking.customer && typeof booking.customer === 'object') ? 'bg-gradient-to-br from-electric/20 to-blue-100 text-electric' : 'bg-gray-100 text-gray-500'}`}
+                                                <div className={`w-12 h-12 rounded-[1rem] flex items-center justify-center text-sm font-black shadow-inner border border-white/50
+                                                    ${(booking.customer && typeof booking.customer === 'object') ? 'bg-gradient-to-br from-navy to-electric text-white shadow-xl shadow-navy/20' : 'bg-gray-100 text-gray-400'}`}
                                                 >
-                                                    {(booking.customer && typeof booking.customer === 'object') ? booking.customer.firstName[0] : 'G'}
+                                                    {(booking.customer && typeof booking.customer === 'object') ? (booking.customer.firstName?.[0] || 'G') : 'G'}
                                                 </div>
                                                 <div>
-                                                    <div className="font-bold text-navy text-sm">
+                                                    <div className="font-black text-navy text-base tracking-tight leading-none mb-1.5">
                                                         {(booking.customer && typeof booking.customer === 'object') 
                                                             ? `${booking.customer.firstName} ${booking.customer.lastName}` 
                                                             : 'Guest User'}
                                                     </div>
-                                                    <div className="text-xs text-gray-400 mt-0.5 font-medium truncate max-w-[150px]">
-                                                        {(booking.customer && typeof booking.customer === 'object') ? booking.customer.email : 'No contact info'}
+                                                    <div className="text-[10px] text-gray-400 font-bold tracking-widest uppercase">
+                                                        {(booking.customer && typeof booking.customer === 'object') ? booking.customer.email : 'External Channel'}
                                                     </div>
                                                 </div>
                                             </div>
                                         </td>
 
                                         {/* Vehicle */}
-                                        <td className="p-6 align-top">
+                                        <td className="p-8 align-top">
                                             {booking.vehicle ? (
-                                                <div>
-                                                    <div className="font-bold text-navy text-sm">{booking.vehicle.brand}</div>
+                                                <div className="space-y-1">
+                                                    <div className="font-black text-navy text-sm tracking-tight">{booking.vehicle.brand}</div>
                                                     <div className="text-electric font-bold text-xs">{booking.vehicle.vehicleModel}</div>
-                                                    <div className="text-[10px] text-gray-400 mt-1 font-bold uppercase tracking-wider">
-                                                        €{booking.vehicle.pricing?.daily}/day
+                                                    <div className="flex items-center gap-1.5 text-[9px] text-gray-400 font-black uppercase tracking-widest pt-1">
+                                                        <Zap className="w-3 h-3 text-gold" />
+                                                        Asset ID: {booking.id.substring(0, 8)}
                                                     </div>
                                                 </div>
                                             ) : (
-                                                <span className="text-gray-400 text-xs italic">Vehicle removed</span>
+                                                <div className="flex items-center gap-2 text-red-500 bg-red-50 px-3 py-1.5 rounded-xl w-fit">
+                                                    <AlertCircle className="w-4 h-4" />
+                                                    <span className="text-[10px] font-black uppercase tracking-widest">Asset Retired</span>
+                                                </div>
                                             )}
                                         </td>
 
                                         {/* Schedule */}
-                                        <td className="p-6 align-top">
-                                            <div className="space-y-3">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="w-1 bg-gradient-to-b from-navy to-electric h-8 rounded-full opacity-20"></div>
-                                                    <div className="text-xs">
-                                                        <div className="font-bold text-navy">{new Date(booking.startDate).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}</div>
-                                                        <div className="text-gray-400 text-[10px] font-medium uppercase tracking-wider mt-0.5">Pickup</div>
-                                                    </div>
-                                                    <div className="text-xs">
-                                                        <div className="font-bold text-navy">{new Date(booking.endDate).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}</div>
-                                                        <div className="text-gray-400 text-[10px] font-medium uppercase tracking-wider mt-0.5">Return</div>
-                                                    </div>
+                                        <td className="p-8 align-top">
+                                            <div className="flex items-center gap-6">
+                                                <div className="flex flex-col gap-1.5">
+                                                    <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Outbound</div>
+                                                    <div className="font-black text-navy text-sm">{new Date(booking.startDate).toLocaleDateString(undefined, { day: 'numeric', month: 'short' })}</div>
                                                 </div>
-                                                <div className="flex items-center gap-1.5 text-xs text-gray-500 bg-gray-50 w-fit px-2 py-1 rounded-lg">
-                                                    <MapPin className="w-3 h-3 text-gray-400" />
-                                                    <span className="font-medium truncate max-w-[140px]" title={booking.pickupLocation}>{booking.pickupLocation}</span>
+                                                <ChevronRight className="w-4 h-4 text-gray-200" />
+                                                <div className="flex flex-col gap-1.5 text-right">
+                                                    <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Inbound</div>
+                                                    <div className="font-black text-navy text-sm">{new Date(booking.endDate).toLocaleDateString(undefined, { day: 'numeric', month: 'short' })}</div>
                                                 </div>
+                                            </div>
+                                            <div className="mt-4 flex items-center gap-2 text-[10px] text-gray-400 font-bold bg-gray-50/50 p-2 rounded-xl border border-gray-100/50">
+                                                <MapPin className="w-3 h-3 text-electric" />
+                                                <span className="truncate max-w-[150px]">{booking.pickupLocation}</span>
                                             </div>
                                         </td>
 
                                         {/* Status */}
-                                        <td className="p-6 align-top">
+                                        <td className="p-8 align-top">
                                             <div className="flex flex-col gap-3 items-start">
-                                                <Badge className={`px-2.5 py-1 text-[10px] font-black uppercase tracking-wider border shadow-sm ${getStatusColor(booking.status)}`}>
-                                                    {booking.status === 'confirmed' && <CheckCircle className="w-3 h-3 mr-1.5" />}
-                                                    {booking.status === 'cancelled' && <XCircle className="w-3 h-3 mr-1.5" />}
-                                                    {booking.status === 'pending' && <Clock className="w-3 h-3 mr-1.5" />}
+                                                <Badge className={`px-4 py-1.5 text-[9px] font-black uppercase tracking-[0.2em] border shadow-sm rounded-full ${getStatusColor(booking.status)}`}>
                                                     {booking.status.replace('_', ' ')}
                                                 </Badge>
                                                 
-                                                <div className="flex flex-col">
-                                                    <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Total</span>
-                                                    <span className="font-black text-sm text-navy">€{booking.totalPrice}</span>
+                                                <div>
+                                                    <div className="text-[9px] font-black text-gray-300 uppercase tracking-widest mb-0.5">Execution Value</div>
+                                                    <div className="font-black text-xl text-navy leading-none">€{booking.totalPrice.toLocaleString()}</div>
                                                 </div>
                                             </div>
                                         </td>
 
                                         {/* Actions */}
-                                        <td className="p-6 align-top text-right">
-                                            <div className="flex justify-end gap-2 opacity-100">
-                                                {booking.status === 'pending' ? (
-                                                    <>
-                                                        <Button 
-                                                            size="icon"
-                                                            className="h-9 w-9 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl shadow-lg shadow-emerald-500/20 transition-all hover:scale-105"
-                                                            onClick={() => updateStatus(booking._id, 'confirmed')}
-                                                            title="Approve Booking"
+                                        <td className="p-8 align-top text-right">
+                                            <div className="flex justify-end gap-3 translate-x-2 group-hover:translate-x-0 transition-transform duration-500">
+                                                {booking.status?.toLowerCase() === 'pending' ? (
+                                                    <div className="flex gap-2">
+                                                        <button 
+                                                            className="h-12 px-6 rounded-2xl bg-emerald-500 text-white text-[10px] font-black uppercase tracking-widest shadow-xl shadow-emerald-500/20 hover:scale-105 active:scale-95 transition-all"
+                                                            onClick={() => updateStatus(booking.id, 'confirmed')}
                                                         >
-                                                            <CheckCircle className="w-4 h-4" />
-                                                        </Button>
-                                                        <Button 
-                                                            size="icon"
-                                                            variant="outline"
-                                                            className="h-9 w-9 border-red-200 text-red-500 hover:bg-red-50 rounded-xl hover:border-red-300 transition-all hover:scale-105"
-                                                            onClick={() => updateStatus(booking._id, 'cancelled')}
-                                                            title="Reject Booking"
+                                                            Authorize
+                                                        </button>
+                                                        <button 
+                                                            className="h-12 w-12 rounded-2xl border border-red-100 text-red-500 hover:bg-red-500 hover:text-white transition-all flex items-center justify-center"
+                                                            onClick={() => updateStatus(booking.id, 'cancelled')}
                                                         >
-                                                            <XCircle className="w-4 h-4" />
-                                                        </Button>
-                                                    </>
+                                                            <XCircle className="w-5 h-5" />
+                                                        </button>
+                                                    </div>
                                                 ) : (
-                                                    <Button variant="ghost" size="icon" className="h-9 w-9 text-gray-400 hover:text-navy hover:bg-gray-50 rounded-xl">
-                                                         <MoreHorizontal className="w-4 h-4" />
-                                                    </Button>
+                                                    <button className="h-12 w-12 rounded-2xl bg-gray-50 text-gray-400 hover:bg-navy hover:text-white transition-all flex items-center justify-center">
+                                                         <MoreHorizontal className="w-5 h-5" />
+                                                    </button>
                                                 )}
                                             </div>
                                         </td>
@@ -343,10 +398,10 @@ export default function AllBookingsPage() {
                     </table>
                 </div>
                 
-                {/* Footer with Pagination */}
-                <div className="bg-gray-50/50 p-6 border-t border-gray-100 flex flex-col md:flex-row items-center justify-between gap-4">
-                    <div className="text-xs font-bold text-gray-500">
-                        Showing <span className="text-navy">{paginatedBookings.length}</span> of <span className="text-navy">{filteredBookings.length}</span> reservations
+                {/* Pagination */}
+                <div className="bg-gray-50/50 p-8 border-t border-gray-100 flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                        Manifest Range: <span className="text-navy">{(currentPage - 1) * itemsPerPage + 1} - {Math.min(currentPage * itemsPerPage, filteredBookings.length)}</span> of <span className="text-navy">{filteredBookings.length}</span> Records
                     </div>
                     
                     <Pagination 
@@ -356,6 +411,29 @@ export default function AllBookingsPage() {
                     />
                 </div>
             </div>
+
+            {/* Strategy Context */}
+             {!isLoading && filteredBookings.length > 0 && (
+                <div className="bg-navy rounded-[3rem] p-12 text-white flex flex-col md:flex-row justify-between items-center gap-10 shadow-3xl shadow-navy/30 relative overflow-hidden group">
+                    <div className="absolute -top-20 -right-20 w-80 h-80 bg-white/[0.03] rounded-full blur-[100px] pointer-events-none group-hover:bg-white/[0.05] transition-all duration-1000"></div>
+                    <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
+                        <div className="w-20 h-20 rounded-[2rem] bg-gold/10 flex items-center justify-center border border-gold/20 shrink-0">
+                             <TrendingUp className="w-10 h-10 text-gold" />
+                        </div>
+                        <div>
+                            <h4 className="text-3xl font-black mb-3 tracking-tight">Revenue <span className="text-gold">Acceleration</span></h4>
+                            <p className="text-white/60 text-sm font-medium max-w-xl leading-relaxed">
+                                Monitor your reservation load in real-time. High confirmation rates and optimal vehicle rotation are key indicators of a healthy fleet operation. 
+                            </p>
+                        </div>
+                    </div>
+                    <div className="relative z-10 flex gap-4 shrink-0">
+                         <button className="h-14 px-10 rounded-2xl bg-white text-navy text-[11px] font-black uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-xl shadow-white/5">
+                            Insights Report
+                         </button>
+                    </div>
+                </div>
+             )}
         </div>
     );
 }

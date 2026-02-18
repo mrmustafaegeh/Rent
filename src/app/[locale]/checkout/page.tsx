@@ -147,18 +147,44 @@ function CheckoutContent() {
         const diffDays = Math.ceil(Math.abs(end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
         const days = Math.max(1, diffDays);
         
-        let rate = vehicle.pricing.daily;
-        // Simple logic mirroring BookingWidget
-        if (days >= 7) rate = vehicle.pricing.weekly || (vehicle.pricing.daily * 0.85);
-        else if (days >= 3) rate = vehicle.pricing.threeDays || (vehicle.pricing.daily * 0.9);
+        let dailyRate = vehicle.dailyPrice || 0;
+        
+        if (days >= 30 && vehicle.monthlyPrice) dailyRate = vehicle.monthlyPrice / 30;
+        else if (days >= 7 && vehicle.weeklyPrice) dailyRate = vehicle.weeklyPrice / 7;
+        else if (days >= 7) dailyRate = vehicle.dailyPrice * 0.85;
+        else if (days >= 3) dailyRate = vehicle.dailyPrice * 0.9;
 
-        return Math.round(days * rate);
+        return Math.round(days * dailyRate);
+    };
+
+    const uploadFile = async (file: File) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        const res = await fetch('/api/upload', {
+            method: 'POST',
+            body: formData
+        });
+        if (!res.ok) throw new Error('Upload failed');
+        const data = await res.json();
+        return data.url;
     };
 
     const handleBookingCreation = async () => {
         setIsProcessing(true);
         try {
-            // Create Booking in Database
+            let driversLicenseUrl = '';
+            let passportUrl = '';
+
+            // 1. Upload Documents if present
+            const fd = formData as any;
+            if (fd.driversLicense) {
+                driversLicenseUrl = await uploadFile(fd.driversLicense);
+            }
+            if (fd.passport) {
+                passportUrl = await uploadFile(fd.passport);
+            }
+
+            // 2. Create Booking in Database
             const bookingRes = await fetch('/api/bookings', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -174,21 +200,24 @@ function CheckoutContent() {
                     endDate,
                     pickupLocation,
                     dropoffLocation,
+                    driversLicense: driversLicenseUrl,
+                    passport: passportUrl,
                     totalPrice: calculateTotal(),
-                    status: paymentMethod === 'stripe' ? 'confirmed' : 'pending_payment',
-                    paymentStatus: paymentMethod === 'stripe' ? 'paid' : 'pay_at_pickup'
+                    status: paymentMethod === 'stripe' ? 'confirmed' : 'pending',
+                    paymentStatus: paymentMethod === 'stripe' ? 'paid' : 'pending'
                 })
             });
 
             if (bookingRes.ok) {
                  router.push('/dashboard/bookings?success=true');
             } else {
-                 alert(t('errors.failed'));
+                 const errData = await bookingRes.json();
+                 alert(errData.error || t('errors.failed'));
             }
 
-        } catch (err) {
+        } catch (err: any) {
             console.error(err);
-            alert(t('errors.unexpected'));
+            alert(err.message || t('errors.unexpected'));
         } finally {
             setIsProcessing(false);
         }

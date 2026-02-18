@@ -19,9 +19,20 @@ interface PricingTier {
 interface BookingWidgetProps {
   pricing: PricingTier
   vehicleId: string
+  initialStartDate?: string | Date
+  initialEndDate?: string | Date
+  initialPickupLocation?: string
+  initialDropoffLocation?: string
 }
 
-export function BookingWidget({ pricing, vehicleId }: BookingWidgetProps) {
+export function BookingWidget({ 
+    pricing, 
+    vehicleId,
+    initialStartDate,
+    initialEndDate,
+    initialPickupLocation,
+    initialDropoffLocation
+}: BookingWidgetProps) {
   const router = useRouter()
   // Use empty initial state to avoid hydration mismatch
   const [pickupDate, setPickupDate] = React.useState<string>("")
@@ -30,13 +41,56 @@ export function BookingWidget({ pricing, vehicleId }: BookingWidgetProps) {
   const [dropoffLocation, setDropoffLocation] = React.useState("ercan")
   
   const [mounted, setMounted] = React.useState(false)
+  const [isAvailable, setIsAvailable] = React.useState<boolean | null>(null)
+  const [checkingAvailability, setCheckingAvailability] = React.useState(false)
   
   // Set default dates on mount
   React.useEffect(() => {
       setMounted(true)
-      setPickupDate(new Date().toISOString().split('T')[0])
-      setDropoffDate(addDays(new Date(), 3).toISOString().split('T')[0])
-  }, [])
+      
+      if (initialStartDate) {
+          const d = new Date(initialStartDate)
+          if (!isNaN(d.getTime())) {
+              setPickupDate(d.toISOString().split('T')[0])
+          }
+      } else {
+          setPickupDate(new Date().toISOString().split('T')[0])
+      }
+
+      if (initialEndDate) {
+          const d = new Date(initialEndDate)
+          if (!isNaN(d.getTime())) {
+              setDropoffDate(d.toISOString().split('T')[0])
+          }
+      } else {
+          setDropoffDate(addDays(new Date(), 3).toISOString().split('T')[0])
+      }
+      
+      if (initialPickupLocation) setPickupLocation(initialPickupLocation)
+      if (initialDropoffLocation) setDropoffLocation(initialDropoffLocation)
+  }, [initialStartDate, initialEndDate, initialPickupLocation, initialDropoffLocation])
+
+  // Check availability when dates change
+  React.useEffect(() => {
+    async function checkAvailability() {
+      if (!pickupDate || !dropoffDate || !vehicleId) return
+      
+      setCheckingAvailability(true)
+      try {
+        const res = await fetch(`/api/availability?vehicleId=${vehicleId}&startDate=${pickupDate}&endDate=${dropoffDate}`)
+        const data = await res.json()
+        setIsAvailable(data.available)
+      } catch (error) {
+        console.error('Availability check failed')
+        setIsAvailable(null)
+      } finally {
+        setCheckingAvailability(false)
+      }
+    }
+
+    const timer = setTimeout(checkAvailability, 500)
+    return () => clearTimeout(timer)
+  }, [pickupDate, dropoffDate, vehicleId])
 
   // Basic calculation
   const calculateTotal = () => {
@@ -178,8 +232,27 @@ export function BookingWidget({ pricing, vehicleId }: BookingWidgetProps) {
       </div>
 
       <div className="space-y-3">
-          <Button className="w-full h-14 text-base font-bold bg-gold text-navy hover:bg-gold/90 rounded-xl shadow-[0_10px_20px_rgba(255,215,0,0.25)] hover:shadow-lg transition-all hover:-translate-y-0.5" onClick={handleBookNow}>
-              Book Now <ArrowRight className="ml-2 w-5 h-5" />
+          <div className="flex items-center gap-2 px-1">
+            {checkingAvailability ? (
+              <div className="flex items-center gap-2 text-xs font-bold text-gray-400 animate-pulse">
+                <div className="w-2 h-2 rounded-full bg-gray-300"></div> Checking availability...
+              </div>
+            ) : isAvailable === true ? (
+              <div className="flex items-center gap-2 text-xs font-bold text-emerald-600">
+                <div className="w-2 h-2 rounded-full bg-emerald-500"></div> Available for selected dates
+              </div>
+            ) : isAvailable === false ? (
+              <div className="flex items-center gap-2 text-xs font-bold text-red-500">
+                <div className="w-2 h-2 rounded-full bg-red-500"></div> Not available for these dates
+              </div>
+            ) : null}
+          </div>
+          <Button 
+            disabled={isAvailable === false || checkingAvailability}
+            className="w-full h-14 text-base font-bold bg-gold text-navy hover:bg-gold/90 rounded-xl shadow-[0_10px_20px_rgba(255,215,0,0.25)] hover:shadow-lg transition-all hover:-translate-y-0.5 disabled:opacity-50 disabled:grayscale disabled:pointer-events-none" 
+            onClick={handleBookNow}
+          >
+              {isAvailable === false ? 'Unavailable' : 'Book Now'} <ArrowRight className="ml-2 w-5 h-5" />
           </Button>
           <Button variant="outline" className="w-full h-14 text-base font-bold border-gray-200 text-gray-500 hover:text-navy hover:border-gray-300 rounded-xl hover:bg-gray-50 transition-all">
             Chat on WhatsApp

@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
-import Location from '@/models/Location';
-import dbConnect from '@/lib/mongodb';
+import prisma from '@/lib/prisma';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Header } from '@/components/Header';
@@ -18,14 +17,13 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 async function getLocations() {
-  await dbConnect();
   // If no locations in DB, return mock data for display
-  const dbLocations = await Location.find({ isActive: true });
-  if (dbLocations.length > 0) return JSON.parse(JSON.stringify(dbLocations));
+  const dbLocations = await prisma.location.findMany({ where: { isActive: true } });
+  if (dbLocations.length > 0) return dbLocations;
 
   return [
     {
-        _id: '1',
+        id: '1',
         name: 'Kyrenia Harbor HQ',
         address: '20 Kordonboyu St, Kyrenia',
         city: 'Kyrenia',
@@ -33,10 +31,11 @@ async function getLocations() {
         email: 'kyrenia@mediterraneandrive.com',
         operatingHours: '08:00 - 22:00',
         image: '/images/kyrenia-thumb.png',
-        coordinates: { lat: 35.3407, lng: 33.3199 }
+        lat: 35.3407, 
+        lng: 33.3199
     },
     {
-        _id: '2',
+        id: '2',
         name: 'Ercan International Airport',
         address: 'Terminal Building, Arrivals Hall',
         city: 'Nicosia',
@@ -44,10 +43,11 @@ async function getLocations() {
         email: 'airport@mediterraneandrive.com',
         operatingHours: '24/7 Service',
         image: '/images/hero-bg-cyprus.png', // Fallback
-         coordinates: { lat: 35.1500, lng: 33.5000 }
+         lat: 35.1500, 
+         lng: 33.5000
     },
     {
-        _id: '3',
+        id: '3',
         name: 'Famagusta City Center',
         address: 'Salamis Road, Famagusta',
         city: 'Famagusta',
@@ -55,7 +55,20 @@ async function getLocations() {
         email: 'famagusta@mediterraneandrive.com',
         operatingHours: '09:00 - 20:00',
         image: '/images/hero-bg-cyprus.png', // Fallback
-         coordinates: { lat: 35.1250, lng: 33.9400 }
+         lat: 35.1250, 
+         lng: 33.9400
+    },
+    {
+        id: '4',
+        name: 'Lefkosha City Hub',
+        address: 'Dereboyu Avenue, Lefkoşa',
+        city: 'Lefkosha',
+        phone: '+90 533 850 0003',
+        email: 'nicosia@mediterraneandrive.com',
+        operatingHours: '09:00 - 19:00',
+        image: '/images/hero-bg-cyprus.png', // Fallback
+         lat: 35.1856, 
+         lng: 33.3614
     }
   ];
 }

@@ -6,11 +6,9 @@ import { Button } from '@/components/ui/Button';
 import OptimizedImage from '@/components/ui/OptimizedImage';
 
 interface Review {
-  _id: string;
+  id: string;
   user: {
-    _id: string;
-    firstName: string;
-    lastName: string;
+    name: string;
     image?: string;
   };
   rating: number; // 1-5
@@ -164,26 +162,26 @@ export default function ReviewsSection({ vehicleId }: ReviewsSectionProps) {
           <div className="text-center py-8 text-[var(--text-secondary)]">No reviews yet. Be the first to share your experience!</div>
         ) : (
           reviews.map((review) => (
-            <div key={review._id} className="border-b border-[var(--border)] last:border-0 pb-6 last:pb-0">
+            <div key={review.id} className="border-b border-[var(--border)] last:border-0 pb-6 last:pb-0">
                <div className="flex justify-between items-start mb-2">
                   <div className="flex items-center gap-3">
                      <div className="w-10 h-10 rounded-full bg-[var(--surface-lighter)] overflow-hidden">
                        {review.user.image ? (
                           <OptimizedImage 
                             src={review.user.image} 
-                            alt={review.user.firstName} 
+                            alt={review.user.name} 
                             fill
                             className="object-cover w-full h-full"
                             sizes="40px"
                           />
                        ) : (
                           <div className="w-full h-full flex items-center justify-center text-[var(--primary)] font-bold">
-                            {review.user.firstName.charAt(0)}
+                            {review.user.name ? review.user.name.charAt(0) : 'U'}
                           </div>
                        )}
                      </div>
                      <div>
-                        <h4 className="font-bold text-white">{review.user.firstName} {review.user.lastName}</h4>
+                        <h4 className="font-bold text-white">{review.user.name}</h4>
                         <p className="text-xs text-[var(--text-muted)]">{new Date(review.createdAt).toLocaleDateString()}</p>
                      </div>
                   </div>

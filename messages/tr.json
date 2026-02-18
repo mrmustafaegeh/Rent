@@ -19,7 +19,10 @@
     "language": "Dil",
     "currency": "Para Birimi",
     "partners": "Ortaklar",
-    "listCar": "Arabanızı Listeleyin"
+    "listCar": "Arabanızı Listeleyin",
+    "changeCurrency": "Para Birimini Değiştir",
+    "menuOpen": "Menüyü Aç",
+    "menuClose": "Menüyü Kapat"
   },
   "Common": {
     "loading": "Yükleniyor...",
@@ -281,6 +284,9 @@
   "CarFilters": {
     "title": "Filtreler",
     "reset": "Sıfırla",
+    "rentalDates": "Kiralama Tarihleri",
+    "pickup": "Teslim Alma",
+    "dropoff": "Teslim Etme",
     "priceRange": "Günlük Fiyat Aralığı",
     "category": "Kategori",
     "transmission": "Vites",
@@ -628,6 +634,18 @@
       "unexpected": "Beklenmedik bir hata oluştu. Lütfen tekrar deneyin."
     }
   },
+  "Reviews": {
+    "rateVehicle": "Aracı Değerlendir",
+    "givenReview": "Değerlendirildi",
+    "title": "Deneyiminizi Puanlayın",
+    "description": "{vehicleName} ile yolculuğunuz nasıldı?",
+    "placeholder": "Deneyiminizi bize anlatın...",
+    "cancel": "İptal",
+    "submit": "Değerlendirmeyi Gönder",
+    "submitting": "Gönderiliyor...",
+    "success": "Değerlendirme başarıyla gönderildi!",
+    "error": "Değerlendirme gönderilemedi"
+  },
   "ListCar": {
     "title": "Aracınızı Listeleyin",
     "subtitle": "Aracınızı premium pazar yerimizde satışa sunmak için aşağıdaki ayrıntıları doldurun.",
@@ -655,6 +673,81 @@
       "desc": "Aracınız inceleme için başarıyla gönderildi. Ekibimiz tarafından onaylandıktan sonra \"Araç Satın Al\" bölümünde görünecektir.",
       "dashboard": "Panelle Git",
       "home": "Anasayfaya Dön"
+    }
+  },
+  "SEO": {
+    "northCyprus": {
+      "metaTitle": "Kuzey Kıbrıs Araç Kiralama | En İyi Fiyatlar & Premium Filo | RentalX",
+      "metaDescription": "RentalX ile Kuzey Kıbrıs'ta araç kiralayın. Lüks, SUV ve ekonomik araç seçenekleri. Anında rezervasyon, şeffaf fiyatlandırma ve 7/24 destek.",
+      "h1": "Kuzey Kıbrıs Araç Kiralama",
+      "title": "Kuzey Kıbrıs'ı Tarzla Keşfedin",
+      "intro": "Kuzey Kıbrıs (KKTC) için güvenilir ve premium araç kiralamanın önde gelen adresi RentalX'e hoş geldiniz. İş veya tatil amaçlı ziyaretlerinizde, geniş filomuzla mükemmel aracı bulmanızı sağlıyoruz.",
+      "sections": [
+        {
+          "title": "Neden Kuzey Kıbrıs'ta Araç Kiralamalısınız?",
+          "content": "Exploring Northern Cyprus is best done by car. From the historic harbor of Kyrenia to the golden sands of Karpaz, having your own vehicle gives you the freedom to discover hidden gems at your own pace."
+        },
+        {
+          "title": "Filo Koleksiyonlarımız",
+          "content": "We offer a diverse range of vehicles to suit every need. Choose our Luxury Collection for a prestigious experience, our SUV & 4x4 options for mountain adventures, or our Economy range."
+        },
+        {
+          "title": "Şeffaf Fiyatlandırma & Gizli Ücret Yok",
+          "content": "At RentalX, we believe in honesty. The price you see is the price you pay. All rentals include basic insurance, and we offer clear upgrades for full coverage."
+        }
+      ],
+      "faq": {
+        "title": "Kuzey Kıbrıs Araç Kiralama SSS",
+        "items": [
+          {
+            "q": "Aracımı Ercan Havalimanı'ndan teslim alabilir miyim?",
+            "a": "Yes, we provide 24/7 delivery and pickup services at Ercan Airport (ECN). Your driver will meet you at the arrivals gate."
+          },
+          {
+            "q": "Kuzey Kıbrıs'ta trafik hangi yönden akar?",
+            "a": "Like the UK, we drive on the left side of the road in North Cyprus."
+          }
+        ]
+      }
+    },
+    "kyrenia": {
+      "metaTitle": "Girne Araç Kiralama | Premium Araçlar | RentalX",
+      "metaDescription": "Girne'de araç kiralama mı arıyorsunuz? RentalX, Girne'deki en iyi lüks ve ekonomik araç seçeneklerini sunar. Limanda, şehir merkezinde veya otelinizde teslim alın.",
+      "h1": "Girne (Kyrenia) Araç Kiralama",
+      "title": "Akdeniz'in İncisinde Yolculuk",
+      "intro": "Girne, Kuzey Kıbrıs'ın en popüler turistik destinasyonudur. RentalX ile Girne'nin tam kalbinde sorunsuz bir kiralama deneyimi yaşayabilirsiniz.",
+      "sections": [
+        {
+          "title": "Girne Limanı ve Kalesi'ni Keşfedin",
+          "content": "With a rental car, you can easily visit the iconic Kyrenia Harbor and the majestic Kyrenia Castle. Avoid the heat and travel in comfort with our modern, air-conditioned fleet."
+        }
+      ]
+    },
+    "ercan": {
+      "metaTitle": "Ercan Havalimanı Araç Kiralama | 7/24 Teslim | RentalX",
+      "metaDescription": "Ercan Havalimanı (ECN)'nda aracınızı RentalX ile kiralayın. 7/24 hizmet, bekleme yok ve terminalden doğrudan teslim alma. En iyi fiyatlar için online rezervasyon yapın.",
+      "h1": "Ercan Havalimanı Araç Kiralama",
+      "title": "İndiğiniz Anda Yolculuğa Başlayın",
+      "intro": "Taksi beklemekle vakit kaybetmeyin. RentalX ile aracınız, vardığınız anda Ercan Havalimanı terminalinde sizi bekliyor olacak.",
+      "sections": [
+        {
+          "title": "Sorunsuz Havalimanı Transferi",
+          "content": "Our airport team monitors your flight in real-time. Whether you land early or late, we ensure a smooth handover right at the terminal exit."
+        }
+      ]
+    },
+    "luxury": {
+      "metaTitle": "Lüks Araç Kiralama Kuzey Kıbrıs | Premium & Spor Filo | RentalX",
+      "metaDescription": "Kuzey Kıbrıs'ta ayrıcalıklı bir deneyim yaşayın. RentalX ile Porsche, Mercedes ve Range Rover kiralayın. VIP hizmet ve Tertemiz araçlar.",
+      "h1": "Lüks Araç Kiralama Kuzey Kıbrıs",
+      "title": "Mükemmelliği Sürün",
+      "intro": "Akdeniz yolları, manzarayla yarışan bir arabayı hak ediyor. Lüks filomuz, en iyisinden başkasına razı olmayanlar için özenle seçildi.",
+      "sections": [
+        {
+          "title": "Sadece Bir Araba Değil",
+          "content": "From high-performance sports cars to executive SUVs, our luxury collection offers the latest models with top-tier specifications. Enjoy VIP delivery, champagne service, and 24/7 concierge support."
+        }
+      ]
     }
   }
 }

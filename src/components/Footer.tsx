@@ -68,10 +68,11 @@ export function Footer() {
             <h3 className="font-heading font-bold text-lg text-white">{t('support')}</h3>
             <ul className="space-y-3 text-sm text-gray-400">
               <li><Link href="/faq" className="hover:text-gold transition-colors block py-1">{t('links.help')}</Link></li>
-              <li><Link href="/terms" className="hover:text-gold transition-colors block py-1">{t('links.terms')}</Link></li>
-              <li><Link href="/privacy" className="hover:text-gold transition-colors block py-1">{t('links.privacy')}</Link></li>
-              <li><Link href="/insurance" className="hover:text-gold transition-colors block py-1">{t('links.insurance')}</Link></li>
-              <li><Link href="/sitemap" className="hover:text-gold transition-colors block py-1">{t('links.sitemap')}</Link></li>
+              <li><Link href="/legal/terms" className="hover:text-gold transition-colors block py-1">{t('links.terms')}</Link></li>
+              <li><Link href="/legal/privacy" className="hover:text-gold transition-colors block py-1">{t('links.privacy')}</Link></li>
+              <li><Link href="/legal/insurance" className="hover:text-gold transition-colors block py-1">{t('links.insurance')}</Link></li>
+              <li><Link href="/sitemap.xml" className="hover:text-gold transition-colors block py-1">{t('links.sitemap')}</Link></li>
+              <li><Link href="/legal/tourist-rules" className="hover:text-gold transition-colors block py-1">{t('links.touristRules') || "Tourist Rules"}</Link></li>
             </ul>
           </div>
 

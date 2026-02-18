@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/Button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { getTranslations } from 'next-intl/server';
-import { getVehicles as getVehiclesFromService } from "@/lib/vehicleService";
+import { getVehicles as getVehiclesFromService } from "@/services/vehicleService";
 
 async function getVehiclesData() {
   // Fetch luxury

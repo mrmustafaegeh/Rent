@@ -55,7 +55,9 @@ export default function ContactPage() {
       <main className="flex-1">
         {/* Hero Section */}
         <section className="bg-navy py-20 md:py-32 relative overflow-hidden">
-            <div className="absolute inset-0 bg-[url('/images/pattern-grid.png')] opacity-10" />
+            <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+                 style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} 
+            />
             <div className="container mx-auto px-4 relative z-10 text-center">
                 <span className="text-gold font-bold uppercase tracking-widest text-xs mb-4 block">{t('hero.overline')}</span>
                 <h1 className="text-3xl sm:text-5xl md:text-6xl font-heading font-black text-white mb-6">
@@ -75,6 +77,9 @@ export default function ContactPage() {
                     
                     {/* Contact Info */}
                     <div className="lg:w-5/12 bg-navy p-10 md:p-14 text-white flex flex-col justify-between relative overflow-hidden">
+                         <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+                         style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} 
+                    />
                          <div className="absolute top-0 right-0 w-64 h-64 bg-electric/20 rounded-full blur-[80px] -mr-16 -mt-16 pointer-events-none" />
                          <div className="absolute bottom-0 left-0 w-64 h-64 bg-gold/10 rounded-full blur-[80px] -ml-16 -mb-16 pointer-events-none" />
                          

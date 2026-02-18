@@ -114,35 +114,54 @@ export default async function LocaleLayout({
           dangerouslySetInnerHTML={{
              __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "AutoRental",
-              "name": messages.Metadata?.brand || "RENTALX",
+              "@type": "CarRental",
+              "name": messages.Metadata?.brand || "RentalX",
               "url": process.env.NEXT_PUBLIC_APP_URL || "https://rentalx.com",
+              "logo": `${process.env.NEXT_PUBLIC_APP_URL}/logo.png`,
+              "image": "https://images.unsplash.com/photo-1503376763036-066120622c74",
               "description": messages.Metadata?.description,
               "address": {
                 "@type": "PostalAddress",
-                "streetAddress": "Kyrenia",
+                "streetAddress": "Kyrenia Harbour",
                 "addressLocality": "Kyrenia",
+                "addressRegion": "TRNC",
                 "addressCountry": "CY"
               },
-              "telephone": "+905330000000",
+              "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": 35.3364,
+                "longitude": 33.3169
+              },
+              "telephone": "+90 533 000 00 00",
               "email": "hello@mediterraneandrive.com",
+              "priceRange": "$$",
               "openingHoursSpecification": [
                 {
                   "@type": "OpeningHoursSpecification",
-                  "dayOfWeek": [
-                    "Monday",
-                    "Tuesday",
-                    "Wednesday",
-                    "Thursday",
-                    "Friday",
-                    "Saturday",
-                    "Sunday"
-                  ],
+                  "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
                   "opens": "00:00",
                   "closes": "23:59"
                 }
+              ],
+              "sameAs": [
+                "https://facebook.com/rentalx",
+                "https://instagram.com/rentalx"
               ]
             })
+          }}
+        />
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}');
+            `,
           }}
         />
       </body>

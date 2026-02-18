@@ -1,8 +1,7 @@
 import { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import FacebookProvider from 'next-auth/providers/facebook';
-import dbConnect from '@/lib/mongodb';
-import User from '@/models/User';
+import prisma from '@/lib/prisma';
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -19,23 +18,28 @@ export const authOptions: NextAuthOptions = {
         async signIn({ user, account }) {
             try {
                 if (!user.email) return false;
+                
                 if (account?.provider === 'google' || account?.provider === 'facebook') {
-                    await dbConnect();
-                    
-                    if (!user.email) return false;
-                    const existingUser = await User.findOne({ email: user.email as string });
+                    const existingUser = await prisma.user.findUnique({
+                        where: { email: user.email }
+                    });
 
                     if (!existingUser) {
-                        await User.create({
-                            firstName: (user.name || 'User').split(' ')[0],
-                            lastName: (user.name || '').split(' ')[1] || '',
-                            email: user.email as string,
-                            image: user.image || undefined,
-                            password: Math.random().toString(36).slice(-8), 
-                            role: 'customer',
-                            provider: account.provider
-                        });
-                        return true;
+                        try {
+                            await prisma.user.create({
+                                data: {
+                                    name: user.name || 'User',
+                                    email: user.email,
+                                    image: user.image,
+                                    password: Math.random().toString(36).slice(-8), // Dummy password for OAuth users
+                                    role: 'CUSTOMER',
+                                    isActive: true
+                                }
+                            });
+                        } catch (createError) {
+                            console.error('Error creating user during OAuth:', createError);
+                            return false;
+                        }
                     }
                 }
                 return true;
@@ -46,19 +50,19 @@ export const authOptions: NextAuthOptions = {
         },
         async jwt({ token, user, account }) {
             try {
-                await dbConnect();
                 if (user && user.email) {
-                    // Initial sign in
-                    const dbUser = await User.findOne({ email: user.email as string });
+                    // Initial sign in or update
+                    const dbUser = await prisma.user.findUnique({ where: { email: user.email } });
                     if (dbUser) {
-                        token.id = dbUser._id.toString();
+                        token.id = dbUser.id;
                         token.role = dbUser.role;
                     }
                 } else if (token.email) {
                     // Subsequent requests - refresh role from DB
-                    const dbUser = await User.findOne({ email: token.email });
+                    const dbUser = await prisma.user.findUnique({ where: { email: token.email } });
                     if (dbUser) {
                         token.role = dbUser.role;
+                        token.id = dbUser.id; // ensure ID is always fresh if needed
                     }
                 }
             } catch (error) {

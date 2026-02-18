@@ -1,8 +1,5 @@
 import { NextResponse } from 'next/server';
-import dbConnect from '@/lib/mongodb';
-import Booking from '@/models/Booking';
-import Vehicle from '@/models/Vehicle';
-import User from '@/models/User';
+import prisma from '@/lib/prisma';
 import { sendEmail, emailTemplates } from '@/lib/email';
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
@@ -31,31 +28,32 @@ async function authorizeAdmin(req?: Request) {
             userId?: string;
         };
 
-        await dbConnect();
         const userId = decoded.id || decoded.userId;
         if (!userId) return null;
 
-        const user = await User.findById(userId);
+        const user = await prisma.user.findUnique({
+            where: { id: userId }
+        });
         
-        if (!user || (user.role !== 'admin' && user.role !== 'company_owner')) {
-            return null;
-        }
+        if (!user) return null;
 
-        return user;
+        const isAdmin = user.role === 'ADMIN';
+        const isPartner = user.role === 'PARTNER';
+
+        if (isAdmin || isPartner) {
+            return user;
+        }
     } catch (error) {
         console.error('[Auth] Error:', error);
-        return null;
     }
+    return null;
 }
 
 // POST - Confirm booking and send email
 export async function POST(request: Request) {
-    console.log('\n🟢 POST /api/admin/bookings/confirm - Request received');
-    
     const adminUser = await authorizeAdmin(request);
     
     if (!adminUser) {
-        console.log('❌ Unauthorized');
         return NextResponse.json({ 
             success: false,
             error: 'Unauthorized',
@@ -63,15 +61,9 @@ export async function POST(request: Request) {
         }, { status: 401 });
     }
 
-    console.log('✅ Authorized as:', adminUser.email);
-
     try {
-        await dbConnect();
-        
         const body = await request.json();
         const { bookingId } = body;
-
-        console.log('[CONFIRM] Booking ID:', bookingId);
 
         if (!bookingId) {
             return NextResponse.json({ 
@@ -81,29 +73,27 @@ export async function POST(request: Request) {
         }
 
         // Find booking with populated data
-        const booking = await Booking.findById(bookingId)
-            .populate('vehicle', 'brand vehicleModel images owner company')
-            .populate('customer', 'firstName lastName email phone');
+        const booking = await prisma.booking.findUnique({
+            where: { id: bookingId },
+            include: {
+                vehicle: true,
+                customer: true
+            }
+        });
 
         if (!booking) {
-            console.log('[CONFIRM] ❌ Booking not found');
             return NextResponse.json({ 
                 success: false,
                 error: 'Booking not found' 
             }, { status: 404 });
         }
 
-        console.log('[CONFIRM] Booking found:', booking.bookingNumber);
-
         // Check authorization for company owners
-        if (adminUser.role === 'company_owner') {
-            const vehicle = booking.vehicle as any;
-            const isOwner = vehicle.owner && vehicle.owner.toString() === adminUser._id.toString();
-            const isCompany = adminUser.companyId && vehicle.company && 
-                            vehicle.company.toString() === adminUser.companyId.toString();
+        if (adminUser.role === 'PARTNER') {
+            const isOwner = booking.vehicle.ownerId === adminUser.id;
+            const isCompany = adminUser.companyId && booking.vehicle.companyId === adminUser.companyId;
             
             if (!isOwner && !isCompany) {
-                console.log('[CONFIRM] ❌ Not authorized for this booking');
                 return NextResponse.json({ 
                     success: false,
                     error: 'Unauthorized',
@@ -113,78 +103,81 @@ export async function POST(request: Request) {
         }
 
         // Check if already confirmed
-        if (booking.status === 'confirmed') {
-            console.log('[CONFIRM] ⚠️ Booking already confirmed');
+        if (booking.status === 'CONFIRMED') {
             return NextResponse.json({ 
                 success: false,
                 error: 'Booking already confirmed' 
             }, { status: 400 });
         }
 
-        // Update booking status
-        booking.status = 'confirmed';
-        booking.paymentStatus = 'pending'; // or 'paid' if payment was processed
-        
-        // Add confirmation note
-        booking.notes = booking.notes || [];
-        booking.notes.push({
-            text: `Booking confirmed by ${adminUser.role}: ${adminUser.firstName} ${adminUser.lastName}`,
-            addedBy: adminUser._id,
-            date: new Date()
+        // Update booking status and add note in a transaction
+        const updatedBooking = await prisma.$transaction(async (tx: any) => {
+            // Add confirmation note
+            await tx.bookingNote.create({
+                data: {
+                    text: `Booking confirmed by ${adminUser.role}: ${adminUser.name}`,
+                    bookingId: booking.id,
+                    userId: adminUser.id
+                }
+            });
+
+            // Update booking
+            return await tx.booking.update({
+                where: { id: booking.id },
+                data: {
+                    status: 'CONFIRMED',
+                    paymentStatus: booking.paymentStatus === 'PENDING' ? 'PENDING' : booking.paymentStatus, // Keep existing or update? Code said pending.
+                    // If payment was not processed, usually it remains pending or updated to PAID elsewhere.
+                    // Original code: booking.paymentStatus = 'pending';
+                },
+                include: {
+                    vehicle: true,
+                    customer: true
+                }
+            });
         });
 
-        await booking.save();
-
-        console.log('[CONFIRM] ✅ Booking status updated to confirmed');
-
         // Prepare email data
-        const customer = booking.customer as any;
-        const vehicle = booking.vehicle as any;
+        const customer = updatedBooking.customer;
+        const vehicle = updatedBooking.vehicle;
         
         const emailData = {
-            customerName: `${customer.firstName} ${customer.lastName}`,
-            bookingNumber: booking.bookingNumber,
+            customerName: customer.name || 'Valued Customer',
+            bookingNumber: updatedBooking.bookingNumber,
             vehicleName: `${vehicle.brand} ${vehicle.vehicleModel}`,
-            startDate: new Date(booking.startDate).toLocaleDateString('en-US', {
+            startDate: new Date(updatedBooking.startDate).toLocaleDateString('en-US', {
                 weekday: 'long',
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'
             }),
-            endDate: new Date(booking.endDate).toLocaleDateString('en-US', {
+            endDate: new Date(updatedBooking.endDate).toLocaleDateString('en-US', {
                 weekday: 'long',
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'
             }),
-            totalPrice: booking.totalPrice,
-            pickupLocation: booking.pickupLocation || 'Office'
+            totalPrice: updatedBooking.totalPrice,
+            pickupLocation: updatedBooking.pickupLocation || 'Office'
         };
 
         // Send confirmation email
-        console.log('[CONFIRM] Sending confirmation email to:', customer.email);
-        
-        const emailTemplate = emailTemplates.bookingConfirmation(emailData);
-        const emailSent = await sendEmail({
-            to: customer.email,
-            subject: emailTemplate.subject,
-            html: emailTemplate.html,
-            text: emailTemplate.text,
-        });
-
-        if (emailSent) {
-            console.log('[CONFIRM] ✅ Confirmation email sent successfully');
-        } else {
-            console.log('[CONFIRM] ⚠️ Email service not configured or failed to send');
+        let emailSent = false;
+        try {
+            const emailTemplate = emailTemplates.bookingConfirmation(emailData);
+            emailSent = await sendEmail({
+                to: customer.email,
+                subject: emailTemplate.subject,
+                html: emailTemplate.html,
+                text: emailTemplate.text,
+            });
+        } catch (emailError) {
+            console.error('Failed to send confirmation email', emailError);
         }
-
-        // Populate for response
-        await booking.populate('vehicle', 'brand vehicleModel images');
-        await booking.populate('customer', 'firstName lastName email phone');
 
         return NextResponse.json({ 
             success: true, 
-            data: booking,
+            data: updatedBooking,
             emailSent,
             message: emailSent 
                 ? 'Booking confirmed and email sent to customer' 
@@ -200,3 +193,4 @@ export async function POST(request: Request) {
         }, { status: 500 });
     }
 }
+

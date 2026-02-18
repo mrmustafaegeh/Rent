@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from "react"
-import Image from "next/image"
+import { OptimizedImage } from "@/components/ui/OptimizedImage"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { Calendar, MapPin, Search, ChevronDown, CheckCircle2 } from "lucide-react"
 import { Button } from "@/components/ui/Button"
@@ -10,7 +10,13 @@ import { Input } from "@/components/ui/Input"
 
 import { useTranslations } from 'next-intl';
 
-export function HeroSection() {
+export interface HeroSectionProps {
+    title?: string;
+    subtitleHighlight?: string;
+    description?: string;
+}
+
+export function HeroSection({ title, subtitleHighlight, description }: HeroSectionProps) {
     const [location, setLocation] = React.useState("nicosia")
     const [pickupDate, setPickupDate] = React.useState("")
     const [dropoffDate, setDropoffDate] = React.useState("")
@@ -43,7 +49,7 @@ export function HeroSection() {
              {/* Background Video/Image with Parallax */}
              <motion.div style={{ y }} className="absolute inset-0 z-0">
                 <div className="absolute inset-0 bg-gradient-to-br from-[#0A1628]/80 via-[#0A1628]/60 to-[#0A1628]/30 z-10" />
-                <Image 
+                <OptimizedImage 
                   src="/images/hero-bg-cyprus.png"
                   alt="North Cyprus Scenic Drive"
                   fill
@@ -65,8 +71,8 @@ export function HeroSection() {
                         transition={{ duration: 0.8, ease: "easeOut" }}
                         className="font-heading font-black text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] leading-[1.1] md:leading-[1.05] text-white drop-shadow-2xl tracking-tight"
                      >
-                        {t('title')} <br/>
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold via-yellow-200 to-gold">{t('subtitleHighlight')}</span>
+                        {title || t('title')} <br/>
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold via-yellow-200 to-gold">{subtitleHighlight || t('subtitleHighlight')}</span>
                      </motion.h1>
                      
                      <motion.p 
@@ -75,7 +81,7 @@ export function HeroSection() {
                         transition={{ duration: 0.8, delay: 0.3 }}
                         className="font-body text-base sm:text-lg md:text-2xl text-gray-200 font-medium tracking-wide max-w-2xl mx-auto opacity-90"
                      >
-                        {t('description')}
+                        {description || t('description')}
                      </motion.p>
                  </div>
                  

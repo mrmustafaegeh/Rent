@@ -85,7 +85,7 @@ export default function SalesResultSection({ vehicles, pagination }: SalesResult
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
           {vehicles.map((vehicle: any) => (
              <SalesVehicleCard 
-                key={vehicle._id}
+                key={vehicle.id}
                 vehicle={vehicle}
              />
           ))}

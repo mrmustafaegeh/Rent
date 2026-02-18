@@ -19,7 +19,10 @@
     "language": "اللغة",
     "currency": "العملة",
     "partners": "الشركاء",
-    "listCar": "اعرض سيارتك"
+    "listCar": "اعرض سيارتك",
+    "changeCurrency": "تغيير العملة",
+    "menuOpen": "فتح القائمة",
+    "menuClose": "إغلاق القائمة"
   },
   "Common": {
     "loading": "جاري التحميل...",
@@ -78,7 +81,8 @@
       "privacy": "سياسة الخصوصية",
       "insurance": "معلومات التأمين",
       "sitemap": "خريطة الموقع",
-      "partners": "برنامج الشركاء"
+      "partners": "برنامج الشركاء",
+      "touristRules": "قواعد السياح"
     }
   },
   "VehicleCard": {
@@ -281,6 +285,9 @@
   "CarFilters": {
     "title": "الفلاتر",
     "reset": "إعادة تعيين",
+    "rentalDates": "تواريخ الإيجار",
+    "pickup": "الاستلام",
+    "dropoff": "الإرجاع",
     "priceRange": "نطاق السعر / اليوم",
     "category": "الفئة",
     "transmission": "ناقل الحركة",
@@ -628,6 +635,18 @@
       "unexpected": "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى."
     }
   },
+  "Reviews": {
+    "rateVehicle": "قيم السيارة",
+    "givenReview": "تم التقييم",
+    "title": "قيم تجربتك",
+    "description": "كيف كانت رحلتك مع {vehicleName}؟",
+    "placeholder": "أخبرنا عن تجربتك...",
+    "cancel": "إلغاء",
+    "submit": "إرسال التقييم",
+    "submitting": "جاري الإرسال...",
+    "success": "تم إرسال التقييم بنجاح!",
+    "error": "فشل إرسال التقييم"
+  },
   "ListCar": {
     "title": "عرض سيارتك",
     "subtitle": "املأ التفاصيل أدناه لعرض سيارتك للبيع في سوقنا المتميز.",
@@ -655,6 +674,68 @@
       "desc": "تم تقديم سيارتك بنجاح للمراجعة. بمجرد موافقة فريقنا، ستظهر في قسم \"شراء سيارة\".",
       "dashboard": "انتقل إلى لوحة التحكم",
       "home": "العودة للرئيسية"
+    }
+  },
+  "SEO": {
+    "northCyprus": {
+      "metaTitle": "تأجير سيارات شمال قبرص | أفضل الأسعار وأسطول متميز | RentalX",
+      "metaDescription": "استأجر سيارة في شمال قبرص مع RentalX. اختر من بين السيارات الفاخرة وسيارات الدفع الرباعي والاقتصادية. حجز فوري وتسعير شفاف ودعم 24/7.",
+      "h1": "تأجير سيارات شمال قبرص",
+      "title": "اكتشف شمال قبرص بأناقة",
+      "intro": "مرحبًا بك في RentalX، وجهتك الأولى لتأجير السيارات الموثوقة والمتميزة في شمال قبرص. سواء كنت تزور للعمل أو الترفيه، يضمن أسطولنا الواسع عثورك على السيارة المثالية.",
+      "sections": [
+        {
+          "title": "لماذا تستأجر سيارة في شمال قبرص؟",
+          "content": "Exploring Northern Cyprus is best done by car. From the historic harbor of Kyrenia to the golden sands of Karpaz, having your own vehicle gives you the freedom to discover hidden gems at your own pace."
+        },
+        {
+          "title": "مجموعات أسطولنا",
+          "content": "We offer a diverse range of vehicles to suit every need. Choose our Luxury Collection for a prestigious experience, our SUV & 4x4 options for mountain adventures, or our Economy range."
+        },
+        {
+          "title": "تسعير شفاف ولا رسوم خفية",
+          "content": "At RentalX, we believe in honesty. The price you see is the price you pay. All rentals include basic insurance, and we offer clear upgrades for full coverage."
+        }
+      ],
+      "faq": {
+        "title": "أسئلة شائعة حول تأجير السيارات في شمال قبرص",
+        "items": [
+          {
+            "q": "هل يمكنني استلام سيارتي في مطار إرجان؟",
+            "a": "Yes, we provide 24/7 delivery and pickup services at Ercan Airport (ECN). Your driver will meet you at the arrivals gate."
+          },
+          {
+            "q": "في أي جانب من الطريق تقودون في شمال قبرص؟",
+            "a": "Like the UK, we drive on the left side of the road in North Cyprus."
+          }
+        ]
+      }
+    },
+    "kyrenia": {
+      "metaTitle": "تأجير سيارات كيرينيا (غيرني) | تأجير سيارات فاخرة | RentalX",
+      "metaDescription": "هل تبحث عن تأجير سيارات في كيرينيا؟ تقدم RentalX أفضل مجموعة من السيارات الفاخرة والاقتصادية في غيرني. استلم من الميناء أو وسط المدينة أو فندقك.",
+      "h1": "تأجير سيارات كيرينيا (غيرني)",
+      "title": "رحلتك في لؤلؤة المتوسط",
+      "intro": "كيرينيا هي الوجهة السياحية الأكثر شعبية في شمال قبرص. مع RentalX، يمكنك الاستمتاع بتجربة تأجير سلسة في قلب غيرني مباشرة.",
+      "sections": [
+        {
+          "title": "اكتشف ميناء وقلعة كيرينيا",
+          "content": "With a rental car, you can easily visit the iconic Kyrenia Harbor and the majestic Kyrenia Castle. Avoid the heat and travel in comfort with our modern, air-conditioned fleet."
+        }
+      ]
+    },
+    "ercan": {
+      "metaTitle": "تأجير سيارات مطار إرجان | استلام من المحطة 24/7 | RentalX",
+      "metaDescription": "استأجر سيارتك في مطار إرجان (ECN) مع RentalX. خدمة 24/7، لا انتظار، واستلام مباشر من المحطة. احجز عبر الإنترنت للحصول على أفضل الأسعار.",
+      "h1": "تأجير سيارات مطار إرجان",
+      "title": "ابدأ رحلتك لحظة هبوطك",
+      "intro": "لا تضيع الوقت في انتظار سيارات الأجرة. مع RentalX، ستكون سيارتك في انتظارك في محطة مطار إرجان لحظة وصولك.",
+      "sections": [
+        {
+          "title": "نقل سلس من المطار",
+          "content": "Our airport team monitors your flight in real-time. Whether you land early or late, we ensure a smooth handover right at the terminal exit."
+        }
+      ]
     }
   }
 }

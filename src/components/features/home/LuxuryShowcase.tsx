@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { Link } from "@/navigation"
-import Image from "next/image"
+import { OptimizedImage } from "@/components/ui/OptimizedImage"
 import { motion } from "framer-motion"
 import { Phone, Heart, Fuel, Gauge, ArrowRight, ArrowLeft, MessageCircle } from "lucide-react"
 import { Button } from "@/components/ui/Button"
@@ -11,35 +11,54 @@ import { CurrencyCode } from "@/lib/currency"
 
 // Define interface locally to avoid dependency issues if VehicleCardProps changes
 interface Vehicle {
-    _id: string;
+    id: string;
     brand: string;
     vehicleModel: string;
     year: number;
     category: string;
     images: { url: string }[];
-    pricing: {
-        daily: number;
-        weekly: number;
-        monthly: number;
-    };
+    dailyPrice?: number;
+    weeklyPrice?: number;
+    monthlyPrice?: number;
     fuelType: string;
     seats: number;
     currency?: string;
 }
 
 interface LuxuryShowcaseProps {
-    vehicles: any[]; // Using any to be safe with incoming data structure, will cast in component
+    vehicles?: any[]; 
 }
 
 import { useTranslations } from 'next-intl';
 
-export function LuxuryShowcase({ vehicles }: LuxuryShowcaseProps) {
+export function LuxuryShowcase({ vehicles: initialVehicles }: LuxuryShowcaseProps) {
+    const [vehicles, setVehicles] = React.useState<any[]>(initialVehicles || []);
     const scrollRef = React.useRef<HTMLDivElement>(null);
     const [canScrollLeft, setCanScrollLeft] = React.useState(false);
     const [canScrollRight, setCanScrollRight] = React.useState(true);
     const { formatPrice } = useCurrency();
     const t = useTranslations('LuxuryShowcase');
     const tCommon = useTranslations('Common');
+
+    React.useEffect(() => {
+        if (!initialVehicles) {
+            fetch('/api/vehicles?category=LUXURY')
+                .then(res => res.json())
+                .then(data => {
+                     // The API returns { vehicles: [...] } or just [...]? Let's assume array for now based on API.
+                     // Actually /api/vehicles returns { vehicles: Vehicle[] } or array? Let's check. 
+                     // The API route usually returns { vehicles: ... }
+                     if (data.vehicles) {
+                         setVehicles(data.vehicles); 
+                     } else if (Array.isArray(data)) {
+                         setVehicles(data);
+                     }
+                })
+                .catch(err => console.error(err));
+        } else {
+            setVehicles(initialVehicles);
+        }
+    }, [initialVehicles]);
 
     const checkScroll = () => {
         if (scrollRef.current) {
@@ -130,7 +149,7 @@ export function LuxuryShowcase({ vehicles }: LuxuryShowcaseProps) {
                  >
                      {vehicles.map((vehicle, index) => (
                          <motion.div 
-                            key={vehicle._id}
+                            key={vehicle.id}
                             initial={{ opacity: 0, scale: 0.9 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
@@ -144,11 +163,12 @@ export function LuxuryShowcase({ vehicles }: LuxuryShowcaseProps) {
                                          const vehicleCurrency = (vehicle.currency as CurrencyCode) || 'EUR';
                                          return (
                                              <>
-                                                 <Image 
+                                                 <OptimizedImage 
                                                     src={vehicle.images?.[0]?.url || '/images/car-placeholder.jpg'} 
                                                     alt={`${vehicle.brand} ${vehicle.vehicleModel}`}
                                                     fill
                                                     className="object-cover group-hover:scale-110 transition-transform duration-700"
+                                                    priority={index === 0}
                                                  />
                                                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60" />
                                                  
@@ -172,11 +192,11 @@ export function LuxuryShowcase({ vehicles }: LuxuryShowcaseProps) {
                                          return (
                                              <div className="grid grid-cols-2 gap-4">
                                                  <div className="bg-white/5 rounded-xl p-3 text-center border border-white/5">
-                                                     <span className="block text-gold font-bold text-xl">{vehicle.pricing?.daily ? formatPrice(vehicle.pricing.daily, vehicleCurrency) : t('poa')}</span>
+                                                     <span className="block text-gold font-bold text-xl">{vehicle.dailyPrice ? formatPrice(vehicle.dailyPrice, vehicleCurrency) : t('poa')}</span>
                                                      <span className="text-gray-400 text-xs uppercase tracking-wider">{t('perDay')}</span>
                                                  </div>
                                                  <div className="bg-white/5 rounded-xl p-3 text-center border border-white/5">
-                                                     <span className="block text-white font-bold text-xl">{vehicle.pricing?.monthly ? formatPrice(vehicle.pricing.monthly, vehicleCurrency) : t('poa')}</span>
+                                                     <span className="block text-white font-bold text-xl">{vehicle.monthlyPrice ? formatPrice(vehicle.monthlyPrice, vehicleCurrency) : t('poa')}</span>
                                                      <span className="text-gray-400 text-xs uppercase tracking-wider">{t('perMonth')}</span>
                                                  </div>
                                              </div>

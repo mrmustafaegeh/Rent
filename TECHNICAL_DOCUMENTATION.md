@@ -33,11 +33,13 @@ RentalX is a premium, full-stack car rental marketplace built with maintaining s
 
 - **Framework**: Next.js 14+ (App Router)
 - **Language**: TypeScript
-- **Database**: MongoDB (via Mongoose)
+- **Database**: PostgreSQL (via Prisma ORM)
 - **Styling**: Tailwind CSS v4
-- **Authentication**: NextAuth.js
+- **Authentication**: NextAuth.js & JWT Middleware
 - **Forms/Validation**: React Hook Form
 - **Internationalization**: `next-intl` (English, Arabic, Russian, Turkish, Greek)
+- **Email**: Nodemailer (SMTP/Gmail)
+- **PDF Generation**: jsPDF & AutoTable
 - **Monitoring**: Sentry
 
 ---
@@ -113,21 +115,26 @@ NEXT_PUBLIC_SENTRY_DSN=your_sentry_dsn
 
 ---
 
-## 🗄️ Database Setup (MongoDB)
+## 🗄️ Database Setup (PostgreSQL)
 
-### Recommended: MongoDB Atlas (Cloud)
-1. **Create Account**: Sign up at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
-2. **Create Cluster**: Select **M0 Free Tier**.
-3. **Database Access**: Create a user (e.g., `admin`) and password.
-4. **Network Access**: Whitelist IP `0.0.0.0/0` (Allow from anywhere) for development.
-5. **Connection String**: 
-   - Get the URI (e.g., `mongodb+srv://admin:pass@cluster0...`).
-   - Add to `MONGODB_URI` in `.env.local`.
+### 1. Database Connection
+RentalX uses PostgreSQL via Prisma. You can use a local PostgreSQL instance or a managed service like Vercel Postgres, Supabase, or AWS RDS.
 
-### Local MongoDB (Alternative)
-- Install Community Server via Homebrew: `brew install mongodb-community`
-- Start Service: `brew services start mongodb-community`
-- URI: `mongodb://127.0.0.1:27017/rentalx`
+### 2. Environment Variable
+Add the following to your `.env.local`:
+```env
+DATABASE_URL="postgresql://user:password@localhost:5432/rentalx?schema=public"
+```
+
+### 3. Initialize Prisma
+Run these commands to sync your database schema and handle migrations:
+```bash
+# Generate Prisma Client
+npx prisma generate
+
+# Finalize database schema and seed initial data
+npx prisma db seed
+```
 
 ---
 
@@ -226,14 +233,16 @@ Full multi-language support via `next-intl`:
 - **Image Optimization**: Custom `next.config.ts` configuration for Cloudinary and Unsplash with `avif`/`webp` support and refined quality settings (75-90%).
 - **LCP Optimization**: Strategic use of the `priority` flag on focal Hero images to ensure the fastest possible paint for the largest content element.
 
-### 5. Authentication & Security
-- **Role-Based Access**: Multi-tier access (Customer, Staff, Admin, Company Owner).
-- **Session Support**: Managed via `AuthContext` and token-based API verification.
-- **CSRF & Buffering**: API routes use standard security practices and database connection pooling to handle high traffic.
+### 6. Relational Persistence & ACID Compliance
+The application uses Prisma and PostgreSQL for data integrity:
+- **Transactional Bookings**: Created via `src/services/bookingService.ts` with explicit availability checks to prevent double-booking.
+- **Automated Contracts**: PDF contracts are generated server-side using `jsPDF` (`src/services/pdfService.ts`) and served via API endpoints.
+- **Relational Integrity**: Uses PostgreSQL foreign keys to link Users, Vehicles, Companies, and Bookings with cascade deletion protection.
 
 ---
 
 ## 🛠️ Developer Guide Updates
+ - **Prisma**: After modifying `prisma/schema.prisma`, always run `npx prisma generate`.
+ - **Services**: Business logic is separated into `src/services/` (e.g., `bookingService`, `vehicleService`).
  - **Middleware**: If you need to add protected routes, update the `matcher` in `src/middleware.ts`.
  - **Adding Translations**: Add the key-value pair to all files in `/messages` to avoid Hydration errors in localized views.
- - **Database Schema**: All vehicle-related UI changes must be reflected in `src/models/Vehicle.ts` and the `VehicleFilterParams` interface in the service.

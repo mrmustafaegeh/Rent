@@ -19,7 +19,10 @@
     "language": "Язык",
     "currency": "Валюта",
     "partners": "Партнеры",
-    "listCar": "Сдать авто"
+    "listCar": "Сдать авто",
+    "changeCurrency": "Сменить валюту",
+    "menuOpen": "Открыть меню",
+    "menuClose": "Закрыть меню"
   },
   "Common": {
     "loading": "Загрузка...",
@@ -303,6 +306,9 @@
   "CarFilters": {
     "title": "Фильтры",
     "reset": "Сбросить",
+    "rentalDates": "Даты аренды",
+    "pickup": "Получение",
+    "dropoff": "Возврат",
     "priceRange": "Цена / День",
     "category": "Категория",
     "transmission": "Трансмиссия",
@@ -650,6 +656,18 @@
       "unexpected": "Произошла непредвиденная ошибка. Пожалуйста, попробуйте еще раз."
     }
   },
+  "Reviews": {
+    "rateVehicle": "Оценить",
+    "givenReview": "Оценено",
+    "title": "Оцените ваш опыт",
+    "description": "Как прошла ваша поездка на {vehicleName}?",
+    "placeholder": "Расскажите нам о вашем опыте...",
+    "cancel": "Отмена",
+    "submit": "Отправить отзыв",
+    "submitting": "Отправка...",
+    "success": "Отзыв успешно отправлен!",
+    "error": "Не удалось отправить отзыв"
+  },
   "ListCar": {
     "title": "Разместить автомобиль",
     "subtitle": "Заполните данные ниже, чтобы выставить свой автомобиль на продажу на нашем премиальном маркетплейсе.",
@@ -677,6 +695,68 @@
       "desc": "Ваш автомобиль успешно отправлен на модерацию. После одобрения нашей командой он появится в разделе «Купить авто».",
       "dashboard": "Перейти в панель управления",
       "home": "На главную"
+    }
+  },
+  "SEO": {
+    "northCyprus": {
+      "metaTitle": "Аренда авто на Северном Кипре | Люкс и Эконом | RentalX",
+      "metaDescription": "Аренда авто на Северном Кипре с RentalX. Выбирайте из люксовых, внедорожников и эконом автомобилей. Мгновенное бронирование, прозрачные цены и поддержка 24/7.",
+      "h1": "Аренда авто на Северном Кипре",
+      "title": "Исследуйте Северный Кипр со стилем",
+      "intro": "Добро пожаловать в RentalX, ваше первоклассное место для надежной и премиальной аренды автомобилей на Северном Кипре (ТРСК). Будь вы в деловой поездке или на отдыхе, наш обширный автопарк гарантирует, что вы найдете идеальный автомобиль.",
+      "sections": [
+        {
+          "title": "Почему стоит арендовать авто на Северном Кипре?",
+          "content": "Exploring Northern Cyprus is best done by car. From the historic harbor of Kyrenia to the golden sands of Karpaz, having your own vehicle gives you the freedom to discover hidden gems at your own pace."
+        },
+        {
+          "title": "Наши коллекции автопарка",
+          "content": "We offer a diverse range of vehicles to suit every need. Choose our Luxury Collection for a prestigious experience, our SUV & 4x4 options for mountain adventures, or our Economy range."
+        },
+        {
+          "title": "Прозрачные цены и никаких скрытых комиссий",
+          "content": "At RentalX, we believe in honesty. The price you see is the price you pay. All rentals include basic insurance, and we offer clear upgrades for full coverage."
+        }
+      ],
+      "faq": {
+        "title": "Часто задаваемые вопросы по аренде авто",
+        "items": [
+          {
+            "q": "Могу ли я получить авто в аэропорту Эрджан?",
+            "a": "Yes, we provide 24/7 delivery and pickup services at Ercan Airport (ECN). Your driver will meet you at the arrivals gate."
+          },
+          {
+            "q": "С какой стороны дороги нужно ездить?",
+            "a": "Like the UK, we drive on the left side of the road in North Cyprus."
+          }
+        ]
+      }
+    },
+    "kyrenia": {
+      "metaTitle": "Аренда авто в Кирении (Гирне) | Премиум прокат | RentalX",
+      "metaDescription": "Ищете аренду авто в Кирении? RentalX предлагает лучший выбор люксовых и эконом автомобилей в Гирне. Получение в порту, центре города или отеле.",
+      "h1": "Аренда авто в Кирении (Гирне)",
+      "title": "Путешествие по жемчужине Средиземноморья",
+      "intro": "Кирения — самое популярное туристическое направление Северного Кипра. С RentalX вы насладитесь безупречным опытом аренды прямо в сердце Гирне.",
+      "sections": [
+        {
+          "title": "Исследуйте гавань и замок Кирении",
+          "content": "With a rental car, you can easily visit the iconic Kyrenia Harbor and the majestic Kyrenia Castle. Avoid the heat and travel in comfort with our modern, air-conditioned fleet."
+        }
+      ]
+    },
+    "ercan": {
+      "metaTitle": "Аренда авто в аэропорту Эрджан | 24/7 | RentalX",
+      "metaDescription": "Арендуйте авто в аэропорту Эрджан (ECN) с RentalX. Обслуживание 24/7, без ожидания, получение прямо у терминала. Бронируйте онлайн для лучших цен.",
+      "h1": "Аренда авто в аэропорту Эрджан",
+      "title": "Начните путешествие сразу по прилету",
+      "intro": "Не теряйте время на ожидание такси. С RentalX ваш автомобиль будет ждать вас у терминала аэропорта Эрджан в момент вашего прибытия.",
+      "sections": [
+        {
+          "title": "Бесшовный трансфер из аэропорта",
+          "content": "Our airport team monitors your flight in real-time. Whether you land early or late, we ensure a smooth handover right at the terminal exit."
+        }
+      ]
     }
   }
 }

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useCurrency } from '@/context/CurrencyContext';
+import { useTranslations } from 'next-intl';
 import { currencies, CurrencyCode } from '@/lib/currency';
 import {
   DropdownMenu,
@@ -12,6 +13,7 @@ import {
 import { DollarSign, ChevronDown } from 'lucide-react';
 
 export function CurrencySwitcher() {
+  const t = useTranslations('Navigation');
   const { currency: currentCode, setCurrency } = useCurrency();
   const [mounted, setMounted] = useState(false);
 
@@ -35,7 +37,7 @@ export function CurrencySwitcher() {
       <DropdownMenuTrigger asChild>
         <button
           className="flex items-center gap-1 hover:text-white transition-colors outline-none px-2"
-          aria-label="Change currency"
+          aria-label={t('changeCurrency')}
         >
           <span className="text-gold font-bold text-sm">{currentCurrency.symbol}</span>
           <span className="uppercase text-sm">{currentCurrency.code}</span>
