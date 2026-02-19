@@ -98,7 +98,7 @@ export function HeroSection({ title, subtitleHighlight, description }: HeroSecti
                         initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
                         animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                         transition={{ duration: 1.0, delay: 0.15, ease: [0.25, 0.1, 0.25, 1.0] }}
-                        className="font-bebas text-white text-[clamp(64px,9vw,120px)] leading-[0.9] tracking-tight drop-shadow-2xl"
+                        className="font-bebas text-white text-5xl md:text-6xl leading-[0.95] tracking-tight drop-shadow-2xl"
                      >
                         {title || t('title')} <br/>
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F5C842] via-[#FFD96A] to-[#F5C842]">{subtitleHighlight || t('subtitleHighlight')}</span>
@@ -133,7 +133,7 @@ export function HeroSection({ title, subtitleHighlight, description }: HeroSecti
                          <div className="grid grid-cols-1 md:grid-cols-[1.1fr_1px_1fr_1px_1fr_auto] items-center">
                              
                              {/* Location */}
-                             <div className="relative group/field px-7 py-6 cursor-pointer hover:bg-[#F5C842]/10 transition-colors duration-300">
+                             <div className="relative group/field px-5 py-4 cursor-pointer hover:bg-[#F5C842]/10 transition-colors duration-300">
                                  <label className="flex items-center gap-2 text-[9.5px] text-[#F5C842] font-medium uppercase tracking-[0.2em] mb-1.5 font-dm-sans">
                                     <MapPin className="w-3 h-3" /> {t('pickupLocation')}
                                  </label>
@@ -154,7 +154,7 @@ export function HeroSection({ title, subtitleHighlight, description }: HeroSecti
                              <div className="hidden md:block w-px h-12 bg-white/10" />
                              
                              {/* Pickup */}
-                             <div className="relative group/field px-7 py-6 hover:bg-[#F5C842]/10 transition-colors duration-300">
+                             <div className="relative group/field px-5 py-4 hover:bg-[#F5C842]/10 transition-colors duration-300">
                                  <label className="flex items-center gap-2 text-[9.5px] text-[#F5C842] font-medium uppercase tracking-[0.2em] mb-1.5 font-dm-sans">
                                     <Calendar className="w-3 h-3" /> {t('pickupDate')}
                                  </label>
@@ -175,7 +175,7 @@ export function HeroSection({ title, subtitleHighlight, description }: HeroSecti
                              <div className="hidden md:block w-px h-12 bg-white/10" />
 
                              {/* Return */}
-                             <div className="relative group/field px-7 py-6 hover:bg-[#F5C842]/10 transition-colors duration-300">
+                             <div className="relative group/field px-5 py-4 hover:bg-[#F5C842]/10 transition-colors duration-300">
                                  <label className="flex items-center gap-2 text-[9.5px] text-[#F5C842] font-medium uppercase tracking-[0.2em] mb-1.5 font-dm-sans">
                                     <Calendar className="w-3 h-3" /> {t('returnDate')}
                                  </label>
@@ -193,7 +193,7 @@ export function HeroSection({ title, subtitleHighlight, description }: HeroSecti
                              <div className="p-2 md:pr-2 w-full md:w-auto">
                                  <Button 
                                     onClick={handleSearch}
-                                    className="w-full md:w-auto h-[60px] md:h-full aspect-auto md:aspect-square rounded-[18px] bg-[#F5C842] hover:bg-[#FFD96A] text-[#0a0a0a] shadow-[0_10px_30px_rgba(245,200,66,0.25)] hover:shadow-[0_14px_40px_rgba(245,200,66,0.45)] hover:scale-[1.03] hover:-translate-y-[2px] transition-all duration-500 p-0 flex flex-col items-center justify-center group/btn relative overflow-hidden active:scale-95"
+                                    className="w-full md:w-auto h-14 md:h-full aspect-auto md:aspect-square rounded-[18px] bg-[#F5C842] hover:bg-[#FFD96A] text-[#0a0a0a] shadow-[0_10px_30px_rgba(245,200,66,0.25)] hover:shadow-[0_14px_40px_rgba(245,200,66,0.45)] hover:scale-[1.03] hover:-translate-y-[2px] transition-all duration-500 p-0 flex flex-col items-center justify-center group/btn relative overflow-hidden active:scale-95"
                                  >
                                     <div className="flex flex-row md:flex-col items-center gap-2">
                                         <Search className="w-5 h-5 stroke-[2.5px] group-hover/btn:translate-x-[3px] md:group-hover/btn:translate-x-0 md:group-hover/btn:-translate-y-1 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]" />
