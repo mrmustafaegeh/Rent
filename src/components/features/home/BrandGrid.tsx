@@ -25,10 +25,10 @@ export function BrandGrid() {
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: "-50px" }}
                 transition={{ delay: index * 0.05 }}
                 whileHover={{ y: -5 }}
-                className="group flex flex-col items-center justify-center p-4 sm:p-8 bg-white border border-transparent hover:border-gray-100 rounded-xl sm:rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 h-32 sm:h-40"
+                className="group flex flex-col items-center justify-center p-4 sm:p-8 bg-white border border-transparent hover:border-gray-100 rounded-xl sm:rounded-2xl shadow-sm hover:shadow-lg transition-all duration-500 ease-out h-32 sm:h-40"
               >
                  <div className="mb-4 transform scale-100 sm:scale-125 transition-transform duration-300 group-hover:scale-110 sm:group-hover:scale-135">
                     <BrandIcon brand={brand} className="w-10 h-10 sm:w-12 sm:h-12" />

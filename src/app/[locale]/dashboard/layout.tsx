@@ -32,7 +32,7 @@ export default function DashboardLayout({
     return (
         <div className="min-h-screen bg-gray-50">
             <Sidebar />
-            <main className="ml-72 min-h-screen p-8 transition-all duration-300">
+            <main className="ml-72 min-h-screen p-8 transition-all duration-500 ease-out">
                 {children}
             </main>
         </div>

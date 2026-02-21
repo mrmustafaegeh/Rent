@@ -152,11 +152,11 @@ export function LuxuryShowcase({ vehicles: initialVehicles }: LuxuryShowcaseProp
                             key={vehicle.id}
                             initial={{ opacity: 0, scale: 0.9 }}
                             whileInView={{ opacity: 1, scale: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
+                            viewport={{ once: true, margin: "-50px" }}
+                            transition={{ duration: 0.8, delay: index * 0.1, ease: [0.22, 1, 0.36, 1], ease: [0.22, 1, 0.36, 1] }}
                             className="flex-none w-[340px] md:w-[420px] snap-center"
                          >
-                             <div className="bg-white/5 backdrop-blur-[20px] border border-white/10 rounded-2xl overflow-hidden group hover:border-gold/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_10px_40px_rgba(0,0,0,0.4)]">
+                             <div className="bg-white/5 backdrop-blur-[20px] border border-white/10 rounded-2xl overflow-hidden group hover:border-gold/50 transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-[0_10px_40px_rgba(0,0,0,0.4)]">
                                  {/* Image Area */}
                                  <div className="relative aspect-[3/2] w-full overflow-hidden">
                                      {(() => {

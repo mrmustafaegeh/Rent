@@ -48,7 +48,7 @@ export function VehicleSpecs({ specs }: VehicleSpecsProps) {
   return (
     <div className="grid grid-cols-2 lg:grid-cols-6 gap-4">
       {specItems.map((item, index) => (
-        <div key={index} className="flex flex-col items-center justify-center p-4 rounded-2xl bg-gray-50 border border-gray-100/50 hover:border-gold/30 hover:shadow-sm transition-all duration-300">
+        <div key={index} className="flex flex-col items-center justify-center p-4 rounded-2xl bg-gray-50 border border-gray-100/50 hover:border-gold/30 hover:shadow-sm transition-all duration-500 ease-out">
           <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm mb-3">
              <item.icon className="w-5 h-5 text-gold" />
           </div>

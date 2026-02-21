@@ -211,7 +211,7 @@ export default function DashboardOverview() {
                      </button>
                     {user?.role === 'ADMIN' && (
                         <Link href="/dashboard/vehicles/new">
-                            <Button className="bg-navy text-gold hover:bg-navy/90 gap-3 font-black shadow-xl shadow-navy/20 h-12 px-6 rounded-2xl transition-all hover:scale-105 active:scale-95">
+                            <Button className="bg-navy text-gold hover:bg-navy/90 gap-3 font-black shadow-xl shadow-navy/20 h-12 px-6 rounded-2xl transition-all hover:scale-[1.03] duration-500 ease-out will-change-transform active:scale-95">
                                 <Plus className="w-5 h-5" /> New Vehicle
                             </Button>
                         </Link>

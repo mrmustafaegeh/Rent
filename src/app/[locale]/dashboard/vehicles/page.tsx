@@ -469,7 +469,7 @@ export default function AdminVehiclesPage() {
                     <Database className="w-4 h-4" /> Export Manifest
                  </button>
                  <Link href="/dashboard/vehicles/new" className="flex-1 sm:flex-none">
-                    <button className="w-full px-12 py-6 rounded-2xl bg-gold text-navy text-[10px] font-black uppercase tracking-[0.3em] hover:bg-white hover:scale-105 transition-all shadow-2xl shadow-gold/20 flex items-center justify-center gap-3">
+                    <button className="w-full px-12 py-6 rounded-2xl bg-gold text-navy text-[10px] font-black uppercase tracking-[0.3em] hover:bg-white hover:-translate-y-2 hover:shadow-xl transition-all duration-500 ease-out will-change-transform shadow-2xl shadow-gold/20 flex items-center justify-center gap-3">
                         Launch Expansion <ArrowUpRight className="w-4 h-4" />
                     </button>
                  </Link>

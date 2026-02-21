@@ -225,7 +225,7 @@ export default async function LocationsPage() {
                            <p className="text-gray-500 max-w-md text-lg">
                                {t('map.description')}
                            </p>
-                           <Button className="bg-gold text-navy font-bold px-8 h-12 rounded-full hover:scale-105 transition-transform shadow-lg shadow-gold/30">
+                           <Button className="bg-gold text-navy font-bold px-8 h-12 rounded-full hover:scale-[1.03] duration-500 ease-out will-change-transform transition-transform shadow-lg shadow-gold/30">
                                <ExternalLink className="w-4 h-4 mr-2" /> {t('map.button')}
                            </Button>
                       </div>

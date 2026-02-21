@@ -60,9 +60,9 @@ export function Testimonials() {
                             key={index}
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: index * 0.1, duration: 0.6 }}
-                            className="group bg-white p-6 sm:p-10 rounded-3xl md:rounded-[3rem] shadow-2xl shadow-navy/5 border border-black/5 hover:border-gold/30 hover:-translate-y-2 transition-all duration-500 relative"
+                            viewport={{ once: true, margin: "-50px" }}
+                            transition={{ delay: index * 0.1, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                            className="group bg-white p-6 sm:p-10 rounded-3xl md:rounded-[3rem] shadow-2xl shadow-navy/5 border border-black/5 hover:border-gold/30 hover:-translate-y-2 transition-all duration-500 ease-out will-change-transform duration-500 relative"
                         >
                             <Quote className="w-16 h-16 text-gold/10 absolute top-8 right-8 group-hover:text-gold/20 transition-colors" />
                             

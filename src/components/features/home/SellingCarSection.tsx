@@ -70,7 +70,7 @@ export function SellingCarSection({ vehicles }: SellingCarSectionProps) {
               key={vehicle.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "-50px" }}
               transition={{ delay: index * 0.1 }}
             >
               <VehicleCard vehicle={vehicle} />

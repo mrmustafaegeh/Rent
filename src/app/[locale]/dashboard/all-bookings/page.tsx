@@ -302,7 +302,7 @@ export default function AllBookingsPage() {
                                 </tr>
                             ) : (
                                 paginatedBookings.map((booking) => (
-                                    <tr key={booking.id} className="hover:bg-blue-50/10 transition-all duration-300 group">
+                                    <tr key={booking.id} className="hover:bg-blue-50/10 transition-all duration-500 ease-out group">
                                         {/* Metadata */}
                                         <td className="p-8 align-top">
                                             <div className="flex flex-col gap-2">
@@ -395,7 +395,7 @@ export default function AllBookingsPage() {
                                                 {booking.status?.toLowerCase() === 'pending' ? (
                                                     <div className="flex gap-2">
                                                         <button 
-                                                            className="h-12 px-6 rounded-2xl bg-emerald-500 text-white text-[10px] font-black uppercase tracking-widest shadow-xl shadow-emerald-500/20 hover:scale-105 active:scale-95 transition-all"
+                                                            className="h-12 px-6 rounded-2xl bg-emerald-500 text-white text-[10px] font-black uppercase tracking-widest shadow-xl shadow-emerald-500/20 hover:scale-[1.03] duration-500 ease-out will-change-transform active:scale-95 transition-all"
                                                             onClick={() => updateStatus(booking.id, 'confirmed')}
                                                         >
                                                             Authorize
@@ -462,7 +462,7 @@ export default function AllBookingsPage() {
                         </div>
                     </div>
                     <div className="relative z-10 flex gap-4 shrink-0">
-                         <button className="h-14 px-10 rounded-2xl bg-white text-navy text-[11px] font-black uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-xl shadow-white/5">
+                         <button className="h-14 px-10 rounded-2xl bg-white text-navy text-[11px] font-black uppercase tracking-widest hover:scale-[1.03] duration-500 ease-out will-change-transform active:scale-95 transition-all shadow-xl shadow-white/5">
                             Insights Report
                          </button>
                     </div>

@@ -140,14 +140,14 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
   };
 
   return (
-    <div className="group relative bg-[var(--surface-light)] rounded-xl overflow-hidden border border-[var(--border)] hover:border-[var(--primary)] transition-all duration-300 hover:-translate-y-1">
+    <div className="group relative bg-[var(--surface-light)] rounded-xl overflow-hidden border border-[var(--border)] hover:border-[var(--primary)] transition-all duration-500 ease-out hover:-translate-y-1">
       {/* Image Section */}
       <Link href={`/cars/${vehicle._id}`} className="block relative aspect-[16/10] overflow-hidden bg-[var(--surface-lighter)]">
         <OptimizedImage
           src={imageError ? '/images/car-placeholder.jpg' : primaryImage}
           alt={`${vehicle.brand} ${vehicle.vehicleModel}`}
           fill
-          className="object-cover group-hover:scale-105 transition-transform duration-500"
+          className="object-cover group-hover:scale-[1.03] duration-500 ease-out will-change-transform transition-transform duration-500"
           onError={() => setImageError(true)}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />

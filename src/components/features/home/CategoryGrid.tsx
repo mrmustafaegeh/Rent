@@ -107,7 +107,7 @@ export function CategoryGrid() {
                              </div>
 
                              {/* Price Tag with Glassmorphism */}
-                             <div className="mt-6 pt-4 border-t border-white/20 w-full flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-75">
+                             <div className="mt-6 pt-4 border-t border-white/20 w-full flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 ease-out delay-75">
                                  <span className="text-xs font-bold text-white/90 uppercase tracking-wider">{t('from')}</span>
                                  <span className="text-[#06B6D4] font-black text-2xl bg-white/10 px-3 py-1 rounded-lg backdrop-blur-md shadow-lg border border-white/10">
                                      {formatPrice(cat.price)}

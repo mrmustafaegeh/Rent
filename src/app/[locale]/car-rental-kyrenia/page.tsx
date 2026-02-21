@@ -105,7 +105,7 @@ export default function CarRentalKyreniaPage({ params: { locale } }: { params: P
                     src="/images/kyrenia-harbor.jpg" // Placeholder, assuming this might exist or fallback
                     alt="Kyrenia Harbor"
                     fill
-                    className="object-cover hover:scale-105 transition-transform duration-700"
+                    className="object-cover hover:scale-[1.03] duration-500 ease-out will-change-transform transition-transform duration-700"
                     
                  />
                  <div className="absolute inset-0 bg-gradient-to-t from-navy/80 to-transparent" />

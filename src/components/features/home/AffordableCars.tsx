@@ -41,10 +41,10 @@ export function AffordableCars({ vehicles }: AffordableCarsProps) {
                             key={vehicle.id}
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
+                            viewport={{ once: true, margin: "-50px" }}
                             transition={{ delay: index * 0.1 }}
                             whileHover={{ y: -8 }}
-                            className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group"
+                            className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 ease-out group"
                          >
                             {/* Image Header */}
                             <div className="relative aspect-[4/3] w-full bg-gray-50">
@@ -61,7 +61,7 @@ export function AffordableCars({ vehicles }: AffordableCarsProps) {
                                     src={vehicle.images?.[0]?.url || '/images/car-placeholder.jpg'} 
                                     alt={`${vehicle.brand} ${vehicle.vehicleModel}`}
                                     fill
-                                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                    className="object-cover group-hover:scale-[1.03] duration-500 ease-out will-change-transform transition-transform duration-500"
                                 />
                             </div>
 

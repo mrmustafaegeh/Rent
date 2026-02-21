@@ -183,7 +183,7 @@ export default function RegisterPage() {
 
             <Button 
                 type="submit" 
-                className="w-full h-12 mt-4 bg-gradient-to-r from-gold to-amber-500 hover:from-amber-400 hover:to-gold text-navy font-black text-lg rounded-xl shadow-lg shadow-gold/10 hover:shadow-gold/20 hover:-translate-y-0.5 transition-all duration-300" 
+                className="w-full h-12 mt-4 bg-gradient-to-r from-gold to-amber-500 hover:from-amber-400 hover:to-gold text-navy font-black text-lg rounded-xl shadow-lg shadow-gold/10 hover:shadow-gold/20 hover:-translate-y-0.5 transition-all duration-500 ease-out" 
                 isLoading={isLoading}
             >
                 {t('submit')}

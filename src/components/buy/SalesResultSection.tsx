@@ -76,7 +76,7 @@ export default function SalesResultSection({ vehicles, pagination }: SalesResult
                  Be the first to list your car for sale on our premium marketplace.
              </p>
              <Link href="/list-your-car">
-                <button className="mt-8 px-8 py-4 bg-navy text-gold font-bold rounded-xl hover:bg-navy/90 hover:scale-105 transition-all shadow-xl shadow-navy/20">
+                <button className="mt-8 px-8 py-4 bg-navy text-gold font-bold rounded-xl hover:bg-navy/90 hover:-translate-y-2 hover:shadow-xl transition-all duration-500 ease-out will-change-transform shadow-xl shadow-navy/20">
                     List Your Car
                 </button>
              </Link>

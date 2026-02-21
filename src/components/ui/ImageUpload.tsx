@@ -94,7 +94,7 @@ export default function ImageUpload({
         onDrop={onDrop}
         onClick={() => document.getElementById('image-upload-input')?.click()}
         className={`
-          relative border-2 border-dashed rounded-2xl p-8 transition-all duration-300 cursor-pointer text-center group
+          relative border-2 border-dashed rounded-2xl p-8 transition-all duration-500 ease-out cursor-pointer text-center group
           ${isDragging 
             ? 'border-navy bg-navy/5 scale-[1.01]' 
             : 'border-gray-200 hover:border-navy hover:bg-gray-50'
@@ -141,7 +141,7 @@ export default function ImageUpload({
                 src={url}
                 alt={`Vehicle image ${index + 1}`}
                 fill
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03] duration-500 ease-out will-change-transform"
               />
               <div className="absolute inset-0 bg-navy/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
                 <button

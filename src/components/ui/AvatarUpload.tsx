@@ -78,7 +78,7 @@ export default function AvatarUpload({
         onClick={() => !isUploading && fileInputRef.current?.click()}
         className={`
           relative w-full h-full rounded-full overflow-hidden border-4 border-white shadow-xl 
-          cursor-pointer transition-all duration-300
+          cursor-pointer transition-all duration-500 ease-out
           ${isUploading ? 'opacity-50' : 'group-hover:opacity-90'}
         `}
       >

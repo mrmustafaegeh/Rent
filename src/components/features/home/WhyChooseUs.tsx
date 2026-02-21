@@ -51,8 +51,8 @@ export function WhyChooseUs() {
                             key={index}
                             initial={{ opacity: 0, y: 40 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: index * 0.2, duration: 0.8 }}
+                            viewport={{ once: true, margin: "-50px" }}
+                            transition={{ delay: index * 0.2, duration: 1.0, ease: [0.22, 1, 0.36, 1] }}
                             className="flex flex-col items-center text-center group"
                         >
                             <div className="mb-10 relative">

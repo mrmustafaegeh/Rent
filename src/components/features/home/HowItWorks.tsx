@@ -51,8 +51,8 @@ export function HowItWorks() {
                             key={index}
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: index * 0.2, duration: 0.6 }}
+                            viewport={{ once: true, margin: "-50px" }}
+                            transition={{ delay: index * 0.2, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                             className="relative z-10 flex flex-col items-center text-center group"
                         >
                             <div className="mb-6 relative">
@@ -70,7 +70,7 @@ export function HowItWorks() {
                                 </div>
                             </div>
                             
-                            <div className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 w-full relative group-hover:-translate-y-2">
+                            <div className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-500 ease-out border border-gray-100 w-full relative group-hover:-translate-y-2">
                                 <h3 className="text-2xl font-heading font-bold text-navy mb-3">{step.title}</h3>
                                 <p className="text-gray-500 leading-relaxed font-body">
                                     {step.description}
@@ -82,7 +82,7 @@ export function HowItWorks() {
 
                 <div className="flex flex-col items-center gap-6">
                     <Link href="/cars">
-                        <Button className="h-14 px-8 text-lg font-bold bg-electric hover:bg-electric/90 text-white rounded-full shadow-[0_10px_20px_rgba(0,212,255,0.3)] hover:shadow-[0_15px_30px_rgba(0,212,255,0.5)] hover:scale-105 transition-all">
+                        <Button className="h-14 px-8 text-lg font-bold bg-electric hover:bg-electric/90 text-white rounded-full shadow-[0_10px_20px_rgba(0,212,255,0.3)] hover:shadow-[0_15px_30px_rgba(0,212,255,0.5)] hover:-translate-y-2 hover:shadow-xl transition-all duration-500 ease-out will-change-transform">
                             {t('button')}
                         </Button>
                     </Link>

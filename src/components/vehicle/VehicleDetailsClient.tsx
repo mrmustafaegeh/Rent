@@ -158,7 +158,7 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
                                     <button 
                                         key={idx}
                                         onClick={() => setActiveImageIndex(idx)}
-                                        className={`relative w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all duration-300 ${
+                                        className={`relative w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all duration-500 ease-out ${
                                             activeImageIndex === idx ? 'border-navy scale-105 shadow-md' : 'border-transparent opacity-70 hover:opacity-100'
                                         }`}
                                     >

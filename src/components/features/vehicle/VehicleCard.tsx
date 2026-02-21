@@ -61,7 +61,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
     const savingsPercent = hasWeeklyDiscount ? Math.round((1 - (vehicle.weeklyPrice! / (vehicle.dailyPrice! * 7))) * 100) : 0;
     
     return (
-        <div className="group relative flex flex-col bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] transition-all duration-300 h-full hover:-translate-y-1">
+        <div className="group relative flex flex-col bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] transition-all duration-500 ease-out h-full hover:-translate-y-1">
             {/* Image Area */}
             <Link href={href} className="block relative aspect-[4/3] overflow-hidden bg-gray-50">
                  <OptimizedImage 
@@ -104,7 +104,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
                  )}
 
                  {/* Quick Specs Overlay on Hover */}
-                 <div className="absolute bottom-4 left-4 right-4 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                 <div className="absolute bottom-4 left-4 right-4 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out">
                      <div className="flex gap-2 text-white text-xs font-medium">
                          <span className="bg-black/40 backdrop-blur-md px-2 py-1 rounded-md flex items-center gap-1">
                              <GaugeCircle className="w-3 h-3" /> {t(`transmissions.${vehicle.transmission || 'Automatic'}`)}

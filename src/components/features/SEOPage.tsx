@@ -47,7 +47,7 @@ export function SEOPage({ namespace }: SEOPageProps) {
                     </p>
                     <div className="flex flex-wrap justify-center gap-4 pt-8">
                         <Link href="/cars">
-                            <Button className="h-14 px-10 rounded-full bg-gold text-navy font-black hover:bg-white hover:scale-105 transition-all shadow-xl shadow-gold/20">
+                            <Button className="h-14 px-10 rounded-full bg-gold text-navy font-black hover:bg-white hover:-translate-y-2 hover:shadow-xl transition-all duration-500 ease-out will-change-transform shadow-xl shadow-gold/20">
                                 Book Your Car Now
                             </Button>
                         </Link>

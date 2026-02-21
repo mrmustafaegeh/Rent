@@ -125,7 +125,7 @@ export default function ChauffeurPage() {
                                 src="/images/chauffeur-interior.png"
                                 alt={t('business.imageAlt')}
                                 fill
-                                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                className="object-cover transition-transform duration-700 group-hover:scale-[1.03] duration-500 ease-out will-change-transform"
                              />
                              
                              {/* Floating Card */}
@@ -187,7 +187,7 @@ export default function ChauffeurPage() {
                             src="/images/chauffeur-service.png"
                             alt={t('services.imageAlt')}
                             fill
-                            className="object-cover transition-transform duration-700 group-hover:scale-105"
+                            className="object-cover transition-transform duration-700 group-hover:scale-[1.03] duration-500 ease-out will-change-transform"
                          />
                          <div className="absolute bottom-6 left-6 right-6 md:bottom-8 md:left-8 md:right-8 bg-white/90 backdrop-blur-md p-4 md:p-6 rounded-2xl border border-white/20 shadow-lg z-20">
                              <div className="flex items-center gap-4">

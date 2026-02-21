@@ -24,7 +24,7 @@ export function FAQ() {
                 <div className="bg-gray-50 rounded-3xl p-6 sm:p-8 md:p-12 border border-gray-100 shadow-sm">
                     <Accordion type="single" collapsible className="w-full space-y-4">
                         {faqs.map((faq, index) => (
-                            <AccordionItem key={index} value={`item-${index}`} className="border border-gray-200 rounded-xl bg-white px-2 data-[state=open]:border-gold/50 data-[state=open]:shadow-md transition-all duration-300">
+                            <AccordionItem key={index} value={`item-${index}`} className="border border-gray-200 rounded-xl bg-white px-2 data-[state=open]:border-gold/50 data-[state=open]:shadow-md transition-all duration-500 ease-out">
                                 <AccordionTrigger className="px-6 py-4 text-left font-heading font-bold text-lg text-navy hover:text-electric hover:no-underline transition-colors [&[data-state=open]]:text-electric">
                                     {faq.question}
                                 </AccordionTrigger>

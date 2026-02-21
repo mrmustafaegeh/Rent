@@ -328,7 +328,7 @@ export default function UsersPage() {
                         </p>
                     </div>
                 </div>
-                <button className="h-14 px-10 rounded-2xl bg-white text-navy text-[11px] font-black uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-xl shadow-white/5 relative z-10 shrink-0">
+                <button className="h-14 px-10 rounded-2xl bg-white text-navy text-[11px] font-black uppercase tracking-widest hover:scale-[1.03] duration-500 ease-out will-change-transform active:scale-95 transition-all shadow-xl shadow-white/5 relative z-10 shrink-0">
                     Security Logs
                 </button>
             </div>

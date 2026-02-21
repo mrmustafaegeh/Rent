@@ -30,7 +30,7 @@ export function PartnerCTA() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: "-50px" }}
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-gold text-xs font-black uppercase tracking-widest"
               >
                 <Car className="w-3 h-3" /> {t('overline')}
@@ -39,7 +39,7 @@ export function PartnerCTA() {
               <motion.h2
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: "-50px" }}
                 transition={{ delay: 0.1 }}
                 className="text-4xl md:text-6xl font-heading font-black text-white leading-tight"
                 dangerouslySetInnerHTML={{ __html: t.rich('title', { span: (chunks) => `<span class="text-gold">${chunks}</span>` }) as string }}
@@ -48,7 +48,7 @@ export function PartnerCTA() {
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: "-50px" }}
                 transition={{ delay: 0.2 }}
                 className="text-gray-400 text-lg md:text-xl font-body leading-relaxed max-w-xl"
               >
@@ -58,7 +58,7 @@ export function PartnerCTA() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: "-50px" }}
                 transition={{ delay: 0.3 }}
                 className="grid sm:grid-cols-2 gap-6"
               >
@@ -86,7 +86,7 @@ export function PartnerCTA() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: "-50px" }}
                 transition={{ delay: 0.4 }}
                 className="pt-6"
               >
@@ -103,7 +103,7 @@ export function PartnerCTA() {
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: "-50px" }}
                 className="grid grid-cols-2 gap-4"
               >
                 <div className="space-y-4">

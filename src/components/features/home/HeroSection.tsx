@@ -51,11 +51,8 @@ export function HeroSection({ title, subtitleHighlight, description }: HeroSecti
         <section className="relative w-full h-[100dvh] flex items-center justify-center overflow-hidden font-dm-sans">
              {/* Background - Ken Burns & Gradient */}
              <div className="absolute inset-0 z-0 overflow-hidden bg-[#050505]">
-                <motion.div 
-                    initial={{ scale: 1.04 }}
-                    animate={{ scale: 1.10 }}
-                    transition={{ duration: 18, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
-                    className="relative w-full h-full"
+                <div 
+                    className="relative w-full h-full animate-ken-burns will-change-transform"
                 >
                     <OptimizedImage 
                       src="/images/kyrenia-hero.png"
@@ -66,7 +63,7 @@ export function HeroSection({ title, subtitleHighlight, description }: HeroSecti
                       sizes="100vw"
                       quality={95}
                     />
-                </motion.div>
+                </div>
                 {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/60 to-black/85 z-10" />
                 

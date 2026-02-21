@@ -184,7 +184,7 @@ export default function CarRentalNorthCyprusPage({ params: { locale } }: { param
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
                 {faqItems.map((item, index) => (
-                    <div key={index} className="bg-[#0A1628]/50 backdrop-blur-sm p-8 rounded-2xl border border-white/5 hover:border-gold/30 transition-all duration-300 hover:bg-[#0A1628]">
+                    <div key={index} className="bg-[#0A1628]/50 backdrop-blur-sm p-8 rounded-2xl border border-white/5 hover:border-gold/30 transition-all duration-500 ease-out hover:bg-[#0A1628]">
                         <h3 className="text-lg font-bold text-white mb-3 flex gap-3">
                             <span className="text-gold">Q.</span> 
                             {item.q}

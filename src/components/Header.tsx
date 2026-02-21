@@ -62,7 +62,7 @@ export function Header() {
 
   return (
     <header 
-      className={`sticky top-0 z-[1000] w-full border-b transition-all duration-300 min-h-[70px] flex items-center ${
+      className={`sticky top-0 z-[1000] w-full border-b transition-all duration-500 ease-out min-h-[70px] flex items-center ${
         scrolled 
           ? "bg-[#0A1628] border-white/10 shadow-xl py-2" 
           : mobileMenuOpen 
@@ -92,7 +92,7 @@ export function Header() {
               }`}
             >
               {link.name}
-              <span className={`absolute -bottom-1 left-0 h-[2px] bg-electric transition-all duration-300 group-hover:w-full ${
+              <span className={`absolute -bottom-1 left-0 h-[2px] bg-electric transition-all duration-500 ease-out group-hover:w-full ${
                   isActive(link.href) ? "w-full bg-gold" : "w-0"
               }`} />
             </Link>
@@ -131,7 +131,7 @@ export function Header() {
              )}
 
              <Link href="/list-your-car">
-                <Button className="bg-gradient-to-r from-gold to-yellow-500 text-navy font-bold hover:scale-105 hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-300 border-none">
+                <Button className="bg-gradient-to-r from-gold to-yellow-500 text-navy font-bold hover:scale-[1.03] duration-500 ease-out will-change-transform hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-500 ease-out border-none">
                    {t('listCar')}
                 </Button>
              </Link>

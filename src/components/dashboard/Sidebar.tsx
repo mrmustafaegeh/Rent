@@ -162,7 +162,7 @@ export default function Sidebar() {
                         <Link
                             key={link.href}
                             href={link.href}
-                            className={`group flex items-center justify-between px-6 py-4 rounded-2xl transition-all duration-300 ${
+                            className={`group flex items-center justify-between px-6 py-4 rounded-2xl transition-all duration-500 ease-out ${
                                 isActive 
                                 ? 'bg-white/10 text-white shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] font-bold border border-white/10' 
                                 : 'text-gray-400 hover:bg-white/5 hover:text-white translate-x-0 hover:translate-x-1'
@@ -196,7 +196,7 @@ export default function Sidebar() {
             <div className="p-6 mt-auto border-t border-white/5 bg-navy z-20">
                 <div className="bg-white/5 backdrop-blur-xl rounded-[2rem] border border-white/10 p-5 group hover:bg-white/[0.08] transition-all duration-500">
                     <div className="flex items-center gap-4 mb-5">
-                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-electric via-blue-600 to-indigo-700 flex items-center justify-center text-white font-black shadow-[0_8px_16px_rgba(10,182,212,0.2)] text-base group-hover:scale-105 transition-transform">
+                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-electric via-blue-600 to-indigo-700 flex items-center justify-center text-white font-black shadow-[0_8px_16px_rgba(10,182,212,0.2)] text-base group-hover:scale-[1.03] duration-500 ease-out will-change-transform transition-transform">
                             {(user?.firstName?.[0] || 'U')}{(user?.lastName?.[0] || '')}
                         </div>
                         <div className="flex-1 min-w-0">
@@ -207,7 +207,7 @@ export default function Sidebar() {
                     
                     <button 
                         onClick={logout}
-                        className="w-full flex items-center justify-center gap-2 px-4 py-3 text-xs font-black text-gray-400 hover:text-white bg-white/5 hover:bg-red-500/20 rounded-xl transition-all duration-300 border border-transparent hover:border-red-500/30"
+                        className="w-full flex items-center justify-center gap-2 px-4 py-3 text-xs font-black text-gray-400 hover:text-white bg-white/5 hover:bg-red-500/20 rounded-xl transition-all duration-500 ease-out border border-transparent hover:border-red-500/30"
                     >
                         <LogOut className="w-4 h-4" /> {t('signOut')}
                     </button>

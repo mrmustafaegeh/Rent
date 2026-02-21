@@ -68,7 +68,7 @@ export default function LuxuryCarRentalPage({ params: { locale } }: { params: Pa
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-             <div className="bg-[#0F172A] p-8 rounded-3xl border border-white/5 hover:border-gold/30 transition-all duration-300 group">
+             <div className="bg-[#0F172A] p-8 rounded-3xl border border-white/5 hover:border-gold/30 transition-all duration-500 ease-out group">
                 <div className="w-14 h-14 rounded-2xl bg-gold/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                    <Diamond className="w-7 h-7 text-gold" />
                 </div>
@@ -77,7 +77,7 @@ export default function LuxuryCarRentalPage({ params: { locale } }: { params: Pa
                    Every vehicle in our luxury fleet is meticulously detailed and inspected before every rental. Guaranteed showroom quality.
                 </p>
              </div>
-             <div className="bg-[#0F172A] p-8 rounded-3xl border border-white/5 hover:border-gold/30 transition-all duration-300 group">
+             <div className="bg-[#0F172A] p-8 rounded-3xl border border-white/5 hover:border-gold/30 transition-all duration-500 ease-out group">
                 <div className="w-14 h-14 rounded-2xl bg-gold/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                    <Star className="w-7 h-7 text-gold" />
                 </div>
@@ -86,7 +86,7 @@ export default function LuxuryCarRentalPage({ params: { locale } }: { params: Pa
                     Your personal concierge is available 24/7 to handle everything from restaurant reservations to custom driving routes.
                 </p>
              </div>
-             <div className="bg-[#0F172A] p-8 rounded-3xl border border-white/5 hover:border-gold/30 transition-all duration-300 group">
+             <div className="bg-[#0F172A] p-8 rounded-3xl border border-white/5 hover:border-gold/30 transition-all duration-500 ease-out group">
                 <div className="w-14 h-14 rounded-2xl bg-gold/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                    <ShieldCheck className="w-7 h-7 text-gold" />
                 </div>

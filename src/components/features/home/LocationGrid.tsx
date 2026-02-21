@@ -71,8 +71,8 @@ export function LocationGrid() {
                             key={loc.slug} 
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: index * 0.1, duration: 0.6 }}
+                            viewport={{ once: true, margin: "-50px" }}
+                            transition={{ delay: index * 0.1, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                             className={`group relative rounded-3xl md:rounded-[2.5rem] overflow-hidden shadow-2xl cursor-pointer ${loc.colSpan || ''} border border-black/5 hover:border-gold/20 transition-all duration-500`}
                         >
                             <Link href={`/cars?location=${loc.slug}`} className="block h-full w-full relative">
