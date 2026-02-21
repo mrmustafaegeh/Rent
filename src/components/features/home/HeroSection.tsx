@@ -55,13 +55,14 @@ export function HeroSection({ title, subtitleHighlight, description }: HeroSecti
                     className="relative w-full h-full"
                 >
                     <OptimizedImage 
-                      src="/images/girne-harbor-bright.png"
-                      alt="Girne Harbor North Cyprus"
+                      src="https://images.unsplash.com/photo-1534008897995-27a23e859048?auto=format&fit=crop&w=3840&q=100"
+                      alt="Mediterranean Harbor North Cyprus"
                       fill
                       className="object-cover object-center"
                       priority
                       sizes="100vw"
                       quality={100}
+                      unoptimized={true} // ensure Next.js uses raw source for true 8K resolution
                     />
                 </div>
                 {/* Improved Readability Overlay - heavier at bottom and top, clean in middle */}
