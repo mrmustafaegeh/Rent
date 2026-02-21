@@ -50,9 +50,9 @@ export function HeroSection({ title, subtitleHighlight, description }: HeroSecti
     return (
         <section className="relative w-full h-[100dvh] flex items-center justify-center overflow-hidden font-dm-sans">
              {/* Background - Ken Burns & Gradient */}
-             <div className="absolute inset-0 z-0 overflow-hidden bg-[#050505]">
+             <div className="absolute inset-0 z-0 overflow-hidden bg-black">
                 <div 
-                    className="relative w-full h-full animate-ken-burns will-change-transform"
+                    className="relative w-full h-full"
                 >
                     <OptimizedImage 
                       src="/images/kyrenia-hero.png"
@@ -61,14 +61,11 @@ export function HeroSection({ title, subtitleHighlight, description }: HeroSecti
                       className="object-cover"
                       priority
                       sizes="100vw"
-                      quality={95}
+                      quality={100}
                     />
                 </div>
-                {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/60 to-black/85 z-10" />
-                
-                {/* Grain Texture */}
-                <div className="absolute inset-0 z-10 opacity-35 mix-blend-overlay pointer-events-none" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\' opacity=\'1\'/%3E%3C/svg%3E")' }} />
+                {/* Minimal Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-black/30 z-10" />
                 
                 {/* Top Gold Shimmer Bar */}
                 <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-gold to-transparent z-50 opacity-80" />
