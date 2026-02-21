@@ -55,17 +55,20 @@ export function HeroSection({ title, subtitleHighlight, description }: HeroSecti
                     className="relative w-full h-full"
                 >
                     <OptimizedImage 
-                      src="/images/kyrenia-hero.png"
-                      alt="Kyrenia Harbour North Cyprus"
+                      src="/images/girne-harbor-bright.png"
+                      alt="Girne Harbor North Cyprus"
                       fill
-                      className="object-cover"
+                      className="object-cover object-center"
                       priority
                       sizes="100vw"
                       quality={100}
                     />
                 </div>
-                {/* Minimal Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-black/30 z-10" />
+                {/* Improved Readability Overlay - heavier at bottom and top, clean in middle */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/10 to-black/80 z-10" />
+                
+                {/* Extra Vignette specifically for text blocking */}
+                <div className="absolute top-1/4 left-0 right-0 h-1/2 bg-black/40 blur-[100px] z-10 pointer-events-none rounded-full scale-150" />
                 
                 {/* Top Gold Shimmer Bar */}
                 <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-gold to-transparent z-50 opacity-80" />
@@ -92,17 +95,17 @@ export function HeroSection({ title, subtitleHighlight, description }: HeroSecti
                         initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
                         animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                         transition={{ duration: 1.0, delay: 0.15, ease: [0.25, 0.1, 0.25, 1.0] }}
-                        className="font-bebas text-white text-5xl md:text-6xl leading-[0.95] tracking-tight drop-shadow-2xl"
+                        className="font-bebas text-white text-5xl md:text-7xl leading-[0.95] tracking-tight drop-shadow-[0_4px_15px_rgba(0,0,0,0.8)]"
                      >
                         {title || t('title')} <br/>
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F5C842] via-[#FFD96A] to-[#F5C842]">{subtitleHighlight || t('subtitleHighlight')}</span>
+                        <span className="text-transparent bg-clip-text bg-gradient-to-b from-gold via-[#FFD96A] to-yellow-600 drop-shadow-[0_4px_15px_rgba(0,0,0,0.8)]">{subtitleHighlight || t('subtitleHighlight')}</span>
                      </motion.h1>
                      
                      <motion.p 
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 1.0, delay: 0.3, ease: [0.25, 0.1, 0.25, 1.0] }}
-                        className="font-dm-sans text-[15px] sm:text-base md:text-lg text-white/60 font-light tracking-wide max-w-xl mx-auto"
+                        className="font-dm-sans text-[15px] sm:text-base md:text-xl text-white font-medium tracking-wide max-w-xl mx-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
                      >
                         {description || t('description')}
                      </motion.p>
@@ -116,23 +119,23 @@ export function HeroSection({ title, subtitleHighlight, description }: HeroSecti
                     className="w-full max-w-5xl relative z-30"
                  >
                      {/* The Card */}
-                     <div className="relative rounded-[24px] bg-[rgba(10,10,10,0.55)] backdrop-blur-[28px] backdrop-saturate-[180%] shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 group overflow-hidden">
+                     <div className="relative rounded-3xl bg-white/10 backdrop-blur-2xl backdrop-saturate-[150%] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] border border-white/20 group overflow-hidden">
                          
                          {/* Top Shimmer Line */}
-                         <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-gold/50 to-transparent opacity-50" />
+                         <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent opacity-50" />
                          
                          {/* Outer Glow via Box Shadow (simulated) */}
-                         <div className="absolute -inset-[1px] rounded-[25px] bg-gradient-to-br from-[#F5C842]/20 to-transparent -z-10 opacity-50 blur-sm pointer-events-none" />
+                         <div className="absolute -inset-[1px] rounded-[25px] bg-gradient-to-br from-white/20 to-transparent -z-10 opacity-30 blur-[2px] pointer-events-none" />
 
-                         <div className="grid grid-cols-1 md:grid-cols-[1.1fr_1px_1fr_1px_1fr_auto] items-center">
+                         <div className="grid grid-cols-1 md:grid-cols-[1fr_1px_1fr_1px_1fr_auto] items-center p-2">
                              
                              {/* Location */}
-                             <div className="relative group/field px-5 py-4 cursor-pointer hover:bg-[#F5C842]/10 transition-colors duration-300">
-                                 <label className="flex items-center gap-2 text-[9.5px] text-[#F5C842] font-medium uppercase tracking-[0.2em] mb-1.5 font-dm-sans">
-                                    <MapPin className="w-3 h-3" /> {t('pickupLocation')}
+                             <div className="relative group/field px-5 py-4 cursor-pointer hover:bg-white/5 transition-colors duration-300 rounded-xl">
+                                 <label className="flex items-center gap-2 text-[10px] text-white/80 font-bold uppercase tracking-[0.2em] mb-1.5 font-dm-sans">
+                                    <MapPin className="w-3.5 h-3.5 text-gold" /> {t('pickupLocation')}
                                  </label>
                                  <Select value={location} onValueChange={setLocation}>
-                                    <SelectTrigger className="w-full border-0 p-0 h-6 text-[15px] font-dm-sans text-white focus:ring-0 bg-transparent gap-2 truncate font-normal hover:bg-transparent shadow-none [&>svg]:text-gold">
+                                    <SelectTrigger className="w-full border-0 p-0 h-6 text-base font-dm-sans font-medium text-white focus:ring-0 bg-transparent gap-2 truncate hover:bg-transparent shadow-none [&>svg]:text-white">
                                         <SelectValue placeholder={t('selectLocation')} />
                                     </SelectTrigger>
                                     <SelectContent className="border-white/10 bg-[#0a0a0a]/95 backdrop-blur-2xl text-white shadow-2xl rounded-xl">
@@ -145,12 +148,12 @@ export function HeroSection({ title, subtitleHighlight, description }: HeroSecti
                              </div>
 
                              {/* Divider */}
-                             <div className="hidden md:block w-px h-12 bg-white/10" />
+                             <div className="hidden md:block w-px h-[60%] bg-white/10 self-center" />
                              
                              {/* Pickup */}
-                             <div className="relative group/field px-5 py-4 hover:bg-[#F5C842]/10 transition-colors duration-300">
-                                 <label className="flex items-center gap-2 text-[9.5px] text-[#F5C842] font-medium uppercase tracking-[0.2em] mb-1.5 font-dm-sans">
-                                    <Calendar className="w-3 h-3" /> {t('pickupDate')}
+                             <div className="relative group/field px-5 py-4 hover:bg-white/5 transition-colors duration-300 rounded-xl">
+                                 <label className="flex items-center gap-2 text-[10px] text-white/80 font-bold uppercase tracking-[0.2em] mb-1.5 font-dm-sans">
+                                    <Calendar className="w-3.5 h-3.5 text-gold" /> {t('pickupDate')}
                                  </label>
                                  <Input
                                     type="datetime-local"
@@ -166,12 +169,12 @@ export function HeroSection({ title, subtitleHighlight, description }: HeroSecti
                              </div>
 
                              {/* Divider */}
-                             <div className="hidden md:block w-px h-12 bg-white/10" />
+                             <div className="hidden md:block w-px h-[60%] bg-white/10 self-center" />
 
                              {/* Return */}
-                             <div className="relative group/field px-5 py-4 hover:bg-[#F5C842]/10 transition-colors duration-300">
-                                 <label className="flex items-center gap-2 text-[9.5px] text-[#F5C842] font-medium uppercase tracking-[0.2em] mb-1.5 font-dm-sans">
-                                    <Calendar className="w-3 h-3" /> {t('returnDate')}
+                             <div className="relative group/field px-5 py-4 hover:bg-white/5 transition-colors duration-300 rounded-xl">
+                                 <label className="flex items-center gap-2 text-[10px] text-white/80 font-bold uppercase tracking-[0.2em] mb-1.5 font-dm-sans">
+                                    <Calendar className="w-3.5 h-3.5 text-gold" /> {t('returnDate')}
                                  </label>
                                  <Input
                                     type="datetime-local"
@@ -184,21 +187,22 @@ export function HeroSection({ title, subtitleHighlight, description }: HeroSecti
                              </div>
                              
                              {/* Button */}
-                             <div className="p-2 md:pr-2 w-full md:w-auto">
+                             <div className="p-2 md:pl-2 w-full md:w-auto self-stretch flex items-center">
                                  <Button 
                                     onClick={handleSearch}
-                                    className="w-full md:w-auto h-14 md:h-full aspect-auto md:aspect-square rounded-[18px] bg-[#F5C842] hover:bg-[#FFD96A] text-[#0a0a0a] shadow-[0_10px_30px_rgba(245,200,66,0.25)] hover:shadow-[0_14px_40px_rgba(245,200,66,0.45)] hover:scale-[1.03] hover:-translate-y-[2px] transition-all duration-500 p-0 flex flex-col items-center justify-center group/btn relative overflow-hidden active:scale-95"
+                                    className="w-full md:w-48 h-14 md:h-full rounded-2xl bg-gradient-to-br from-gold to-yellow-500 hover:from-yellow-400 hover:to-gold text-navy shadow-[0_8px_25px_rgba(212,175,55,0.4)] hover:shadow-[0_12px_35px_rgba(212,175,55,0.6)] transition-all duration-500 p-0 flex flex-row items-center justify-center gap-3 group/btn relative overflow-hidden active:scale-95 border-none"
                                  >
-                                    <div className="flex flex-row md:flex-col items-center gap-2">
-                                        <Search className="w-5 h-5 stroke-[2.5px] group-hover/btn:translate-x-[3px] md:group-hover/btn:translate-x-0 md:group-hover/btn:-translate-y-1 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]" />
-                                        <span className="font-dm-sans font-bold text-[11px] uppercase tracking-widest">{t('findCar').split(' ')[0]}</span>
+                                    <span className="font-dm-sans font-black text-sm uppercase tracking-wider">{t('findCar')}</span>
+                                    <div className="w-8 h-8 rounded-full bg-navy/10 flex items-center justify-center group-hover/btn:bg-navy/20 transition-colors">
+                                        <Search className="w-4 h-4 stroke-[2.5px] group-hover/btn:rotate-12 transition-transform duration-300" />
                                     </div>
+                                    <div className="absolute inset-0 bg-white/20 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500 ease-out z-[-1]" />
                                  </Button>
                              </div>
                          </div>
 
                          {/* Perks Strip */}
-                         <div className="border-t border-white/10 px-7 py-3 flex flex-wrap justify-center md:justify-start gap-6 bg-black/20">
+                         <div className="border-t border-white/10 px-7 py-3 flex flex-wrap justify-center md:justify-start gap-6 bg-black/10 backdrop-blur-md">
                             {[
                                 t('trust1'),
                                 t('trust2'),
