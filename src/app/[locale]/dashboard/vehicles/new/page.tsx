@@ -62,7 +62,7 @@ export default function NewVehiclePage() {
             // Get Company ID (assuming user is admin/owner)
             const companyRes = await fetch('/api/companies/my-company'); 
             const companyData = companyRes.ok ? await companyRes.json() : {};
-            const companyId = companyData.company?._id || user?.companyId;
+            const companyId = companyData.company?.id || user?.companyId;
 
             const payload = {
                 ...formData,

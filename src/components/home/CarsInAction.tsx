@@ -84,7 +84,7 @@ export default function CarsInAction({ vehicles }: CarsInActionProps) {
         >
             {vehicles.map((vehicle, index) => (
                 <div 
-                    key={vehicle._id} 
+                    key={vehicle.id} 
                     className="flex-shrink-0 w-[300px] md:w-[350px] snap-center group relative rounded-2xl overflow-hidden aspect-[9/16] md:aspect-[3/4] border border-[var(--border)] bg-[var(--surface-light)]"
                 >
                     {/* Background Image / Thumbnail */}
@@ -127,7 +127,7 @@ export default function CarsInAction({ vehicles }: CarsInActionProps) {
                                     AED {vehicle.pricing.daily}<span className="text-sm font-normal text-gray-300">/day</span>
                                 </p>
                             </div>
-                            <Link href={`/vehicles/${vehicle._id}`}>
+                            <Link href={`/vehicles/${vehicle.id}`}>
                                 <Button size="sm" className="rounded-full px-6">Book Now</Button>
                             </Link>
                         </div>

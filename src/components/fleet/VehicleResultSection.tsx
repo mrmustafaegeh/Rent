@@ -96,7 +96,7 @@ export default function VehicleResultSection({ vehicles, pagination }: VehicleRe
           {vehicles.map((vehicle: any) => (
              viewMode === 'grid' ? (
                 <VehicleCard 
-                  key={vehicle._id}
+                  key={vehicle.id}
                   vehicle={vehicle}
                 />
              ) : (

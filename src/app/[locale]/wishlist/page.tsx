@@ -79,7 +79,7 @@ export default function WishlistPage() {
           {wishlist?.vehicles && wishlist.vehicles.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {wishlist.vehicles.map((vehicle: any) => (
-                <VehicleCard key={vehicle._id} vehicle={vehicle} />
+                <VehicleCard key={vehicle.id} vehicle={vehicle} />
               ))}
             </div>
           ) : (

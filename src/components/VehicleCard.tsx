@@ -86,7 +86,7 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
   const priceLabel = isSale ? '' : ` / ${t('day')}`;
 
   const whatsappMessage = encodeURIComponent(
-    `Hi! I'm interested in ${isSale ? 'buying' : 'renting'} the ${vehicle.brand} ${vehicle.vehicleModel} ${vehicle.year} (${priceDisplay}${priceLabel})\n\nVehicle Link: ${process.env.NEXT_PUBLIC_APP_URL}/cars/${vehicle._id}`
+    `Hi! I'm interested in ${isSale ? 'buying' : 'renting'} the ${vehicle.brand} ${vehicle.vehicleModel} ${vehicle.year} (${priceDisplay}${priceLabel})\n\nVehicle Link: ${process.env.NEXT_PUBLIC_APP_URL}/cars/${vehicle.id}`
   );
   const whatsappUrl = `https://wa.me/${phoneNumber.replace(/[^0-9]/g, '')}?text=${whatsappMessage}`;
 
@@ -106,7 +106,7 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
     try {
       if (isFavorite) {
         // Remove from wishlist
-        const response = await fetch(`/api/wishlist?vehicleId=${vehicle._id}`, {
+        const response = await fetch(`/api/wishlist?vehicleId=${vehicle.id}`, {
           method: 'DELETE',
         });
         
@@ -121,7 +121,7 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
         const response = await fetch('/api/wishlist', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ vehicleId: vehicle._id }),
+          body: JSON.stringify({ vehicleId: vehicle.id }),
         });
         
         if (response.ok) {
@@ -142,7 +142,7 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
   return (
     <div className="group relative bg-[var(--surface-light)] rounded-xl overflow-hidden border border-[var(--border)] hover:border-[var(--primary)] transition-all duration-500 ease-out hover:-translate-y-1">
       {/* Image Section */}
-      <Link href={`/cars/${vehicle._id}`} className="block relative aspect-[16/10] overflow-hidden bg-[var(--surface-lighter)]">
+      <Link href={`/cars/${vehicle.id}`} className="block relative aspect-[16/10] overflow-hidden bg-[var(--surface-lighter)]">
         <OptimizedImage
           src={imageError ? '/images/car-placeholder.jpg' : primaryImage}
           alt={`${vehicle.brand} ${vehicle.vehicleModel}`}
@@ -190,7 +190,7 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
       {/* Content Section */}
       <div className="p-4 space-y-3">
         {/* Vehicle Title */}
-        <Link href={`/cars/${vehicle._id}`}>
+        <Link href={`/cars/${vehicle.id}`}>
           <h3 className="text-lg font-bold text-white hover:text-[var(--primary)] transition-colors line-clamp-1">
             {vehicle.brand} {vehicle.vehicleModel} {vehicle.year}
           </h3>
@@ -328,7 +328,7 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
                       e.stopPropagation();
                       window.open(
                         `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                          `${process.env.NEXT_PUBLIC_APP_URL}/cars/${vehicle._id}`
+                          `${process.env.NEXT_PUBLIC_APP_URL}/cars/${vehicle.id}`
                         )}`,
                         '_blank'
                       );
@@ -345,7 +345,7 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
                     onClick={(e) => {
                       e.stopPropagation();
                       navigator.clipboard.writeText(
-                        `${process.env.NEXT_PUBLIC_APP_URL}/cars/${vehicle._id}`
+                        `${process.env.NEXT_PUBLIC_APP_URL}/cars/${vehicle.id}`
                       );
                       alert('Link copied to clipboard!');
                       setShowShare(false);

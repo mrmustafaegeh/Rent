@@ -60,13 +60,13 @@ export default function SellCarPage() {
                    isPrimary: index === 0 
                 })),
                 available: true,
-                owner: user?._id
+                owner: user?.id
             };
 
             const res = await fetch('/api/vehicles', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ ...payload, owner: user?._id })
+                body: JSON.stringify({ ...payload, owner: user?.id })
             });
 
             if (res.ok) {

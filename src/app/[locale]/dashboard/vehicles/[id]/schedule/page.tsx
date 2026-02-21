@@ -308,7 +308,7 @@ export default function VehicleSchedulePage() {
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     {bookings.map((booking: any) => (
-                                        <div key={booking._id} className="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-[0_10px_35px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.05)] transition-all duration-500 flex flex-col gap-8 group relative overflow-hidden">
+                                        <div key={booking.id} className="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-[0_10px_35px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.05)] transition-all duration-500 flex flex-col gap-8 group relative overflow-hidden">
                                              <div className="absolute top-0 right-0 w-24 h-24 bg-navy/5 -translate-y-1/2 translate-x-1/2 rounded-full blur-2xl"></div>
                                              
                                              <div className="flex items-center justify-between relative z-10">

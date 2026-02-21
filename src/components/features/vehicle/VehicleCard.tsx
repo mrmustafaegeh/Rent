@@ -48,7 +48,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
     const priceDisplay = price ? formatPrice(price, vehicleCurrency) : t('priceOnRequest');
 
     // Mongoose to Prisma ID mapping just in case, though usually handled
-    const vehicleId = vehicle.id || (vehicle as any)._id;
+    const vehicleId = vehicle.id;
 
     // Construct URL with preserved dates
     const params = new URLSearchParams();

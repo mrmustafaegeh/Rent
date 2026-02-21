@@ -46,7 +46,7 @@ export async function GET() {
     // Link admin to company if needed, or just leave as separate entities. 
     // In Mongoose seed, admin was owner. In Prisma User has companyId?
     // Let's update admin to be partner of this company if that was the intent, or just leave as ADMIN.
-    // The previous seed set `owner: admin._id`. Admin Schema usually doesn't have owner field unless role is Partner.
+    // The previous seed set `owner: admin.id`. Admin Schema usually doesn't have owner field unless role is Partner.
     // But wait, admin role is 'admin', so maybe they don't own the company.
     // However, let's stick to creating vehicles.
 
