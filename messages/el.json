@@ -51,7 +51,8 @@
       "ercan": "Αεροδρόμιο Ερτζάν",
       "nicosia": "Λευκωσία",
       "kyrenia": "Κερύνεια",
-      "famagusta": "Αμμόχωστος"
+      "famagusta": "Αμμόχωστος",
+      "lefkosha": "Λευκωσία"
     }
   },
   "Footer": {
@@ -81,12 +82,18 @@
       "privacy": "Πολιτική Απορρήτου",
       "insurance": "Πληροφορίες Ασφάλισης",
       "sitemap": "Χάρτης Ιστότοπου",
-      "partners": "Πρόγραμμα Συνεργατών"
+      "partners": "Πρόγραμμα Συνεργατών",
+      "touristRules": "Κανόνες τουριστών"
     }
   },
   "VehicleCard": {
     "day": "ημέρα",
     "month": "μήνας",
+    "perDay": "/ημέρα",
+    "dailyRate": "Ημερήσια Τιμή",
+    "weekly": "Εβδομαδιαία",
+    "call": "Κλήση",
+    "salePrice": "Τιμή Πώλησης",
     "priceOnRequest": "Τιμή κατόπιν αιτήματος",
     "loginRequired": "Παρακαλώ συνδεθείτε για να χρησιμοποιήσετε τη λίστα επιθυμιών",
     "featured": "Προτεινόμενο",
@@ -95,7 +102,33 @@
     "whatsapp": "WhatsApp",
     "shareFacebook": "Κοινοποίηση στο Facebook",
     "copyLink": "Αντιγραφή συνδέσμου",
-    "linkCopied": "Ο σύνδεσμος αντιγράφηκε"
+    "linkCopied": "Ο σύνδεσμος αντιγράφηκε",
+    "bookNow": "Κράτηση Τώρα",
+    "viewDetails": "Περισσότερα",
+    "transmissions": {
+      "AUTOMATIC": "Αυτόματο",
+      "MANUAL": "Χειροκίνητο",
+      "Automatic": "Αυτόματο",
+      "Manual": "Χειροκίνητο",
+      "Auto": "Αυτόματο"
+    },
+    "fuelTypes": {
+      "PETROL": "Βενζίνη",
+      "DIESEL": "Diesel",
+      "ELECTRIC": "Ηλεκτρικό",
+      "HYBRID": "Υβριδικό",
+      "Petrol": "Βενζίνη",
+      "Diesel": "Diesel",
+      "Electric": "Ηλεκτρικό",
+      "Hybrid": "Υβριδικό"
+    },
+    "locations": {
+      "Nicosia": "Λευκωσία",
+      "Kyrenia": "Κερύνεια",
+      "Famagusta": "Αμμόχωστος",
+      "Ercan": "Αεροδρόμιο Ερτζάν",
+      "Lefkosha": "Λευκωσία"
+    }
   },
   "LuxuryShowcase": {
     "tagline": "PREMIUM ΣΥΛΛΟΓΗ",
@@ -284,6 +317,7 @@
   "CarFilters": {
     "title": "Φίλτρα",
     "reset": "Επαναφορά",
+    "location": "Τοποθεσία",
     "rentalDates": "Ημερομηνίες Ενοικίασης",
     "pickup": "Παραλαβή",
     "dropoff": "Επιστροφή",
@@ -291,6 +325,9 @@
     "category": "Κατηγορία",
     "transmission": "Κιβώτιο",
     "brands": "Μάρκες",
+    "applyFilters": "Εφαρμογή",
+    "clearAll": "Καθαρισμός",
+    "sortBy": "Ταξινόμηση",
     "categories": {
       "Luxury": "Luxury",
       "Sports": "Sports",
@@ -298,17 +335,25 @@
       "Economy": "Economy",
       "Sedan": "Sedan",
       "Convertible": "Convertible",
-      "Van": "Van"
+      "Van": "Van",
+      "Hatchback": "Hatchback",
+      "Electric": "Ηλεκτρικά"
     },
     "transmissions": {
       "Automatic": "Αυτόματο",
-      "Manual": "Χειροκίνητο"
+      "Manual": "Χειροκίνητο",
+      "AUTOMATIC": "Αυτόματο",
+      "MANUAL": "Χειροκίνητο"
     },
     "fuelTypes": {
       "Petrol": "Βενζίνη",
       "Diesel": "Diesel",
       "Electric": "Ηλεκτρικό",
-      "Hybrid": "Υβριδικό"
+      "Hybrid": "Υβριδικό",
+      "PETROL": "Βενζίνη",
+      "DIESEL": "Diesel",
+      "ELECTRIC": "Ηλεκτρικό",
+      "HYBRID": "Υβριδικό"
     }
   },
   "VehicleDetails": {
@@ -393,7 +438,8 @@
       "kyrenia": "Κερύνεια",
       "nicosia": "Λευκωσία",
       "famagusta": "Αμμόχωστος",
-      "ercan": "Αεροδρόμιο Ερτζάν"
+      "ercan": "Αεροδρόμιο Ερτζάν",
+      "lefkosha": "Λευκωσία"
     },
     "defaultBranchDesc": "Επισκεφθείτε το υποκατάστημά μας στην πόλη {city}.",
     "labels": {

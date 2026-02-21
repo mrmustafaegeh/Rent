@@ -73,13 +73,29 @@ export async function getVehicles(params: VehicleFilterParams) {
     where.status = 'APPROVED';
   }
 
-  if (category) where.category = category.toUpperCase() as any;
+  if (category) {
+    const categories = category.split(',').map(c => c.toUpperCase().trim());
+    if (categories.length > 1) {
+      where.category = { in: categories as any[] };
+    } else {
+      where.category = categories[0] as any;
+    }
+  }
+  
+  if (brand) {
+    const brands = brand.split(',').map(b => b.trim());
+    if (brands.length > 1) {
+      where.brand = { in: brands };
+    } else {
+      where.brand = brands[0];
+    }
+  }
+
   if (featured) where.isFeatured = true;
-  if (brand) where.brand = brand;
   if (transmission) where.transmission = transmission.toUpperCase() as any;
   if (fuelType) where.fuelType = fuelType.toUpperCase() as any;
   if (seats) where.seats = { gte: seats };
-  if (location) where.location = location;
+  if (location) where.location = { contains: location, mode: 'insensitive' };
 
   if (minPrice || maxPrice) {
     const priceField = type === 'sale' ? 'salePrice' : 'dailyPrice';

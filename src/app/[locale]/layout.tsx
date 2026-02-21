@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Inter, Cairo, Bebas_Neue, DM_Sans } from "next/font/google"; // already has fonts from separate block replacement
+import { Playfair_Display, DM_Serif_Display, DM_Sans, JetBrains_Mono, Cairo } from "next/font/google";
 import "../globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { CurrencyProvider } from "@/context/CurrencyContext";
@@ -9,34 +9,45 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 
-const bebas = Bebas_Neue({
-  variable: "--font-bebas",
-  weight: "400",
+// H1 hero headlines only
+const playfair = Playfair_Display({
+  variable: "--font-display",
   subsets: ["latin"],
+  weight: ["700", "800", "900"],
+  display: "swap",
 });
 
-const dmSans = DM_Sans({
-  variable: "--font-dm-sans",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "700"],
-});
-
-const spaceGrotesk = Space_Grotesk({
+// H2, H3 section headings
+const dmSerif = DM_Serif_Display({
   variable: "--font-heading",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400"],
+  style: ["normal", "italic"],
+  display: "swap",
 });
 
-const inter = Inter({
+// All body text, labels, UI, buttons
+const dmSans = DM_Sans({
   variable: "--font-body",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+  display: "swap",
 });
 
+// Pricing figures only
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-mono",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
+// Arabic i18n
 const cairo = Cairo({
   variable: "--font-cairo",
   subsets: ["arabic"],
   weight: ["300", "400", "500", "700"],
+  display: "swap",
 });
 
 import { getTranslations } from 'next-intl/server';
@@ -122,9 +133,19 @@ export default async function LocaleLayout({
   const isArabic = locale === 'ar';
 
   return (
-    <html lang={locale} dir={isArabic ? 'rtl' : 'ltr'} suppressHydrationWarning>
+    <html lang={locale} dir={isArabic ? 'rtl' : 'ltr'} suppressHydrationWarning data-scroll-behavior="smooth">
       <body
-        className={`${spaceGrotesk.variable} ${inter.variable} ${cairo.variable} ${bebas.variable} ${dmSans.variable} antialiased ${isArabic ? 'font-arabic' : 'font-body'} bg-background text-foreground`}
+        className={`${
+          playfair.variable
+        } ${
+          dmSerif.variable
+        } ${
+          dmSans.variable
+        } ${
+          jetbrainsMono.variable
+        } ${
+          cairo.variable
+        } antialiased ${isArabic ? 'font-cairo font-arabic' : 'font-body'} bg-background text-foreground`}
       >
         <NextIntlClientProvider messages={messages}>
           <NextAuthProvider>

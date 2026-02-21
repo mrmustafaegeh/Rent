@@ -140,9 +140,9 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
   };
 
   return (
-    <div className="group relative bg-[var(--surface-light)] rounded-xl overflow-hidden border border-[var(--border)] hover:border-[var(--primary)] transition-all duration-300 hover:-translate-y-1">
+    <div className="group relative bg-white rounded-xl overflow-hidden border border-slate-100 hover:border-turquoise shadow-sm hover:shadow-hover transition-all duration-300 hover:-translate-y-1">
       {/* Image Section */}
-      <Link href={`/cars/${vehicle._id}`} className="block relative aspect-[16/10] overflow-hidden bg-[var(--surface-lighter)]">
+      <Link href={`/cars/${vehicle._id}`} className="block relative aspect-[16/10] overflow-hidden bg-slate-50">
         <OptimizedImage
           src={imageError ? '/images/car-placeholder.jpg' : primaryImage}
           alt={`${vehicle.brand} ${vehicle.vehicleModel}`}
@@ -165,7 +165,7 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
           onClick={toggleWishlist}
           disabled={isTogglingFavorite}
           aria-label={isFavorite ? t('removeFromWishlist') : t('addToWishlist')}
-          className="absolute top-3 end-3 w-9 h-9 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-black/70 transition-colors disabled:opacity-50"
+          className="absolute top-3 end-3 w-9 h-9 bg-black/40 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-black/60 transition-colors disabled:opacity-50"
         >
           <Heart
             className={`w-5 h-5 ${
@@ -176,7 +176,7 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
 
         {/* Company Logo Badge */}
         {vehicle.company?.logo && (
-          <div className="absolute bottom-3 start-3 w-12 h-12 bg-white rounded-lg shadow-md overflow-hidden p-1">
+          <div className="absolute bottom-3 start-3 w-10 h-10 bg-white rounded-lg shadow-sm border border-slate-100 overflow-hidden p-1">
             <OptimizedImage
               src={vehicle.company.logo}
               alt={vehicle.company.name}
@@ -191,45 +191,45 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
       <div className="p-4 space-y-3">
         {/* Vehicle Title */}
         <Link href={`/cars/${vehicle._id}`}>
-          <h3 className="text-lg font-bold text-white hover:text-[var(--primary)] transition-colors line-clamp-1">
+          <h3 className="text-lg font-bold text-slate-900 group-hover:text-navy transition-colors line-clamp-1">
             {vehicle.brand} {vehicle.vehicleModel} {vehicle.year}
           </h3>
         </Link>
 
         {/* Specs Row */}
-        <div className="flex items-center gap-4 text-sm text-[var(--text-secondary)]">
+        <div className="flex items-center gap-4 text-sm text-slate-500">
           <div className="flex items-center gap-1">
-            <Calendar className="w-4 h-4" />
+            <Calendar className="w-4 h-4 text-turquoise" />
             <span>{vehicle.year}</span>
           </div>
           <div className="flex items-center gap-1">
-            <Settings className="w-4 h-4" />
+            <Settings className="w-4 h-4 text-turquoise" />
             <span>{vehicle.specs?.origin || 'GCC'}</span>
           </div>
           <div className="flex items-center gap-1">
-            <Gauge className="w-4 h-4" />
-            <span className="capitalize">{vehicle.category}</span>
+            <Gauge className="w-4 h-4 text-turquoise" />
+            <span className="capitalize">{vehicle.category.toLowerCase()}</span>
           </div>
         </div>
 
         {/* Info Badges */}
         <div className="flex flex-wrap gap-2 text-xs">
           {vehicle.specs?.minRentalDays === 1 && !isSale && (
-            <div className="flex items-center gap-1 text-green-400">
-              <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
+            <div className="flex items-center gap-1 text-green-600 font-medium">
+              <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
               <span>{t('oneDayRental')}</span>
             </div>
           )}
           
           {vehicle.specs?.insurance && !isSale && (
-            <div className="flex items-center gap-1 text-[var(--text-muted)]">
+            <div className="flex items-center gap-1 text-slate-400">
               <Shield className="w-3.5 h-3.5" />
               <span>{t('insuranceIncluded')}</span>
             </div>
           )}
           
           {vehicle.location && (
-            <div className="flex items-center gap-1 text-[var(--text-muted)]">
+            <div className="flex items-center gap-1 text-slate-400">
               <MapPin className="w-3.5 h-3.5" />
               <span>{vehicle.location}</span>
             </div>
@@ -237,23 +237,23 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
         </div>
 
         {/* Pricing Section */}
-        <div className="pt-3 border-t border-[var(--border)] space-y-2">
+        <div className="pt-3 border-t border-slate-100 space-y-2">
           {/* Daily/Sale Rate */}
           <div className="flex items-baseline justify-between">
             <div className="flex items-baseline gap-2">
-              <span className="text-2xl font-bold text-white">
+              <span className="text-2xl font-bold text-navy">
                 {priceDisplay}
               </span>
-              {!isSale && price && <span className="text-sm text-[var(--text-secondary)]">/ {t('day')}</span>}
+              {!isSale && price && <span className="text-sm text-slate-500">/ {t('day')}</span>}
             </div>
             {!isSale && (
-              <div className="flex items-center gap-1 text-xs text-[var(--text-muted)]">
+              <div className="flex items-center gap-1 text-xs text-slate-400">
                 <Gauge className="w-3.5 h-3.5" />
                 <span>{dailyMileage} km</span>
               </div>
             )}
             {isSale && vehicle.mileage && (
-              <div className="flex items-center gap-1 text-xs text-[var(--text-muted)]">
+              <div className="flex items-center gap-1 text-xs text-slate-400">
                 <Gauge className="w-3.5 h-3.5" />
                 <span>{vehicle.mileage.toLocaleString()} km</span>
               </div>
@@ -264,12 +264,12 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
           {!isSale && vehicle.pricing?.monthly && (
             <div className="flex items-baseline justify-between">
               <div className="flex items-baseline gap-2">
-                <span className="text-lg font-semibold text-[var(--text-secondary)]">
+                <span className="text-lg font-semibold text-slate-600">
                   {formatPrice(vehicle.pricing.monthly, vehicleCurrency)}
                 </span>
-                <span className="text-xs text-[var(--text-muted)]">/ {t('month')}</span>
+                <span className="text-xs text-slate-400">/ {t('month')}</span>
               </div>
-              <div className="flex items-center gap-1 text-xs text-[var(--text-muted)]">
+              <div className="flex items-center gap-1 text-xs text-slate-400">
                 <Gauge className="w-3.5 h-3.5" />
                 <span>{monthlyMileage} km</span>
               </div>

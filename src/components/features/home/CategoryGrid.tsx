@@ -1,125 +1,132 @@
 'use client';
 
-import Link from "next/link"
-import { OptimizedImage } from "@/components/ui/OptimizedImage"
-import { useCurrency } from "@/context/CurrencyContext"
+import Image from "next/image"
+import { Link } from "@/navigation"
+import { motion } from "framer-motion"
+import { ArrowRight } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { useCurrency } from "@/context/CurrencyContext"
 
 export function CategoryGrid() {
-  const { formatPrice } = useCurrency();
-  const t = useTranslations('CategoryGrid');
-  
-  const categories = [
-    { 
-        name: t('categories.Economy'), 
-        count: t('vehiclesCount', { count: 95 }), 
-        price: 30, 
-        period: t('perDay'),
-        slug: "Economy", 
-        image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2",
-        alt: "Economy car on road"
-    },
-    { 
-        name: t('categories.Luxury'), 
-        count: t('vehiclesCount', { count: 120 }), 
-        price: 80, 
-        period: t('perDay'),
-        slug: "Luxury", 
-        image: "https://images.unsplash.com/photo-1563720223185-11003d516935",
-        alt: "Luxury sedan interior"
-    },
-    { 
-        name: t('categories.SUV'), 
-        count: t('vehiclesCount', { count: 180 }), 
-        price: 50, 
-        period: t('perDay'),
-        slug: "SUV", 
-        image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf",
-        alt: "Black SUV"
-    },
-    { 
-        name: t('categories.Sports'), 
-        count: t('vehiclesCount', { count: 35 }), 
-        price: 200, 
-        period: t('perDay'),
-        slug: "Sports", 
-        image: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e",
-        alt: "Red sports car"
-    },
-    { 
-        name: t('categories.Hatchback'), 
-        count: t('vehiclesCount', { count: 65 }), 
-        price: 25, 
-        period: t('perDay'),
-        slug: "Hatchback", 
-        image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&q=80&w=1000",
-        alt: "Compact hatchback car"
-    },
-    { 
-        name: t('categories.Electric'), 
-        count: t('vehiclesCount', { count: 15 }), 
-        price: 40, 
-        period: t('perDay'),
-        slug: "Electric", 
-        image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70",
-        alt: "Luxury electric car"
-    },
-  ];
+    const t = useTranslations('CategoryGrid');
+    const { formatPrice } = useCurrency();
 
-  return (
-    <section className="py-24 bg-gray-50 flex items-center justify-center">
-       <div className="container mx-auto px-4">
-           {/* Section Header */}
-           <div className="text-center mb-12 sm:mb-16 space-y-4">
-               <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-black text-navy tracking-tight">{t('title')}</h2>
-               <p className="text-gray-500 text-base md:text-lg max-w-2xl mx-auto font-medium">{t('subtitle')}</p>
-           </div>
-           
-           {/* Grid */}
-           <div 
-             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-           >
-              {categories.map((cat) => (
-                 <Link key={cat.slug} href={`/cars?category=${cat.slug}`} className="block h-full group">
-                     <article 
-                        className="relative h-[320px] rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 group"
-                     >
-                         {/* Background Image */}
-                         <div className="absolute inset-0">
-                             <OptimizedImage 
-                                containerClassName="h-full w-full"
-                                src={cat.image} 
-                                alt={cat.alt}
-                                fill
-                                className="object-cover transition-transform duration-700 group-hover:scale-110"
-                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                             />
-                             {/* Gradient Overlay */}
-                             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300" />
-                         </div>
+    const categories = [
+        {
+            name: t('categories.Economy'),
+            count: "35+ vehicles",
+            price: 35,
+            period: t('perDay'),
+            slug: "ECONOMY",
+            image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=90&w=1200",
+            alt: "Economy car — affordable daily rentals",
+        },
+        {
+            name: t('categories.Luxury'),
+            count: "20+ vehicles",
+            price: 60,
+            period: t('perDay'),
+            slug: "LUXURY",
+            image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=90&w=1200",
+            alt: "Luxury car — premium rentals North Cyprus",
+        },
+        {
+            name: t('categories.SUV'),
+            count: "30+ vehicles",
+            price: 55,
+            period: t('perDay'),
+            slug: "SUV",
+            image: "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&q=90&w=1200",
+            alt: "SUV rental — spacious and powerful",
+        },
+        {
+            name: t('categories.Sports'),
+            count: "10+ vehicles",
+            price: 120,
+            period: t('perDay'),
+            slug: "SPORTS",
+            image: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&q=90&w=1200",
+            alt: "Sports car rental — exhilarating performance",
+        },
+        {
+            name: t('categories.Hatchback'),
+            count: "25+ vehicles",
+            price: 30,
+            period: t('perDay'),
+            slug: "HATCHBACK",
+            image: "https://images.unsplash.com/photo-1471444928139-48c5bf5173f8?auto=format&fit=crop&q=90&w=1200",
+            alt: "Hatchback rental — compact and practical",
+        },
+        {
+            name: t('categories.Electric'),
+            count: "12+ vehicles",
+            price: 45,
+            period: t('perDay'),
+            slug: "ELECTRIC",
+            image: "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&q=90&w=1200",
+            alt: "Electric car rental — eco-friendly driving",
+        },
+    ];
 
-                         {/* Content */}
-                         <div className="relative z-10 flex flex-col items-center justify-end h-full w-full p-6 text-center pb-8">
-                             
-                             <div className="space-y-2 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                                 <h3 className="font-heading font-bold text-3xl text-white tracking-wide drop-shadow-md">{cat.name}</h3>
-                                 <p className="text-white/80 font-medium text-sm">{cat.count}</p>
-                             </div>
+    return (
+        <section className="py-24 bg-white">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                {/* Header */}
+                <div className="text-center mb-14 space-y-3">
+                    <span className="font-body font-semibold text-[#64748B] tracking-[0.2em] text-xs uppercase">
+                        Browse by Type
+                    </span>
+                    <h2 className="font-heading font-bold text-4xl sm:text-5xl text-[#0F172A] tracking-tight">
+                        {t('title')}
+                    </h2>
+                    <p className="font-body text-[#64748B] text-lg max-w-2xl mx-auto">
+                        {t('subtitle')}
+                    </p>
+                </div>
 
-                             {/* Price Tag with Glassmorphism */}
-                             <div className="mt-6 pt-4 border-t border-white/20 w-full flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-75">
-                                 <span className="text-xs font-bold text-white/90 uppercase tracking-wider">{t('from')}</span>
-                                 <span className="text-[#06B6D4] font-black text-2xl bg-white/10 px-3 py-1 rounded-lg backdrop-blur-md shadow-lg border border-white/10">
-                                     {formatPrice(cat.price)}
-                <span className="text-xs font-bold text-white/70 ms-1">{cat.period}</span>
-                                 </span>
-                             </div>
-                         </div>
-                     </article>
-                 </Link>
-              ))}
-           </div>
-       </div>
-    </section>
-  )
+                {/* Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {categories.map((cat, i) => (
+                        <motion.div
+                            key={cat.slug}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: i * 0.08 }}
+                        >
+                            <Link href={`/cars?category=${cat.slug}`} className="block group">
+                                <div className="relative h-[300px] rounded-2xl overflow-hidden shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-hover)] transition-all duration-300">
+                                    {/* Photo */}
+                                    <Image
+                                        src={cat.image}
+                                        alt={cat.alt}
+                                        fill
+                                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                        quality={90}
+                                    />
+                                    {/* Overlay */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+
+                                    {/* Price badge */}
+                                    <div className="absolute top-4 right-4 bg-white text-[#0D3B66] font-mono font-bold text-sm px-3 py-1.5 rounded-full shadow-md">
+                                        {formatPrice(cat.price)}<span className="text-[#64748B] font-body font-normal text-xs">/{cat.period}</span>
+                                    </div>
+
+                                    {/* Content */}
+                                    <div className="absolute bottom-0 left-0 w-full p-6">
+                                        <h3 className="font-heading text-2xl font-bold text-white mb-1">{cat.name}</h3>
+                                        <p className="font-body text-white/70 text-sm mb-3">{cat.count}</p>
+                                        <span className="inline-flex items-center gap-1.5 font-body text-[#00B4D8] text-sm font-semibold group-hover:gap-2.5 transition-all duration-300">
+                                            Browse cars <ArrowRight className="w-4 h-4" />
+                                        </span>
+                                    </div>
+                                </div>
+                            </Link>
+                        </motion.div>
+                    ))}
+                </div>
+            </div>
+        </section>
+    )
 }

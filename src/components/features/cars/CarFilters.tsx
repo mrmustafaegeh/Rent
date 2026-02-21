@@ -14,7 +14,7 @@ import { ChevronDown, ChevronUp, FilterX, Calendar } from "lucide-react"
 import { useTranslations } from "next-intl"
 
 // English values for DB/filtering
-const CATEGORIES = ["Luxury", "Sports", "SUV", "Economy", "Sedan", "Convertible", "Van"]
+const CATEGORIES = ["Luxury", "Sports", "SUV", "Economy", "Hatchback", "Sedan", "Convertible", "Van", "Electric"]
 const TRANSMISSIONS = ["Automatic", "Manual"]
 const FUEL_TYPES = ["Petrol", "Diesel", "Electric", "Hybrid"]
 const LOCATIONS = ["Kyrenia", "Nicosia", "Famagusta", "Ercan Airport"]
@@ -200,7 +200,7 @@ export function CarFilters() {
                                 onCheckedChange={(checked) => handleFilterChange('category', cat, checked as boolean)}
                                 className="border-gray-300 data-[state=checked]:bg-gold data-[state=checked]:border-gold"
                             />
-                            <Label htmlFor={`cat-${cat}`} className="cursor-pointer text-gray-600 group-hover:text-navy transition-colors">
+                            <Label htmlFor={`cat-${cat}`} className="cursor-pointer text-foreground group-hover:text-navy transition-colors">
                                 {t(`categories.${cat}`)}
                             </Label>
                         </div>
@@ -222,7 +222,7 @@ export function CarFilters() {
                                 onCheckedChange={(checked) => handleFilterChange('transmission', trans, checked as boolean)}
                                 className="border-gray-300 data-[state=checked]:bg-gold data-[state=checked]:border-gold"
                             />
-                            <Label htmlFor={`trans-${trans}`} className="cursor-pointer text-gray-600 group-hover:text-navy transition-colors">
+                            <Label htmlFor={`trans-${trans}`} className="cursor-pointer text-foreground group-hover:text-navy transition-colors">
                                 {t(`transmissions.${trans}`)}
                             </Label>
                         </div>
@@ -244,7 +244,7 @@ export function CarFilters() {
                                 onCheckedChange={(checked) => handleFilterChange('location', loc, checked as boolean)}
                                 className="border-gray-300 data-[state=checked]:bg-gold data-[state=checked]:border-gold"
                             />
-                            <Label htmlFor={`loc-${loc}`} className="cursor-pointer text-gray-600 group-hover:text-navy transition-colors">
+                            <Label htmlFor={`loc-${loc}`} className="cursor-pointer text-foreground group-hover:text-navy transition-colors">
                                 {loc}
                             </Label>
                         </div>
@@ -266,7 +266,7 @@ export function CarFilters() {
                                 onCheckedChange={(checked) => handleFilterChange('brand', brand, checked as boolean)}
                                 className="border-gray-300 data-[state=checked]:bg-gold data-[state=checked]:border-gold"
                             />
-                            <Label htmlFor={`brand-${brand}`} className="cursor-pointer text-gray-600 group-hover:text-navy transition-colors">
+                            <Label htmlFor={`brand-${brand}`} className="cursor-pointer text-foreground group-hover:text-navy transition-colors">
                                 {brand}
                             </Label>
                         </div>

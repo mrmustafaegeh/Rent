@@ -115,7 +115,7 @@ export default async function LocationsPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {locations.map((location: any, index: number) => (
                         <div 
-                            key={location._id} 
+                            key={location.id || location._id || index} 
                             className="group bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-gray-100 flex flex-col"
                         >
                             {/* Image Header */}

@@ -123,8 +123,8 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
             <div className="p-6 flex flex-col flex-1 gap-4">
                 <div className="flex justify-between items-start">
                     <Link href={href} className="group-hover:text-electric transition-colors">
-                        <h3 className="font-heading font-bold text-xl text-navy leading-tight line-clamp-1">{vehicle.brand} {vehicle.vehicleModel}</h3>
-                        <div className="flex items-center gap-2 mt-2 text-sm text-gray-400">
+                        <h3 className="font-heading font-bold text-xl text-slate-900 leading-tight line-clamp-1">{vehicle.brand} {vehicle.vehicleModel}</h3>
+                        <div className="flex items-center gap-2 mt-2 text-sm text-slate-500">
                             <MapPin className="h-3 w-3" /> 
                             <span>{t(`locations.${vehicle.location || 'ercan'}`)}</span>
                             <span className="text-gray-300">•</span>

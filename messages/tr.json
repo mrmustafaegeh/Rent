@@ -51,7 +51,8 @@
       "ercan": "Ercan Havalimanı",
       "nicosia": "Lefkoşa",
       "kyrenia": "Girne (Kyrenia)",
-      "famagusta": "Gazimağusa (Famagusta)"
+      "famagusta": "Gazimağusa (Famagusta)",
+      "lefkosha": "Lefkoşa"
     }
   },
   "Footer": {
@@ -81,12 +82,18 @@
       "privacy": "Gizlilik Politikası",
       "insurance": "Sigorta Bilgisi",
       "sitemap": "Site Haritası",
-      "partners": "İş Ortağı Programı"
+      "partners": "İş Ortağı Programı",
+      "touristRules": "Turist Kuralları"
     }
   },
   "VehicleCard": {
     "day": "gün",
     "month": "ay",
+    "perDay": "/gün",
+    "dailyRate": "Günlük Ücret",
+    "weekly": "Haftalık",
+    "call": "Ara",
+    "salePrice": "Satış Fiyatı",
     "priceOnRequest": "Fiyat Sorunuz",
     "loginRequired": "İstek listesini kullanmak için lütfen giriş yapın",
     "featured": "Öne Çıkan",
@@ -95,7 +102,33 @@
     "whatsapp": "WhatsApp",
     "shareFacebook": "Facebook'ta Paylaş",
     "copyLink": "Bağlantıyı Kopyala",
-    "linkCopied": "Bağlantı kopyalandı"
+    "linkCopied": "Bağlantı kopyalandı",
+    "bookNow": "Şimdi Rezerve Et",
+    "viewDetails": "Detayları Gör",
+    "transmissions": {
+      "AUTOMATIC": "Otomatik",
+      "MANUAL": "Manuel",
+      "Automatic": "Otomatik",
+      "Manual": "Manuel",
+      "Auto": "Otomatik"
+    },
+    "fuelTypes": {
+      "PETROL": "Benzin",
+      "DIESEL": "Dizel",
+      "ELECTRIC": "Elektrikli",
+      "HYBRID": "Hibrit",
+      "Petrol": "Benzin",
+      "Diesel": "Dizel",
+      "Electric": "Elektrikli",
+      "Hybrid": "Hibrit"
+    },
+    "locations": {
+      "Nicosia": "Lefkoşa",
+      "Kyrenia": "Girne",
+      "Famagusta": "Gazimağusa",
+      "Ercan": "Ercan Havalimanı",
+      "Lefkosha": "Lefkoşa"
+    }
   },
   "LuxuryShowcase": {
     "tagline": "PREMIUM KOLEKSİYON",
@@ -284,6 +317,7 @@
   "CarFilters": {
     "title": "Filtreler",
     "reset": "Sıfırla",
+    "location": "Konum",
     "rentalDates": "Kiralama Tarihleri",
     "pickup": "Teslim Alma",
     "dropoff": "Teslim Etme",
@@ -291,6 +325,9 @@
     "category": "Kategori",
     "transmission": "Vites",
     "brands": "Markalar",
+    "applyFilters": "Filtreleri Uygula",
+    "clearAll": "Tümünü Temizle",
+    "sortBy": "Sıralama",
     "categories": {
       "Luxury": "Lüks",
       "Sports": "Spor",
@@ -298,19 +335,26 @@
       "Economy": "Ekonomik",
       "Sedan": "Sedan",
       "Convertible": "Üstü Açık",
-      "Van": "Van"
+      "Van": "Van",
+      "Hatchback": "Hatchback",
+      "Electric": "Elektrikli"
     },
     "transmissions": {
       "Automatic": "Otomatik",
-      "Manual": "Manuel"
+      "Manual": "Manuel",
+      "AUTOMATIC": "Otomatik",
+      "MANUAL": "Manuel"
     },
     "fuelTypes": {
       "Petrol": "Benzin",
       "Diesel": "Dizel",
       "Electric": "Elektrikli",
-      "Hybrid": "Hibrit"
-    },
-    "location": "Konum"
+      "Hybrid": "Hibrit",
+      "PETROL": "Benzin",
+      "DIESEL": "Dizel",
+      "ELECTRIC": "Elektrikli",
+      "HYBRID": "Hibrit"
+    }
   },
   "VehicleDetails": {
     "breadcrumb": {
@@ -356,13 +400,19 @@
     "transmissions": {
       "Automatic": "Otomatik",
       "Manual": "Manuel",
-      "Auto": "Otomatik"
+      "Auto": "Otomatik",
+      "AUTOMATIC": "Otomatik",
+      "MANUAL": "Manuel"
     },
     "fuelTypes": {
       "Petrol": "Benzin",
       "Diesel": "Dizel",
       "Electric": "Elektrikli",
-      "Hybrid": "Hibrit"
+      "Hybrid": "Hibrit",
+      "PETROL": "Benzin",
+      "DIESEL": "Dizel",
+      "ELECTRIC": "Elektrikli",
+      "HYBRID": "Hibrit"
     },
     "badges": {
       "insurance": {
@@ -394,7 +444,8 @@
       "kyrenia": "Girne",
       "nicosia": "Lefkoşa",
       "famagusta": "Gazimağusa",
-      "ercan": "Ercan Havalimanı"
+      "ercan": "Ercan Havalimanı",
+      "lefkosha": "Lefkoşa"
     },
     "defaultBranchDesc": "{city} şubemizi ziyaret edin.",
     "labels": {
@@ -645,7 +696,23 @@
     "submit": "Değerlendirmeyi Gönder",
     "submitting": "Gönderiliyor...",
     "success": "Değerlendirme başarıyla gönderildi!",
-    "error": "Değerlendirme gönderilemedi"
+    "error": "Değerlendirme gönderilemedi",
+    "searchPlaceholder": "Değerlendirme ara...",
+    "filter": "Filtrele",
+    "noReviews": "Değerlendirme bulunamadı",
+    "noReviewsDesc": "Kriterlere uyan değerlendirme yok.",
+    "admin": {
+      "badge": "Değerlendirme Yönetimi",
+      "title": "Müşteri",
+      "subtitle": "Geri Bildirimleri",
+      "description": "Değerlendirmeleri yönetin.",
+      "pending": "Bekleyen",
+      "approved": "Yayınlanan"
+    },
+    "actions": {
+      "approve": "Onayla",
+      "reject": "Reddet"
+    }
   },
   "ListCar": {
     "title": "Aracınızı Listeleyin",

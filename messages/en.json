@@ -137,7 +137,9 @@
       "Electric": "Electric",
       "Hybrid": "Hybrid",
       "PETROL": "Petrol",
-      "DIESEL": "Diesel"
+      "DIESEL": "Diesel",
+      "ELECTRIC": "Electric",
+      "HYBRID": "Hybrid"
     },
     "locations": {
       "ercan": "Ercan Airport",
@@ -352,7 +354,9 @@
       "Economy": "Economy",
       "Sedan": "Sedan",
       "Convertible": "Convertible",
-      "Van": "Van"
+      "Van": "Van",
+      "Hatchback": "Hatchback",
+      "Electric": "Electric"
     },
     "transmissions": {
       "Automatic": "Automatic",
@@ -407,7 +411,9 @@
       "Economy": "Economy",
       "Sedan": "Sedan",
       "Convertible": "Convertible",
-      "Van": "Van"
+      "Van": "Van",
+      "Hatchback": "Hatchback",
+      "Electric": "Electric"
     },
     "transmissions": {
       "Automatic": "Automatic",
@@ -422,7 +428,9 @@
       "Electric": "Electric",
       "Hybrid": "Hybrid",
       "PETROL": "Petrol",
-      "DIESEL": "Diesel"
+      "DIESEL": "Diesel",
+      "ELECTRIC": "Electric",
+      "HYBRID": "Hybrid"
     },
     "badges": {
       "insurance": {

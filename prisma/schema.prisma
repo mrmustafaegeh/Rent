@@ -49,6 +49,7 @@ enum VehicleCategory {
   VAN
   ELECTRIC
   CONVERTIBLE
+  HATCHBACK
 }
 
 model User {

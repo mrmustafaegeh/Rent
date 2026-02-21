@@ -51,7 +51,8 @@
       "ercan": "Аэропорт Эрджан",
       "nicosia": "Никосия (Лефкоша)",
       "kyrenia": "Кирения (Гирне)",
-      "famagusta": "Фамагуста (Газимагуса)"
+      "famagusta": "Фамагуста (Газимагуса)",
+      "lefkosha": "Лефкоша"
     }
   },
   "Footer": {
@@ -81,13 +82,18 @@
       "privacy": "Политика конфиденциальности",
       "insurance": "Страхование",
       "sitemap": "Карта сайта",
-      "partners": "Партнерская программа"
+      "partners": "Партнерская программа",
+      "touristRules": "Правила для туристов"
     }
   },
   "VehicleCard": {
     "day": "день",
     "perDay": "/день",
     "month": "месяц",
+    "dailyRate": "Дневной тариф",
+    "weekly": "Неделя",
+    "call": "Позвонить",
+    "salePrice": "Цена продажи",
     "priceOnRequest": "Цена по запросу",
     "loginRequired": "Пожалуйста, войдите, чтобы использовать список желаний",
     "featured": "Рекомендуемое",
@@ -97,26 +103,31 @@
     "shareFacebook": "Поделиться в Facebook",
     "copyLink": "Скопировать ссылку",
     "linkCopied": "Ссылка скопирована",
-    "call": "Позвонить",
-    "salePrice": "Цена продажи",
-    "dailyRate": "Дневной тариф",
-    "weekly": "Неделя",
+    "bookNow": "Забронировать",
+    "viewDetails": "Подробнее",
     "transmissions": {
+      "AUTOMATIC": "Автомат",
+      "MANUAL": "Механика",
       "Automatic": "Автомат",
       "Manual": "Механика",
       "Auto": "Авто"
     },
     "fuelTypes": {
+      "PETROL": "Бензин",
+      "DIESEL": "Дизель",
+      "ELECTRIC": "Электро",
+      "HYBRID": "Гибрид",
       "Petrol": "Бензин",
       "Diesel": "Дизель",
       "Electric": "Электро",
       "Hybrid": "Гибрид"
     },
     "locations": {
-      "ercan": "Аэропорт Эрджан",
-      "nicosia": "Никосия",
-      "kyrenia": "Кирения",
-      "famagusta": "Фамагуста"
+      "Nicosia": "Никосия",
+      "Kyrenia": "Кирения",
+      "Famagusta": "Фамагуста",
+      "Ercan": "Аэропорт Эрджан",
+      "Lefkosha": "Лефкоша"
     }
   },
   "LuxuryShowcase": {
@@ -306,6 +317,7 @@
   "CarFilters": {
     "title": "Фильтры",
     "reset": "Сбросить",
+    "location": "Местоположение",
     "rentalDates": "Даты аренды",
     "pickup": "Получение",
     "dropoff": "Возврат",
@@ -313,6 +325,9 @@
     "category": "Категория",
     "transmission": "Трансмиссия",
     "brands": "Бренды",
+    "applyFilters": "Применить",
+    "clearAll": "Очистить",
+    "sortBy": "Сортировка",
     "categories": {
       "Luxury": "Люкс",
       "Sports": "Спорт",
@@ -320,17 +335,25 @@
       "Economy": "Эконом",
       "Sedan": "Седан",
       "Convertible": "Кабриолет",
-      "Van": "Фургон"
+      "Van": "Фургон",
+      "Hatchback": "Хэтчбек",
+      "Electric": "Электро"
     },
     "transmissions": {
       "Automatic": "Автомат",
-      "Manual": "Механика"
+      "Manual": "Механика",
+      "AUTOMATIC": "Автомат",
+      "MANUAL": "Механика"
     },
     "fuelTypes": {
       "Petrol": "Бензин",
       "Diesel": "Дизель",
       "Electric": "Электро",
-      "Hybrid": "Гибрид"
+      "Hybrid": "Гибрид",
+      "PETROL": "Бензин",
+      "DIESEL": "Дизель",
+      "ELECTRIC": "Электро",
+      "HYBRID": "Гибрид"
     }
   },
   "VehicleDetails": {
@@ -415,7 +438,8 @@
       "kyrenia": "Кирения",
       "nicosia": "Никосия",
       "famagusta": "Фамагуста",
-      "ercan": "Аэропорт Эрджан"
+      "ercan": "Аэропорт Эрджан",
+      "lefkosha": "Лефкоша"
     },
     "defaultBranchDesc": "Посетите наш премиальный филиал в г. {city} для индивидуального обслуживания и широкого выбора роскошных автомобилей.",
     "labels": {
@@ -661,12 +685,28 @@
     "givenReview": "Оценено",
     "title": "Оцените ваш опыт",
     "description": "Как прошла ваша поездка на {vehicleName}?",
-    "placeholder": "Расскажите нам о вашем опыте...",
+    "placeholder": "Расскажите о вашем опыте...",
     "cancel": "Отмена",
     "submit": "Отправить отзыв",
     "submitting": "Отправка...",
     "success": "Отзыв успешно отправлен!",
-    "error": "Не удалось отправить отзыв"
+    "error": "Не удалось отправить отзыв",
+    "searchPlaceholder": "Поиск отзывов...",
+    "filter": "Фильтр",
+    "noReviews": "Отзывов нет",
+    "noReviewsDesc": "Нет отзывов по вашим критериям.",
+    "admin": {
+      "badge": "Управление отзывами",
+      "title": "Отзывы",
+      "subtitle": "Клиентов",
+      "description": "Модерация отзывов.",
+      "pending": "Ожидают",
+      "approved": "Опубликованы"
+    },
+    "actions": {
+      "approve": "Одобрить",
+      "reject": "Отклонить"
+    }
   },
   "ListCar": {
     "title": "Разместить автомобиль",

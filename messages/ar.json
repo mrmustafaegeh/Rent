@@ -6,6 +6,27 @@
     "listCarBtn": "اعرض سيارتك",
     "expertBtn": "تحدث مع خبير"
   },
+  "Dashboard": {
+    "Sidebar": {
+      "overview": "نظرة عامة",
+      "bookingRequests": "طلبات الحجز",
+      "confirmations": "التأكيدات",
+      "fleetManagement": "إدارة الأسطول",
+      "partnerRequests": "طلبات الشركاء",
+      "vehicleApprovals": "موافقات المركبات",
+      "schedule": "الجدول الزمني",
+      "analytics": "التحليلات",
+      "myBookings": "حجوزاتي",
+      "userManagement": "إدارة المستخدمين",
+      "messages": "الرسائل",
+      "reviews": "التقييمات",
+      "settings": "الإعدادات",
+      "searchPlaceholder": "بحث...",
+      "mainMenu": "القائمة الرئيسية",
+      "addNewVehicle": "إضافة سيارة جديدة",
+      "signOut": "تسجيل الخروج"
+    }
+  },
   "Navigation": {
     "rent": "تأجير سيارات",
     "buy": "شراء سيارات",
@@ -96,7 +117,37 @@
     "whatsapp": "واتساب",
     "shareFacebook": "مشاركة على فيسبوك",
     "copyLink": "نسخ الرابط",
-    "linkCopied": "تم نسخ الرابط"
+    "linkCopied": "تم نسخ الرابط",
+    "dailyRate": "السعر اليومي",
+    "perDay": "/يوم",
+    "weekly": "أسبوعياً",
+    "call": "اتصال",
+    "bookNow": "احجز الآن",
+    "viewDetails": "عرض التفاصيل",
+    "transmissions": {
+      "AUTOMATIC": "أوتوماتيك",
+      "MANUAL": "يدوي",
+      "Automatic": "أوتوماتيك",
+      "Manual": "يدوي"
+    },
+    "fuelTypes": {
+      "PETROL": "بنزين",
+      "DIESEL": "ديزل",
+      "ELECTRIC": "كهربائية",
+      "HYBRID": "هجين",
+      "Petrol": "بنزين",
+      "Diesel": "ديزل",
+      "Electric": "كهربائية",
+      "Hybrid": "هجين"
+    },
+    "locations": {
+      "Nicosia": "نيقوسيا",
+      "Kyrenia": "كيرينيا",
+      "Famagusta": "فاماغوستا",
+      "Ercan": "مطار إرجان",
+      "Lefkosha": "لفقوشا",
+      "Ercan Airport": "مطار إرجان"
+    }
   },
   "LuxuryShowcase": {
     "tagline": "مجموعة مميزة",
@@ -285,6 +336,7 @@
   "CarFilters": {
     "title": "الفلاتر",
     "reset": "إعادة تعيين",
+    "location": "الموقع",
     "rentalDates": "تواريخ الإيجار",
     "pickup": "الاستلام",
     "dropoff": "الإرجاع",
@@ -292,6 +344,9 @@
     "category": "الفئة",
     "transmission": "ناقل الحركة",
     "brands": "العلامات التجارية",
+    "applyFilters": "تطبيق الفلاتر",
+    "clearAll": "مسح الكل",
+    "sortBy": "الترتيب",
     "categories": {
       "Luxury": "فاخرة",
       "Sports": "رياضية",
@@ -299,17 +354,25 @@
       "Economy": "اقتصادية",
       "Sedan": "سيدان",
       "Convertible": "مكشوفة",
-      "Van": "فان"
+      "Van": "فان",
+      "Hatchback": "هاتشباك",
+      "Electric": "كهربائية"
     },
     "transmissions": {
       "Automatic": "أوتوماتيك",
-      "Manual": "يدوي"
+      "Manual": "يدوي",
+      "AUTOMATIC": "أوتوماتيك",
+      "MANUAL": "يدوي"
     },
     "fuelTypes": {
       "Petrol": "بنزين",
       "Diesel": "ديزل",
       "Electric": "كهربائية",
-      "Hybrid": "هجين"
+      "Hybrid": "هجين",
+      "PETROL": "بنزين",
+      "DIESEL": "ديزل",
+      "ELECTRIC": "كهربائية",
+      "HYBRID": "هجين"
     }
   },
   "VehicleDetails": {
@@ -356,13 +419,19 @@
     "transmissions": {
       "Automatic": "أوتوماتيك",
       "Manual": "يدوي",
-      "Auto": "أوتوماتيك"
+      "Auto": "أوتوماتيك",
+      "AUTOMATIC": "أوتوماتيك",
+      "MANUAL": "يدوي"
     },
     "fuelTypes": {
       "Petrol": "بنزين",
       "Diesel": "ديزل",
       "Electric": "كهربائية",
-      "Hybrid": "هجين"
+      "Hybrid": "هجين",
+      "PETROL": "بنزين",
+      "DIESEL": "ديزل",
+      "ELECTRIC": "كهربائية",
+      "HYBRID": "هجين"
     },
     "badges": {
       "insurance": {
@@ -394,7 +463,9 @@
       "kyrenia": "كيرينيا",
       "nicosia": "نيقوسيا",
       "famagusta": "فاماغوستا",
-      "ercan": "مطار إرجان"
+      "ercan": "مطار إرجان",
+      "lefkosha": "لفقوشا",
+      "nicosia-lefkosha": "نيقوسيا"
     },
     "defaultBranchDesc": "قم بزيارة فرعنا المتميز في {city} للحصول على خدمة شخصية ومجموعة واسعة من السيارات الفاخرة.",
     "labels": {
