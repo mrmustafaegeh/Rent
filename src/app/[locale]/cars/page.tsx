@@ -17,16 +17,8 @@ export const metadata = {
 // Local wrapper function to adapt searchParams to VehicleFilterParams
 async function getVehiclesData(searchParams: { [key: string]: string | string[] | undefined }) {
     const params: VehicleFilterParams = {
-        category: Array.isArray(searchParams.category) 
-            ? searchParams.category.join(',') 
-            : typeof searchParams.category === 'string' 
-                ? searchParams.category 
-                : undefined,
-        brand: Array.isArray(searchParams.brand)
-            ? searchParams.brand.join(',')
-            : typeof searchParams.brand === 'string'
-                ? searchParams.brand
-                : undefined,
+        category: typeof searchParams.category === 'string' ? searchParams.category : undefined,
+        brand: typeof searchParams.brand === 'string' ? searchParams.brand : undefined,
         location: typeof searchParams.location === 'string' ? searchParams.location : undefined,
         transmission: typeof searchParams.transmission === 'string' ? searchParams.transmission : undefined,
         fuelType: typeof searchParams.fuelType === 'string' ? searchParams.fuelType : undefined,
@@ -34,9 +26,9 @@ async function getVehiclesData(searchParams: { [key: string]: string | string[] 
         maxPrice: searchParams.maxPrice ? parseInt(searchParams.maxPrice as string) : undefined,
         startDate: typeof searchParams.pickup === 'string' ? new Date(searchParams.pickup) : undefined,
         endDate: typeof searchParams.dropoff === 'string' ? new Date(searchParams.dropoff) : undefined,
-        type: 'rent',
-        status: 'APPROVED',
-        limit: 100,
+        type: 'rent', // Fleet page is for rentals
+        status: 'APPROVED', // Only show approved cars to users (Prisma Enum is uppercase)
+        limit: 100, // Show many for now
     };
 
     const result = await getVehicles(params);

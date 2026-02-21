@@ -93,32 +93,29 @@ export default async function Home() {
         <FAQ />
 
         {/* Final CTA Section */}
-        <section className="py-24 bg-gradient-to-br from-[#0D3B66] to-[#0a2e52] relative overflow-hidden">
-            <div className="absolute inset-0 pointer-events-none"
-                 style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.03) 1px, transparent 0)', backgroundSize: '36px 36px' }}
-            />
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-8">
-                <h2 className="font-display font-black text-white text-4xl sm:text-5xl md:text-6xl leading-tight">
+        <section className="py-24 bg-navy relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-electric/20 to-gold/20 opacity-30" />
+            <div className="container mx-auto px-4 relative z-10 text-center space-y-8">
+                <h2 className="text-3xl sm:text-4xl md:text-6xl font-heading font-black text-white leading-tight">
                     {t('title')}
                 </h2>
-                <p className="font-body text-white/60 text-lg md:text-xl max-w-2xl mx-auto">
+                <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto font-body">
                     {t('subtitle')}
                 </p>
-                <div className="flex flex-col sm:flex-row justify-center gap-4 pt-2">
+                <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
                     <Link href="/cars">
-                        <Button className="h-14 px-10 text-base font-body font-bold bg-[#C9A84C] hover:bg-[#b8973e] text-[#0D3B66] rounded-full shadow-[0_8px_32px_rgba(201,168,76,0.3)] transition-all">
-                            {t('rentBtn')} <ArrowRight className="ml-2 w-5 h-5" />
+                        <Button className="h-16 px-10 text-xl font-bold bg-gold text-navy hover:bg-white hover:text-navy rounded-full shadow-[0_0_30px_rgba(255,215,0,0.3)] hover:shadow-[0_0_50px_rgba(255,215,0,0.5)] transition-all transform hover:-translate-y-1">
+                            {t('rentBtn')} <ArrowRight className="ml-2 w-6 h-6" />
                         </Button>
                     </Link>
                     <Link href="/contact">
-                        <Button variant="outline" className="h-14 px-10 text-base font-body font-semibold border-2 border-white/30 text-white hover:border-white hover:bg-white/10 rounded-full transition-all">
-                            {t('expertBtn')}
+                        <Button variant="outline" className="h-16 px-10 text-xl font-bold border-white/20 text-white hover:bg-white/10 hover:border-white rounded-full transition-all">
+                             {t('expertBtn')}
                         </Button>
                     </Link>
                 </div>
             </div>
         </section>
-
       </main>
 
       <Footer />

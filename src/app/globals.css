@@ -1,163 +1,133 @@
 @import "tailwindcss";
 @config "../../tailwind.config.js";
 
-/* ─────────────────────────────────────────
-   DESIGN TOKEN LAYER
-───────────────────────────────────────── */
 @layer base {
   :root {
-    /* Shadcn-compatible HSL tokens */
-    --background:       0 0% 100%;
-    --foreground:       222 47% 11%;       /* #0F172A */
+    --background: 216 60% 10%; /* Midnight Navy */
+    --foreground: 0 0% 100%; /* Pure White */
 
-    --card:             0 0% 100%;
-    --card-foreground:  222 47% 11%;
+    --card: 217 33% 17%; /* Charcoal */
+    --card-foreground: 0 0% 100%;
 
-    --popover:          0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover: 216 60% 10%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary:          210 79% 23%;       /* #0D3B66 navy */
-    --primary-foreground: 0 0% 100%;
+    /* Primary: Electric Blue */
+    --primary: 190 100% 50%;
+    --primary-foreground: 216 60% 10%;
 
-    --secondary:        210 14% 97%;       /* #F8FAFC surface */
-    --secondary-foreground: 222 47% 11%;
+    /* Secondary: Cyprus Gold */
+    --secondary: 46 65% 52%;
+    --secondary-foreground: 216 60% 10%;
 
-    --muted:            210 14% 97%;
-    --muted-foreground: 215 16% 47%;       /* #64748B */
-
-    --accent:           191 100% 42%;      /* #00B4D8 turquoise */
+    /* Accent: Sunset Orange */
+    --accent: 16 100% 60%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive:      0 84% 60%;         /* #EF4444 */
+    /* Muted: Soft Gray (for dark mode context mostly charcoal) */
+    --muted: 217 33% 25%;
+    --muted-foreground: 215 20% 65%;
+
+    /* Destructive: Error Red */
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --warning:          38 92% 50%;
-    --success:          160 84% 39%;       /* #10B981 */
+    --warning: 38 92% 50%; /* Warning Amber */
+    --success: 160 84% 39%; /* Success Green */
 
-    --border:           214 13% 89%;       /* #E2E8F0 */
-    --input:            214 13% 89%;
-    --ring:             191 100% 42%;      /* turquoise focus ring */
+    --border: 217 33% 25%;
+    --input: 217 33% 25%;
+    --ring: 46 65% 52%; /* Gold for focus rings */
 
-    --radius:           0.75rem;           /* 12px */
+    --radius: 0.5rem;
+    
+    /* Custom Design Tokens */
+    --color-navy: 216 60% 10%;
+    --color-gold: 46 65% 52%;
+    --color-blue: 190 100% 50%;
+    --color-orange: 16 100% 60%;
+    --color-white: 0 0% 100%;
+    --color-gray: 210 20% 98%;
+    --color-charcoal: 217 33% 17%;
+  }
 
-    /* ── Brand palette (raw hex, safe for bg/text/border in Tailwind arbitrary) */
-    --navy:             #0D3B66;
-    --turquoise:        #00B4D8;
-    --gold:             #C9A84C;
-    --surface:          #F8FAFC;
-    --white:            #FFFFFF;
-    --text-dark:        #0F172A;
-    --text-body:        #334155;
-    --text-muted:       #64748B;
-    --border-color:     #E2E8F0;
-    --success-color:    #10B981;
-    --error-color:      #EF4444;
-    --whatsapp:         #25D366;
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
 
-    /* ── Legacy tokens (keep so old components don't break) */
-    --color-navy:       210 79% 23%;
-    --color-gold:       41 58% 54%;        /* #C9A84C warm gold */
-    --color-blue:       191 100% 42%;
-    --color-orange:     16 100% 60%;
-    --color-white:      0 0% 100%;
-    --color-gray:       210 14% 97%;
-    --color-charcoal:   222 47% 11%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
 
-    /* ── Elevation / shadows */
-    --shadow-card:      0 1px 3px rgba(13,59,102,0.06), 0 4px 16px rgba(13,59,102,0.08);
-    --shadow-hover:     0 8px 32px rgba(13,59,102,0.14), 0 2px 8px rgba(13,59,102,0.08);
-    --shadow-modal:     0 24px 64px rgba(13,59,102,0.20);
-    --shadow-input:     0 0 0 3px rgba(0,180,216,0.15);
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 16 100% 60%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 218 23% 23%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
   }
 }
 
-/* ─────────────────────────────────────────
-   BASE STYLES
-───────────────────────────────────────── */
 @layer base {
   * {
     @apply border-border;
   }
   html {
     font-size: 16px;
-    scroll-behavior: smooth;
-    -webkit-text-size-adjust: 100%;
   }
   body {
     @apply bg-background text-foreground;
-    font-family: var(--font-body), var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-  }
-  h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-heading), ui-serif, serif;
-    line-height: 1.25;
-    letter-spacing: -0.02em;
-    color: var(--text-dark);
-    font-weight: 800;
-  }
-  /* Pricing figures use mono */
-  .price { 
-    font-family: var(--font-mono), ui-monospace, monospace; 
-    font-weight: 600;
   }
 }
 
-/* ─────────────────────────────────────────
-   DATETIME INPUTS
-───────────────────────────────────────── */
+/* Custom Input Styles */
 input[type="date"],
 input[type="datetime-local"] {
   position: relative;
   text-transform: uppercase;
 }
+
 input[type="date"]::-webkit-calendar-picker-indicator,
 input[type="datetime-local"]::-webkit-calendar-picker-indicator {
-  position: absolute; inset: 0;
-  width: auto; height: auto;
-  color: transparent; background: transparent;
-  cursor: pointer; z-index: 10;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: auto;
+  height: auto;
+  color: transparent;
+  background: transparent;
+  cursor: pointer;
+  z-index: 10;
 }
 
-/* ─────────────────────────────────────────
-   FOCUS VISIBLE
-───────────────────────────────────────── */
-:focus-visible {
-  outline: 2px solid var(--turquoise);
-  outline-offset: 2px;
+/* Premium Pattern Utility */
+.pattern-grid {
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
 }
 
-/* ─────────────────────────────────────────
-   SCROLLBAR
-───────────────────────────────────────── */
-* { scrollbar-width: thin; scrollbar-color: #00B4D8 transparent; }
-*::-webkit-scrollbar { width: 5px; height: 5px; }
-*::-webkit-scrollbar-track { background: transparent; }
-*::-webkit-scrollbar-thumb { background: #00B4D8; border-radius: 10px; }
-
-/* ─────────────────────────────────────────
-   PATTERNS
-───────────────────────────────────────── */
-.dot-pattern {
-  background-image: radial-gradient(circle, #0D3B66 1px, transparent 1px);
-  background-size: 28px 28px;
-  opacity: 0.04;
-}
-.dot-pattern-light {
-  background-image: radial-gradient(circle, #00B4D8 1px, transparent 1px);
-  background-size: 28px 28px;
-  opacity: 0.04;
+.pattern-grid-white {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
 }
 
-/* ─────────────────────────────────────────
-   REDUCED MOTION
-───────────────────────────────────────── */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}

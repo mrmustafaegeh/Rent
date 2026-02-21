@@ -92,22 +92,23 @@ export function LuxuryShowcase({ vehicles: initialVehicles }: LuxuryShowcaseProp
     if (!vehicles || vehicles.length === 0) return null;
 
     return (
-        <section className="py-24 bg-white relative overflow-hidden">
-            {/* Subtle dot‑grid background */}
-            <div className="absolute inset-0 opacity-[0.035] pointer-events-none" 
+        <section className="py-24 bg-navy relative overflow-hidden">
+            {/* Background Pattern */}
+            <div className="absolute inset-0 opacity-10 pointer-events-none" 
                  style={{ 
-                     backgroundImage: 'radial-gradient(circle, #0D3B66 1px, transparent 1px)',
-                     backgroundSize: '28px 28px',
+                     backgroundImage: 'linear-gradient(45deg, #0A1628 25%, transparent 25%, transparent 75%, #0A1628 75%, #0A1628), linear-gradient(45deg, #0A1628 25%, transparent 25%, transparent 75%, #0A1628 75%, #0A1628)',
+                     backgroundSize: '20px 20px',
+                     backgroundPosition: '0 0, 10px 10px'
                  }}
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-white via-transparent to-white pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-b from-navy via-transparent to-navy pointer-events-none" />
 
             <div className="container mx-auto px-4 relative z-10">
                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-12 gap-6">
                      <div className="space-y-4">
-                         <span className="text-xs font-semibold text-gray-400 tracking-[0.2em] uppercase block">{t('tagline')}</span>
-                         <h2 className="text-4xl md:text-5xl font-heading font-bold text-gray-900">{t('title')}</h2>
-                         <p className="text-gray-500 text-lg max-w-2xl font-body">{t('description')}</p>
+                         <span className="text-gold font-bold tracking-[0.2em] text-xs uppercase block">{t('tagline')}</span>
+                         <h2 className="text-4xl md:text-5xl font-heading font-bold text-white">{t('title')}</h2>
+                         <p className="text-gray-400 text-lg max-w-2xl font-body">{t('description')}</p>
                      </div>
                      
                      <div className="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end">
@@ -117,7 +118,7 @@ export function LuxuryShowcase({ vehicles: initialVehicles }: LuxuryShowcaseProp
                                 size="icon" 
                                 onClick={() => scroll('left')}
                                 disabled={!canScrollLeft}
-                                className="rounded-full w-10 h-10 md:w-12 md:h-12 border-[#00B4D8]/30 bg-white/5 hover:bg-[#00B4D8] hover:border-[#00B4D8] hover:text-[#0D3B66] text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                                className="rounded-full w-10 h-10 md:w-12 md:h-12 border-white/10 bg-white/5 hover:bg-gold hover:border-gold hover:text-navy text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                              >
                                  <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
                              </Button>
@@ -126,13 +127,13 @@ export function LuxuryShowcase({ vehicles: initialVehicles }: LuxuryShowcaseProp
                                 size="icon" 
                                 onClick={() => scroll('right')}
                                 disabled={!canScrollRight}
-                                className="rounded-full w-10 h-10 md:w-12 md:h-12 border-[#00B4D8]/30 bg-white/5 hover:bg-[#00B4D8] hover:border-[#00B4D8] hover:text-[#0D3B66] text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                                className="rounded-full w-10 h-10 md:w-12 md:h-12 border-white/10 bg-white/5 hover:bg-gold hover:border-gold hover:text-navy text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                              >
                                  <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
                              </Button>
                          </div>
                          <Link href="/cars?category=luxury" className="shrink-0">
-                             <Button className="bg-[#00B4D8] text-[#0D3B66] hover:bg-white hover:text-[#0D3B66] font-bold px-5 h-11 md:px-6 md:h-12 rounded-full transition-all text-sm md:text-base">
+                             <Button className="bg-gold text-navy hover:bg-white hover:text-navy font-bold px-5 h-11 md:px-6 md:h-12 rounded-full transition-all text-sm md:text-base">
                                  {t('viewAll')}
                              </Button>
                          </Link>
@@ -155,7 +156,7 @@ export function LuxuryShowcase({ vehicles: initialVehicles }: LuxuryShowcaseProp
                             transition={{ duration: 0.5, delay: index * 0.1 }}
                             className="flex-none w-[340px] md:w-[420px] snap-center"
                          >
-                             <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden group hover:border-[#00B4D8]/40 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_16px_48px_rgba(13,59,102,0.15)] shadow-md">
+                             <div className="bg-white/5 backdrop-blur-[20px] border border-white/10 rounded-2xl overflow-hidden group hover:border-gold/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_10px_40px_rgba(0,0,0,0.4)]">
                                  {/* Image Area */}
                                  <div className="relative aspect-[3/2] w-full overflow-hidden">
                                      {(() => {
@@ -190,12 +191,12 @@ export function LuxuryShowcase({ vehicles: initialVehicles }: LuxuryShowcaseProp
                                          const vehicleCurrency = (vehicle.currency as CurrencyCode) || 'EUR';
                                          return (
                                              <div className="grid grid-cols-2 gap-4">
-                                                 <div className="bg-[#0D3B66]/5 rounded-xl p-3 text-center border border-[#0D3B66]/10">
-                                                     <span className="block text-[#00B4D8] font-bold text-xl">{vehicle.dailyPrice ? formatPrice(vehicle.dailyPrice, vehicleCurrency) : t('poa')}</span>
+                                                 <div className="bg-white/5 rounded-xl p-3 text-center border border-white/5">
+                                                     <span className="block text-gold font-bold text-xl">{vehicle.dailyPrice ? formatPrice(vehicle.dailyPrice, vehicleCurrency) : t('poa')}</span>
                                                      <span className="text-gray-400 text-xs uppercase tracking-wider">{t('perDay')}</span>
                                                  </div>
-                                                 <div className="bg-[#0D3B66]/5 rounded-xl p-3 text-center border border-[#0D3B66]/10">
-                                                     <span className="block text-[#0D3B66] font-bold text-xl">{vehicle.monthlyPrice ? formatPrice(vehicle.monthlyPrice, vehicleCurrency) : t('poa')}</span>
+                                                 <div className="bg-white/5 rounded-xl p-3 text-center border border-white/5">
+                                                     <span className="block text-white font-bold text-xl">{vehicle.monthlyPrice ? formatPrice(vehicle.monthlyPrice, vehicleCurrency) : t('poa')}</span>
                                                      <span className="text-gray-400 text-xs uppercase tracking-wider">{t('perMonth')}</span>
                                                  </div>
                                              </div>
@@ -205,18 +206,18 @@ export function LuxuryShowcase({ vehicles: initialVehicles }: LuxuryShowcaseProp
                                       {/* Specs */}
                                      <div className="flex justify-between items-center text-gray-400 text-sm px-2">
                                          <div className="flex items-center gap-2">
-                                             <Gauge className="w-4 h-4 text-[#00B4D8]" />
+                                             <Gauge className="w-4 h-4 text-gold" />
                                              <span>250 km/{t('dayAbbr')}</span>
                                          </div>
                                          <div className="flex items-center gap-2">
-                                             <Fuel className="w-4 h-4 text-[#00B4D8]" />
+                                             <Fuel className="w-4 h-4 text-gold" />
                                              <span>{vehicle.fuelType || 'Petrol'}</span>
                                          </div>
                                      </div>
 
                                      {/* Actions */}
                                      <div className="flex gap-3 pt-2">
-                                         <Button variant="outline" className="flex-1 border-[#00B4D8] text-[#00B4D8] hover:bg-[#00B4D8] hover:text-[#0D3B66] bg-transparent h-12 font-bold">
+                                         <Button variant="outline" className="flex-1 border-gold text-gold hover:bg-gold hover:text-navy bg-transparent h-12 font-bold">
                                              <Phone className="w-4 h-4 mr-2" /> {t('call')}
                                          </Button>
                                          <Button className="flex-1 bg-green-600 hover:bg-green-700 text-white border-none h-12 font-bold">

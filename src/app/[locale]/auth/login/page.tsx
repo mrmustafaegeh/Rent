@@ -88,7 +88,7 @@ export default function LoginPage() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
-                        className="bg-white/10 border-white/20 text-white placeholder:text-gray-500 focus:bg-white/15 h-12 rounded-xl focus:border-gold/50 focus:ring-gold/20 transition-all font-bold"
+                        className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:bg-white/10 h-12 rounded-xl focus:border-gold/50 focus:ring-gold/20 transition-all font-medium"
                     />
                 </div>
 
@@ -101,7 +101,7 @@ export default function LoginPage() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
-                        className="bg-white/10 border-white/20 text-white placeholder:text-gray-500 focus:bg-white/15 h-12 rounded-xl focus:border-gold/50 focus:ring-gold/20 transition-all font-bold"
+                        className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:bg-white/10 h-12 rounded-xl focus:border-gold/50 focus:ring-gold/20 transition-all font-medium"
                     />
                     <div className="flex justify-end pt-1">
                         <Link href="/auth/forgot-password" className="text-xs text-gold hover:text-white transition-colors font-bold uppercase tracking-wider">

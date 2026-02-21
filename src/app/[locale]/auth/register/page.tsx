@@ -111,7 +111,7 @@ export default function RegisterPage() {
                         value={formData.firstName}
                         onChange={handleChange}
                         required
-                        className="bg-white/10 border-white/20 text-white placeholder:text-gray-500 focus:bg-white/15 h-12 rounded-xl focus:border-gold/50 focus:ring-gold/20 transition-all font-bold"
+                        className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:bg-white/10 h-12 rounded-xl focus:border-gold/50 focus:ring-gold/20 transition-all font-medium"
                     />
                 </div>
                 <div className="space-y-1.5">
@@ -123,7 +123,7 @@ export default function RegisterPage() {
                         value={formData.lastName}
                         onChange={handleChange}
                         required
-                        className="bg-white/10 border-white/20 text-white placeholder:text-gray-500 focus:bg-white/15 h-12 rounded-xl focus:border-gold/50 focus:ring-gold/20 transition-all font-bold"
+                        className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:bg-white/10 h-12 rounded-xl focus:border-gold/50 focus:ring-gold/20 transition-all font-medium"
                     />
                 </div>
             </div>
@@ -164,7 +164,7 @@ export default function RegisterPage() {
                         value={formData.password}
                         onChange={handleChange}
                         required
-                        className="bg-white/10 border-white/20 text-white placeholder:text-gray-500 focus:bg-white/15 h-12 rounded-xl focus:border-gold/50 focus:ring-gold/20 transition-all font-bold"
+                        className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:bg-white/10 h-12 rounded-xl focus:border-gold/50 focus:ring-gold/20 transition-all font-medium"
                     />
                 </div>
                 <div className="space-y-1.5">
@@ -176,7 +176,7 @@ export default function RegisterPage() {
                         value={formData.confirmPassword}
                         onChange={handleChange}
                         required
-                        className="bg-white/10 border-white/20 text-white placeholder:text-gray-500 focus:bg-white/15 h-12 rounded-xl focus:border-gold/50 focus:ring-gold/20 transition-all font-bold"
+                        className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:bg-white/10 h-12 rounded-xl focus:border-gold/50 focus:ring-gold/20 transition-all font-medium"
                       />
                 </div>
             </div>

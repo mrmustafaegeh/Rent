@@ -61,116 +61,87 @@ export function Header() {
   const isActive = (path: string) => pathname === path;
 
   return (
-    <header
-      className={`sticky top-0 z-50 w-full transition-all duration-300 ease-in-out h-16 flex items-center ${
-        scrolled
-          ? "bg-white/96 backdrop-blur-md border-b border-[#E2E8F0] shadow-[0_1px_8px_rgba(13,59,102,0.08)]"
-          : mobileMenuOpen
-            ? "bg-[#0D3B66]"
-            : "bg-transparent"
+    <header 
+      className={`sticky top-0 z-[1000] w-full border-b transition-all duration-300 min-h-[70px] flex items-center ${
+        scrolled 
+          ? "bg-[#0A1628] border-white/10 shadow-xl py-2" 
+          : mobileMenuOpen 
+            ? "bg-navy border-transparent py-4" 
+            : "bg-[#0A1628]/80 backdrop-blur-md border-white/5 py-4"
       }`}
     >
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between w-full">
-
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 group shrink-0" aria-label="MyIsland Home">
-          <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-[#0D3B66] shadow-md group-hover:scale-105 transition-transform duration-200">
-            <Car className="h-4.5 w-4.5 text-[#00B4D8]" strokeWidth={2.5} />
+      <div className="container relative z-[10] flex items-center justify-between mx-auto px-4 w-full">
+         {/* Logo */}
+        <Link href="/" className="flex items-center gap-2 group">
+          <div className="relative flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-tr from-navy to-electric group-hover:rotate-180 transition-transform duration-700">
+             <Car className="h-6 w-6 text-white" />
           </div>
-          <span className={`font-body font-black text-lg tracking-tight transition-colors duration-300 ${
-            scrolled ? 'text-[#0F172A]' : 'text-white'
-          }`}>
-            My<span className="text-[#00B4D8]">Island</span>
+          <span className="font-heading font-black text-2xl tracking-tight text-white">
+            MY<span className="text-gold">ISLAND</span>
           </span>
         </Link>
-
+        
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-7" aria-label="Main navigation">
+        <nav className="hidden lg:flex items-center gap-8">
           {navLinks.map((link) => (
-            <Link
+            <Link 
               key={link.href}
-              href={link.href}
-              className={`relative font-body text-sm font-medium transition-colors duration-200 hover:text-[#00B4D8] group ${
-                isActive(link.href)
-                  ? 'text-[#00B4D8]'
-                  : scrolled ? 'text-slate-700' : 'text-white'
+              href={link.href} 
+              className={`relative font-heading font-medium text-[15px] transition-colors hover:text-electric group ${
+                isActive(link.href) ? "text-gold" : "text-white/80"
               }`}
             >
               {link.name}
-              <span className={`absolute -bottom-0.5 left-0 h-0.5 rounded-full bg-[#00B4D8] transition-all duration-300 group-hover:w-full ${
-                isActive(link.href) ? 'w-full' : 'w-0'
+              <span className={`absolute -bottom-1 left-0 h-[2px] bg-electric transition-all duration-300 group-hover:w-full ${
+                  isActive(link.href) ? "w-full bg-gold" : "w-0"
               }`} />
             </Link>
           ))}
         </nav>
 
-        {/* Desktop Right */}
-        <div className="hidden lg:flex items-center gap-3">
-          <div className={`flex items-center gap-3 text-sm border-e pe-4 me-1 transition-colors ${
-            scrolled ? 'border-[#E2E8F0] text-slate-500' : 'border-white/20 text-white/70'
-          }`}>
-            <LanguageSwitcher />
-            <CurrencySwitcher />
-          </div>
+        {/* Right Actions */}
+        <div className="hidden lg:flex items-center gap-4">
+             {/* Language & Currency */}
+             <div className="flex items-center gap-3 text-white/70 text-sm border-r border-white/10 pr-4 mr-2">
+                <LanguageSwitcher />
+                <CurrencySwitcher />
+             </div>
 
-          {isAuthenticated ? (
-            <div className="flex items-center gap-2">
-              <Link href="/dashboard">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className={`font-body font-medium transition-colors ${
-                    scrolled ? 'text-slate-700 hover:text-[#0D3B66] hover:bg-slate-50' : 'text-white/90 hover:text-white hover:bg-white/10'
-                  }`}
-                >
-                  {t('dashboard')}
+             {isAuthenticated ? (
+               <div className="flex items-center gap-3">
+                 <Link href="/dashboard">
+                   <Button variant="ghost" className="text-white hover:text-electric hover:bg-white/5">
+                     {t('dashboard')}
+                   </Button>
+                 </Link>
+                 <Button 
+                    variant="ghost" 
+                    onClick={logout} 
+                    className="text-white/70 hover:text-destructive hover:bg-destructive/10"
+                 >
+                    {t('logout')}
+                 </Button>
+               </div>
+             ) : (
+                <Link href="/auth/login">
+                  <Button variant="ghost" className="text-white hover:text-electric hover:bg-white/5 border border-white/20 hover:border-electric transition-all">
+                    {t('login')}
+                  </Button>
+                </Link>
+             )}
+
+             <Link href="/list-your-car">
+                <Button className="bg-gradient-to-r from-gold to-yellow-500 text-navy font-bold hover:scale-105 hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-300 border-none">
+                   {t('listCar')}
                 </Button>
-              </Link>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={logout}
-                className="text-red-400 hover:text-red-600 hover:bg-red-50 font-body font-medium"
-              >
-                {t('logout')}
-              </Button>
-            </div>
-          ) : (
-            <Link href="/auth/login">
-              <Button
-                variant="ghost"
-                size="sm"
-                className={`font-body font-medium border transition-all ${
-                  scrolled
-                    ? 'border-[#E2E8F0] text-slate-700 hover:border-[#0D3B66] hover:text-[#0D3B66] hover:bg-slate-50'
-                    : 'border-white/40 text-white hover:border-white hover:bg-white/15'
-                }`}
-              >
-                {t('login')}
-              </Button>
-            </Link>
-          )}
-
-          <Link href="/list-your-car">
-            <Button
-              size="sm"
-              className={`font-body font-semibold rounded-xl shadow-sm transition-all duration-200 ${
-                scrolled
-                  ? 'bg-[#0D3B66] hover:bg-[#0a2e52] text-white'
-                  : 'bg-white text-[#0D3B66] hover:bg-white/90'
-              }`}
-            >
-              {t('listCar')}
-            </Button>
-          </Link>
+             </Link>
         </div>
 
-        {/* Mobile hamburger */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className={`lg:hidden transition-colors rounded-xl ${ scrolled ? 'text-slate-700 hover:bg-slate-100' : mobileMenuOpen ? 'text-white hover:bg-white/15' : 'text-white hover:bg-white/15' }`}
+        {/* Mobile Menu Toggle */}
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          className="lg:hidden text-white hover:bg-white/10"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label={mobileMenuOpen ? t('menuClose') : t('menuOpen')}
           aria-expanded={mobileMenuOpen}
@@ -179,92 +150,91 @@ export function Header() {
           {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </Button>
       </div>
-
-      {/* Mobile full-screen overlay */}
+      
+       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div
+        <div 
           id="mobile-menu"
-          className="lg:hidden fixed inset-0 top-0 h-screen w-screen bg-[#0D3B66] z-[900] p-6 pt-20 flex flex-col animate-in fade-in slide-in-from-right-16 duration-300"
+          className="lg:hidden fixed inset-0 top-0 h-screen w-screen bg-navy/98 backdrop-blur-2xl z-[900] p-6 pt-24 animate-in fade-in slide-in-from-right-20 duration-500"
           role="dialog"
           aria-modal="true"
           aria-label="Mobile navigation"
         >
-          <nav className="flex flex-col gap-5">
-            {navLinks.map((link, idx) => (
-              <motion.div
-                key={link.name}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: idx * 0.08 }}
-              >
-                <Link
-                  href={link.href}
-                  className="font-heading text-3xl font-bold text-white hover:text-[#00B4D8] transition-colors flex justify-between items-center"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {link.name}
-                  <span className="text-[#00B4D8] opacity-60">→</span>
-                </Link>
-              </motion.div>
-            ))}
-
-            <div className="h-px bg-white/10 my-3" />
-
-            <div className="flex items-center gap-3 text-white/70">
-              <LanguageSwitcher />
-              <span className="w-px h-5 bg-white/20" />
-              <CurrencySwitcher />
-            </div>
-
-            <div className="h-px bg-white/10 my-1" />
-
-            {isAuthenticated ? (
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className="flex flex-col gap-4"
-              >
-                <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-3 text-white font-body font-bold text-xl">
-                  <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
-                    <User className="w-5 h-5 text-[#00B4D8]" />
+            <nav className="flex flex-col gap-6 mt-4">
+                 {navLinks.map((link, idx) => (
+                    <motion.div
+                        key={link.name}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: idx * 0.1 }}
+                    >
+                        <Link 
+                            href={link.href} 
+                            className="font-heading font-black text-3xl text-white hover:text-gold transition-colors flex justify-between items-center group active:scale-95 duration-200" 
+                            onClick={() => setMobileMenuOpen(false)}
+                        >
+                            {link.name}
+                            <span className="text-gold opacity-50 font-light">→</span>
+                        </Link>
+                    </motion.div>
+                 ))}
+                                  <div className="h-px bg-white/10 my-4" />
+                  
+                  <div className="py-4 px-2 rounded-2xl bg-white/5 border border-white/10">
+                     <div className="flex flex-col gap-4">
+                        <span className="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] px-2">{t('language')} & {t('currency')}</span>
+                        <div className="flex items-center gap-2">
+                            <div className="flex-1">
+                                <LanguageSwitcher />
+                            </div>
+                            <div className="w-px h-8 bg-white/10" />
+                            <div className="flex-1">
+                                <CurrencySwitcher />
+                            </div>
+                        </div>
+                     </div>
                   </div>
-                  {t('dashboard')}
-                </Link>
-                <button
-                  onClick={() => { logout(); setMobileMenuOpen(false); }}
-                  className="flex items-center gap-3 text-red-400 font-body font-bold text-xl text-start"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-red-400/10 flex items-center justify-center">
-                    <X className="w-5 h-5" />
-                  </div>
-                  {t('logout')}
-                </button>
-              </motion.div>
-            ) : (
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className="flex flex-col gap-3"
-              >
-                <Link href="/auth/login" onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="outline" className="w-full h-13 text-base font-body font-semibold border-white/30 text-white hover:bg-white/10 rounded-xl">
-                    {t('login')}
-                  </Button>
-                </Link>
-                <Link href="/list-your-car" onClick={() => setMobileMenuOpen(false)}>
-                  <Button className="w-full h-13 text-base bg-[#C9A84C] hover:bg-[#b8953e] text-white font-body font-bold rounded-xl transition-colors">
-                    {t('listCar')}
-                  </Button>
-                </Link>
-              </motion.div>
-            )}
-          </nav>
+
+                  <div className="h-px bg-white/10 my-4" />
+ 
+                 {isAuthenticated ? (
+                    <motion.div 
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.5 }}
+                        className="flex flex-col gap-6"
+                    >
+                        <Link href="/dashboard" className="font-heading font-bold text-2xl text-white flex items-center gap-3" onClick={() => setMobileMenuOpen(false)}>
+                            <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center">
+                                <User className="w-5 h-5 text-gold" />
+                            </div>
+                            {t('dashboard')}
+                        </Link>
+                        <button onClick={() => {logout(); setMobileMenuOpen(false)}} className="font-heading font-bold text-2xl text-left text-red-500 flex items-center gap-3">
+                             <div className="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center">
+                                <X className="w-5 h-5" />
+                            </div>
+                            {t('logout')}
+                        </button>
+                    </motion.div>
+                 ) : (
+                    <motion.div 
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.5 }}
+                        className="flex flex-col gap-4"
+                    >
+                        <Link href="/auth/login" onClick={() => setMobileMenuOpen(false)}>
+                            <Button className="w-full h-14 text-lg font-bold border-white/20 text-white rounded-2xl" variant="outline">{t('login')}</Button>
+                        </Link>
+                        <Link href="/list-your-car" onClick={() => setMobileMenuOpen(false)}>
+                            <Button className="w-full h-14 text-lg bg-gold text-navy font-black rounded-2xl shadow-xl shadow-gold/10">{t('listCar')}</Button>
+                         </Link>
+                    </motion.div>
+                 )}
+            </nav>
         </div>
       )}
     </header>
   );
 }
-
