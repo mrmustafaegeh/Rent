@@ -16,7 +16,7 @@ export function CategoryGrid() {
         price: 30, 
         period: t('perDay'),
         slug: "Economy", 
-        image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2",
+        image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=60&w=800",
         alt: "Economy car on road"
     },
     { 
@@ -25,7 +25,7 @@ export function CategoryGrid() {
         price: 80, 
         period: t('perDay'),
         slug: "Luxury", 
-        image: "https://images.unsplash.com/photo-1563720223185-11003d516935",
+        image: "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&q=60&w=800",
         alt: "Luxury sedan interior"
     },
     { 
@@ -34,7 +34,7 @@ export function CategoryGrid() {
         price: 50, 
         period: t('perDay'),
         slug: "SUV", 
-        image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf",
+        image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=60&w=800",
         alt: "Black SUV"
     },
     { 
@@ -43,7 +43,7 @@ export function CategoryGrid() {
         price: 200, 
         period: t('perDay'),
         slug: "Sports", 
-        image: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e",
+        image: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&q=60&w=800",
         alt: "Red sports car"
     },
     { 
@@ -52,7 +52,7 @@ export function CategoryGrid() {
         price: 25, 
         period: t('perDay'),
         slug: "Hatchback", 
-        image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&q=80&w=1000",
+        image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&q=60&w=800",
         alt: "Compact hatchback car"
     },
     { 
@@ -61,7 +61,7 @@ export function CategoryGrid() {
         price: 40, 
         period: t('perDay'),
         slug: "Electric", 
-        image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70",
+        image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=60&w=800",
         alt: "Luxury electric car"
     },
   ];
@@ -85,31 +85,32 @@ export function CategoryGrid() {
                         className="relative h-[320px] rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 group"
                      >
                          {/* Background Image */}
-                         <div className="absolute inset-0">
+                         <div className="absolute inset-0 z-0">
                              <OptimizedImage 
                                 containerClassName="h-full w-full"
                                 src={cat.image} 
                                 alt={cat.alt}
                                 fill
-                                className="object-cover transition-transform duration-700 group-hover:scale-110"
-                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                                className="object-cover transition-transform duration-[800ms] group-hover:scale-[1.05] will-change-transform"
+                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                quality={60}
                              />
                              {/* Gradient Overlay */}
-                             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300" />
+                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300 will-change-[opacity]" />
                          </div>
 
                          {/* Content */}
-                         <div className="relative z-10 flex flex-col items-center justify-end h-full w-full p-6 text-center pb-8">
+                         <div className="relative z-10 flex flex-col items-center justify-end h-full w-full p-6 text-center pb-8 translate-z-0">
                              
-                             <div className="space-y-2 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                             <div className="space-y-2 transform transition-transform duration-500 will-change-transform">
                                  <h3 className="font-heading font-bold text-3xl text-white tracking-wide drop-shadow-md">{cat.name}</h3>
                                  <p className="text-white/80 font-medium text-sm">{cat.count}</p>
                              </div>
 
                              {/* Price Tag with Glassmorphism */}
-                             <div className="mt-6 pt-4 border-t border-white/20 w-full flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 ease-out delay-75">
+                             <div className="mt-6 pt-4 border-t border-white/20 w-full flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-500 ease-out will-change-transform">
                                  <span className="text-xs font-bold text-white/90 uppercase tracking-wider">{t('from')}</span>
-                                 <span className="text-[#06B6D4] font-black text-2xl bg-white/10 px-3 py-1 rounded-lg backdrop-blur-md shadow-lg border border-white/10">
+                                 <span className="text-electric font-black text-2xl bg-white/10 px-3 py-1 rounded-lg backdrop-blur-md shadow-lg border border-white/10">
                                      {formatPrice(cat.price)}
                 <span className="text-xs font-bold text-white/70 ms-1">{cat.period}</span>
                                  </span>
