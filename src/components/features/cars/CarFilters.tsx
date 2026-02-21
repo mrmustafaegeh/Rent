@@ -137,7 +137,7 @@ export function CarFilters() {
                                 type="datetime-local" 
                                 value={dates.pickup} 
                                 onChange={(e) => handleDateChange('pickup', e.target.value)}
-                                className="bg-gray-50/50 border-gray-200 rounded-xl pl-10 h-12 text-sm font-medium focus:bg-white focus:ring-gold/20 focus:border-gold transition-all"
+                                className="bg-gray-50/50 border-gray-200 rounded-xl pl-10 h-12 text-sm font-medium text-navy focus:bg-white focus:ring-gold/20 focus:border-gold transition-all [color-scheme:light]"
                             />
                         </div>
                     </div>
@@ -149,7 +149,7 @@ export function CarFilters() {
                                 type="datetime-local" 
                                 value={dates.dropoff} 
                                 onChange={(e) => handleDateChange('dropoff', e.target.value)}
-                                className="bg-gray-50/50 border-gray-200 rounded-xl pl-10 h-12 text-sm font-medium focus:bg-white focus:ring-gold/20 focus:border-gold transition-all"
+                                className="bg-gray-50/50 border-gray-200 rounded-xl pl-10 h-12 text-sm font-medium text-navy focus:bg-white focus:ring-gold/20 focus:border-gold transition-all [color-scheme:light]"
                                 min={dates.pickup}
                             />
                         </div>
