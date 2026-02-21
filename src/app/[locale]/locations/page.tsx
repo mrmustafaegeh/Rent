@@ -109,7 +109,7 @@ export default async function LocationsPage() {
              </div>
         </section>
 
-        <section className="py-20 -mt-20 relative z-20">
+        <section className="py-20 relative z-20">
             <div className="container mx-auto px-4">
                  {/* Locations Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
